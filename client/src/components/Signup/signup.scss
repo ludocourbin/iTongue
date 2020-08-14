@@ -1,0 +1,38 @@
+@import "../../styles/vars-mixin";
+
+.signup {
+    margin-top: 5em;
+    padding: $padding;
+    @include flex-column;
+    align-items: center;
+    // background-color: #ccc;
+    // height: 100%;
+
+    &-fullname {
+        display: flex;
+
+        &--name,
+        &--surname {
+            @include flex-column;
+            width: 50%;
+            padding: $padding;
+        }
+    }
+
+    &-input {
+        width: 100%;
+        padding: $padding;
+
+        &--item {
+            margin-top: 5px;
+        }
+    }
+
+    &-conditions {
+        margin-right: 10px;
+        margin-top: 20px;
+    }
+}
+
+// .ui.button.signup-button {
+// }

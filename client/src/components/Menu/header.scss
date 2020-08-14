@@ -1,0 +1,35 @@
+@import "../../styles/vars-mixin";
+
+.header {
+    @include flex-alignCenter;
+    padding: $padding-big;
+    margin-top: 20px;
+
+    &-icon {
+        cursor: pointer;
+        color: $primary-color;
+    }
+
+    &-title {
+        margin: 0;
+    }
+}
+
+.menu {
+    height: 100vh;
+}
+
+div.ui.grid > .column:not(.row) {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+div.ui.grid > .column:not(.row),
+div.ui.grid > .row > .column {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+div.ui.segment {
+    padding: 0;
+}

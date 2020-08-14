@@ -1,0 +1,25 @@
+// Generic
+$primary-color: #fe734c;
+// $alt-color: #ddd;
+// $dark-color: #101010;
+// $light-color: #fff;
+// $gutter: 2rem;
+$padding-big: 1.6em;
+$padding: 1.1em;
+
+// Global
+
+// Title
+
+// Post
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin flex-alignCenter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

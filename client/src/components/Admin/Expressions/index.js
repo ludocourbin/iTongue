@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Container, Input, Icon, Form, Table, Flag } from 'semantic-ui-react'
 import './expressions.scss';
 

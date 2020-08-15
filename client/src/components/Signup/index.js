@@ -1,6 +1,5 @@
 import React from "react";
-import { Input, Button, Icon } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Input, Button } from "semantic-ui-react";
 import "./signup.scss";
 
 //import components

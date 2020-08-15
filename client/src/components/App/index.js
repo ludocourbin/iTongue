@@ -16,9 +16,7 @@ const App = () => {
                     {/* <Home /> */}
                 </Route>
 
-                <Route path="/signup">
-                    <Signup />
-                </Route>
+                <Route path="/signup" component={Signup} />
 
                 <Route path="/login">{/* <Login />*/}</Route>
 

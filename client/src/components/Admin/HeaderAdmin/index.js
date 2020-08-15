@@ -10,12 +10,12 @@ const HeaderAdmin = () => {
     return (
         <Menu borderless className="header-admin">
             <Menu.Item>
-                <NavLink to="/admin/home" activeClassName="active">
+                <NavLink to="/admin" activeClassName="active">
                     <Header size="large">Dashboard</Header>
                 </NavLink>
             </Menu.Item>
             <Menu.Item className="header-admin links">
-                <NavLink to="/admin/home" activeClassName="active" className="header-admin links__item">
+                <NavLink to="/admin" exact activeClassName="active" className="header-admin links__item">
                     Home
                 </NavLink>
                 <NavLink to="/admin/expressions" activeClassName="active" className="header-admin links__item">

@@ -1,4 +1,5 @@
-@import "../../styles/vars-mixin";
+@import "../../styles/vars";
+@import "../../styles/mixin";
 
 .header {
     @include flex-alignCenter;
@@ -19,6 +20,8 @@
     height: 100vh;
 }
 
+/* Reset style Semantic */
+
 div.ui.grid > .column:not(.row) {
     padding-top: 0;
     padding-bottom: 0;
@@ -32,4 +35,9 @@ div.ui.grid > .row > .column {
 
 div.ui.segment {
     padding: 0;
+}
+
+div.ui.thin.left.sidebar,
+div.ui.thin.right.sidebar {
+    width: 200px;
 }

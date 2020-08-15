@@ -1,12 +1,11 @@
-@import "../../styles/vars-mixin";
+@import "../../styles/vars";
+@import "../../styles/mixin";
 
 .signup {
     margin-top: 5em;
     padding: $padding;
     @include flex-column;
     align-items: center;
-    // background-color: #ccc;
-    // height: 100%;
 
     &-fullname {
         display: flex;
@@ -16,6 +15,7 @@
             @include flex-column;
             width: 50%;
             padding: $padding;
+            color: $primary-color;
         }
     }
 

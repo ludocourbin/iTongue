@@ -1,7 +1,8 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-//import components
+/* Components */
+
 import Signup from "../Signup";
 
 /* Styles */

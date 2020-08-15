@@ -1,0 +1,12 @@
+/* Mixin */
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin flex-alignCenter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

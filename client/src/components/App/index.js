@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 
 /* Components */
 
-import Signup from "../Signup";
+import Signup from "../../Containers/Signup";
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
@@ -17,9 +17,7 @@ const App = () => {
                     <h1>Home page</h1>
                 </Route>
 
-                <Route path="/signup">
-                    <Signup />
-                </Route>
+                <Route path="/signup" component={Signup} />
 
                 <Route path="/login">{/* <Login />*/}</Route>
 

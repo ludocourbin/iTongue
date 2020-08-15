@@ -3,13 +3,13 @@ import rootReducers from "./reducers";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const enhancers = composeEnhancers(
-    // applyMiddleware()
-);
+const enhancers = composeEnhancers();
+/* 
+     applyMiddleware(
+         firstMiddleware
+     )
+    */
 
-const store = createStore(
-    rootReducers,
-    enhancers,
-);
-  
+const store = createStore(rootReducers, enhancers);
+
 export default store;

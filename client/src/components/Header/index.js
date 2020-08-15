@@ -6,9 +6,7 @@ import Header from "./menu";
 
 import "./header.scss";
 
-const LayoutHeader = (props) => {
-    const [visible, setVisible] = useState(false);
-
+const LayoutHeader = ({ visible, setVisible, ...props }) => {
     return (
         <div className="menu">
             <Sidebar.Pushable as={Segment}>
@@ -16,7 +14,7 @@ const LayoutHeader = (props) => {
                     as={Menu}
                     animation="overlay"
                     icon="labeled"
-                    onHide={() => setVisible(false)}
+                    onHide={() => setVisible()}
                     vertical
                     direction="right"
                     visible={visible}
@@ -69,7 +67,7 @@ const LayoutHeader = (props) => {
                     </div>
                 </Sidebar>
                 <Sidebar.Pusher dimmed={visible}>
-                    <Header visible={visible} setVisible={setVisible} />
+                    <Header visible={visible} setVisible={() => setVisible()} />
                     <div className="">{props.children}</div>
                 </Sidebar.Pusher>
             </Sidebar.Pushable>

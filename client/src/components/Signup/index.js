@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./signup.scss";
 
 //import components
-import Header from "../Header";
+import Header from "../../Containers/Header";
 
 const Signup = () => {
     const handleSubmit = () => {

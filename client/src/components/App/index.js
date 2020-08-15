@@ -5,9 +5,13 @@ import { Route, Switch} from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css'
 import './app.scss';
 
+/* Components */
+import Admin from '../Admin';
+
 const App = () => {
     return (
         <div className="App">
+            
             <Switch>
                 <Route path="/" exact>
                     {/* <Home /> */}
@@ -21,13 +25,7 @@ const App = () => {
                     {/* <Login />*/}
                 </Route>
 
-                <Route path="/admin" exact> 
-                    {/* <LoginAdmin /> OU <Dashboard /> */}
-                </Route>
-
-                <Route path="/admin/expressions">
-                    {/* <Expressions />*/}
-                </Route>
+                <Route path="/admin" component={Admin} />
 
                 <Route>
                     <h1>La page n'existe pas</h1>

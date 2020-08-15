@@ -1,0 +1,16 @@
+
+.header-admin {
+
+    &.links {
+        margin: auto;
+
+        &__item {
+            margin-right: 1em;
+        }
+    }
+}
+
+.header-admin .active {
+    color: #FE724C;
+    font-weight: 600;
+}

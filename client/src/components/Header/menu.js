@@ -5,7 +5,7 @@ const Header = ({ setVisible, visible }) => {
     return (
         <div className="header">
             <Icon className="header-icon" name="search" size="big" />
-            <h1 className="header-title">Itongue</h1>
+            <h1 className="header-title">iTongue</h1>
             <div onClick={() => setVisible(!visible)}>
                 <Icon className="header-icon" name="sidebar" size="big" />
             </div>

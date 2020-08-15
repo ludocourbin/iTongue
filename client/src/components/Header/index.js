@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Icon, Menu, Segment, Sidebar } from "semantic-ui-react";
+import { Menu, Segment, Sidebar } from "semantic-ui-react";
+import { NavLink } from "react-router-dom";
 
 import Header from "./menu";
 
@@ -10,7 +11,7 @@ const LayoutHeader = (props) => {
 
     return (
         <div className="menu">
-            <Sidebar.Pushable as={Segment} fluid>
+            <Sidebar.Pushable as={Segment}>
                 <Sidebar
                     as={Menu}
                     animation="overlay"
@@ -21,20 +22,52 @@ const LayoutHeader = (props) => {
                     visible={visible}
                     width="thin"
                 >
-                    <Menu.Item as="a">
-                        <Icon name="sidebar" />
-                        Home
-                    </Menu.Item>
-                    <Menu.Item as="a">
-                        <Icon name="gamepad" />
-                        Games
-                    </Menu.Item>
-                    <Menu.Item as="a">
-                        <Icon name="camera" />
-                        Channels
-                    </Menu.Item>
+                    <div className="menu-links">
+                        <div className="menu-links--container">
+                            <NavLink
+                                exact
+                                className="menu-links--item"
+                                to={"/"}
+                            >
+                                Accueil
+                            </NavLink>
+                            <NavLink
+                                className="menu-links--item"
+                                to={"/irecords"}
+                            >
+                                iRecords
+                            </NavLink>
+                            <NavLink className="menu-links--item" to={"/users"}>
+                                iUsers
+                            </NavLink>
+                        </div>
+                        <div className="menu-links--container">
+                            <NavLink className="menu-links--item" to={"/login"}>
+                                Connexion
+                            </NavLink>
+                            <NavLink
+                                className="menu-links--item"
+                                to={"/signup"}
+                            >
+                                Inscription
+                            </NavLink>
+                        </div>
+                        <div className="menu-links--container">
+                            <NavLink className="menu-links--item" to={"/team"}>
+                                Team
+                            </NavLink>
+                            <NavLink
+                                className="menu-links--item"
+                                to={"/contact"}
+                            >
+                                Contact/FAQ
+                            </NavLink>
+                            <NavLink className="menu-links--item" to={"/terms"}>
+                                Mentions Légales
+                            </NavLink>
+                        </div>
+                    </div>
                 </Sidebar>
-
                 <Sidebar.Pusher dimmed={visible}>
                     <Header visible={visible} setVisible={setVisible} />
                     <div className="">{props.children}</div>

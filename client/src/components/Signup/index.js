@@ -1,70 +1,98 @@
 import React from "react";
-import { Input, Button } from "semantic-ui-react";
+import { Input, Checkbox, Button, Form, Container } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import "./signup.scss";
 
 //import components
 import Header from "../Header";
-import Field from "./field";
 
 const Signup = () => {
+    const handleSubmit = () => {
+        console.log("submit");
+    };
+
+    const handleChange = (e, data) => {
+        const { name, value, id } = e.target;
+        const formData = {
+            [name || id]: value || data.checked,
+        };
+        console.log(formData);
+    };
+
     return (
         <Header>
-            <form className="signup">
-                <h3>Inscription</h3>
-                <div className="signup-fullname">
-                    <div className="signup-fullname--name">
-                        <label htmlFor="name">Prénom</label>
-                        <Input
-                            className="signup-input--item"
-                            id="name"
-                            size="mini"
+            <Container>
+                <Form onSubmit={handleSubmit} size="large" className="signup">
+                    <h3 className="signup-title">Inscription</h3>
+                    <Form.Group widths="equal">
+                        <Form.Field
+                            control={Input}
+                            label="Prénom"
+                            type="text"
+                            fluid
+                            name="name"
+                            onChange={handleChange}
                             placeholder="John"
                         />
-                    </div>
-                    <div className="signup-fullname--surname">
-                        <label htmlFor="surname">Nom</label>
-                        <Input
-                            className="signup-input--item"
-                            id="surname"
-                            size="mini"
+                        <Form.Field
+                            control={Input}
+                            label="Nom"
+                            type="text"
+                            fluid
+                            name="surname"
+                            onChange={handleChange}
                             placeholder="Doe"
                         />
-                    </div>
-                </div>
-                <div className="signup-input">
-                    <Field
+                    </Form.Group>
+
+                    <Form.Field
+                        control={Input}
                         label="Email"
-                        id="email"
+                        type="email"
+                        width="16"
+                        name="email"
+                        onChange={handleChange}
                         placeholder="john@example.com"
                     />
-                </div>
-                <div className="signup-input">
-                    <Field
+                    <Form.Field
+                        control={Input}
                         label="Mot de passe"
-                        id="password"
-                        placeholder="********"
+                        type="password"
+                        width={16}
+                        name="password"
+                        onChange={handleChange}
+                        placeholder="**********"
                     />
-                </div>
-                <div className="signup-input">
-                    <Field
+                    <Form.Field
+                        control={Input}
+                        width={16}
                         label="Confirmation du mot de passe"
-                        id="confirmPassword"
-                        placeholder="********"
+                        type="password"
+                        name="passwordConfirm"
+                        onChange={handleChange}
+                        placeholder="**********"
                     />
-                </div>
-                <div>
-                    <input
-                        type="checkbox"
-                        name="conditions"
-                        id="conditions"
-                        className="signup-conditions"
+
+                    <Form.Field
+                        control={Checkbox}
+                        onChange={(e, data) => handleChange(e, data)}
+                        id="terms"
+                        label={{
+                            children:
+                                "J'accepte les conditions générales d'utilisations",
+                        }}
                     />
-                    <label htmlFor="conditions">
-                        J'accepte les conditions générales d'utilisations
-                    </label>
-                </div>
-                <Button className="signup-button">S'inscrire</Button>
-            </form>
+
+                    <div className="signup-button">
+                        <Button className="signup-button--item" type="submit">
+                            S'inscrire
+                        </Button>
+                        <Link className="signup-link" to={"/login"}>
+                            Déjà inscrit ? Connectez vous
+                        </Link>
+                    </div>
+                </Form>
+            </Container>
         </Header>
     );
 };

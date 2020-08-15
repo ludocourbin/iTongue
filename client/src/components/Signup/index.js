@@ -1,23 +1,63 @@
 import React from "react";
-import { Input, Checkbox, Button, Form, Container } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import {
+    Input,
+    Checkbox,
+    Button,
+    Form,
+    Container,
+    Message,
+} from "semantic-ui-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./signup.scss";
 
-//import components
+/* Component */
 import Header from "../../Containers/Header";
 
-const Signup = () => {
+const Signup = ({
+    signupData,
+    onInputChange,
+    errorMessage,
+    setErrorMessage,
+}) => {
+    /* Destructuration de l'object state.user.signupData */
+    const { name, surname, email, password, passwordConfirm } = signupData;
     const handleSubmit = () => {
         console.log("submit");
     };
 
     const handleChange = (e, data) => {
+        /* Extraction de l'id pour le checkbox */
         const { name, value, id } = e.target;
+
+        /* Ici je créer une variable pour les input et donne leur valeur, je donne l'id et la props checked  pour la checkbox  */
         const formData = {
-            [name || id]: value || data.checked,
+            [name || id]: value || data.checked || "",
         };
-        console.log(formData);
+        /* Dispatch de l'action pour actualiser le store user */
+        onInputChange(formData);
     };
+
+    /* Création d'une fonction pour vérifier l'igualité et la taille des mdp  */
+    const checkPassword = (pass1, pass2) => {
+        return pass1 !== pass2 || pass1.length < 6 || pass2.length < 6;
+    };
+
+    /* Création d'une fonction pour vérifier que le mail contient @ */
+    const checkMail = (mail) => {
+        return !mail.includes("@");
+    };
+
+    /* Ici j'utilise la fonction checkPassword pour dispatcher un message d'erreur  */
+    if (checkPassword(password, passwordConfirm)) {
+        if (password && passwordConfirm !== "")
+            setErrorMessage(
+                "Les deux mot de passes doivent être identiques et supérieur à 6 charactères"
+            );
+    } else {
+        setErrorMessage("");
+    }
 
     return (
         <Header>
@@ -32,6 +72,7 @@ const Signup = () => {
                             fluid
                             name="name"
                             onChange={handleChange}
+                            value={name}
                             placeholder="John"
                         />
                         <Form.Field
@@ -41,6 +82,7 @@ const Signup = () => {
                             fluid
                             name="surname"
                             onChange={handleChange}
+                            value={surname}
                             placeholder="Doe"
                         />
                     </Form.Group>
@@ -52,6 +94,7 @@ const Signup = () => {
                         width="16"
                         name="email"
                         onChange={handleChange}
+                        value={email}
                         placeholder="john@example.com"
                     />
                     <Form.Field
@@ -61,6 +104,7 @@ const Signup = () => {
                         width={16}
                         name="password"
                         onChange={handleChange}
+                        value={password}
                         placeholder="**********"
                     />
                     <Form.Field
@@ -70,6 +114,7 @@ const Signup = () => {
                         type="password"
                         name="passwordConfirm"
                         onChange={handleChange}
+                        value={passwordConfirm}
                         placeholder="**********"
                     />
 
@@ -83,8 +128,19 @@ const Signup = () => {
                         }}
                     />
 
+                    {errorMessage && (
+                        <Message negative content={errorMessage} />
+                    )}
+
                     <div className="signup-button">
-                        <Button className="signup-button--item" type="submit">
+                        <Button
+                            disabled={
+                                checkPassword(password, passwordConfirm) ||
+                                checkMail(email)
+                            }
+                            className="signup-button--item"
+                            type="submit"
+                        >
                             S'inscrire
                         </Button>
                         <Link className="signup-link" to={"/login"}>

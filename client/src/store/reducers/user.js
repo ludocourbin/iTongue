@@ -1,14 +1,15 @@
-import { SIGNUP_INPUT_CHANGE } from "../Actions/userActions";
+import { SIGNUP_INPUT_CHANGE, SET_ERROR_MESSAGE } from "../Actions/userActions";
 
 const initialState = {
     signupData: {
         name: "",
         surname: "",
-        email: "",
+        email: "ludo@gmail.com",
         password: "",
         passwordConfirm: "",
-        terms: "",
+        terms: false,
     },
+    errorMessage: "",
 };
 
 export default (state = initialState, action = {}) => {
@@ -20,6 +21,11 @@ export default (state = initialState, action = {}) => {
                     ...state.signupData,
                     ...action.payload,
                 },
+            };
+        case SET_ERROR_MESSAGE:
+            return {
+                ...state,
+                errorMessage: action.payload,
             };
         default:
             return state;

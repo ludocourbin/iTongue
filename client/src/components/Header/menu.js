@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon } from "semantic-ui-react";
 
-const Header = ({ setVisible, visible }) => {
+const Header = ({ setVisible }) => {
     return (
         <div className="header">
             <Icon className="header-icon" name="search" size="big" />

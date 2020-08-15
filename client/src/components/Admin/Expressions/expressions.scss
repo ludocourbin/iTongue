@@ -1,0 +1,18 @@
+.expressions {
+    background-color: #FCFCFC;
+    height: 90vh;
+    padding: 2em;
+
+    &-form {
+        width: 400px;
+        margin: auto;
+    }
+
+    &.icon {
+        cursor: pointer;
+    }
+}
+
+.rowselect {
+    cursor: pointer;
+}

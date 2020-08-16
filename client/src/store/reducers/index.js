@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux';
 
-export default combineReducers({
+/* Reducers */
+import expressionsReducer from './Admin/expressionsReducer';
 
+export default combineReducers({
+    expressionsReducer: expressionsReducer,
 });

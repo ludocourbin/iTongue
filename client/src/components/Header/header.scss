@@ -21,9 +21,10 @@
 }
 
 .menu {
+    max-height: 100vh;
     height: 100vh;
     &-links {
-        height: 100%;
+        height: 97%;
         align-items: flex-start;
         text-align: left;
 

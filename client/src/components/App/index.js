@@ -1,15 +1,15 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 /* Components */
 
-import Signup from "../../Containers/Signup";
+import Signup from "../../containers/Signup";
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
 import "./app.scss";
 
-const App = () => {
+const App = ({ user }) => {
     return (
         <div className="App">
             <Switch>
@@ -17,7 +17,11 @@ const App = () => {
                     <h1>Home page</h1>
                 </Route>
 
-                <Route path="/signup" component={Signup} />
+                <Route
+                    exact
+                    path="/signup"
+                    render={() => (user ? <Redirect to="/" /> : <Signup />)}
+                />
 
                 <Route path="/login">{/* <Login />*/}</Route>
 

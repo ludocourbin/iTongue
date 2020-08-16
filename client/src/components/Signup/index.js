@@ -11,7 +11,6 @@ import {
     Icon,
 } from "semantic-ui-react";
 
-// console.log(validator);
 import "./signup.scss";
 
 /* Component */
@@ -27,6 +26,7 @@ const Signup = ({
     showPassword,
     togglePassword,
     signup,
+    loading,
 }) => {
     /* Destructuration de l'object state.user.signupData */
     const {
@@ -185,6 +185,7 @@ const Signup = ({
                                 checkPassword(password, passwordConfirm) ||
                                 !terms
                             }
+                            loading={loading}
                             className="signup-button--item"
                             type="submit"
                         >

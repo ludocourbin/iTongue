@@ -3,18 +3,19 @@ import {
     SET_ERROR_MESSAGE_PASSWORD,
     SET_ERROR_MESSAGE_MAIL,
     SHOW_PASSWORD,
+    SIGNUP,
     SIGNUP_SUCCESS,
-    // SIGNUP_ERROR,
+    SIGNUP_ERROR,
 } from "../Actions/userActions";
 
 const initialState = {
-    user: {},
+    currentUser: null,
     isLogged: false,
     loading: false,
     signupData: {
         name: "ludovic",
-        surname: "courbin",
-        email: "ludovic.courbin@gmail.com",
+        surname: "ludovic",
+        email: "ludovic@gmail.com",
         password: "ludovic",
         passwordConfirm: "ludovic",
         terms: true,
@@ -49,13 +50,42 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 showPassword: !state.showPassword,
             };
+        case SIGNUP:
+            return {
+                ...state,
+                loading: true,
+            };
         case SIGNUP_SUCCESS:
-            console.log("hello");
+            return {
+                ...state,
+                loading: false,
+                isLogged: true,
+                signupData: {
+                    name: "",
+                    surname: "",
+                    email: "",
+                    password: "",
+                    passwordConfirm: "",
+                    terms: false,
+                },
+                currentUser: action.payload,
+                loggedMessage: `Bienvenue ${action.payload.username}`,
+            };
+
+        case SIGNUP_ERROR:
             return {
                 ...state,
                 isLogged: true,
-                signupData: state.signupData.clear(),
-                user: action.payload,
+                loading: true,
+                signupData: {
+                    name: "",
+                    surname: "",
+                    email: "",
+                    password: "",
+                    passwordConfirm: "",
+                    terms: false,
+                },
+                currentUser: action.payload,
                 loggedMessage: `Bienvenue ${action.payload.username}`,
             };
         default:

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { SIGNUP, signupSuccess, signupError } from "../Actions/userActions";
+import { SIGNUP, signupSuccess } from "../Actions/userActions";
 
 export default (store) => (next) => (action) => {
     next(action);
@@ -9,15 +9,20 @@ export default (store) => (next) => (action) => {
         case SIGNUP:
             const data = store.getState().user.signupData;
             console.log(data);
-            store.dispatch(signupSuccess({ username: "ludo" }));
+            setTimeout(() => {
+                store.dispatch(signupSuccess({ username: "ludo" }));
+            }, 1000);
+
             axios({
                 method: "post",
                 // url: '/users',
                 data,
             })
-                .then((res) => {})
+                .then((res) => {
+                    // store.dispatch(signupSuccess({ username: "ludo" }));
+                })
                 .catch((err) => {
-                    signupError(err);
+                    // store.dispatch(signupError("Impossible de créer un compte"));
                 });
 
             break;

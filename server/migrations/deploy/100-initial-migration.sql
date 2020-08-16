@@ -11,7 +11,7 @@ CREATE TABLE "user" (
   "lastname" TEXT NULL,
   "slug" TEXT UNIQUE NOT NULL,
   "bio" TEXT NULL,
-  "avatar_url" TEXT UNIQUE,
+  "avatar_url" TEXT UNIQUE NULL,
   "is_admin" BOOLEAN DEFAULT FALSE
 );
 

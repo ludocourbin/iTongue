@@ -15,7 +15,7 @@ import {
 import "./signup.scss";
 
 /* Component */
-import Header from "../../Containers/Header";
+import Header from "../../containers/Header";
 
 const Signup = ({
     signupData,

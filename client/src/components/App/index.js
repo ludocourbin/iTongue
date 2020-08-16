@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 /* Components */
 
 import Signup from "../../containers/Signup";
+import Search from "../Search";
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
@@ -22,7 +23,7 @@ const App = ({ user }) => {
                     path="/signup"
                     render={() => (user ? <Redirect to="/" /> : <Signup />)}
                 />
-
+                <Route path="/search" component={Search} />
                 <Route path="/login">{/* <Login />*/}</Route>
 
                 <Route path="/admin" exact>

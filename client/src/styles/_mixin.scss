@@ -11,6 +11,12 @@
     justify-content: space-between;
 }
 
+@mixin flex-spaceEvenly {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
 @mixin button {
     background-color: $primary-color !important;
     color: $background-items !important;

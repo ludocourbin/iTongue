@@ -8,6 +8,7 @@ import { toggleMenu } from "../store/Actions/settingsActions";
 
 const mapStateToProps = (state) => ({
     visible: state.settings.visible,
+    user: state.user.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

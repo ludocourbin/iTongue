@@ -9,16 +9,16 @@ import {
 } from "../Actions/userActions";
 
 const initialState = {
-    currentUser: null,
+    currentUser: { slug: "ludocourbin" },
     isLogged: false,
     loading: false,
     signupData: {
-        name: "ludovic",
-        surname: "ludovic",
-        email: "ludovic@gmail.com",
-        password: "ludovic",
-        passwordConfirm: "ludovic",
-        terms: true,
+        name: "",
+        surname: "",
+        email: "",
+        password: "",
+        passwordConfirm: "",
+        terms: false,
     },
     showPassword: false,
     errorMessagePassword: "",

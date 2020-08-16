@@ -3,10 +3,11 @@ import { Menu, Segment, Sidebar } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 
 import Header from "./menu";
+import NavigationBottom from "./navigationBottom";
 
 import "./header.scss";
 
-const LayoutHeader = ({ visible, setVisible, ...props }) => {
+const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
     return (
         <div className="menu">
             <Sidebar.Pushable as={Segment}>
@@ -68,7 +69,8 @@ const LayoutHeader = ({ visible, setVisible, ...props }) => {
                 </Sidebar>
                 <Sidebar.Pusher className="main" dimmed={visible}>
                     <Header visible={visible} setVisible={() => setVisible()} />
-                    <div>{props.children}</div>
+                    <div className="main-content">{props.children}</div>
+                    {user ? <NavigationBottom user={user} /> : null}
                 </Sidebar.Pusher>
             </Sidebar.Pushable>
         </div>

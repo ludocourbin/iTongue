@@ -7,7 +7,19 @@ import {
     ADD_EXPRESSION_SUBMIT_SUCCESS,
     ADD_EXPRESSION_SUBMIT_ERROR,
     ADD_EXPRESSION_INPUT_VALUE,
-    SET_TRADUCTIONS_BY_EXPRESSION,
+
+    DELETE_EXPRESSION_SUCCESS,
+    DELETE_EXPRESSION_ERROR,
+
+    EXPRESSION_ID_SELECT,
+
+    ADD_TRADUCTION_SUBMIT,
+    ADD_TRADUCTION_SUBMIT_SUCCESS,
+    ADD_TRADUCTION_SUBMIT_ERROR,
+    ADD_TRADUCTION_INPUT_VALUE,
+    SET_TRADUCTIONS_BY_EXPRESSION_SUCCESS,
+
+    DELETE_TRADUCTION_SUCCESS,
  } from '../../actions/Admin/expressionsActions';
 
 /* State */
@@ -16,6 +28,13 @@ const initialState = {
     newExpressionLoading: false,
     expressionsList: [],
     traductionsList: [],
+    expressionId: 0,
+
+    newTraductionInputValue: {
+        traduction: '',
+        langue: '',
+    },
+    newTraductionLoading: false,
 };
 
 export default (state = initialState, action = {}) => {
@@ -53,11 +72,50 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 newExpressionInputValue: action.payload,
             };
-        case SET_TRADUCTIONS_BY_EXPRESSION: 
+        case DELETE_EXPRESSION_SUCCESS : 
+            return {
+                ...state,
+                expressionsList: [...action.payload],
+            };
+        case SET_TRADUCTIONS_BY_EXPRESSION_SUCCESS: 
             return {
                 ...state,
                 traductionsList: [...action.payload],
-            }
+            };
+        case EXPRESSION_ID_SELECT:
+            return {
+                ...state,
+                expressionId: action.payload,
+            };
+        case ADD_TRADUCTION_SUBMIT: 
+            return {
+                ...state,
+                newTraductionLoading: true,
+            };
+        case ADD_TRADUCTION_SUBMIT_SUCCESS: 
+            return {
+                ...state,
+                newTraductionLoading: false,
+                expressionsList: [...action.payload]
+            };
+        case ADD_TRADUCTION_SUBMIT_ERROR: 
+            return {
+                ...state,
+                newTraductionLoading: false,
+            };
+        case ADD_TRADUCTION_INPUT_VALUE: 
+            return {
+                ...state,
+                newTraductionInputValue: { 
+                    ...state.newTraductionInputValue,
+                    ...action.payload,
+                },
+            };
+        case DELETE_TRADUCTION_SUCCESS :
+            return {
+                ...state,
+                expressionsList: [...action.payload],
+            };
         default:
             return state;
     };

@@ -11,6 +11,8 @@ import {
     addExpressionSubmit,
     getFakeData,
     setTraductionsByExpression,
+    expressionIdSelect,
+    deleteExpression,
 } from '../../../store/actions/Admin/expressionsActions';
 
 
@@ -18,6 +20,7 @@ const mapStateToProps = (state) => ({
     newExpressionInputValue: state.expressionsReducer.newExpressionInputValue,
     newExpressionLoading: state.expressionsReducer.newExpressionLoading,
     expressionsList: state.expressionsReducer.expressionsList,
+    expressionId: state.expressionsReducer.expressionId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -27,11 +30,17 @@ const mapDispatchToProps = (dispatch) => ({
     addExpressionSubmit: () => {
         dispatch(addExpressionSubmit());
     },
-    getFakeData: (fakeData) => {
-        dispatch(getFakeData(fakeData));
+    getFakeData: () => {
+        dispatch(getFakeData());
     },
-    setTraductionsByExpression: (traductionsList) => {
-        dispatch(setTraductionsByExpression(traductionsList));
+    setTraductionsByExpression: () => {
+        dispatch(setTraductionsByExpression());
+    },
+    expressionIdSelect: (expressionId) => {
+        dispatch(expressionIdSelect(expressionId));
+    },
+    deleteExpression: (exprId) => {
+        dispatch(deleteExpression(exprId));
     },
 });
 

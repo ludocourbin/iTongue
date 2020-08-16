@@ -1,51 +1,62 @@
 export const expressions = [
     {
+        id: 1,
         country: 'uk',
         expression: 'How are you ?',
         nbrTraductions: 4,
         traductions: [
             {
-                flag: 'es',
-                expression: 'Como estas ?',
+                id: 1,
+                langue: 'es',
+                traduction: 'Como estas ?',
             },
             {
-                flag: 'fr',
-                expression: 'Comment vas-tu ?',
+                id: 2,
+                langue: 'fr',
+                traduction: 'Comment vas-tu ?',
             },
             {
-                flag: 'de',
-                expression: 'Wie geht es Ihnen?',
+                id: 3,
+                langue: 'de',
+                traduction: 'Wie geht es Ihnen?',
             },
             {
-                flag: 'ru',
-                expression: 'Как ты?',
+                id: 4,
+                langue: 'ru',
+                traduction: 'Как ты?',
             },
         ]
     },
     {
+        id: 2,
         country: 'uk',
         expression: 'My name is Ludovic',
         nbrTraductions: 5,
         traductions: [
             {
-                flag: 'es',
-                expression: 'Mi nombre es Ludovic',
+                id: 1,
+                langue: 'es',
+                traduction: 'Mi nombre es Ludovic',
             },
             {
-                flag: 'fr',
-                expression: "Je m'appelle Ludovic",
+                id: 2,
+                langue: 'fr',
+                traduction: "Je m'appelle Ludovic",
             },
             {
-                flag: 'de',
-                expression: 'Mein Name ist Ludovic',
+                id: 3,
+                langue: 'de',
+                traduction: 'Mein Name ist Ludovic',
             },
             {
-                flag: 'ru',
-                expression: 'Меня зовут Людовик.',
+                id: 4,
+                langue: 'ru',
+                traduction: 'Меня зовут Людовик.',
             },
             {
-                flag: 'nl',
-                expression: 'Mijn naam is Ludovic',
+                id: 5,
+                langue: 'nl',
+                traduction: 'Mijn naam is Ludovic',
             },
         ]
     },

@@ -13,6 +13,9 @@ const ExpressionsList = ( props ) => {
         addExpressionSubmit,
         expressionsList,
         setTraductionsByExpression,
+        expressionIdSelect,
+        expressionId,
+        deleteExpression,
     } = props;
 
     useEffect(() => {
@@ -34,6 +37,18 @@ const ExpressionsList = ( props ) => {
         addExpressionSubmit();
     };
 
+    const handdleShowTraductionsByExpression = (exprId) => {
+        expressionIdSelect(exprId);
+        setTraductionsByExpression();
+    };
+
+    const handdleDeleteExpression = (exprId) => {
+        const check = window.confirm('Vous souhaitez vraiment supprimer cette expression ?');
+        if (check) {
+            deleteExpression(exprId);
+        }
+    };
+
     return (
         
     <Segment className="expressions-list" basic>
@@ -51,13 +66,14 @@ const ExpressionsList = ( props ) => {
                     onChange={handdleAddExpressionInputChange}
                     loading={newExpressionLoading}
                     />
+                    <Form.Button type="submit" content="Ajouter"/>
                 </Form.Group>
             </Form>
         </Segment>
         
         <Segment className="expression-list__table">
             <Form className="expressions-form">
-                <Input icon='search' fluid placeholder='Search..' />
+                <Form.Input icon='search' fluid placeholder='Search..' />
             </Form>
 
             <Table celled selectable sortable striped>
@@ -74,8 +90,12 @@ const ExpressionsList = ( props ) => {
                 </Table.Header>
                 <Table.Body>
                     { expressionsList && expressionsList.map((expression, key) => (
-                        <Table.Row textAlign='center' key={key} >
-                            <Table.Cell>{key+1}</Table.Cell>
+                        <Table.Row 
+                        textAlign='center' 
+                        key={key} 
+                        active={expressionId === expression.id ? true : false }
+                        >
+                            <Table.Cell>{expression.id}</Table.Cell>
                             <Table.Cell>
                                 <Flag name={expression.country} />
                             </Table.Cell>
@@ -93,13 +113,17 @@ const ExpressionsList = ( props ) => {
                                 <Icon name="edit" link />
                             </Table.Cell>
                             <Table.Cell>
-                                <Icon name="delete" link />
+                                <Icon 
+                                name="delete" 
+                                link 
+                                onClick={() => handdleDeleteExpression(expression.id)}
+                                />
                             </Table.Cell>
                             <Table.Cell>
                                 <Icon 
                                 name="eye" 
                                 link
-                                onClick={() => setTraductionsByExpression(expression.traductions)}
+                                onClick={() => handdleShowTraductionsByExpression(expression.id) }
                                 />
                             </Table.Cell>
                         </Table.Row>

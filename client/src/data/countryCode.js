@@ -22,4 +22,5 @@ export const countryOptions = [
     { key: 'be', value: 'be', flag: 'be', text: 'Belgium' },
     { key: 'bz', value: 'bz', flag: 'bz', text: 'Belize' },
     { key: 'bj', value: 'bj', flag: 'bj', text: 'Benin' },
+    { key: 'fr', value: 'fr', flag: 'fr', text: 'France' },
   ]

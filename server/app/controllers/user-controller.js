@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const slugify = require("slugify");
 
+const redis = require("../redis");
 const userDatamapper = require("../db/user-datamapper");
 
 const { SALT_ROUNDS } = require("../constants");
@@ -56,7 +57,7 @@ module.exports = {
         const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "20m" });
         const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
 
-        // TODO ajouter le refreshToken dans une liste Redis
+        await storeRefreshToken(user, refreshToken);
 
         return res.json({ data: { accessToken, refreshToken } });
       }
@@ -67,3 +68,12 @@ module.exports = {
     }
   }
 };
+
+function storeRefreshToken(user, token) {
+  return new Promise((resolve, reject) => {
+    redis.client.hmset(redis.prefix + "refresh_tokens", user.id, token, (err, result) => {
+      if (err) return reject(err);
+      resolve(result);
+    });
+  });
+}

@@ -9,6 +9,11 @@ router.get("/", (_, res) => {
   res.json({ data: { message: "Router is working" } });
 });
 
+// Route de test pour auth-middleware
+router.get("/private", require("../middlewares/auth-middleware"), (_, res) => {
+  res.json({ data: { msg: "Authorized" } });
+});
+
 router.use("/auth", authRouter);
 
 router.use("/users", userRouter);

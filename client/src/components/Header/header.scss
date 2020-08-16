@@ -1,9 +1,13 @@
 @import "../../styles/vars";
 @import "../../styles/mixin";
 
+.main {
+    background-color: $background-color !important;
+}
 .header {
     @include flex-alignCenter;
     padding: $padding-big;
+    height: 54px;
     border-bottom: 1px solid $border-color;
 
     &-icon {

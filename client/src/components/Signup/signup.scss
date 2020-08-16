@@ -2,7 +2,8 @@
 @import "../../styles/mixin";
 
 .signup {
-    margin-top: 3em;
+    margin-top: 2em;
+
     &-title {
         margin-bottom: 10px;
     }
@@ -20,18 +21,9 @@
         @include flex-column;
         align-items: center;
         &--item {
-            background-color: $primary-color !important;
-            color: $background-items !important;
-            margin-bottom: $margin !important;
             margin-top: 3em !important;
-
-            &:hover,
-            :active {
-                background-color: darken(
-                    $color: $primary-color,
-                    $amount: 4
-                ) !important;
-            }
+            margin-bottom: $margin !important;
+            @include button;
         }
     }
 }

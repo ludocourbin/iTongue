@@ -66,9 +66,9 @@ const LayoutHeader = ({ visible, setVisible, ...props }) => {
                         </div>
                     </div>
                 </Sidebar>
-                <Sidebar.Pusher dimmed={visible}>
+                <Sidebar.Pusher className="main" dimmed={visible}>
                     <Header visible={visible} setVisible={() => setVisible()} />
-                    <div className="">{props.children}</div>
+                    <div>{props.children}</div>
                 </Sidebar.Pusher>
             </Sidebar.Pushable>
         </div>

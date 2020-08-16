@@ -1,3 +1,4 @@
+import validator from "validator";
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -7,9 +8,10 @@ import {
     Form,
     Container,
     Message,
+    Icon,
 } from "semantic-ui-react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+// console.log(validator);
 import "./signup.scss";
 
 /* Component */
@@ -18,13 +20,27 @@ import Header from "../../Containers/Header";
 const Signup = ({
     signupData,
     onInputChange,
-    errorMessage,
-    setErrorMessage,
+    errorMessagePassword,
+    errorMessageEmail,
+    setErrorMessagePassword,
+    setErrorMessageEmail,
+    showPassword,
+    togglePassword,
+    signup,
 }) => {
     /* Destructuration de l'object state.user.signupData */
-    const { name, surname, email, password, passwordConfirm } = signupData;
+    const {
+        name,
+        surname,
+        email,
+        password,
+        passwordConfirm,
+        terms,
+    } = signupData;
+
     const handleSubmit = () => {
         console.log("submit");
+        signup();
     };
 
     const handleChange = (e, data) => {
@@ -41,23 +57,42 @@ const Signup = ({
 
     /* Création d'une fonction pour vérifier l'igualité et la taille des mdp  */
     const checkPassword = (pass1, pass2) => {
-        return pass1 !== pass2 || pass1.length < 6 || pass2.length < 6;
-    };
-
-    /* Création d'une fonction pour vérifier que le mail contient @ */
-    const checkMail = (mail) => {
-        return !mail.includes("@");
-    };
-
-    /* Ici j'utilise la fonction checkPassword pour dispatcher un message d'erreur  */
-    if (checkPassword(password, passwordConfirm)) {
-        if (password && passwordConfirm !== "")
-            setErrorMessage(
+        if (pass1 && pass2 === "") {
+            return true;
+        }
+        if (
+            (pass1 && pass2 !== "" && pass1 !== pass2) ||
+            pass1.length < 6 ||
+            pass2.length < 6
+        ) {
+            setErrorMessagePassword(
                 "Les deux mot de passes doivent être identiques et supérieur à 6 charactères"
             );
-    } else {
-        setErrorMessage("");
-    }
+            return true;
+        } else {
+            setErrorMessagePassword("");
+            return false;
+        }
+    };
+
+    /* Création d'une fonction pour vérifier que le mail est valide*/
+    const checkMail = (mail) => {
+        if (email === "") {
+            return true;
+        }
+        if (mail !== "" && !validator.isEmail(mail)) {
+            setErrorMessageEmail("Le mail n'est pas valide");
+            return true;
+        } else {
+            setErrorMessageEmail("");
+            return false;
+        }
+    };
+
+    /* Création d'une fonction pour vérifier le nombre de charactères  */
+    const checkMinimumInput = (data1, data2) => {
+        return data1.length < 2 || data2.length < 2;
+    };
 
     return (
         <Header>
@@ -100,18 +135,25 @@ const Signup = ({
                     <Form.Field
                         control={Input}
                         label="Mot de passe"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         width={16}
                         name="password"
                         onChange={handleChange}
                         value={password}
+                        icon={
+                            <Icon
+                                name={showPassword ? "eye slash" : "eye"}
+                                onClick={togglePassword}
+                                link
+                            />
+                        }
                         placeholder="**********"
                     />
                     <Form.Field
                         control={Input}
                         width={16}
                         label="Confirmation du mot de passe"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         name="passwordConfirm"
                         onChange={handleChange}
                         value={passwordConfirm}
@@ -128,15 +170,20 @@ const Signup = ({
                         }}
                     />
 
-                    {errorMessage && (
-                        <Message negative content={errorMessage} />
+                    {errorMessagePassword && (
+                        <Message negative content={errorMessagePassword} />
+                    )}
+                    {errorMessageEmail && (
+                        <Message negative content={errorMessageEmail} />
                     )}
 
                     <div className="signup-button">
                         <Button
                             disabled={
+                                checkMinimumInput(name, surname) ||
+                                checkMail(email) ||
                                 checkPassword(password, passwordConfirm) ||
-                                checkMail(email)
+                                !terms
                             }
                             className="signup-button--item"
                             type="submit"

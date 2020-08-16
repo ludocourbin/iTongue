@@ -10,3 +10,13 @@
     align-items: center;
     justify-content: space-between;
 }
+
+@mixin button {
+    background-color: $primary-color !important;
+    color: $background-items !important;
+    transition: all 0.25s !important;
+    &:hover,
+    :active {
+        background-color: darken($color: $primary-color, $amount: 4) !important;
+    }
+}

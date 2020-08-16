@@ -6,20 +6,34 @@ import Signup from "../components/Signup";
 /* Action */
 import {
     signupInputChange,
-    setErrorMessage,
+    setErrorMessagePassword,
+    setErrorMessageEmail,
+    togglePassword,
+    signup,
 } from "../store/Actions/userActions";
 
 const mapStateToProps = (state) => ({
     signupData: state.user.signupData,
-    errorMessage: state.user.errorMessage,
+    errorMessagePassword: state.user.errorMessagePassword,
+    errorMessageEmail: state.user.errorMessageEmail,
+    showPassword: state.user.showPassword,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     onInputChange: (changedData) => {
         dispatch(signupInputChange(changedData));
     },
-    setErrorMessage: (errorMessage) => {
-        dispatch(setErrorMessage(errorMessage));
+    setErrorMessagePassword: (errorMessage) => {
+        dispatch(setErrorMessagePassword(errorMessage));
+    },
+    setErrorMessageEmail: (errorMessage) => {
+        dispatch(setErrorMessageEmail(errorMessage));
+    },
+    togglePassword: () => {
+        dispatch(togglePassword());
+    },
+    signup: () => {
+        dispatch(signup());
     },
 });
 

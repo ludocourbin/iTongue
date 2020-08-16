@@ -40,17 +40,33 @@ const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
                                 iUsers
                             </NavLink>
                         </div>
-                        <div className="menu-links--container">
-                            <NavLink className="menu-links--item" to={"/login"}>
-                                Connexion
-                            </NavLink>
-                            <NavLink
-                                className="menu-links--item"
-                                to={"/signup"}
-                            >
-                                Inscription
-                            </NavLink>
-                        </div>
+                        {user ? (
+                            <div className="menu-links--container">
+                                <NavLink
+                                    exact
+                                    to="/"
+                                    className="menu-links--item"
+                                >
+                                    Se déconnecter
+                                </NavLink>
+                            </div>
+                        ) : (
+                            <div className="menu-links--container">
+                                <NavLink
+                                    className="menu-links--item"
+                                    to={"/login"}
+                                >
+                                    Connexion
+                                </NavLink>
+                                <NavLink
+                                    className="menu-links--item"
+                                    to={"/signup"}
+                                >
+                                    Inscription
+                                </NavLink>
+                            </div>
+                        )}
+
                         <div className="menu-links--container">
                             <NavLink className="menu-links--item" to={"/team"}>
                                 Team

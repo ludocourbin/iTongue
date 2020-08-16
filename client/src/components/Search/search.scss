@@ -1,0 +1,8 @@
+@import "../../styles/vars";
+@import "../../styles/mixin";
+
+.search {
+    margin-top: $margin;
+    @include flex-column;
+    // align-items: center;
+}

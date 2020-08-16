@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const slugify = require("slugify");
 
 const userDatamapper = require("../db/user-datamapper");
@@ -16,7 +17,7 @@ module.exports = {
 
       const user = await userDatamapper.findOne({ email: { operator: "=", value: email } });
 
-      if (user) return res.status(409).json({ errors: ["L'adresse email existe déjà"] });
+      if (user) return res.status(409).json({ errors: [{ msg: "L'adresse email existe déjà" }] });
 
       let userSlug = slugify(firstname + " " + lastname);
       const slugsRows = await userDatamapper.findSlugs(userSlug);
@@ -39,6 +40,28 @@ module.exports = {
       });
 
       res.json({ data: result });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  login: async (req, res, next) => {
+    try {
+      const { email, password } = req.body;
+
+      const user = await userDatamapper.findOne({ email: { operator: "=", value: email } });
+
+      if (user && (await bcrypt.compare(password, user.password))) {
+        const payload = { id: user.id, email: user.email, slug: user.slug };
+        const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "20m" });
+        const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
+
+        // TODO ajouter le refreshToken dans une liste Redis
+
+        return res.json({ data: { accessToken, refreshToken } });
+      }
+
+      res.status(401).json({ errors: [{ msg: "Not allowed" }] });
     } catch (err) {
       next(err);
     }

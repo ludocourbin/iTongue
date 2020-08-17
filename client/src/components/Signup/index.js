@@ -57,21 +57,16 @@ const Signup = ({
 
     /* Création d'une fonction pour vérifier l'igualité et la taille des mdp  */
     const checkPassword = (pass1, pass2) => {
-        if (pass1 && pass2 === "") {
-            return true;
-        }
-        if (
-            (pass1 && pass2 !== "" && pass1 !== pass2) ||
-            pass1.length < 6 ||
-            pass2.length < 6
-        ) {
-            setErrorMessagePassword(
-                "Les deux mot de passes doivent être identiques et supérieur à 6 charactères"
-            );
-            return true;
-        } else {
-            setErrorMessagePassword("");
-            return false;
+        if (pass1 && pass2 !== "") {
+            if (pass1 !== pass2 || pass1.length < 6 || pass2.length < 6) {
+                setErrorMessagePassword(
+                    "Les deux mot de passes doivent être identiques et supérieur à 6 charactères"
+                );
+                return true;
+            } else {
+                setErrorMessagePassword("");
+                return false;
+            }
         }
     };
 

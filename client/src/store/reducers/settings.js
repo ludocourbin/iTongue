@@ -1,8 +1,8 @@
-import { TOGGLE_MENU } from "../Actions/settingsActions";
+import { TOGGLE_MENU } from "../actions/settingsActions";
 
 const initialState = {
     // loading: false,
-    visible: false,
+    visible: false
 };
 
 export default (state = initialState, action = {}) => {
@@ -10,7 +10,7 @@ export default (state = initialState, action = {}) => {
         case TOGGLE_MENU:
             return {
                 ...state,
-                visible: !state.visible,
+                visible: !state.visible
             };
         default:
             return state;

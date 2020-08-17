@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from "./node_modules/axios";
 
-import { SIGNUP, signupSuccess } from "../Actions/userActions";
+import { SIGNUP, signupSuccess } from "../actions/userActions";
 
-export default (store) => (next) => (action) => {
+export default store => next => action => {
     next(action);
     switch (action.type) {
         // réagir au signup
@@ -16,12 +16,12 @@ export default (store) => (next) => (action) => {
             axios({
                 method: "post",
                 // url: '/users',
-                data,
+                data
             })
-                .then((res) => {
-                    // store.dispatch(signupSuccess({ username: "ludo" }));
+                .then(res => {
+                    store.dispatch(signupSuccess({ username: "ludo" }));
                 })
-                .catch((err) => {
+                .catch(err => {
                     // store.dispatch(signupError("Impossible de créer un compte"));
                 });
 

@@ -4,10 +4,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 /* Components */
 
 import Signup from "../../containers/Signup";
-<<<<<<< HEAD
 import Search from "../Search";
-=======
->>>>>>> sign up page okey
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
@@ -21,16 +18,8 @@ const App = ({ user }) => {
                     <h1>Home page</h1>
                 </Route>
 
-                <Route
-                    exact
-                    path="/signup"
-                    render={() => (user ? <Redirect to="/" /> : <Signup />)}
-                />
-<<<<<<< HEAD
+                <Route exact path="/signup" render={() => (user ? <Redirect to="/" /> : <Signup />)} />
                 <Route path="/search" component={Search} />
-=======
-
->>>>>>> sign up page okey
                 <Route path="/login">{/* <Login />*/}</Route>
 
                 <Route path="/admin" exact>

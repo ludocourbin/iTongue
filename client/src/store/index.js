@@ -1,6 +1,6 @@
 import { createStore, compose, applyMiddleware } from "redux";
-import rootReducers from "./Reducers";
-import authMiddleware from "./Middlewares/authMiddleware";
+import rootReducers from "./reducers";
+import authMiddleware from "./middlewares/authMiddleware";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

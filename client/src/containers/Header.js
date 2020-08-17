@@ -4,17 +4,17 @@ import { connect } from "react-redux";
 import Header from "../components/Header";
 
 /* Actions */
-import { toggleMenu } from "../store/Actions/settingsActions";
+import { toggleMenu } from "../store/actions/settingsActions";
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     visible: state.settings.visible,
-    user: state.user.currentUser,
+    user: state.user.currentUser
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     setVisible: () => {
         dispatch(toggleMenu());
-    },
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

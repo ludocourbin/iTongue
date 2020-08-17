@@ -8,7 +8,11 @@ import Search from "../Search";
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
+import "react-toastify/dist/ReactToastify.css";
 import "./app.scss";
+
+/* Components */
+import Admin from "../Admin";
 
 const App = ({ user }) => {
     return (
@@ -22,11 +26,7 @@ const App = ({ user }) => {
                 <Route path="/search" component={Search} />
                 <Route path="/login">{/* <Login />*/}</Route>
 
-                <Route path="/admin" exact>
-                    {/* <LoginAdmin /> OU <Dashboard /> */}
-                </Route>
-
-                <Route path="/admin/expressions">{/* <Expressions />*/}</Route>
+                <Route path="/admin" component={Admin} />
 
                 <Route>
                     <h1>La page n'existe pas</h1>

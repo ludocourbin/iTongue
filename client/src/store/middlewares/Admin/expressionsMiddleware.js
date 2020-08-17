@@ -1,5 +1,7 @@
 /* Middleware Expressions */
 
+import { toast } from "react-toastify";
+
 /* Actions */
 import {
     ADD_EXPRESSION_SUBMIT, 
@@ -29,6 +31,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
         case GET_FAKE_DATA: {
             // à modifier pour GET toutes les expressions lorsque le back sera prêt
             store.dispatch(setFakeData(expressions));
+            toast.success("Les données ont bien été chargées");
             break;
         };
         case SET_TRADUCTIONS_BY_EXPRESSION : {
@@ -76,6 +79,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 
             store.dispatch(addTraductionSubmitSuccess(expressionListWithNewTrad));
             store.dispatch(setTraductionsByExpression());
+            toast.success("Nouvelle traduction enregistré avec succés");
             break;
         };
         case DELETE_TRADUCTION : {
@@ -130,6 +134,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             });
 
             store.dispatch(deleteExpressionSuccess(expressionsFilter));
+            toast.info("L'expression a bien été supprimée");
             break;
         };
         default:

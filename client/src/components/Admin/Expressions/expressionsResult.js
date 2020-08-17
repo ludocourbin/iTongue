@@ -1,7 +1,7 @@
 import React from 'react';
 
 /* Components */
-import { Icon, Form, Table, Flag, Segment, Header, Button } from 'semantic-ui-react'
+import { Icon, Form, Table, Flag, Segment, Header } from 'semantic-ui-react'
 
 /* Fake Data */
 import { countryOptions } from '../../../data/countryCode';
@@ -65,7 +65,6 @@ const ExpressionsResult = ( props ) => {
                     placeholder="Langues"
                     name="langue"
                     onChange={handdleAddTraductionInputChange}
-                    //value={newTraductionInputValue.langue}
                     disabled={expressionIdIsSelect}
                     />
                     <Form.Button 

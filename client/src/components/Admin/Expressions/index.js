@@ -1,4 +1,5 @@
 import React from 'react';
+import { ToastContainer } from "react-toastify";
 
 /* Style */
 import './expressions.scss';
@@ -11,6 +12,7 @@ const Expressions = () => {
 
     return (
         <div className="expressions">
+            <ToastContainer autoClose={2000} />
             <ExpressionsList />
             <ExpressionsResult />
         </div>

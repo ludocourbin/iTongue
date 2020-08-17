@@ -53,7 +53,6 @@ const ExpressionsList = ( props ) => {
         
     <Segment className="expressions-list" basic>
         <Header size='medium' content='Expressions' />
-
         <Segment>
             <Header size="tiny" content="Ajouter une expression"/>
             <Form onSubmit={handdleAddExpressionSubmit}>

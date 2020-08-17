@@ -46,6 +46,7 @@ export default (state = initialState, action = {}) => {
                 expressionsList: [
                     ...action.payload
                 ],
+                notifyMsg: 'Les données ont bien été chargées'
             };
         case ADD_EXPRESSION_SUBMIT:
             return {

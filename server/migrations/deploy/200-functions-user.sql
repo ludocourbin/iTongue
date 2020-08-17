@@ -36,7 +36,7 @@ LEFT JOIN "translation" "t"
 
 
 CREATE VIEW "users" AS
-   SELECT "u"."id", "u"."email", "u"."firstname", "u"."lastname", "u"."slug", "u"."bio", "u"."avatar_url", "u"."created_at",
+   SELECT "u".*,
          COALESCE(json_agg("r".*) FILTER(WHERE "r"."id" IS NOT NULL), '[]') AS "records",
          COALESCE(json_agg("l".*) FILTER(WHERE "l"."id" IS NOT NULL), '[]') AS "languages"
      FROM "user" "u"

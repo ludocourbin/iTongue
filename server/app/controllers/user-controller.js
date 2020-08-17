@@ -1,4 +1,3 @@
-const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const slugify = require("slugify");
@@ -19,9 +18,6 @@ module.exports = {
     },
 
     create: async (req, res, next) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-
         try {
             const { email, password, firstname, lastname } = req.body;
 
@@ -63,7 +59,12 @@ module.exports = {
             const user = await userDatamapper.findOne({ email: { operator: "=", value: email } });
 
             if (user && (await bcrypt.compare(password, user.password))) {
-                const payload = { id: user.id, email: user.email, slug: user.slug };
+                const payload = {
+                    id: user.id,
+                    email: user.email,
+                    slug: user.slug,
+                    isAdmin: user.is_admin
+                };
                 const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
                     expiresIn: "20m"
                 });

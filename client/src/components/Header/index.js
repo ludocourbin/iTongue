@@ -9,7 +9,7 @@ import "./header.scss";
 
 const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
     return (
-        <div className="menu">
+        <div className="main-header">
             <Sidebar.Pushable as={Segment}>
                 <Sidebar
                     as={Menu}
@@ -21,63 +21,43 @@ const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
                     visible={visible}
                     width="thin"
                 >
-                    <div className="menu-links">
-                        <div className="menu-links--container">
-                            <NavLink
-                                exact
-                                className="menu-links--item"
-                                to={"/"}
-                            >
+                    <div className="main-header-links">
+                        <div className="container">
+                            <NavLink exact className="main-header-links__item" to={"/"}>
                                 Accueil
                             </NavLink>
-                            <NavLink
-                                className="menu-links--item"
-                                to={"/irecords"}
-                            >
+                            <NavLink className="main-header-links__item" to={"/irecords"}>
                                 iRecords
                             </NavLink>
-                            <NavLink className="menu-links--item" to={"/users"}>
+                            <NavLink className="main-header-links__item" to={"/users"}>
                                 iUsers
                             </NavLink>
                         </div>
                         {user ? (
-                            <div className="menu-links--container">
-                                <NavLink
-                                    exact
-                                    to="/"
-                                    className="menu-links--item"
-                                >
+                            <div className="container">
+                                <NavLink exact to="/" className="main-header-links__item">
                                     Se déconnecter
                                 </NavLink>
                             </div>
                         ) : (
-                            <div className="menu-links--container">
-                                <NavLink
-                                    className="menu-links--item"
-                                    to={"/login"}
-                                >
+                            <div className="container">
+                                <NavLink className="main-header-links__item" to={"/login"}>
                                     Connexion
                                 </NavLink>
-                                <NavLink
-                                    className="menu-links--item"
-                                    to={"/signup"}
-                                >
+                                <NavLink className="main-header-links__item" to={"/signup"}>
                                     Inscription
                                 </NavLink>
                             </div>
                         )}
 
-                        <div className="menu-links--container">
-                            <NavLink className="menu-links--item" to={"/team"}>
+                        <div className="container">
+                            <NavLink className="main-header-links__item" to={"/team"}>
                                 Team
                             </NavLink>
-                            <NavLink
-                                className="menu-links--item"
-                                to={"/contact"}
-                            >
+                            <NavLink className="main-header-links__item" to={"/contact"}>
                                 Contact/FAQ
                             </NavLink>
-                            <NavLink className="menu-links--item" to={"/terms"}>
+                            <NavLink className="main-header-links__item" to={"/terms"}>
                                 Mentions Légales
                             </NavLink>
                         </div>

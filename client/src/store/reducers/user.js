@@ -9,7 +9,7 @@ import {
 } from "../actions/userActions";
 
 const initialState = {
-    currentUser: { slug: "ludocourbin" },
+    // currentUser: { slug: "ludocourbin" },
     isLogged: false,
     loading: false,
     signupData: {

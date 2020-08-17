@@ -28,45 +28,48 @@
     }
 }
 
-.menu {
+.main-header {
     max-height: 100vh;
     height: 100vh;
-    &-links {
-        height: 97%;
-        align-items: flex-start;
-        text-align: left;
+}
 
+.main-header-links {
+    height: 97%;
+    align-items: flex-start;
+    text-align: left;
+
+    @include flex-column;
+    justify-content: space-between;
+
+    .container {
         @include flex-column;
-        justify-content: space-between;
-        &--container {
-            @include flex-column;
+    }
+
+    &__item {
+        padding: 15px;
+        color: $primary-text-color;
+        position: relative;
+        &:after {
+            position: absolute;
+            transition: all 0.3s;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 3px;
+            content: ".";
+            color: transparent;
+            background: $primary-color;
+            height: 0%;
         }
-        &--item {
-            padding: 15px;
-            color: $primary-text-color;
-            position: relative;
-            &:after {
-                position: absolute;
-                transition: all 0.3s;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                width: 3px;
-                content: ".";
-                color: transparent;
-                background: $primary-color;
-                height: 0%;
-            }
 
-            &:hover,
-            &.active {
-                color: $primary-color;
-            }
+        &:hover,
+        &.active {
+            color: $primary-color;
+        }
 
-            &:hover::after,
-            &.active::after {
-                height: 100%;
-            }
+        &:hover::after,
+        &.active::after {
+            height: 100%;
         }
     }
 }
@@ -83,26 +86,4 @@
     &-items {
         margin-left: 10px !important;
     }
-}
-
-/* Reset style Semantic */
-
-div.ui.grid > .column:not(.row) {
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-div.ui.grid > .column:not(.row),
-div.ui.grid > .row > .column {
-    padding-left: 0;
-    padding-right: 0;
-}
-
-div.ui.segment {
-    padding: 0;
-}
-
-div.ui.thin.left.sidebar,
-div.ui.thin.right.sidebar {
-    width: 200px;
 }

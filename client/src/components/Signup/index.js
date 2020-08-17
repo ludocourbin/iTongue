@@ -14,7 +14,7 @@ import {
 import "./signup.scss";
 
 /* Component */
-import Header from "../../containers/Header";
+import Layout from "../../containers/Layout";
 
 const Signup = ({
     signupData,
@@ -90,7 +90,7 @@ const Signup = ({
     };
 
     return (
-        <Header>
+        <Layout>
             <Container>
                 <Form onSubmit={handleSubmit} size="large" className="signup">
                     <h3 className="signup-title">Inscription</h3>
@@ -192,7 +192,7 @@ const Signup = ({
                     </div>
                 </Form>
             </Container>
-        </Header>
+        </Layout>
     );
 };
 

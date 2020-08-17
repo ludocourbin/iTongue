@@ -6,13 +6,13 @@ CREATE TABLE "user" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "email" TEXT UNIQUE NOT NULL,
   "password" TEXT NOT NULL,
-  -- register rapide possible avec seulement email et password
-  "firstname" TEXT NULL,
-  "lastname" TEXT NULL,
+  "firstname" TEXT NOT NULL,
+  "lastname" TEXT NOT NULL,
   "slug" TEXT UNIQUE NOT NULL,
   "bio" TEXT NULL,
   "avatar_url" TEXT UNIQUE NULL,
-  "is_admin" BOOLEAN DEFAULT FALSE
+  "is_admin" BOOLEAN DEFAULT FALSE,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE "language" (
@@ -38,6 +38,7 @@ CREATE TABLE "translation" (
 CREATE TABLE "record" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "url" TEXT UNIQUE NOT NULL,
+  "user_id" INT NOT NULL REFERENCES "user"("id"),
   "translation_id" INT NOT NULL REFERENCES "translation"("id"),
   "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

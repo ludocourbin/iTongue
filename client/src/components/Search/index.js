@@ -1,15 +1,19 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Container, Input, Flag, Card, Feed, Image } from "semantic-ui-react";
+import React, { useState, useRef, useEffect } from "react";
+import { Container, Input } from "semantic-ui-react";
+
 import "./search.scss";
 
+/* Component */
 import Layout from "../../containers/Layout";
+import Irecords from "../Irecords/index";
 
 import data from "./data";
 
 const Search = () => {
     const [isFocus, setIsFocus] = useState(false);
     const [keyword, setKeyword] = useState("");
+    const [audioIsPlaying, setAudioIsPlaying] = useState(false);
+    const arrayRef = useRef(null);
 
     const filteredData = data.items.filter(
         (el) =>
@@ -37,44 +41,22 @@ const Search = () => {
                         onChange={(e) => setKeyword(e.target.value)}
                     />
                 </div>
+
                 <Container>
                     {!isFocus && (
-                        <div className="search-content--items">
+                        <div ref={arrayRef} className="search-content--items">
                             <h1>Nos derniers iRecords</h1>
                             {audiosFiltered.map((audio) => {
-                                const {
-                                    author,
-                                    avatar,
-                                    flagOrigin,
-                                    flagTarget,
-                                    label,
-                                    traduction,
-                                } = audio;
-                                const user = { slug: "ludocourbin" };
                                 return (
-                                    <Card>
-                                        <Card.Content>
-                                            <Image
-                                                avatar
-                                                floated="left"
-                                                size="large"
-                                                src={avatar}
-                                            />
-                                            <Link to={user.slug}>{author}</Link>
-                                        </Card.Content>
-                                        <Card.Content meta>
-                                            <p>
-                                                <Flag name={flagOrigin} />
-                                                {label}
-                                            </p>
-                                        </Card.Content>
-                                        <Card.Content meta>
-                                            <p>
-                                                <Flag name={flagTarget} />
-                                                {traduction}
-                                            </p>
-                                        </Card.Content>
-                                    </Card>
+                                    <div key={audio.id}>
+                                        <Irecords
+                                            audio={audio}
+                                            audioIsPlaying={audioIsPlaying}
+                                            setAudioIsPlaying={
+                                                setAudioIsPlaying
+                                            }
+                                        />
+                                    </div>
                                 );
                             })}
                         </div>

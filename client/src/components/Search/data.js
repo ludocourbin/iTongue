@@ -9,6 +9,8 @@ export default {
             author: "Ludo",
             type: "audio",
             avatar: "https://randomuser.me/api/portraits/men/75.jpg",
+            audioUrl:
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3",
         },
         {
             id: 2,
@@ -19,6 +21,8 @@ export default {
             author: "Ludo",
             type: "audio",
             avatar: "https://randomuser.me/api/portraits/men/74.jpg",
+            audioUrl:
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
         },
         {
             id: 3,
@@ -54,6 +58,8 @@ export default {
             author: "Ludo",
             type: "audio",
             avatar: "https://randomuser.me/api/portraits/men/73.jpg",
+            audioUrl:
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
         },
         {
             id: 9,
@@ -64,6 +70,8 @@ export default {
             author: "Ludo",
             type: "audio",
             avatar: "https://randomuser.me/api/portraits/men/72.jpg",
+            audioUrl:
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
         },
     ],
 };

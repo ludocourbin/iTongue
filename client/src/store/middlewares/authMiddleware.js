@@ -7,17 +7,34 @@ export default (store) => (next) => (action) => {
     switch (action.type) {
         // réagir au signup
         case SIGNUP:
-            const data = store.getState().user.signupData;
+            let data = store.getState().user.signupData;
             axios({
                 method: "post",
                 url: "https://itongue.herokuapp.com/users",
                 data,
             })
                 .then((res) => {
-                    console.log(`response request success: ${res}`);
-                    if (res) {
-                        console.log(res);
-                        store.dispatch(signupSuccess({ username: "ludo" }));
+                    console.log(res.data.data.id);
+                    const data = {
+                        email: store.getState().user.signupData.email,
+                        password: store.getState().user.signupData.password,
+                    };
+                    if (res.data.data.id) {
+                        console.log(data);
+                        axios({
+                            method: "post",
+                            url: "https://itongue.herokuapp.com/users/login",
+                            data,
+                        })
+                            .then((res) => {
+                                console.log(res);
+                                store.dispatch(
+                                    signupSuccess({ token: res.accessToken })
+                                );
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
                     }
                 })
                 .catch((error) => {

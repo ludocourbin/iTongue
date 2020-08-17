@@ -12,6 +12,7 @@ const initialState = {
     // currentUser: { slug: "ludocourbin" },
     isLogged: false,
     loading: false,
+    token: null,
     signupData: {
         firstname: "ludovic",
         lastname: "ludovic",
@@ -68,8 +69,8 @@ export default (state = initialState, action = {}) => {
                     confirm: "",
                 },
                 errorMailUsed: "",
-                currentUser: action.payload,
-                loggedMessage: `Bienvenue ${action.payload.username}`,
+                token: action.payload,
+                loggedMessage: `Bienvenue sur Itongue`,
             };
 
         case SIGNUP_ERROR:

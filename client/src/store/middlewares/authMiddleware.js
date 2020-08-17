@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { SIGNUP, signupSuccess } from "../actions/userActions";
+import { SIGNUP, signupSuccess, signupError } from "../actions/userActions";
 
 export default (store) => (next) => (action) => {
     next(action);
@@ -8,24 +8,30 @@ export default (store) => (next) => (action) => {
         // réagir au signup
         case SIGNUP:
             const data = store.getState().user.signupData;
-            console.log(data);
-            setTimeout(() => {
-                store.dispatch(signupSuccess({ username: "ludo" }));
-            }, 1000);
-
             axios({
                 method: "post",
                 url: "https://itongue.herokuapp.com/users",
                 data,
             })
                 .then((res) => {
-                    store.dispatch(signupSuccess({ username: "ludo" }));
+                    console.log(`response request success: ${res}`);
+                    if (res) {
+                        console.log(res);
+                        store.dispatch(signupSuccess({ username: "ludo" }));
+                    }
                 })
-                .catch((err) => {
-                    // store.dispatch(signupError("Impossible de créer un compte"));
+                .catch((error) => {
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        console.log(error.response.data.errors[0].msg);
+                        store.dispatch(
+                            signupError(error.response.data.errors[0].msg)
+                        );
+                    }
                 });
 
-            break;
+            return;
         default:
             return;
     }

@@ -5,7 +5,7 @@ import {
     SHOW_PASSWORD,
     SIGNUP,
     SIGNUP_SUCCESS,
-    SIGNUP_ERROR
+    SIGNUP_ERROR,
 } from "../actions/userActions";
 
 const initialState = {
@@ -13,16 +13,16 @@ const initialState = {
     isLogged: false,
     loading: false,
     signupData: {
-        name: "",
-        surname: "",
-        email: "",
-        password: "",
-        passwordConfirm: "",
-        terms: false
+        firstname: "ludovic",
+        lastname: "ludovic",
+        email: "ludovic.courbin@gmail.com",
+        password: "ludovic",
+        confirm: "ludovic",
     },
     showPassword: false,
     errorMessagePassword: "",
-    errorMessageEmail: ""
+    errorMessageEmail: "",
+    errorMailUsed: "",
 };
 
 export default (state = initialState, action = {}) => {
@@ -32,28 +32,28 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 signupData: {
                     ...state.signupData,
-                    ...action.payload
-                }
+                    ...action.payload,
+                },
             };
         case SET_ERROR_MESSAGE_PASSWORD:
             return {
                 ...state,
-                errorMessagePassword: action.payload
+                errorMessagePassword: action.payload,
             };
         case SET_ERROR_MESSAGE_MAIL:
             return {
                 ...state,
-                errorMessageEmail: action.payload
+                errorMessageEmail: action.payload,
             };
         case SHOW_PASSWORD:
             return {
                 ...state,
-                showPassword: !state.showPassword
+                showPassword: !state.showPassword,
             };
         case SIGNUP:
             return {
                 ...state,
-                loading: true
+                loading: true,
             };
         case SIGNUP_SUCCESS:
             return {
@@ -61,32 +61,32 @@ export default (state = initialState, action = {}) => {
                 loading: false,
                 isLogged: true,
                 signupData: {
-                    name: "",
-                    surname: "",
+                    firstname: "",
+                    lastname: "",
                     email: "",
                     password: "",
-                    passwordConfirm: "",
-                    terms: false
+                    confirm: "",
                 },
+                errorMailUsed: "",
                 currentUser: action.payload,
-                loggedMessage: `Bienvenue ${action.payload.username}`
+                loggedMessage: `Bienvenue ${action.payload.username}`,
             };
 
         case SIGNUP_ERROR:
             return {
                 ...state,
-                isLogged: true,
-                loading: true,
+                errorMessageEmail: "",
+                isLogged: false,
+                loading: false,
                 signupData: {
-                    name: "",
-                    surname: "",
-                    email: "",
+                    firstname: state.signupData.firstname,
+                    lastname: state.signupData.lastname,
+                    email: state.signupData.email,
                     password: "",
-                    passwordConfirm: "",
-                    terms: false
+                    confirm: "",
                 },
-                currentUser: action.payload,
-                loggedMessage: `Bienvenue ${action.payload.username}`
+                currentUser: "",
+                errorMailUsed: action.payload,
             };
         default:
             return state;

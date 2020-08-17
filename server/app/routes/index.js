@@ -2,6 +2,9 @@ const express = require("express");
 
 const authRouter = require("./auth-routes");
 const userRouter = require("./user-routes");
+const languageRouter = require("./language-routes");
+const expressionRouter = require("./expression-routes");
+const adminRouter = require("./admin-routes");
 
 const router = express.Router();
 
@@ -19,12 +22,18 @@ router.get("/admin", require("../middlewares/admin-middleware"), (_, res) => {
     res.json({ data: { msg: "Authorized" } });
 });
 
+router.use("/admin", adminRouter);
+
 router.use("/auth", authRouter);
 
 router.use("/users", userRouter);
 
+router.use("/languages", languageRouter);
+
+router.use("/expressions", expressionRouter);
+
 router.use((_, res) => {
-    res.status(404).json({ errors: ["Resource not found"] });
+    res.status(404).json({ errors: [{ msg: "Resource not found" }] });
 });
 
 router.use((err, req, res, next) => {

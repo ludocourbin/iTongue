@@ -4,6 +4,7 @@ const authRouter = require("./auth-routes");
 const userRouter = require("./user-routes");
 const languageRouter = require("./language-routes");
 const expressionRouter = require("./expression-routes");
+const translationRouter = require("./translation-routes");
 const adminRouter = require("./admin-routes");
 
 const router = express.Router();
@@ -31,6 +32,8 @@ router.use("/users", userRouter);
 router.use("/languages", languageRouter);
 
 router.use("/expressions", expressionRouter);
+
+router.use("/translations", translationRouter);
 
 router.use((_, res) => {
     res.status(404).json({ errors: [{ msg: "Resource not found" }] });

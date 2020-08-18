@@ -34,26 +34,6 @@ module.exports = {
      * This method returns all languages in database
      * @returns {Array.Object} - Set of objects representing available languages
      */
-    // findAll: async () => {
-    //   try {
-    //     const query = {
-    //       name: "get-expressions",
-    //       text: 'SELECT * FROM "expression"',
-    //       values: [],
-    //     };
-
-    //     const result = await client.query(query);
-
-    //     if (!result.rows) {
-    //       throw new Error("Unexpected issue: unable to get languages");
-    //     }
-
-    //     return result.rows;
-    //   } catch (error) {
-    //     console.log("Error", error);
-    //   }
-    // },
-
     findAll: async () => {
         try {
             const result = await client.query('SELECT * FROM "expression_with_relations"');

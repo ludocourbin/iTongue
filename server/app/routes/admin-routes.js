@@ -3,8 +3,10 @@ const express = require("express");
 const validator = require("../middlewares/validator");
 const languageSchema = require("../schemas/language-schema");
 const expressionSchema = require("../schemas/expression-schema");
+const translationSchema = require("../schemas/translation-schema");
 const languageController = require("../controllers/language-controller");
 const expressionController = require("../controllers/expression-controller");
+const translationController = require("../controllers/translation-controller");
 
 const router = express.Router();
 
@@ -32,5 +34,19 @@ router.delete("/languages/:id", languageController.todo);
  */
 router.post("/expression", validator(expressionSchema), expressionController.create);
 router.delete("/expression/:id([0-9]+)", expressionController.deleteOneById);
+
+/**
+ * Creates a new translation
+ * @route /admin/translation
+ * @method POST
+ * @property {String} text - Text of the translation
+ * @property {Integer} expression_id - Text of the label
+ * @property {Integer} language_id - Int
+ * @returns {Boolean} - True if success
+ * @returns {Error} - If sent data aren't valid
+ */
+router.post("/translation", validator(translationSchema), translationController.create);
+router.post("/translation/:id(\\d+)", validator(translationSchema), translationController.update);
+router.delete("/translation/:id([0-9]+)", expressionController.deleteOneById);
 
 module.exports = router;

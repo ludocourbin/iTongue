@@ -23,41 +23,70 @@ const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
                 >
                     <div className="main-header-links">
                         <div className="container">
-                            <NavLink exact className="main-header-links__item" to={"/"}>
+                            <NavLink
+                                exact
+                                className="main-header-links__item"
+                                to={"/"}
+                            >
                                 Accueil
                             </NavLink>
-                            <NavLink className="main-header-links__item" to={"/irecords"}>
+                            <NavLink
+                                className="main-header-links__item"
+                                to={"/irecords"}
+                            >
                                 iRecords
                             </NavLink>
-                            <NavLink className="main-header-links__item" to={"/users"}>
+                            <NavLink
+                                className="main-header-links__item"
+                                to={"/users"}
+                            >
                                 iUsers
                             </NavLink>
                         </div>
                         {user ? (
                             <div className="container">
-                                <NavLink exact to="/" className="main-header-links__item">
+                                <NavLink
+                                    exact
+                                    to="/"
+                                    className="main-header-links__item"
+                                >
                                     Se déconnecter
                                 </NavLink>
                             </div>
                         ) : (
                             <div className="container">
-                                <NavLink className="main-header-links__item" to={"/login"}>
+                                <NavLink
+                                    className="main-header-links__item"
+                                    to={"/login"}
+                                >
                                     Connexion
                                 </NavLink>
-                                <NavLink className="main-header-links__item" to={"/signup"}>
+                                <NavLink
+                                    className="main-header-links__item"
+                                    to={"/signup"}
+                                >
                                     Inscription
                                 </NavLink>
                             </div>
                         )}
 
                         <div className="container">
-                            <NavLink className="main-header-links__item" to={"/team"}>
+                            <NavLink
+                                className="main-header-links__item"
+                                to={"/team"}
+                            >
                                 Team
                             </NavLink>
-                            <NavLink className="main-header-links__item" to={"/contact"}>
+                            <NavLink
+                                className="main-header-links__item"
+                                to={"/contact"}
+                            >
                                 Contact/FAQ
                             </NavLink>
-                            <NavLink className="main-header-links__item" to={"/terms"}>
+                            <NavLink
+                                className="main-header-links__item"
+                                to={"/terms"}
+                            >
                                 Mentions Légales
                             </NavLink>
                         </div>

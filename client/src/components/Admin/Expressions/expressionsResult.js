@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 /* Components */
-import { Icon, Form, Table, Flag, Segment, Header } from 'semantic-ui-react'
+import { Icon, Form, Table, Flag, Segment, Header, Confirm, Button } from 'semantic-ui-react'
 
 /* Fake Data */
 import { countryOptions } from '../../../data/countryCode';
+import InputTraduction from './InputTraduction';
 
 const ExpressionsResult = ( props ) => {
 
@@ -15,9 +16,15 @@ const ExpressionsResult = ( props ) => {
         addTraductionSubmit,
         expressionId,
         deleteTraduction,
+        editTraductionValue,
+        editTraductionInputValue,
+        editTraductionSubmit,
     } = props;
 
     const expressionIdIsSelect = expressionId !== 0 ? false : true;
+    const [ confirm, setConfirm ] = useState(false); // true || false
+    const [ traductionDeleteId, setTraductionDeleteId ] = useState(0);
+    const [ traductionEditId, setTraductionEditId ] = useState(0);
 
     const handdleAddTraductionInputChange = (e, data) => {
 
@@ -33,11 +40,14 @@ const ExpressionsResult = ( props ) => {
         addTraductionSubmit();
     };
 
-    const handdleDeleteTraduction = (exprId) => {
-        const check = window.confirm('Vous souhaitez vraiment supprimer cette traduction ?');
-        if (check) {
-            deleteTraduction(exprId);
-        }
+    const handdleDeleteTraductionConfirm = (exprId) => {
+        setConfirm(true);
+        setTraductionDeleteId(exprId);
+    };
+
+    const handdleDeleteTraduction = () => {
+        setConfirm(false);
+        deleteTraduction(traductionDeleteId);
     };
 
     return (
@@ -77,6 +87,15 @@ const ExpressionsResult = ( props ) => {
         </Segment>
 
         <Segment className="expression-result__table" disabled={expressionIdIsSelect}>
+        
+            <Confirm
+            open={confirm}
+            onCancel={() => setConfirm(false)}
+            onConfirm={handdleDeleteTraduction}
+            content="Vous souhaitez vraiment supprimer cette traduction ?"
+            size="tiny"
+            />
+
             <Table celled>
                 <Table.Header>
                     <Table.Row textAlign='center'>
@@ -97,16 +116,32 @@ const ExpressionsResult = ( props ) => {
                                 <Flag name={traduction.langue} />
                             </Table.Cell>
                             <Table.Cell>
-                                {traduction.traduction}
+                               
+                                { traduction.id ===  traductionEditId ? 
+                                    <InputTraduction 
+                                    traduction={traduction} 
+                                    editTraductionInputValue={editTraductionInputValue}
+                                    editTraductionValue={editTraductionValue}
+                                    editTraductionSubmit={editTraductionSubmit}
+                                    setTraductionEditId={setTraductionEditId}
+                                    /> 
+                                    :
+                                    traduction.traduction
+                                }
+
                             </Table.Cell>
                             <Table.Cell>
-                                <Icon name="edit" link />
+                                <Icon 
+                                name="edit" 
+                                link 
+                                onClick={() => setTraductionEditId(traduction.id)}
+                                />
                             </Table.Cell>
                             <Table.Cell>
                                 <Icon 
                                 name="delete" 
                                 link 
-                                onClick={() => handdleDeleteTraduction(traduction.id)}
+                                onClick={() => handdleDeleteTraductionConfirm(traduction.id)}
                                 />
                             </Table.Cell>
                         </Table.Row>

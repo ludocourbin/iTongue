@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 /* Components */
-import { Input, Icon, Form, Table, Flag, Segment, Header } from 'semantic-ui-react';
+import { Input, Icon, Form, Table, Flag, Segment, Header, Confirm } from 'semantic-ui-react';
 
 const ExpressionsList = ( props ) => {
 
@@ -24,12 +24,9 @@ const ExpressionsList = ( props ) => {
     useEffect(() => {
         getFakeData();
     }, []);
-
-    const [ editStatus, setEditStatus ] = useState(false);
     
-    const handdleEdit = (e) => {
-        setEditStatus(true);
-    };
+    const [ confirm, setConfirm ] = useState(false); // true || false
+    const [ expressionDeleteId, setExpressionDeleteId ] = useState(0);
 
     const handdleAddExpressionInputChange = (e) => {
         addExpressionInputValue(e.target.value);
@@ -45,11 +42,14 @@ const ExpressionsList = ( props ) => {
         setTraductionsByExpression();
     };
 
-    const handdleDeleteExpression = (exprId) => {
-        const check = window.confirm('Vous souhaitez vraiment supprimer cette expression ?');
-        if (check) {
-            deleteExpression(exprId);
-        }
+    const handdleDeleteExpressionConfirm = (exprId) => {
+        setConfirm(true)
+        setExpressionDeleteId(exprId)
+    };
+
+    const handdleDeleteExpression = () => {
+        setConfirm(false)
+        deleteExpression(expressionDeleteId);
     };
 
     return (
@@ -74,6 +74,15 @@ const ExpressionsList = ( props ) => {
         </Segment>
         
         <Segment className="expression-list__table">
+
+            <Confirm
+            open={confirm}
+            onCancel={() => setConfirm(false)}
+            onConfirm={handdleDeleteExpression}
+            content="Vous souhaitez vraiment supprimer cette expression ?"
+            size="tiny"
+            />
+
             <Form className="expressions-form">
                 <Form.Input icon='search' fluid placeholder='Search..' />
             </Form>
@@ -82,10 +91,8 @@ const ExpressionsList = ( props ) => {
                 <Table.Header>
                     <Table.Row textAlign='center'>
                         <Table.HeaderCell>ID</Table.HeaderCell>
-                        <Table.HeaderCell>Langue</Table.HeaderCell>
+                        <Table.HeaderCell>Label</Table.HeaderCell>
                         <Table.HeaderCell>NbrTraduction</Table.HeaderCell>
-                        <Table.HeaderCell>Expression</Table.HeaderCell>
-                        <Table.HeaderCell>Editer</Table.HeaderCell>
                         <Table.HeaderCell>Supprimer</Table.HeaderCell>
                         <Table.HeaderCell>Afficher</Table.HeaderCell>
                     </Table.Row>
@@ -99,26 +106,16 @@ const ExpressionsList = ( props ) => {
                         >
                             <Table.Cell>{expression.id}</Table.Cell>
                             <Table.Cell>
-                                <Flag name={expression.country} />
+                                { expression.label }
                             </Table.Cell>
                             <Table.Cell>
                                 {expression.nbrTraductions}
-                            </Table.Cell>
-                            <Table.Cell onClick={handdleEdit}>
-                                { editStatus ?
-                                    <Input value={expression.expression} /> 
-                                    :
-                                    expression.expression
-                                }
-                            </Table.Cell>
-                            <Table.Cell>
-                                <Icon name="edit" link />
                             </Table.Cell>
                             <Table.Cell>
                                 <Icon 
                                 name="delete" 
                                 link 
-                                onClick={() => handdleDeleteExpression(expression.id)}
+                                onClick={() => handdleDeleteExpressionConfirm(expression.id)}
                                 />
                             </Table.Cell>
                             <Table.Cell>

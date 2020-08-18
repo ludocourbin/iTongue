@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Container, Input } from "semantic-ui-react";
 
 import "./search.scss";
@@ -47,7 +47,10 @@ const Search = () => {
                             <h1>Nos derniers iRecords</h1>
                             {audiosFiltered.map((audio) => {
                                 return (
-                                    <div key={audio.id}>
+                                    <div
+                                        style={{ width: "100%" }}
+                                        key={audio.id}
+                                    >
                                         <Irecords
                                             audio={audio}
                                             setIrecordSelectedId={

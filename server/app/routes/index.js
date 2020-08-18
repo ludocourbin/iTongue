@@ -40,6 +40,7 @@ router.use((_, res) => {
 });
 
 router.use((err, req, res, next) => {
+    res.json({ errors: [{ msg: err.toString() }] });
     console.log(err);
 });
 

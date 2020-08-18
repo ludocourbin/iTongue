@@ -12,8 +12,7 @@ import data from "./data";
 const Search = () => {
     const [isFocus, setIsFocus] = useState(false);
     const [keyword, setKeyword] = useState("");
-    const [audioIsPlaying, setAudioIsPlaying] = useState(false);
-    const arrayRef = useRef(null);
+    const [audioPlayingIndex, setAudioPlayingIndex] = useState(null);
 
     // const filteredData = data.items.filter(
     //     (el) =>
@@ -44,16 +43,18 @@ const Search = () => {
 
                 <Container>
                     {!isFocus && (
-                        <div ref={arrayRef} className="search-content--items">
+                        <div className="search-content--items">
                             <h1>Nos derniers iRecords</h1>
                             {audiosFiltered.map((audio) => {
                                 return (
                                     <div key={audio.id}>
                                         <Irecords
                                             audio={audio}
-                                            audioIsPlaying={audioIsPlaying}
-                                            setAudioIsPlaying={
-                                                setAudioIsPlaying
+                                            setAudioPlayingIndex={
+                                                setAudioPlayingIndex
+                                            }
+                                            audioPlayingIndex={
+                                                audioPlayingIndex
                                             }
                                         />
                                     </div>

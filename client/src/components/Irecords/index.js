@@ -1,14 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, Flag, Icon, Image, Progress } from "semantic-ui-react";
 
 import "./irecords.scss";
 
-const Irecords = ({ audio, audioIsPlaying, setAudioIsPlaying }) => {
+const Irecords = ({ audio, setAudioPlayingIndex, audioPlayingIndex }) => {
     const audioRef = useRef(null);
 
     const [playing, setPlaying] = useState(false);
-    // const [currentId, setCurrentId] = useState(null);
+
     const user = { slug: "ludocourbin" };
     const {
         avatar,
@@ -21,37 +21,21 @@ const Irecords = ({ audio, audioIsPlaying, setAudioIsPlaying }) => {
         audioUrl,
     } = audio;
 
-    const handleClick = (id) => {
-        // setAudioIsPlaying(!playing);
+    const togglePlaying = () => {
         setPlaying(!playing);
-        setTimeout(() => {
-            if (audioRef && id === audioRef.current.id) {
-                if (playing) {
-                    audioRef.current.play();
-                } else {
-                    audioRef.current.pause();
-                }
-            } else {
-                audioRef.current.pause();
-            }
-        }, 2000);
-        console.log(id);
+        if (!playing) {
+            audioRef.current.play();
+            setAudioPlayingIndex(id);
+        } else {
+            audioRef.current.pause();
+        }
     };
-
-    // useEffect(() => {
-    //     console.log(`outside if :  ${audioRef.current.id}`);
-    //     // console.log(audioRef);
-    //     if (audioRef && audioRef.current && audioRef.current.id) {
-    //         if (playing) {
-    //             console.log(`inside if (current) :  ${audioRef.current.id}`);
-    //             audioRef.current.play();
-    //         } else {
-    //             audioRef.current.pause();
-    //         }
-    //     } else {
-    //         audioRef.current.pause();
-    //     }
-    // });
+    useEffect(() => {
+        if (audioPlayingIndex !== id) {
+            setPlaying(false);
+            audioRef.current.pause();
+        }
+    }, [audioPlayingIndex]);
 
     return (
         <div className="irecords">
@@ -79,11 +63,10 @@ const Irecords = ({ audio, audioIsPlaying, setAudioIsPlaying }) => {
                         type="audio/mpeg"
                         src={audioUrl}
                     />
-                    {playing ? (
-                        <Icon onClick={() => handleClick(id)} name="pause" />
-                    ) : (
-                        <Icon onClick={() => handleClick(id)} name="play" />
-                    )}
+                    <Icon
+                        onClick={togglePlaying}
+                        name={playing ? "pause" : "play"}
+                    />
                     <Progress />
                 </Card.Content>
             </Card>

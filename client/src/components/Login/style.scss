@@ -1,0 +1,23 @@
+@import "../../styles/vars";
+
+
+.login{
+    &-form {
+        margin-top:20px;
+        height:100vh;
+        padding:50px;
+    }
+    &-button {
+        margin:0 auto;
+        color:$primary-color !important;
+        background-color:$background-color !important;
+        border : solid 1px #fe734c !important;
+    }
+    &-title{
+        text-align:center;
+        padding-bottom:30px;
+    }
+    >input {
+        width:50px !important;
+    }
+}

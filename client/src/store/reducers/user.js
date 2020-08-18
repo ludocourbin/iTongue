@@ -9,7 +9,7 @@ import {
 } from "../actions/userActions";
 
 const initialState = {
-    // currentUser: { slug: "ludocourbin" },
+    currentUser: "",
     isLogged: false,
     loading: false,
     token: null,
@@ -68,6 +68,7 @@ export default (state = initialState, action = {}) => {
                     password: "",
                     confirm: "",
                 },
+                currentUser: "ludovic",
                 errorMailUsed: "",
                 token: action.payload,
                 loggedMessage: `Bienvenue sur Itongue`,

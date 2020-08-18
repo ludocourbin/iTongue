@@ -4,7 +4,7 @@ export default {
             id: 1,
             label: "Hello",
             traduction: "Bonjour",
-            flagTarget: "jp",
+            flagTarget: "fr",
             flagOrigin: "uk",
             author: "Ludo",
             type: "audio",

@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, Flag, Icon, Image, Progress } from "semantic-ui-react";
+
+import "./irecords.scss";
 
 const Irecords = ({ audio, audioIsPlaying, setAudioIsPlaying }) => {
     const audioRef = useRef(null);
 
     const [playing, setPlaying] = useState(false);
-    const [currentId, setCurrentId] = useState(null);
+    // const [currentId, setCurrentId] = useState(null);
     const user = { slug: "ludocourbin" };
     const {
         avatar,

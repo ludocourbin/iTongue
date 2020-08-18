@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Container, Input } from "semantic-ui-react";
 
 import "./search.scss";
@@ -15,14 +15,14 @@ const Search = () => {
     const [audioIsPlaying, setAudioIsPlaying] = useState(false);
     const arrayRef = useRef(null);
 
-    const filteredData = data.items.filter(
-        (el) =>
-            (el.type === "member" && el.pseudo.includes(keyword)) ||
-            (el.type === "audio" && el.label.includes(keyword))
-    );
-    const members = data.items.filter(
-        (el) => el.type === "member" && el.pseudo.includes(keyword)
-    );
+    // const filteredData = data.items.filter(
+    //     (el) =>
+    //         (el.type === "member" && el.pseudo.includes(keyword)) ||
+    //         (el.type === "audio" && el.label.includes(keyword))
+    // );
+    // const members = data.items.filter(
+    //     (el) => el.type === "member" && el.pseudo.includes(keyword)
+    // );
     const audios = data.items.filter((el) => el.type === "audio");
 
     const audiosFiltered = audios.filter(

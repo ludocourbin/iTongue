@@ -11,30 +11,3 @@
         margin: 20px 0 !important;
     }
 }
-
-.irecords {
-    margin-bottom: 20px !important;
-    .avatar {
-        margin-right: 10px !important;
-        margin-bottom: 0px !important;
-    }
-    .flex {
-        display: flex;
-        align-items: center;
-
-        .icon {
-            position: relative;
-            top: -3px;
-        }
-
-        .progress {
-            flex: 1;
-            height: 10px;
-            margin-left: 10px !important;
-            margin-bottom: 0px !important;
-            .bar {
-                height: 10px;
-            }
-        }
-    }
-}

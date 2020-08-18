@@ -9,7 +9,7 @@ module.exports = {
   create: async ({ label, text, language_id }) => {
     
     const newClient = await client.connect();
-    
+
     try {
       await newClient.query("BEGIN");
       const expressionQuery = {
@@ -61,7 +61,12 @@ module.exports = {
     try {
       const query = {
         name: "get-expressions",
-        text: 'SELECT * FROM "expression"',
+        text: `
+          SELECT "e".*, "t".*, "l"."code", "l"."name"
+            FROM "expression" "e"
+            JOIN "translation" "t" ON "t"."expression_id" = "e"."id"
+            JOIN "language" "l" ON "t"."language_id" = "l"."id"
+        `,
         values: [],
       };
 
@@ -78,9 +83,9 @@ module.exports = {
   },
 
   /**
-   * This method returns asked language
-   * @property {String} name - Name of the language
-   * @returns {Object} - Object representing the language
+   * This method returns asked expression
+   * @property {String} id - id of the expression
+   * @returns {Object} - Object representing the expression
    */
   findOneById: async (id) => {
     try {
@@ -97,7 +102,7 @@ module.exports = {
       const result = await client.query(query);
 
       if (!result.rows) {
-        throw new Error(`Unexpected issue: unable to get language : ${name}`);
+        throw new Error(`Unexpected issue: unable to get language : ${id}`);
       }
 
       if (result.rows.length === 0) {

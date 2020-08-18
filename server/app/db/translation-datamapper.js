@@ -27,10 +27,10 @@ module.exports = {
   },
   
   /**
-   * Updates translation
+   * Updates an existing translation
    * @returns {Object} - Updated datas
    */
-  update: async (translation_id, { text, expression_id, language_id }) => {
+  updateOne: async (translation_id, { text, expression_id, language_id }) => {
     try {
       const query = {
         name: "update-translation",
@@ -113,5 +113,30 @@ module.exports = {
       console.log(error);
     }
   },
+  
+  /**
+  * Deletes one translation
+  * @param {Number} id - id of the translation
+  * @returns {Boolean} - True if success
+  */
+ deleteOne: async id => {
+   try {
+     const query = {
+       name: "delete-one-translation-by-id",
+       text: `
+         DELETE 
+           FROM "translation" 
+          WHERE "id" = $1
+         `,
+       values: [id],
+     };
+
+     await client.query(query);
+     return true;
+
+   } catch (error) {
+     console.log(error);
+   }
+ },
 
 };

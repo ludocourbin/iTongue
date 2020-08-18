@@ -1,98 +1,138 @@
 const client = require("./index");
 
 module.exports = {
-    /**
-     * Creates a new expression
-     * @property {Object} data - Needed datas
-     * @returns {Boolean} - True if success
-     */
-    create: async label => {
-        console.log("label", label);
-        try {
-            const query = {
-                name: "create-expression",
-                text: `
+  /**
+   * Creates a new expression
+   * @param {String} label - Label of the expression
+   * @returns {Object} - Object containing relative datas for the new expression
+   * @returns {Error} - If label already exists
+   */
+  create: async label => {
+    try {
+      const query = {
+        name: "create-expression",
+        text: `
           INSERT INTO "expression"("label")
                VALUES($1)
-            RETURNING id
+            RETURNING *
           `,
-                values: [label]
-            };
+        values: [label],
+      };
 
-            const result = await client.query(query);
+      const result = await client.query(query);
+      return result.rows[0];
 
-            return result.rows[0];
-        } catch (error) {
-            console.log(error);
-            if (error.code === "23505") {
-                return { error: error.detail };
-            }
-        }
-    },
+    } catch (error) {
+      console.log(error);
+      if (error.code === "23505") {
+        return { error: error.detail };
+      }
+    }
+  },
 
-    /**
-     * This method returns all languages in database
-     * @returns {Array.Object} - Set of objects representing available languages
-     */
-    findAll: async () => {
-        try {
-            const result = await client.query('SELECT * FROM "expression_with_relations"');
-            return result.rows;
-        } catch (err) {
-            next(err);
-        }
-    },
+  /**
+   * Updates an expression
+   * @param {Number} id - Label of the expression
+   * @param {String} label - Label of the expression
+   * @returns {Object} - Object containing relative datas for the new expression
+   * @returns {Error} - If label already exists
+   */
+  updateOne: async (label, id) => {
 
-    /**
-     * This method returns asked language
-     * @property {String} name - Name of the language
-     * @returns {Object} - Object representing the language
-     */
-    findOneById: async id => {
-        try {
-            const query = {
-                name: "get-expression-by-id",
-                text: `
+    // Not functionnal, error: invalid input syntax for type integer: "label"
+
+    try {
+      console.log("datzas", label, id)
+      const query = {
+        name: "update-expression",
+        text: `
+          UPDATE "expression"
+             SET "label" = $1
+           WHERE "id" = $2
+       RETURNING *
+        `,
+        values: [label, id],
+      };
+
+      const result = await client.query(query);
+      return result.rows[0];
+
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  },
+
+  /**
+   * This method returns all languages in database
+   * @returns {Array.Object} - Set of objects representing available languages
+   */
+  findAll: async () => {
+    try {
+      const result = await client.query(
+        'SELECT * FROM "expression_with_relations"'
+      );
+      return result.rows;
+    } catch (err) {
+      // next(err);
+    }
+  },
+
+  /**
+   * This method returns asked expression
+   * @param {Number} id - Name of the expression
+   * @returns {Object} - Object representing the expression
+   */
+  findOneById: async (id) => {
+    try {
+      const query = {
+        name: "get-expression-by-id",
+        text: `
           SELECT * 
             FROM "expression" 
            WHERE "id" = $1
           `,
-                values: [id]
-            };
+        values: [id],
+      };
 
-            const result = await client.query(query);
+      const result = await client.query(query);
 
-            if (!result.rows) {
-                throw new Error(`Unexpected issue: unable to get language : ${name}`);
-            }
+      if (!result.rows) {
+        throw new Error(`Unexpected issue: unable to get language : ${name}`);
+      }
 
-            if (result.rows.length === 0) {
-                return {};
-            }
+      if (result.rows.length === 0) {
+        return {};
+      }
 
-            return result.rows[0];
-        } catch (error) {
-            console.log(error);
-        }
-    },
+      return result.rows[0];
+    } catch (error) {
+      console.log(error);
+    }
+  },
 
-    deleteOne: async id => {
-        try {
-            const query = {
-                name: "delete-one-expression-by-id",
-                text: `
+  /**
+   * Deletes one expression
+   * @param {Number} id - id of the expression
+   * @returns {Boolean} - True if success
+   */
+  deleteOne: async id => {
+    try {
+      const query = {
+        name: "delete-one-expression-by-id",
+        text: `
           DELETE 
             FROM "expression" 
            WHERE "id" = $1
           `,
-                values: [id]
-            };
+        values: [id],
+      };
 
-            await client.query(query);
+      await client.query(query);
+      return true;
 
-            return true;
-        } catch (error) {
-            console.log(error);
-        }
+    } catch (error) {
+      console.log(error);
     }
+  },
 };

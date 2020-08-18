@@ -36,8 +36,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
     next(action);
 
     switch (action.type) {
-        case FETCH_EXPRESSIONS: {
-
+        case FETCH_EXPRESSIONS: { // OK
             axios({
                 method: 'GET',
                 url: 'https://itongue.herokuapp.com/expressions',
@@ -54,8 +53,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             });
             break;
         };
-        case SET_TRADUCTIONS_BY_EXPRESSION: {
-
+        case SET_TRADUCTIONS_BY_EXPRESSION: { // OK
             const {
                 expressionsList,
                 expressionId,
@@ -76,8 +74,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             );
             break;
         };
-        case ADD_EXPRESSION_SUBMIT: {
-
+        case ADD_EXPRESSION_SUBMIT: { // OK
             const objData = {
                 label: store.getState().expressionsReducer.newExpressionInputValue,
             };
@@ -108,8 +105,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             toast.error("L'expression a bien été supprimée");
             break;
         };
-        case ADD_TRADUCTION_SUBMIT: {
-
+        case ADD_TRADUCTION_SUBMIT: { // OK
             const {
                 expressionsList,
                 expressionId,
@@ -163,38 +159,53 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             });
             break;
         };   
-        case EDIT_TRADUCTION_SUBMIT: {
-            
-            const traductionSelect = store.getState().expressionsReducer.editTraductionValue;
+        case EDIT_TRADUCTION_SUBMIT: { // OK
 
-            const { expressionsList, expressionId } = store.getState().expressionsReducer;
+            const { expressionsList, expressionId, editTraductionValue: traductionSelect } = store.getState().expressionsReducer;
 
-            const findExpression = expressionsList.find(expression => expression.id === expressionId);
- 
-            const editTraduction = findExpression.translations.map(translation => {
-                if (translation.id === traductionSelect.id) 
-                    {
-                        return traductionSelect;
+            const objData = {
+                text: traductionSelect.text,
+                expression_id: expressionId,
+                language_id: traductionSelect.language.id,
+            };
+
+            axios({
+                method: 'POST',
+                url: `https://itongue.herokuapp.com/admin/translations/${traductionSelect.id}`,
+                data: {...objData}
+            })
+            .then(res => {
+
+                const findExpression = expressionsList.find(expression => expression.id === expressionId);
+
+                const editTraduction = findExpression.translations.map(translation => {
+                    if (translation.id === traductionSelect.id) 
+                        {
+                            return traductionSelect;
+                        }
+                    return translation;
+                });
+
+                const newExpressionList = expressionsList.map(expression => {
+                    if( expression.id === expressionId ) {
+                        return {
+                            ...expression,
+                            translations : [...editTraduction] 
+                        }
                     }
-                return translation;
+                    return expression;
+                });
+                store.dispatch(editTraductionSubmitSuccess(newExpressionList));
+                store.dispatch(setTraductionsByExpression());
+                toast.info('La traduction a bien été modifiée');
+            })
+            .catch(err => {
+                toast.error('Une erreur est survenue lors de la modification de la traduction');
+                console.error(err);
             });
-
-            const newExpressionList = expressionsList.map(expression => {
-                if( expression.id === expressionId ) {
-                    return {
-                        ...expression,
-                        translations : [...editTraduction] 
-                    }
-                }
-                return expression;
-            });
-
-            console.log(traductionSelect)
-            store.dispatch(editTraductionSubmitSuccess(newExpressionList));
-            store.dispatch(setTraductionsByExpression());
             break;
         };
-        case DELETE_TRADUCTION: {
+        case DELETE_TRADUCTION: { 
             const {
                 expressionsList,
                 expressionId,

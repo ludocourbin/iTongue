@@ -151,6 +151,7 @@ export default (state = initialState, action = {}) => {
                     ...state.editTraductionValue,
                     ...action.payload,
                     text: action.payload.translation
+                   // id: action.payload.id,
                 },
             };
         };

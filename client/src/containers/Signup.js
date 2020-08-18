@@ -9,25 +9,26 @@ import {
     setErrorMessagePassword,
     setErrorMessageEmail,
     togglePassword,
-    signup
+    signup,
 } from "../store/actions/userActions";
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     signupData: state.user.signupData,
     errorMessagePassword: state.user.errorMessagePassword,
     errorMessageEmail: state.user.errorMessageEmail,
     showPassword: state.user.showPassword,
-    loading: state.user.loading
+    loading: state.user.loading,
+    errorMailUsed: state.user.errorMailUsed,
 });
 
-const mapDispatchToProps = dispatch => ({
-    onInputChange: changedData => {
+const mapDispatchToProps = (dispatch) => ({
+    onInputChange: (changedData) => {
         dispatch(signupInputChange(changedData));
     },
-    setErrorMessagePassword: errorMessage => {
+    setErrorMessagePassword: (errorMessage) => {
         dispatch(setErrorMessagePassword(errorMessage));
     },
-    setErrorMessageEmail: errorMessage => {
+    setErrorMessageEmail: (errorMessage) => {
         dispatch(setErrorMessageEmail(errorMessage));
     },
     togglePassword: () => {
@@ -35,7 +36,7 @@ const mapDispatchToProps = dispatch => ({
     },
     signup: () => {
         dispatch(signup());
-    }
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

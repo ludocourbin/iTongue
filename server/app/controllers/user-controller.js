@@ -1,4 +1,3 @@
-const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const slugify = require("slugify");
@@ -9,28 +8,45 @@ const userDatamapper = require("../db/user-datamapper");
 const { SALT_ROUNDS } = require("../constants");
 
 module.exports = {
-    getAll: async (_, res, next) => {
+    showAll: async (_, res, next) => {
         try {
-            const users = await userDatamapper.findAll({});
+            const users = await userDatamapper.showAll({});
+
             res.json({ data: users });
         } catch (err) {
             next(err);
         }
     },
 
-    create: async (req, res, next) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    showOne: async (req, res, next) => {
+        const userId = req.params.id;
+        if (isNaN(userId))
+            return res
+                .status(400)
+                .json({ errors: [{ msg: "Le paramètre reçu n'est pas valide" }] });
 
+        try {
+            const user = await userDatamapper.showOne({ id: { operator: "=", value: userId } });
+            if (!user) return next();
+            res.json({ data: user });
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    create: async (req, res, next) => {
         try {
             const { email, password, firstname, lastname } = req.body;
 
-            const user = await userDatamapper.findOne({ email: { operator: "=", value: email } });
+            const user = await userDatamapper.findOne(
+                { email: { operator: "=", value: email } },
+                false
+            );
 
             if (user)
                 return res.status(409).json({ errors: [{ msg: "L'adresse email existe déjà" }] });
 
-            let userSlug = slugify(firstname + " " + lastname);
+            let userSlug = slugify(firstname + " " + lastname, { lower: true });
             const slugsRows = await userDatamapper.findSlugs(userSlug);
             const slugs = slugsRows.map(row => row.slug);
 
@@ -63,7 +79,12 @@ module.exports = {
             const user = await userDatamapper.findOne({ email: { operator: "=", value: email } });
 
             if (user && (await bcrypt.compare(password, user.password))) {
-                const payload = { id: user.id, email: user.email, slug: user.slug };
+                const payload = {
+                    id: user.id,
+                    email: user.email,
+                    slug: user.slug,
+                    isAdmin: user.is_admin
+                };
                 const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
                     expiresIn: "20m"
                 });
@@ -71,7 +92,22 @@ module.exports = {
 
                 await storeRefreshToken(user, refreshToken);
 
-                return res.json({ data: { accessToken, refreshToken } });
+                const { avatar_url: avatarUrl, is_admin: isAdmin, created_at: createdAt } = user;
+                const { id, email, firstname, lastname, slug, records, languages } = user;
+                const display_user = {
+                    id,
+                    email,
+                    firstname,
+                    lastname,
+                    slug,
+                    avatarUrl,
+                    isAdmin,
+                    createdAt,
+                    records,
+                    languages
+                };
+
+                return res.json({ data: { accessToken, refreshToken, user: display_user } });
             }
 
             res.status(401).json({ errors: [{ msg: "Not allowed" }] });

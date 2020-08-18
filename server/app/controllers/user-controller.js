@@ -46,7 +46,7 @@ module.exports = {
             if (user)
                 return res.status(409).json({ errors: [{ msg: "L'adresse email existe déjà" }] });
 
-            let userSlug = slugify(firstname + " " + lastname);
+            let userSlug = slugify(firstname + " " + lastname, { lower: true });
             const slugsRows = await userDatamapper.findSlugs(userSlug);
             const slugs = slugsRows.map(row => row.slug);
 

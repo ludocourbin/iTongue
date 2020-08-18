@@ -2,6 +2,7 @@
 
 BEGIN;
 
+
 CREATE FUNCTION "insert_user" ("new_user" JSON)
 RETURNS INT AS $$
 
@@ -21,43 +22,47 @@ RETURNS SETOF TEXT AS $$
 $$ LANGUAGE SQL STABLE;
 
 
-CREATE VIEW "users_languages" AS
-  SELECT  "l"."id", "l"."name", "l"."code", "lu"."role", "lu"."user_id" AS "userId"
-    FROM "language_user" "lu"
-    JOIN "language" "l"
-      ON "lu"."language_id" = "l"."id";
+CREATE TYPE "expression_display" AS ("id" INT, "label" TEXT, "createdAt" TIMESTAMPTZ);
 
 
-CREATE VIEW "expression_display" AS
-     SELECT "id", "label", "created_at" AS "createdAt"
-       FROM "expression";
-
-
-CREATE VIEW "translation_display" AS
-     SELECT "t"."id", "t"."text","t"."created_at" AS "createdAt", to_json("e".*) AS "expression", to_json("l".*) AS "language"
+CREATE VIEW "translation_with_relations" AS
+     SELECT "t".*,
+            to_json(("e"."id", "e"."label", "e"."created_at")::"expression_display") AS "expression",
+            to_json("l".*) AS "language"
        FROM "translation" "t"
-  LEFT JOIN "expression_display" "e"
+  LEFT JOIN "expression" "e"
          ON "t"."expression_id" = "e"."id"
   LEFT JOIN "language" "l"
          ON "t"."language_id" = "l"."id";
 
 
+CREATE TYPE "record_translation" AS ("id" INT, "text" TEXT, "createdAt" TIMESTAMPTZ, "expression" JSON, "language" JSON);
+
+
 CREATE VIEW "records" AS
-   SELECT "r"."id", "r"."url", "r"."user_id" AS "userId", to_json("t".*) AS "translation", "r"."created_at" AS "createdAt"
+   SELECT "r"."id", "r"."url", "r"."user_id",
+           to_json(("t"."id", "t"."text", "t"."created_at", "t"."expression", "t"."language")::"record_translation") AS "translation",
+           "r"."created_at"
      FROM "record" "r"
-LEFT JOIN "translation_display" "t"
+LEFT JOIN "translation_with_relations" "t"
        ON "r"."translation_id" = "t"."id";
+
+
+CREATE TYPE "user_record" AS ("id" INT, "url" TEXT, "createdAt" TIMESTAMPTZ, "translation" JSON);
+CREATE TYPE "user_language" AS ("id" INT, "name" TEXT, "code" TEXT, "role" user_role);
 
 
 CREATE VIEW "user_with_relations" AS
    SELECT "u".*,
-         COALESCE(json_agg("r".*) FILTER(WHERE "r"."id" IS NOT NULL), '[]') AS "records",
-         COALESCE(json_agg("l".*) FILTER(WHERE "l"."id" IS NOT NULL), '[]') AS "languages"
+         COALESCE(json_agg(("r"."id", "r"."url", "r"."created_at", "r"."translation")::"user_record") FILTER(WHERE "r"."id" IS NOT NULL), '[]') AS "records",
+         COALESCE(json_agg(("l"."id", "l"."name", "l"."code", "lu"."role")::"user_language") FILTER(WHERE "l"."id" IS NOT NULL), '[]') AS "languages"
      FROM "user" "u"
 LEFT JOIN "records" "r"
-       ON "u"."id" = "r"."userId"
-LEFT JOIN "users_languages" "l"
-       ON "u"."id" = "l"."userId"
+       ON "u"."id" = "r"."user_id"
+LEFT JOIN "language_user" "lu"
+       ON "u"."id" = "lu"."user_id"
+LEFT JOIN "language" "l"
+       ON "lu"."language_id" = "l"."id"
  GROUP BY "u"."id";
 
 

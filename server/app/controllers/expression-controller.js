@@ -19,54 +19,13 @@ module.exports = {
     }
   },
 
-  getAll: async (_, res) => {
-    try {  
-      const expressions = await expressionDatamapper.findAll();
+   getAll: async (_, res) => {
+       try {
+           const result = await expressionDatamapper.findAll();
 
-      if (!expressions) {
-        res.status(404).json({
-          data: "Unexpected error, no expression found"
-        });
-        return
-      }
-
-      res.status(200).json({ data: expressions });
-
-    } catch (error) {
-      console.log(error)
+           res.json({ data: result });
+        } catch (err) {
+            next(err);
+        }
     }
-  },
-
-  getOneById: async (req, res) => {
-    try {
-      const id = parseInt(req.params.id, 10);
-
-      const result = await expressionDatamapper.findOneById(id);
-
-      res.status(200).json({
-        data: result
-      })
-
-    } catch (error) {
-      console.log(error)
-    }
-      
-  },
-
-  deleteOneById: async (req, res) => {
-    try {
-      
-      const id = parseInt(req.params.id, 10);
-      const result = await expressionDatamapper.deleteOne(id);
-
-      res.status(200).json({ data: result })
-
-    } catch (error) {
-      console.log(error)
-    }
-  },
-
-  todo: async (_, res) => {
-    res.status(200).json({ data: 'todo' })
-  }
-}
+};

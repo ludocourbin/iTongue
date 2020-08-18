@@ -3,6 +3,8 @@
 import { toast } from "react-toastify";
 import axios from 'axios';
 
+/***** EN ATTENTE DE L'API POUR REFAIRE CE MIDDLEWARE ******/
+
 /* Actions */
 import {
     ADD_EXPRESSION_SUBMIT, 
@@ -32,6 +34,28 @@ const expressionsMiddleware = (store) => (next) => (action) => {
     switch (action.type) {
 
         case GET_FAKE_DATA: {
+
+            axios({
+                method: 'GET',
+                url: 'https://itongue.herokuapp.com/expressions',
+            })
+            .then(res => {
+                console.log(res.data.data)
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+            axios({
+                method: 'GET',
+                url: 'https://itongue.herokuapp.com/traductions',
+            })
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.error(err);
+            });
 
             // à modifier pour GET toutes les expressions lorsque le back sera prêt
             store.dispatch(setFakeData(expressions));
@@ -151,6 +175,25 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             };
 
             const objData = {
+                
+                label: store.getState().expressionsReducer.newExpressionInputValue,
+                nbrTraductions: 0,
+                traductions: [],
+            };
+
+            axios({
+                method: 'POST',
+                url: 'https://itongue.herokuapp.com/admin/expression',
+                data: {...objData}
+            })
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+            const objData1 = {
                 id: tempCreateFakeId(),
                 label: store.getState().expressionsReducer.newExpressionInputValue,
                 nbrTraductions: 0,

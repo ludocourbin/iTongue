@@ -2,19 +2,27 @@ export default {
     items: [
         {
             id: 1,
-            title: "Hello",
+            label: "Hello",
             traduction: "Bonjour",
-            country: "fr",
+            flagTarget: "fr",
+            flagOrigin: "uk",
             author: "Ludo",
             type: "audio",
+            avatar: "https://randomuser.me/api/portraits/men/75.jpg",
+            audioUrl:
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3",
         },
         {
             id: 2,
-            title: "how are you",
+            label: "how are you",
             traduction: "comment ça va",
-            country: "fr",
+            flagTarget: "fr",
+            flagOrigin: "uk",
             author: "Ludo",
             type: "audio",
+            avatar: "https://randomuser.me/api/portraits/men/74.jpg",
+            audioUrl:
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
         },
         {
             id: 3,
@@ -43,19 +51,27 @@ export default {
         },
         {
             id: 8,
-            title: "how are you",
+            label: "how are you",
             traduction: "como você està ?",
-            country: "pt",
+            flagTarget: "pt",
+            flagOrigin: "uk",
             author: "Ludo",
             type: "audio",
+            avatar: "https://randomuser.me/api/portraits/men/73.jpg",
+            audioUrl:
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
         },
         {
             id: 9,
-            title: "how are you",
+            label: "how are you",
             traduction: "como estas ?",
-            country: "es",
+            flagTarget: "es",
+            flagOrigin: "uk",
             author: "Ludo",
             type: "audio",
+            avatar: "https://randomuser.me/api/portraits/men/72.jpg",
+            audioUrl:
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
         },
     ],
 };

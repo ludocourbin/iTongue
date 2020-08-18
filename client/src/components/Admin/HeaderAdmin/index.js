@@ -8,13 +8,13 @@ import './headeradmin.scss';
 const HeaderAdmin = () => {
 
     return (
-        <Menu borderless className="header-admin">
+        <Menu className="header-admin" borderless secondary>
             <Menu.Item>
                 <NavLink to="/admin" activeClassName="active">
                     <Header size="large">Dashboard</Header>
                 </NavLink>
             </Menu.Item>
-            <Menu.Item className="header-admin links">
+            <Menu.Item className="header-admin links" >
                 <NavLink to="/admin" exact activeClassName="active" className="header-admin links__item">
                     Home
                 </NavLink>

@@ -1,12 +1,17 @@
+@import '../../../styles/vars';
 
 .header-admin {
-
     &.links {
-        margin: auto;
-
+        display: block;
+        margin: auto!important;
+        
         &__item {
             margin-right: 1em;
         }
+    }
+
+    a {
+        color: $primary-text-color;
     }
 }
 

@@ -4,3 +4,12 @@ body {
     color: $primary-text-color;
     // background-color: $background-color;
 }
+
+/* Fix le problème de margin quand deux segments sont dans le même container */ 
+.ui.segment:first-child {
+    margin-top: 1em!important;
+}
+
+.ui.segment:last-child {
+    margin-bottom: 1em!important;
+}

@@ -8,10 +8,27 @@ const userDatamapper = require("../db/user-datamapper");
 const { SALT_ROUNDS } = require("../constants");
 
 module.exports = {
-    getAll: async (_, res, next) => {
+    showAll: async (_, res, next) => {
         try {
-            const users = await userDatamapper.findAll({});
+            const users = await userDatamapper.showAll({});
+
             res.json({ data: users });
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    showOne: async (req, res, next) => {
+        const userId = req.params.id;
+        if (isNaN(userId))
+            return res
+                .status(400)
+                .json({ errors: [{ msg: "Le paramètre reçu n'est pas valide" }] });
+
+        try {
+            const user = await userDatamapper.showOne({ id: { operator: "=", value: userId } });
+            if (!user) return next();
+            res.json({ data: user });
         } catch (err) {
             next(err);
         }
@@ -21,7 +38,10 @@ module.exports = {
         try {
             const { email, password, firstname, lastname } = req.body;
 
-            const user = await userDatamapper.findOne({ email: { operator: "=", value: email } });
+            const user = await userDatamapper.findOne(
+                { email: { operator: "=", value: email } },
+                false
+            );
 
             if (user)
                 return res.status(409).json({ errors: [{ msg: "L'adresse email existe déjà" }] });

@@ -6,13 +6,29 @@ module.exports = {
         return result.rows[0];
     },
 
-    findAll: async filter => {
-        const result = await client.query(filterQuery(filter));
+    findAll: async (filter, withRelations = true) => {
+        const table = withRelations ? "user_with_relations" : "user";
+        const result = await client.query(filterQuery(`SELECT * FROM "${table}"`, filter));
         return result.rows;
     },
 
-    findOne: async filter => {
-        const query = filterQuery(filter);
+    showAll: async filter => {
+        const result = await client.query(filterQuery('SELECT * FROM "user_display"', filter));
+        return result.rows;
+    },
+
+    findOne: async (filter, withRelations = true) => {
+        const table = withRelations ? "user_with_relations" : "user";
+        const query = filterQuery(`SELECT * FROM "${table}"`, filter);
+        query.text += ' ORDER BY "id" DESC LIMIT 1';
+
+        const result = await client.query(query);
+        console.log(result.rows);
+        return result.rows[0];
+    },
+
+    showOne: async filter => {
+        const query = filterQuery('SELECT * FROM "user_display"', filter);
         query.text += ' ORDER BY "id" DESC LIMIT 1';
 
         const result = await client.query(query);
@@ -25,12 +41,12 @@ module.exports = {
     }
 };
 
-function filterQuery(filter) {
+function filterQuery(query, filter) {
     const text = Object.keys(filter).reduce((query, field, i) => {
         query += i === 0 ? " WHERE " : " AND ";
         query += field + " " + filter[field].operator + " $" + (i + 1);
         return query;
-    }, 'SELECT * FROM "users"');
+    }, query);
 
     const values = Object.values(filter).map(detail => detail.value);
 

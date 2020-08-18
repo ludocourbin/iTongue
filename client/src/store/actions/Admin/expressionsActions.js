@@ -45,9 +45,6 @@ export const addExpressionInputValue = (payload) => ({
     payload,
 });
 
-
-
-
 // Delete expression
 export const DELETE_EXPRESSION = "DELETE_EXPRESSION";
 export const DELETE_EXPRESSION_SUCCESS = "DELETE_EXPRESSION_SUCCESS";
@@ -67,7 +64,6 @@ export const deleteExpressionError = (payload) => ({
     type: DELETE_EXPRESSION_ERROR,
     payload,
 });
-
 
 // Expression ID Select
 

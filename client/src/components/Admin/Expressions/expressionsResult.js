@@ -25,11 +25,13 @@ const ExpressionsResult = ( props ) => {
     const [ confirm, setConfirm ] = useState(false); // true || false
     const [ traductionDeleteId, setTraductionDeleteId ] = useState(0);
     const [ traductionEditId, setTraductionEditId ] = useState(0);
+    const [ disableEditButton, setDisableEditButton ] = useState(false);
 
     const handdleAddTraductionInputChange = (e, data) => {
 
         const { name, value} = e.target.value ? e.target : data;
 
+        console.log( name, value )
         addTraductionInputValue({
             [name] : value,
         });
@@ -63,8 +65,8 @@ const ExpressionsResult = ( props ) => {
                     placeholder="Comment vas-tu aujourd'hui ?" 
                     width='15'
                     onChange={handdleAddTraductionInputChange}
-                    name="translation"
-                    value={newTraductionInputValue.translation}
+                    name="text"
+                    value={newTraductionInputValue.text}
                     type="text"
                     disabled={expressionIdIsSelect}
                     />
@@ -73,7 +75,8 @@ const ExpressionsResult = ( props ) => {
                     search 
                     selection 
                     placeholder="Langues"
-                    name="langue"
+                    name="code"
+                    value={newTraductionInputValue.language.code}
                     onChange={handdleAddTraductionInputChange}
                     disabled={expressionIdIsSelect}
                     />
@@ -113,34 +116,41 @@ const ExpressionsResult = ( props ) => {
                                 {translation.id}
                             </Table.Cell>
                             <Table.Cell> 
-                                <Flag name={translation.langue} />
+                                <Flag name={translation.language.code} />
                             </Table.Cell>
                             <Table.Cell>
                                
                                 { translation.id ===  traductionEditId ? 
                                     <InputTraduction 
                                     translation={translation} 
+                                    traductionEditId={traductionEditId}
                                     editTraductionInputValue={editTraductionInputValue}
                                     editTraductionValue={editTraductionValue}
                                     editTraductionSubmit={editTraductionSubmit}
                                     setTraductionEditId={setTraductionEditId}
+                                    setDisableEditButton={setDisableEditButton}
                                     /> 
                                     :
                                     translation.text
                                 }
-
                             </Table.Cell>
                             <Table.Cell>
                                 <Icon 
                                 name="edit" 
                                 link 
-                                onClick={() => setTraductionEditId(translation.id)}
+                                onClick={() => {
+                                    editTraductionInputValue(translation);
+                                    setTraductionEditId(translation.id);
+                                    setDisableEditButton(true);
+                                }}
+                                disabled={disableEditButton}
                                 />
                             </Table.Cell>
                             <Table.Cell>
                                 <Icon 
                                 name="delete" 
                                 link 
+                                
                                 onClick={() => handdleDeleteTraductionConfirm(translation.id)}
                                 />
                             </Table.Cell>

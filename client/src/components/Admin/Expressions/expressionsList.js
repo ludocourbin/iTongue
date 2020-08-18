@@ -16,7 +16,6 @@ const ExpressionsList = ( props ) => {
         expressionIdSelect,
         expressionId,
         deleteExpression,
-        userConnect
     } = props;
 
     useEffect(() => {

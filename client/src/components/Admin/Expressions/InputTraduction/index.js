@@ -8,16 +8,16 @@ const InputTraduction = ( props ) => {
         editTraductionInputValue, 
         editTraductionValue, 
         editTraductionSubmit, 
-        setTraductionEditId 
+        setTraductionEditId,
+        setDisableEditButton
     } = props;
 
     const handdleEditTraductionSubmit = (e) => {
         e.preventDefault();
         
         editTraductionSubmit();
-
-        console.log("submit")
         setTraductionEditId(0);
+        setDisableEditButton(false);
     };
 
     const handdleEditTraductionValue  = (e, translation) => {
@@ -28,6 +28,7 @@ const InputTraduction = ( props ) => {
         });
     };
 
+    console.log(editTraductionValue)
     return (
         <div className="input-traduction">
             <Form onSubmit={handdleEditTraductionSubmit}>
@@ -42,3 +43,7 @@ const InputTraduction = ( props ) => {
 };
 
 export default InputTraduction;
+
+
+// Lors du clique sur edit et qu'on entre une valeur, sans submit la valeur de l'input reste la meme partout
+// voir pour faire en sorte de détecter l'id de l'edit ? un useref ?

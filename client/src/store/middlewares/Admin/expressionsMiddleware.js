@@ -117,10 +117,13 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             } = store.getState().expressionsReducer;
 
             const dataObj = {
-                text: newTraductionInputValue.translation, 
+                text: newTraductionInputValue.text, 
                 expression_id: expressionId, 
                 language_id : 1, // Voir pour obtenir la langue sélectionné 
-            }
+                language: {
+                    code: newTraductionInputValue.language.code
+                },
+            };
 
             axios({
                 method: "POST",
@@ -167,20 +170,20 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             const { expressionsList, expressionId } = store.getState().expressionsReducer;
 
             const findExpression = expressionsList.find(expression => expression.id === expressionId);
-
-            const editTraduction = findExpression.traductions.map(traduction => {
-                if (traduction.id === traductionSelect.id) 
+ 
+            const editTraduction = findExpression.translations.map(translation => {
+                if (translation.id === traductionSelect.id) 
                     {
                         return traductionSelect;
                     }
-                return traduction;
+                return translation;
             });
 
             const newExpressionList = expressionsList.map(expression => {
                 if( expression.id === expressionId ) {
                     return {
                         ...expression,
-                        traductions : [...editTraduction] 
+                        translations : [...editTraduction] 
                     }
                 }
                 return expression;
@@ -201,9 +204,9 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 (expression) => expression.id === expressionId
             );
 
-            const removeTraduction = findExpression.traductions.filter(
-                (traduction) => {
-                    return traduction.id === action.payload ? false : true;
+            const removeTranslation = findExpression.translations.filter(
+                (translation) => {
+                    return translation.id === action.payload ? false : true;
                 }
             );
 
@@ -211,7 +214,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 if( expression.id === expressionId ) {
                     return {
                         ...expression,
-                        traductions: [...removeTraduction],
+                        translations: [...removeTranslation],
                     };
                 }
                 return expression;
@@ -222,6 +225,10 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             toast.error("La traduction a bien été supprimée");
             break;
         };
+
+        // https://itongue.herokuapp.com/languages ->
+        // Faire un GET le stocker dans le store, pour l'afficher dans le dropdown de selection de pays
+
         default:
             break;
     }

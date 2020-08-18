@@ -9,18 +9,16 @@ import {
     ADD_EXPRESSION_SUBMIT_SUCCESS,
     ADD_EXPRESSION_SUBMIT_ERROR,
     ADD_EXPRESSION_INPUT_VALUE,
-
     DELETE_EXPRESSION_SUCCESS,
     DELETE_EXPRESSION_ERROR,
 
     EXPRESSION_ID_SELECT,
+    SET_TRADUCTIONS_BY_EXPRESSION_SUCCESS,
 
     ADD_TRADUCTION_SUBMIT,
     ADD_TRADUCTION_SUBMIT_SUCCESS,
     ADD_TRADUCTION_SUBMIT_ERROR,
     ADD_TRADUCTION_INPUT_VALUE,
-    SET_TRADUCTIONS_BY_EXPRESSION_SUCCESS,
-
     DELETE_TRADUCTION_SUCCESS,
     EDIT_TRADUCTION_SUBMIT,
     EDIT_TRADUCTION_SUBMIT_SUCCESS,
@@ -36,15 +34,17 @@ const initialState = {
     expressionId: 0,
 
     newTraductionInputValue: {
-        translation: '',
-        langue: '',
+        text: '',
+        language: {
+            code: '',
+        }
     },
     newTraductionLoading: false,
 
     editTraductionValue: {
         id: 0,
-        langue: '',
-        traduction: '',
+        language: '',
+        translation: '',
     },
 };
 
@@ -124,6 +124,9 @@ export default (state = initialState, action = {}) => {
                 newTraductionInputValue: { 
                     ...state.newTraductionInputValue,
                     ...action.payload,
+                    language: {
+                        code: action.payload.code
+                    },
                 },
             };
         case EDIT_TRADUCTION_SUBMIT :
@@ -133,7 +136,12 @@ export default (state = initialState, action = {}) => {
         case EDIT_TRADUCTION_SUBMIT_SUCCESS: {
             return {
                 ...state,
-                expressionsList: [...action.payload]
+                expressionsList: [...action.payload],
+                editTraductionValue: {
+                    id: 0,
+                    language: '',
+                    translation: '',
+                },
             };
         };
         case EDIT_TRADUCTION_INPUT_VALUE: {
@@ -142,8 +150,8 @@ export default (state = initialState, action = {}) => {
                 editTraductionValue: {
                     ...state.editTraductionValue,
                     ...action.payload,
-                    valueInitial: action.payload.valueInitial,
-                }
+                    text: action.payload.translation
+                },
             };
         };
         case DELETE_TRADUCTION_SUCCESS :

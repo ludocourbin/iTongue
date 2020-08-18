@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage"; // defaults to localStorage for
 import rootReducers from "./reducers";
 import authMiddleware from "./middlewares/authMiddleware";
 import expressionsMiddleware from "./middlewares/Admin/expressionsMiddleware";
+import { loginAdminMiddleware } from './middlewares/Admin/loginAdminMiddleware';
 
 const persistConfig = {
     // configuration object for redux-persist
@@ -15,7 +16,7 @@ const persistConfig = {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const enhancers = composeEnhancers(
-    applyMiddleware(authMiddleware, expressionsMiddleware)
+    applyMiddleware(authMiddleware, expressionsMiddleware, loginAdminMiddleware)
 );
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);

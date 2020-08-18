@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./app.scss";
 
 /* Components */
-import Admin from "../Admin";
+import Admin from "../../containers/Admin/Index";
 
 const App = ({ user }) => {
     return (

@@ -16,7 +16,10 @@ const ExpressionsList = ( props ) => {
         expressionIdSelect,
         expressionId,
         deleteExpression,
+        userConnect
     } = props;
+
+    console.log("userConnect", userConnect);
 
     useEffect(() => {
         getFakeData();

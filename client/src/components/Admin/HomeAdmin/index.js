@@ -2,9 +2,11 @@ import React from 'react';
 
 import { Segment, Statistic, Icon } from 'semantic-ui-react';
 import './homeadmin.scss';
+import HeaderAdmin from '../HeaderAdmin';
 
-const HomeAdmin = () => {
+const HomeAdmin = ( { userConnect }) => {
 
+    console.log("userConnect", userConnect)
     return (
         <div className="home-admin">
             <Segment fluid inverted>

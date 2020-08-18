@@ -23,7 +23,6 @@ module.exports = {
         query.text += ' ORDER BY "id" DESC LIMIT 1';
 
         const result = await client.query(query);
-        console.log(result.rows);
         return result.rows[0];
     },
 

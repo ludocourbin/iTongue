@@ -92,7 +92,22 @@ module.exports = {
 
                 await storeRefreshToken(user, refreshToken);
 
-                return res.json({ data: { accessToken, refreshToken } });
+                const { avatar_url: avatarUrl, is_admin: isAdmin, created_at: createdAt } = user;
+                const { id, email, firstname, lastname, slug, records, languages } = user;
+                const display_user = {
+                    id,
+                    email,
+                    firstname,
+                    lastname,
+                    slug,
+                    avatarUrl,
+                    isAdmin,
+                    createdAt,
+                    records,
+                    languages
+                };
+
+                return res.json({ data: { accessToken, refreshToken, user: display_user } });
             }
 
             res.status(401).json({ errors: [{ msg: "Not allowed" }] });

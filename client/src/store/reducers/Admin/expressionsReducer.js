@@ -41,6 +41,7 @@ const initialState = {
 
     editTraductionValue: {
         id: 0,
+        langue: '',
         traduction: '',
     },
 };
@@ -127,6 +128,7 @@ export default (state = initialState, action = {}) => {
         case EDIT_TRADUCTION_SUBMIT_SUCCESS: {
             return {
                 ...state,
+                expressionsList: [...action.payload]
             };
         };
         case EDIT_TRADUCTION_INPUT_VALUE: {
@@ -135,6 +137,7 @@ export default (state = initialState, action = {}) => {
                 editTraductionValue: {
                     ...state.editTraductionValue,
                     ...action.payload,
+                    valueInitial: action.payload.valueInitial,
                 }
             };
         };

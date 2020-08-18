@@ -7,6 +7,7 @@ import {
     addTraductionSubmit,
     deleteTraduction,
     editTraductionInputValue,
+    editTraductionSubmit,
 } from '../../../store/actions/Admin/expressionsActions';
 
 /* Component */
@@ -31,6 +32,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     editTraductionInputValue: (objInput) => {
         dispatch(editTraductionInputValue(objInput));
+    },
+    editTraductionSubmit: () => {
+        dispatch(editTraductionSubmit());
     },
 });
 

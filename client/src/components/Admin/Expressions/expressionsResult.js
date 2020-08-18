@@ -5,6 +5,7 @@ import { Icon, Form, Table, Flag, Segment, Header, Confirm, Button } from 'seman
 
 /* Fake Data */
 import { countryOptions } from '../../../data/countryCode';
+import InputTraduction from './InputTraduction';
 
 const ExpressionsResult = ( props ) => {
 
@@ -17,11 +18,13 @@ const ExpressionsResult = ( props ) => {
         deleteTraduction,
         editTraductionValue,
         editTraductionInputValue,
+        editTraductionSubmit,
     } = props;
 
     const expressionIdIsSelect = expressionId !== 0 ? false : true;
     const [ confirm, setConfirm ] = useState(false); // true || false
     const [ traductionDeleteId, setTraductionDeleteId ] = useState(0);
+    const [ traductionEditId, setTraductionEditId ] = useState(0);
 
     const handdleAddTraductionInputChange = (e, data) => {
 
@@ -46,27 +49,6 @@ const ExpressionsResult = ( props ) => {
         setConfirm(false);
         deleteTraduction(traductionDeleteId);
     };
-
-    const handdleEditTraductionSubmit = (e) => {
-        e.preventDefault();
-    };
-
-    const handdleEditTraductionValue  = (e, traductionId, traduction) => {
-
-
-        const test = editTraductionInputValue({
-            id: traductionId,
-            traductionDefault: traduction,
-            value: e.target.value,
-        })
-
-        console.log(test)
-        console.log('traductionId', traductionId)
-        console.log('traduction', traduction)
-    };
-
-
-    
 
     return (
     <Segment className="expressions-result" basic>
@@ -134,21 +116,26 @@ const ExpressionsResult = ( props ) => {
                                 <Flag name={traduction.langue} />
                             </Table.Cell>
                             <Table.Cell>
-                                {/*
-                                <Form onSubmit={handdleEditTraductionSubmit}>
-                                    <Form.Input 
-                                    type="text"
-                                    value={editTraductionValue.value}
-                                    onChange={(e) => handdleEditTraductionValue(e, traduction.id, traduction.traduction)}
-                                    />
-                                </Form>
-                                <Button onClick={testOnClickTrad}>{traduction.traduction}</Button>
-                                */}
-                                {traduction.traduction}
+                               
+                                { traduction.id ===  traductionEditId ? 
+                                    <InputTraduction 
+                                    traduction={traduction} 
+                                    editTraductionInputValue={editTraductionInputValue}
+                                    editTraductionValue={editTraductionValue}
+                                    editTraductionSubmit={editTraductionSubmit}
+                                    setTraductionEditId={setTraductionEditId}
+                                    /> 
+                                    :
+                                    traduction.traduction
+                                }
 
                             </Table.Cell>
                             <Table.Cell>
-                                <Icon name="edit" link />
+                                <Icon 
+                                name="edit" 
+                                link 
+                                onClick={() => setTraductionEditId(traduction.id)}
+                                />
                             </Table.Cell>
                             <Table.Cell>
                                 <Icon 

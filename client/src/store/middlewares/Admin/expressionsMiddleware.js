@@ -18,6 +18,8 @@ import {
     deleteExpressionSuccess,
     DELETE_TRADUCTION,
     deleteTraductionSuccess,
+    EDIT_TRADUCTION_SUBMIT,
+    editTraductionSubmitSuccess,
 } from "../../actions/Admin/expressionsActions";
 
 /* Fake Data */
@@ -83,6 +85,37 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             store.dispatch(setTraductionsByExpression());
             toast.info("Nouvelle traduction enregistrée avec succès");
             break;
+        };   
+        case EDIT_TRADUCTION_SUBMIT: {
+            
+            const traductionSelect = store.getState().expressionsReducer.editTraductionValue;
+
+            const { expressionsList, expressionId } = store.getState().expressionsReducer;
+
+            const findExpression = expressionsList.find(expression => expression.id === expressionId);
+
+            const editTraduction = findExpression.traductions.map(traduction => {
+                if (traduction.id === traductionSelect.id) 
+                    {
+                        return traductionSelect;
+                    }
+                return traduction;
+            });
+
+            const newExpressionList = expressionsList.map(expression => {
+                if( expression.id === expressionId ) {
+                    return {
+                        ...expression,
+                        traductions : [...editTraduction] 
+                    }
+                }
+                return expression;
+            });
+
+            console.log(traductionSelect)
+            store.dispatch(editTraductionSubmitSuccess(newExpressionList));
+            store.dispatch(setTraductionsByExpression());
+            break;
         };
         case DELETE_TRADUCTION : {
             
@@ -94,7 +127,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 return traduction.id === action.payload ?  false :  true
             });
 
-            const map = expressionsList.map(expression => {
+            const newExpressionList = expressionsList.map(expression => {
                 if( expression.id === expressionId ) {
                     return {
                         ...expression,
@@ -104,7 +137,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 return expression;
             });
 
-            store.dispatch(deleteTraductionSuccess(map));
+            store.dispatch(deleteTraductionSuccess(newExpressionList));
             store.dispatch(setTraductionsByExpression());
             toast.error("La traduction a bien été supprimée");
             break;
@@ -134,7 +167,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                     label: "label", 
                     text: "text", 
                     language_id : 1
-                }
+                },
             })
             .then(res => {
                 console.log(res)

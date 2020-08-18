@@ -63,8 +63,8 @@ const ExpressionsResult = ( props ) => {
                     placeholder="Comment vas-tu aujourd'hui ?" 
                     width='15'
                     onChange={handdleAddTraductionInputChange}
-                    name="traduction"
-                    value={newTraductionInputValue.traduction}
+                    name="translation"
+                    value={newTraductionInputValue.translation}
                     type="text"
                     disabled={expressionIdIsSelect}
                     />
@@ -107,26 +107,26 @@ const ExpressionsResult = ( props ) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    { traductionsList && traductionsList.map((traduction, key) => (
+                    { traductionsList && traductionsList.map((translation, key) => (
                         <Table.Row textAlign='center' key={key}>
                             <Table.Cell>
-                                {traduction.id}
+                                {translation.id}
                             </Table.Cell>
                             <Table.Cell> 
-                                <Flag name={traduction.langue} />
+                                <Flag name={translation.langue} />
                             </Table.Cell>
                             <Table.Cell>
                                
-                                { traduction.id ===  traductionEditId ? 
+                                { translation.id ===  traductionEditId ? 
                                     <InputTraduction 
-                                    traduction={traduction} 
+                                    translation={translation} 
                                     editTraductionInputValue={editTraductionInputValue}
                                     editTraductionValue={editTraductionValue}
                                     editTraductionSubmit={editTraductionSubmit}
                                     setTraductionEditId={setTraductionEditId}
                                     /> 
                                     :
-                                    traduction.traduction
+                                    translation.text
                                 }
 
                             </Table.Cell>
@@ -134,14 +134,14 @@ const ExpressionsResult = ( props ) => {
                                 <Icon 
                                 name="edit" 
                                 link 
-                                onClick={() => setTraductionEditId(traduction.id)}
+                                onClick={() => setTraductionEditId(translation.id)}
                                 />
                             </Table.Cell>
                             <Table.Cell>
                                 <Icon 
                                 name="delete" 
                                 link 
-                                onClick={() => handdleDeleteTraductionConfirm(traduction.id)}
+                                onClick={() => handdleDeleteTraductionConfirm(translation.id)}
                                 />
                             </Table.Cell>
                         </Table.Row>

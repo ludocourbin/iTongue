@@ -4,7 +4,7 @@ import { Form } from 'semantic-ui-react';
 const InputTraduction = ( props ) => {
 
     const { 
-        traduction, 
+        translation, 
         editTraductionInputValue, 
         editTraductionValue, 
         editTraductionSubmit, 
@@ -20,11 +20,11 @@ const InputTraduction = ( props ) => {
         setTraductionEditId(0);
     };
 
-    const handdleEditTraductionValue  = (e, traduction) => {
+    const handdleEditTraductionValue  = (e, translation) => {
 
         editTraductionInputValue({
-            ...traduction,
-            traduction: e.target.value,
+            ...translation,
+            translation: e.target.value,
         });
     };
 
@@ -33,8 +33,8 @@ const InputTraduction = ( props ) => {
             <Form onSubmit={handdleEditTraductionSubmit}>
                 <Form.Input 
                 type="text"
-                value={editTraductionValue.traduction !== "" ?  editTraductionValue.traduction : traduction.traduction }
-                onChange={(e) => handdleEditTraductionValue(e, traduction)}
+                value={editTraductionValue.translation !== "" ?  editTraductionValue.translation : translation.text }
+                onChange={(e) => handdleEditTraductionValue(e, translation)}
                 />
             </Form>
         </div>

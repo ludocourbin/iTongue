@@ -34,4 +34,12 @@
     .segment {
         border-radius: 12px;
     }
+
+    .ui.segment:first-child {
+        margin-top: 1em!important;
+    }
+    
+    .ui.segment:last-child {
+        margin-bottom: 1em!important;
+    }
 }

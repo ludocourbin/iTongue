@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 /* Components */
-import { Input, Icon, Form, Table, Flag, Segment, Header, Confirm } from 'semantic-ui-react';
+import { Icon, Form, Table, Segment, Header, Confirm } from 'semantic-ui-react';
 
 const ExpressionsList = ( props ) => {
 
     const {
-        getFakeData, 
+        fetchExpression, 
         newExpressionInputValue, 
         newExpressionLoading,
         addExpressionInputValue, 
@@ -19,11 +19,9 @@ const ExpressionsList = ( props ) => {
         userConnect
     } = props;
 
-    console.log("userConnect", userConnect);
-
     useEffect(() => {
-        getFakeData();
-    }, []);
+        fetchExpression();
+    }, [newExpressionLoading]);
     
     const [ confirm, setConfirm ] = useState(false); // true || false
     const [ expressionDeleteId, setExpressionDeleteId ] = useState(0);
@@ -109,7 +107,7 @@ const ExpressionsList = ( props ) => {
                                 { expression.label }
                             </Table.Cell>
                             <Table.Cell>
-                                {expression.nbrTraductions}
+                                {expression.translations.length}
                             </Table.Cell>
                             <Table.Cell>
                                 <Icon 

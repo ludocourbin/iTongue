@@ -9,10 +9,15 @@ import axios from 'axios';
 import {
     ADD_EXPRESSION_SUBMIT,
     addExpressionSubmitSuccess,
-    GET_FAKE_DATA,
-    setFakeData,
+    addExpressionSubmitError,
+
+    FETCH_EXPRESSIONS,
+    fetchExpressionSuccess,
+    fetchExpressionError,
+
     ADD_TRADUCTION_SUBMIT,
     addTraductionSubmitSuccess,
+
     SET_TRADUCTIONS_BY_EXPRESSION,
     setTraductionsByExpression,
     setTraductionsByExpressionSuccess,
@@ -22,16 +27,16 @@ import {
     deleteTraductionSuccess,
     EDIT_TRADUCTION_SUBMIT,
     editTraductionSubmitSuccess,
+    addTraductionSubmitError,
+    
 } from "../../actions/Admin/expressionsActions";
 
-/* Fake Data */
-import { expressions } from "../../../data/expressions";
 
 const expressionsMiddleware = (store) => (next) => (action) => {
     next(action);
 
     switch (action.type) {
-        case GET_FAKE_DATA: {
+        case FETCH_EXPRESSIONS: {
 
             axios({
                 method: 'GET',
@@ -39,90 +44,120 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             })
             .then(res => {
                 console.log(res.data.data)
+                store.dispatch(fetchExpressionSuccess(res.data.data));
+                //toast.success("Les données ont bien été chargées");
             })
             .catch(err => {
-                console.error(err);
+                store.dispatch(fetchExpressionError(/* todo */));
+                toast.error("Problème lors du chargement des données");
+                console.error("FETCH_EXPRESSIONS", err);
             });
-
-            axios({
-                method: 'GET',
-                url: 'https://itongue.herokuapp.com/traductions',
-            })
-            .then(res => {
-                console.log(res.data)
-            })
-            .catch(err => {
-                console.error(err);
-            });
-
-            // à modifier pour GET toutes les expressions lorsque le back sera prêt
-            store.dispatch(setFakeData(expressions));
-            toast.success("Les données ont bien été chargées");
             break;
-        }
+        };
         case SET_TRADUCTIONS_BY_EXPRESSION: {
+
             const {
                 expressionsList,
                 expressionId,
             } = store.getState().expressionsReducer;
 
-            const findTraductionsByExpression = expressionsList.find(
+            const findTradByExpr = expressionsList.find(
                 (expression) => {
                     if (expression.id === expressionId) {
-                        return expression.traductions;
+                        return expression.translations;
                     }
-                }
+                },
             );
 
             store.dispatch(
                 setTraductionsByExpressionSuccess(
-                    findTraductionsByExpression.traductions
+                    findTradByExpr.translations
                 )
             );
             break;
-        }
+        };
+        case ADD_EXPRESSION_SUBMIT: {
+
+            const objData = {
+                label: store.getState().expressionsReducer.newExpressionInputValue,
+            };
+
+            axios({
+                method: 'POST',
+                url: 'https://itongue.herokuapp.com/admin/expressions',
+                data: {...objData}
+            })
+            .then(res => {
+                store.dispatch(addExpressionSubmitSuccess({...res.data.data, translations: [] }));
+                toast.info("Nouvelle expression enregistrée avec succès");
+            })
+            .catch(err => {
+                store.dispatch(addExpressionSubmitError(/* todo */));
+                console.error("ADD_EXPRESSION_SUBMIT", err);
+            });
+            break;
+        };
+        case DELETE_EXPRESSION: {
+            const { expressionsList } = store.getState().expressionsReducer;
+
+            const expressionsFilter = expressionsList.filter((expression) => {
+                return expression.id === action.payload ? false : true;
+            });
+
+            store.dispatch(deleteExpressionSuccess(expressionsFilter));
+            toast.error("L'expression a bien été supprimée");
+            break;
+        };
         case ADD_TRADUCTION_SUBMIT: {
+
             const {
                 expressionsList,
                 expressionId,
                 newTraductionInputValue,
             } = store.getState().expressionsReducer;
 
-            /* Temporaire */
-            const findExpression = expressionsList.find(
-                (expression) => expression.id === expressionId
-            );
+            const dataObj = {
+                text: newTraductionInputValue.translation, 
+                expression_id: expressionId, 
+                language_id : 1, // Voir pour obtenir la langue sélectionné 
+            }
 
-            const tempCreateFakeId = () => {
-                return findExpression.traductions.length + 1;
-            };
-            /* --- */
+            axios({
+                method: "POST",
+                url: 'https://itongue.herokuapp.com/admin/translations/',
+                data: {...dataObj},
+            })
+            .then(res => {
 
-            const expressionListWithNewTrad = expressionsList.map(
-                (expression) => {
-                    if (expression.id === expressionId) {
-                        return {
-                            ...expression,
-                            traductions: [
-                                ...expression.traductions,
-                                {
-                                    id: tempCreateFakeId(),
-                                    langue: newTraductionInputValue.langue,
-                                    traduction:
-                                        newTraductionInputValue.traduction,
-                                },
-                            ],
-                        };
+                const data = res.data.data;
+
+                const expressionListWithNewTrad = expressionsList.map(
+                    (expression) => {
+                        if (expression.id === expressionId) {
+                            return {
+                                ...expression,
+                                translations: [
+                                    ...expression.translations,
+                                    {
+                                        ...dataObj,
+                                        id: data.id,
+                                    },
+                                ],
+                            };
+                        }
+                        return expression;
                     }
-                    return expression;
-                }
-            );
+                );
+    
+                store.dispatch(addTraductionSubmitSuccess(expressionListWithNewTrad));
+                store.dispatch(setTraductionsByExpression());
+                toast.info("Nouvelle traduction enregistrée avec succès");
 
-            store.dispatch(
-                addTraductionSubmitSuccess(expressionListWithNewTrad)
-            );
-            store.dispatch(setTraductionsByExpression());
-            toast.info("Nouvelle traduction enregistrée avec succès");
+            })
+            .catch(err => {
+                store.dispatch(addTraductionSubmitError(/* todo */));
+                console.error("ADD_TRADUCTION_SUBMIT", err);
+            });
             break;
         };   
         case EDIT_TRADUCTION_SUBMIT: {
@@ -155,7 +190,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             store.dispatch(editTraductionSubmitSuccess(newExpressionList));
             store.dispatch(setTraductionsByExpression());
             break;
-        }
+        };
         case DELETE_TRADUCTION: {
             const {
                 expressionsList,
@@ -186,75 +221,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             store.dispatch(setTraductionsByExpression());
             toast.error("La traduction a bien été supprimée");
             break;
-        }
-        case ADD_EXPRESSION_SUBMIT: {
-            // à modifier pour POST la nouvelle expression lorsque le back sera prêt
-
-            const tempCreateFakeId = () => {
-                return (
-                    store.getState().expressionsReducer.expressionsList.length +
-                    1
-                );
-            };
-
-            const objData = {
-                
-                label: store.getState().expressionsReducer.newExpressionInputValue,
-                nbrTraductions: 0,
-                traductions: [],
-            };
-
-            axios({
-                method: 'POST',
-                url: 'https://itongue.herokuapp.com/admin/expression',
-                data: {...objData}
-            })
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.error(err);
-            });
-
-            const objData1 = {
-                id: tempCreateFakeId(),
-                label: store.getState().expressionsReducer.newExpressionInputValue,
-                nbrTraductions: 0,
-                traductions: [],
-            };
-
-            store.dispatch(addExpressionSubmitSuccess(objData));
-            toast.info("Nouvelle expression enregistrée avec succès");
-            
-            axios({
-                method: "POST",
-                url: 'http://localhost:3001/admin/expression',
-                data: {
-                    label: "label", 
-                    text: "text", 
-                    language_id : 1
-                },
-            })
-            .then(res => {
-                console.log(res)
-            })
-            .catch(err => {
-                console.error(err)
-            });
-
-            break;
-        }
-        case DELETE_EXPRESSION: {
-            const { expressionsList } = store.getState().expressionsReducer;
-
-            const expressionsFilter = expressionsList.filter((expression) => {
-                return expression.id === action.payload ? false : true;
-            });
-
-            store.dispatch(deleteExpressionSuccess(expressionsFilter));
-            toast.error("L'expression a bien été supprimée");
-            break;
-        }
+        };
         default:
             break;
     }

@@ -10,7 +10,7 @@ import "./headeradmin.scss";
 const HeaderAdmin = props => {
     return (
         <>
-            <Menu borderless className="header-admin">
+            <Menu borderless className="header-admin" secondary>
                 <Menu.Item>
                     <NavLink to="/admin" activeClassName="active">
                         <Header size="large">Dashboard</Header>

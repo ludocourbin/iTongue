@@ -9,7 +9,7 @@ import ExpressionsList from '../../../components/Admin/Expressions/expressionsLi
 import { 
     addExpressionInputValue, 
     addExpressionSubmit,
-    getFakeData,
+    fetchExpression,
     setTraductionsByExpression,
     expressionIdSelect,
     deleteExpression,
@@ -31,8 +31,8 @@ const mapDispatchToProps = (dispatch) => ({
     addExpressionSubmit: () => {
         dispatch(addExpressionSubmit());
     },
-    getFakeData: () => {
-        dispatch(getFakeData());
+    fetchExpression: () => {
+        dispatch(fetchExpression());
     },
     setTraductionsByExpression: () => {
         dispatch(setTraductionsByExpression());

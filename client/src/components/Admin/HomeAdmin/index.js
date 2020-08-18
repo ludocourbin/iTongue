@@ -9,7 +9,7 @@ const HomeAdmin = ({ userConnect }) => {
     return (
         <HeaderAdmin>
             <div className="home-admin">
-                <Segment fluid inverted>
+                <Segment inverted>
                     <Statistic.Group widths="four">
                         <Statistic>
                             <Statistic.Value>200</Statistic.Value>

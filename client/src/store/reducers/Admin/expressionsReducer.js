@@ -2,7 +2,9 @@
 
 /* Actions */
 import { 
-    SET_FAKE_DATA,
+    FETCH_EXPRESSIONS_SUCCESS,
+    FETCH_EXPRESSIONS_ERROR,
+
     ADD_EXPRESSION_SUBMIT,
     ADD_EXPRESSION_SUBMIT_SUCCESS,
     ADD_EXPRESSION_SUBMIT_ERROR,
@@ -34,7 +36,7 @@ const initialState = {
     expressionId: 0,
 
     newTraductionInputValue: {
-        traduction: '',
+        translation: '',
         langue: '',
     },
     newTraductionLoading: false,
@@ -49,13 +51,16 @@ const initialState = {
 export default (state = initialState, action = {}) => {
 
     switch (action.type) {
-        case SET_FAKE_DATA: 
+        case FETCH_EXPRESSIONS_SUCCESS: 
             return {
                 ...state,
                 expressionsList: [
                     ...action.payload
                 ],
-                notifyMsg: 'Les données ont bien été chargées'
+            };
+        case FETCH_EXPRESSIONS_ERROR: 
+            return {
+                ...state,
             };
         case ADD_EXPRESSION_SUBMIT:
             return {
@@ -68,7 +73,7 @@ export default (state = initialState, action = {}) => {
                 newExpressionLoading: false,
                 expressionsList: [
                     ...state.expressionsList,
-                    {...action.payload},
+                    action.payload,
                 ],
                 newExpressionInputValue: '',
             };   

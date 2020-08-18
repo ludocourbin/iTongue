@@ -1,17 +1,24 @@
 /* ADMIN EXPRESSIONS */
 
-// Fake Data
-export const GET_FAKE_DATA = "GET_FAKE_DATA";
-export const SET_FAKE_DATA = "SET_FAKE_DATA";
+// Get Expressions
+export const FETCH_EXPRESSIONS = "FETCH_EXPRESSIONS";
+export const FETCH_EXPRESSIONS_SUCCESS = "FETCH_EXPRESSIONS_SUCCESS";
+export const FETCH_EXPRESSIONS_ERROR = "FETCH_EXPRESSIONS_ERROR";
 
-export const getFakeData = () => ({
-    type: GET_FAKE_DATA,
+export const fetchExpression = () => ({
+    type: FETCH_EXPRESSIONS,
 });
 
-export const setFakeData = (payload) => ({
-    type: SET_FAKE_DATA,
+export const fetchExpressionSuccess = (payload) => ({
+    type: FETCH_EXPRESSIONS_SUCCESS,
     payload,
 });
+
+export const fetchExpressionError = (payload) => ({
+    type: FETCH_EXPRESSIONS_ERROR,
+    payload,
+});
+
 
 // Add expression
 export const ADD_EXPRESSION_SUBMIT = "ADD_EXPRESSION_SUBMIT";

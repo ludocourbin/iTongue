@@ -1,13 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, Flag, Icon, Image, Progress } from "semantic-ui-react";
+// import Audio from "./audio";
 
 import "./irecords.scss";
 
-const Irecords = ({ audio, setAudioPlayingIndex, audioPlayingIndex }) => {
+const Irecords = ({ audio, irecordSelectedId, setIrecordSelectedId }) => {
     const audioRef = useRef(null);
 
     const [playing, setPlaying] = useState(false);
+    const [currentTime, setCurrenTime] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const [percent, setPercent] = useState(0);
 
     const user = { slug: "ludocourbin" };
     const {
@@ -25,17 +29,23 @@ const Irecords = ({ audio, setAudioPlayingIndex, audioPlayingIndex }) => {
         setPlaying(!playing);
         if (!playing) {
             audioRef.current.play();
-            setAudioPlayingIndex(id);
+            setIrecordSelectedId(id);
         } else {
             audioRef.current.pause();
         }
     };
     useEffect(() => {
-        if (audioPlayingIndex !== id) {
+        if (irecordSelectedId !== id) {
             setPlaying(false);
             audioRef.current.pause();
         }
-    }, [audioPlayingIndex]);
+    }, [irecordSelectedId]);
+
+    useEffect(() => {
+        console.log(currentTime);
+        const percentAudio = (currentTime / duration) * 100;
+        setPercent(percentAudio);
+    }, [currentTime, percent]);
 
     return (
         <div className="irecords">
@@ -59,6 +69,12 @@ const Irecords = ({ audio, setAudioPlayingIndex, audioPlayingIndex }) => {
                 <Card.Content className="flex" textAlign="left">
                     <audio
                         id={id}
+                        onLoadedData={() => {
+                            setDuration(audioRef.current.duration);
+                        }}
+                        onTimeUpdate={() => {
+                            setCurrenTime(audioRef.current.currentTime);
+                        }}
                         ref={audioRef}
                         type="audio/mpeg"
                         src={audioUrl}
@@ -67,7 +83,8 @@ const Irecords = ({ audio, setAudioPlayingIndex, audioPlayingIndex }) => {
                         onClick={togglePlaying}
                         name={playing ? "pause" : "play"}
                     />
-                    <Progress />
+
+                    <Progress percent={percent} />
                 </Card.Content>
             </Card>
         </div>
@@ -75,3 +92,5 @@ const Irecords = ({ audio, setAudioPlayingIndex, audioPlayingIndex }) => {
 };
 
 export default Irecords;
+
+// <Audio audioUrl={audioUrl} />

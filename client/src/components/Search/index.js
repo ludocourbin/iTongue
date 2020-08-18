@@ -12,7 +12,7 @@ import data from "./data";
 const Search = () => {
     const [isFocus, setIsFocus] = useState(false);
     const [keyword, setKeyword] = useState("");
-    const [audioPlayingIndex, setAudioPlayingIndex] = useState(null);
+    const [irecordSelectedId, setIrecordSelectedId] = useState(null);
 
     // const filteredData = data.items.filter(
     //     (el) =>
@@ -50,11 +50,11 @@ const Search = () => {
                                     <div key={audio.id}>
                                         <Irecords
                                             audio={audio}
-                                            setAudioPlayingIndex={
-                                                setAudioPlayingIndex
+                                            setIrecordSelectedId={
+                                                setIrecordSelectedId
                                             }
-                                            audioPlayingIndex={
-                                                audioPlayingIndex
+                                            irecordSelectedId={
+                                                irecordSelectedId
                                             }
                                         />
                                     </div>

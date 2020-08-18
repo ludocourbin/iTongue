@@ -6,10 +6,13 @@ module.exports = {
    * @property {Object} data - Needed datas
    * @returns {Boolean} - True if success
    */
-  create: async label => {
-    console.log("label", label)
+  create: async ({ label, text, language_id }) => {
+    
+    const newClient = await client.connect();
+    
     try {
-      const query = {
+      await newClient.query("BEGIN");
+      const expressionQuery = {
         name: "create-expression",
         text: `
           INSERT INTO "expression"("label")
@@ -19,15 +22,34 @@ module.exports = {
         values: [label],
       };
 
-      const result = await client.query(query);
+      const expression = await newClient.query(expressionQuery);
+      const expressionId = expression.rows[0].id;
 
-      return result.rows[0];
+      const translationQuery = {
+        name: "create-first-translation",
+        text: `
+          INSERT INTO "translation"("text", "expression_id", "language_id")
+               VALUES($1, $2, $3)
+            RETURNING *
+          `,
+        values: [text, expressionId, language_id],
+      };
+
+      const translation = await newClient.query(translationQuery);
+
+      await newClient.query("COMMIT");
+
+      return translation.rows[0];
 
     } catch (error) {
       console.log(error);
+      await newClient.query('ROLLBACK')
       if (error.code === "23505") {
         return { error: error.detail };
       }
+      throw new Error(error)
+    } finally {
+      newClient.release();
     }
   },
 
@@ -60,8 +82,7 @@ module.exports = {
    * @property {String} name - Name of the language
    * @returns {Object} - Object representing the language
    */
-  findOneById: async id => {
-
+  findOneById: async (id) => {
     try {
       const query = {
         name: "get-expression-by-id",
@@ -72,26 +93,24 @@ module.exports = {
           `,
         values: [id],
       };
-  
+
       const result = await client.query(query);
-  
+
       if (!result.rows) {
         throw new Error(`Unexpected issue: unable to get language : ${name}`);
       }
-      
+
       if (result.rows.length === 0) {
         return {};
       }
 
       return result.rows[0];
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    
   },
 
-  deleteOne: async id => {
+  deleteOne: async (id) => {
     try {
       const query = {
         name: "delete-one-expression-by-id",
@@ -102,13 +121,12 @@ module.exports = {
           `,
         values: [id],
       };
-  
-      await client.query(query);
-      
-      return true;
 
+      await client.query(query);
+
+      return true;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  },
 };

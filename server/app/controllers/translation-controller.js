@@ -23,7 +23,7 @@ module.exports = {
     try {
       const { body } = req;
       const id = parseInt(req.params.id, 10);
-      const newTranslation = await translationDatamapper.update(id, body);
+      const newTranslation = await translationDatamapper.updateOne(id, body);
 
       if(newTranslation.error) {
         return res.status(409).json({
@@ -72,7 +72,7 @@ module.exports = {
       
   },
 
-  deleteOneById: async (req, res) => {
+  deleteOne: async (req, res) => {
     try {
       
       const id = parseInt(req.params.id, 10);

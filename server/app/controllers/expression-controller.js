@@ -1,29 +1,18 @@
-const { validationResult } = require("express-validator");
 const expressionDatamapper = require("../db/expression-datamapper");
-const translationDatamapper = require("../db/translation-datamapper");
 
 module.exports = {
   create: async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-      return;
-    };
-
     try {
-      const { label, text, language_id } = req.body;
-      const newExpression = await expressionDatamapper.create(label);
+      const { body } = req;
+      const newExpression = await expressionDatamapper.create(body);
 
       if(newExpression.error) {
-        res.status(409).json({
-          error: newExpression.error
+        return res.status(409).json({
+          errors: [{ msg: newExpression.error }]
         });
-        return;
       }
       
-      const newTranslation = await translationDatamapper.create(newExpression.id, text, language_id)
-
-      res.status(200).json({ data: newTranslation });
+      res.json({ data: newExpression });
 
     } catch (error) {
       console.log(error)

@@ -6,6 +6,7 @@ import {
     addTraductionInputValue, 
     addTraductionSubmit,
     deleteTraduction,
+    editTraductionInputValue,
 } from '../../../store/actions/Admin/expressionsActions';
 
 /* Component */
@@ -15,6 +16,7 @@ const mapStateToProps = (state) => ({
     traductionsList: state.expressionsReducer.traductionsList,
     newTraductionInputValue: state.expressionsReducer.newTraductionInputValue,
     expressionId: state.expressionsReducer.expressionId,
+    editTraductionValue: state.expressionsReducer.editTraductionValue,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -26,6 +28,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     deleteTraduction: (tradId) => {
         dispatch(deleteTraduction(tradId));
+    },
+    editTraductionInputValue: (objInput) => {
+        dispatch(editTraductionInputValue(objInput));
     },
 });
 

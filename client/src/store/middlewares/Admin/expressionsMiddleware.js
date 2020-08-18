@@ -1,6 +1,7 @@
 /* Middleware Expressions */
 
 import { toast } from "react-toastify";
+import axios from 'axios';
 
 /* Actions */
 import {
@@ -29,6 +30,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
     switch (action.type) {
 
         case GET_FAKE_DATA: {
+
             // à modifier pour GET toutes les expressions lorsque le back sera prêt
             store.dispatch(setFakeData(expressions));
             toast.success("Les données ont bien été chargées");
@@ -79,7 +81,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 
             store.dispatch(addTraductionSubmitSuccess(expressionListWithNewTrad));
             store.dispatch(setTraductionsByExpression());
-            toast.success("Nouvelle traduction enregistré avec succés");
+            toast.info("Nouvelle traduction enregistrée avec succès");
             break;
         };
         case DELETE_TRADUCTION : {
@@ -104,6 +106,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 
             store.dispatch(deleteTraductionSuccess(map));
             store.dispatch(setTraductionsByExpression());
+            toast.error("La traduction a bien été supprimée");
             break;
         };
         case ADD_EXPRESSION_SUBMIT: {
@@ -116,13 +119,30 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 
             const objData = {
                 id: tempCreateFakeId(),
-                country: 'uk',
-                expression: store.getState().expressionsReducer.newExpressionInputValue,
+                label: store.getState().expressionsReducer.newExpressionInputValue,
                 nbrTraductions: 0,
                 traductions: [],
             };
 
             store.dispatch(addExpressionSubmitSuccess(objData));
+            toast.info("Nouvelle expression enregistrée avec succès");
+            
+            axios({
+                method: "POST",
+                url: 'http://localhost:3001/admin/expression',
+                data: {
+                    label: "label", 
+                    text: "text", 
+                    language_id : 1
+                }
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.error(err)
+            });
+
             break;
         };
         case DELETE_EXPRESSION : {
@@ -134,7 +154,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             });
 
             store.dispatch(deleteExpressionSuccess(expressionsFilter));
-            toast.info("L'expression a bien été supprimée");
+            toast.error("L'expression a bien été supprimée");
             break;
         };
         default:

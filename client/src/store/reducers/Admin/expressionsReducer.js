@@ -20,6 +20,9 @@ import {
     SET_TRADUCTIONS_BY_EXPRESSION_SUCCESS,
 
     DELETE_TRADUCTION_SUCCESS,
+    EDIT_TRADUCTION_SUBMIT,
+    EDIT_TRADUCTION_SUBMIT_SUCCESS,
+    EDIT_TRADUCTION_INPUT_VALUE,
  } from '../../actions/Admin/expressionsActions';
 
 /* State */
@@ -35,6 +38,11 @@ const initialState = {
         langue: '',
     },
     newTraductionLoading: false,
+
+    editTraductionValue: {
+        id: 0,
+        traduction: '',
+    },
 };
 
 export default (state = initialState, action = {}) => {
@@ -112,6 +120,24 @@ export default (state = initialState, action = {}) => {
                     ...action.payload,
                 },
             };
+        case EDIT_TRADUCTION_SUBMIT :
+            return {
+                ...state,
+            };
+        case EDIT_TRADUCTION_SUBMIT_SUCCESS: {
+            return {
+                ...state,
+            };
+        };
+        case EDIT_TRADUCTION_INPUT_VALUE: {
+            return {
+                ...state,
+                editTraductionValue: {
+                    ...state.editTraductionValue,
+                    ...action.payload,
+                }
+            };
+        };
         case DELETE_TRADUCTION_SUCCESS :
             return {
                 ...state,

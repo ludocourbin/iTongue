@@ -38,30 +38,7 @@ export const addExpressionInputValue = (payload) => ({
     payload,
 });
 
-// Edit expression
-export const EDIT_EXPRESSION_SUBMIT = "EDIT_EXPRESSION_SUBMIT";
-export const EDIT_EXPRESSION_SUBMIT_SUCCESS = "EDIT_EXPRESSION_SUBMIT_SUCCESS";
-export const EDIT_EXPRESSION_SUBMIT_ERROR = "EDIT_EXPRESSION_SUBMIT_ERROR";
-export const EDIT_EXPRESSION_INPUT_VALUE = "EDIT_EXPRESSION_INPUT_VALUE";
 
-export const editExpressionSubmit = () => ({
-    type: EDIT_EXPRESSION_SUBMIT,
-});
-
-export const editExpressionSubmitSuccess = (payload) => ({
-    type: EDIT_EXPRESSION_SUBMIT_SUCCESS,
-    payload,
-});
-
-export const editExpressionSubmitError = (payload) => ({
-    type: EDIT_EXPRESSION_SUBMIT_ERROR,
-    payload,
-});
-
-export const editExpressionInputValue = (payload) => ({
-    type: EDIT_EXPRESSION_INPUT_VALUE,
-    payload,
-});
 
 
 // Delete expression
@@ -131,6 +108,31 @@ export const addTraductionSubmitError = (payload) => ({
 
 export const addTraductionInputValue = (payload) => ({
     type: ADD_TRADUCTION_INPUT_VALUE,
+    payload,
+});
+
+// Edit expression
+export const EDIT_TRADUCTION_SUBMIT = "EDIT_TRADUCTION_SUBMIT";
+export const EDIT_TRADUCTION_SUBMIT_SUCCESS = "EDIT_TRADUCTION_SUBMIT_SUCCESS";
+export const EDIT_TRADUCTION_SUBMIT_ERROR = "EDIT_TRADUCTION_SUBMIT_ERROR";
+export const EDIT_TRADUCTION_INPUT_VALUE = "EDIT_TRADUCTION_INPUT_VALUE";
+
+export const editTraductionSubmit = () => ({
+    type: EDIT_TRADUCTION_SUBMIT,
+});
+
+export const editTraductionSubmitSuccess = (payload) => ({
+    type: EDIT_TRADUCTION_SUBMIT_SUCCESS,
+    payload,
+});
+
+export const editTraductionSubmitError = (payload) => ({
+    type: EDIT_TRADUCTION_SUBMIT_ERROR,
+    payload,
+});
+
+export const editTraductionInputValue = (payload) => ({
+    type: EDIT_TRADUCTION_INPUT_VALUE,
     payload,
 });
 

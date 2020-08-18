@@ -1,8 +1,7 @@
 export const expressions = [
     {
         id: 1,
-        country: 'uk',
-        expression: 'How are you ?',
+        label: 'x5z4e',
         nbrTraductions: 4,
         traductions: [
             {
@@ -29,8 +28,7 @@ export const expressions = [
     },
     {
         id: 2,
-        country: 'uk',
-        expression: 'My name is Ludovic',
+        label: 'yefD4',
         nbrTraductions: 5,
         traductions: [
             {

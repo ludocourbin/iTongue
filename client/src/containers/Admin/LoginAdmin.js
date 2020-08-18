@@ -6,6 +6,7 @@ import LoginAdmin from '../../components/Admin/LoginAdmin';
 const mapStateToProps = (state) => ({
     loginData: state.loginAdminReducer.loginData,
     loading: state.loginAdminReducer.loading,
+    message: state.loginAdminReducer.message,
 });
 
 const mapDispatchToProps = (dispatch) => ({

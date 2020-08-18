@@ -7,11 +7,15 @@ import {
 
 const initialState = {
     loginData: { 
-        email: '',
-        password: '' 
+        email: 'admin@dm.in',
+        password: 'admin',
+        //email: 'user@user.com',
+        //password: '123456',
     },
     loading: false,
-    isLogged: true,
+    isLogged: false,
+    message: '',
+    userConnect: {},
 };
 
 export default (state = initialState, action = {}) => {
@@ -35,11 +39,14 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 loading: false,
                 isLogged: true,
+                accessToken: action.payload.accessToken,
+                userConnect: action.payload.user
             };
         case LOGIN_SUBMIT_ERROR: 
             return {
                 ...state,
                 loading: false,
+                message: action.payload,
             };
         default:
             return state;

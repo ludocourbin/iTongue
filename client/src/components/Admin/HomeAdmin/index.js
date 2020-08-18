@@ -2,8 +2,9 @@ import React from 'react';
 import './homeadmin.scss';
 import HeaderAdmin from '../HeaderAdmin';
 
-const HomeAdmin = () => {
+const HomeAdmin = ( { userConnect }) => {
 
+    console.log("userConnect", userConnect)
     return (
         <HeaderAdmin>
             <div className="home-admin">

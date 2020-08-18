@@ -7,23 +7,31 @@ export const loginAdminMiddleware = (store) => (next) => (action) => {
     switch (action.type) {
         case LOGIN_SUBMIT: {
 
-            const loginData = store.getState().loginAdminReducer.loginData;
-            console.log(loginData);
-        /*
             axios({
                 method: 'POST',
-                url='',
-                data={},
+                url: 'https://itongue.herokuapp.com/users/login',
+                data: { ...store.getState().loginAdminReducer.loginData },
+                //withCredentials: true,
             })
-            .then(response => {
-                console.log(response);
-                store.dispatch(loginSubmitSuccess());
+            .then((res) => {
+                console.log(res.data.data);
+
+                const data = res.data.data;
+
+                if ( !data.user.isAdmin ) {
+                    store.dispatch(loginSubmitError("Vous n'êtes pas administrateur"));
+                    return;
+                }
+
+                store.dispatch(loginSubmitSuccess({
+                    accessToken: data.accessToken,
+                    user: data.user,
+                }));
             })
-            .error(error => {
-                console.error(error);
-                store.dispatch(loginSubmitError());
-            })
-        */
+            .catch((err) => {
+                console.error(err);
+                store.dispatch(loginSubmitError("Connexion refusée"));
+            });
             break;
         };
         default: {

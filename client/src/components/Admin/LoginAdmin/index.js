@@ -1,7 +1,7 @@
 import React from 'react';
 
 /* Components */
-import { Form, Segment, Header } from 'semantic-ui-react';
+import { Form, Segment, Header, Message } from 'semantic-ui-react';
 
 /* Styles */
 import './loginadmin.scss';
@@ -13,6 +13,7 @@ const LoginAdmin = (props) => {
         loginSubmit, 
         loginInputValue, 
         loading, 
+        message,
     } = props;
 
     const handdleInputChange = (e) => {
@@ -61,6 +62,7 @@ const LoginAdmin = (props) => {
                     type="submit"
                     />
                 </Form>
+                { message && <Message content={message} error/> }
             </Segment>
         </div>
     );

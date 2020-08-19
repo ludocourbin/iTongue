@@ -69,10 +69,11 @@ const dataMapper = {
     },
 
     setAvatarUrl: async (url, id) => {
-        const result = await client.query('UPDATE "user" SET "avatar_url" = $1 WHERE "id" = $2', [
-            url,
-            id
-        ]);
+        const query = {
+            text: 'UPDATE "user" SET "avatar_url" = $1 WHERE "id" = $2',
+            values: [url, id]
+        };
+        const result = await client.query(query);
         return result.rowCount;
     },
 
@@ -96,6 +97,16 @@ const dataMapper = {
 
         const result = await client.query(query);
         return result.rows[0];
+    },
+
+    deleteLanguage: async userLanguage => {
+        const query = {
+            text:
+                'DELETE FROM "language_user" WHERE "language_id" = $1 AND "user_id" = $2 AND "role" = $3',
+            values: [userLanguage.languageId, userLanguage.userId, userLanguage.role]
+        };
+        const result = await client.query(query);
+        return result.rowCount;
     }
 };
 

@@ -5,5 +5,5 @@ sqitch.conf
 
 data/create-db.sql
 
-temp
-public/uploads
+temp/
+public/uploads/

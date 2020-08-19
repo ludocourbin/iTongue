@@ -32,7 +32,7 @@ module.exports = {
 
         if ((userId && isNaN(userId)) || (slug && !/^[a-z\\d]+(-[a-z\\d]+)*$/.test(slug)))
             return res.status(400).json({
-                errors: [{ msg: "Le paramètre reçu n'est pas valide" }]
+                errors: [{ msg: "Le paramètre reçu dans l'url n'est pas valide" }]
             });
 
         try {
@@ -89,7 +89,7 @@ module.exports = {
         const userId = req.params.id;
         if (isNaN(userId))
             return res.status(400).json({
-                errors: [{ msg: "Le paramètre reçu n'est pas valide" }]
+                errors: [{ msg: "Le paramètre reçu dans l'url n'est pas valide" }]
             });
 
         try {
@@ -103,7 +103,6 @@ module.exports = {
     addLanguage: async (req, res, next) => {
         const userId = req.params.id;
         const { language_id: languageId, role } = req.body;
-        console.log(role);
 
         if (isNaN(userId) || isNaN(languageId) || !USER_ROLES.includes(role))
             return res.status(400).json({
@@ -118,6 +117,22 @@ module.exports = {
         try {
             const result = await userDatamapper.addLanguage(userLanguage);
             res.json({ data: result });
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    removeLanguage: async (req, res, next) => {
+        const { id: userId, languageId, role } = req.params;
+
+        if (isNaN(userId) || isNaN(languageId) || !USER_ROLES.includes(role))
+            return res.status(400).json({
+                errors: [{ msg: "Au moins un des paramètres reçus dans l'url n'est pas valide" }]
+            });
+
+        try {
+            await userDatamapper.deleteLanguage({ userId, languageId, role });
+            res.status(204).json({});
         } catch (err) {
             next(err);
         }

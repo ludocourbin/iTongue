@@ -28,6 +28,12 @@ router.delete("/:id(\\d+)", adminMiddleware, userController.deleteOne);
 
 router.post("/:id(\\d+)/language", ownerMiddleware, userController.addLanguage);
 
+router.delete(
+    "/:id(\\d+)/language/:languageId(\\d+)/:role",
+    ownerMiddleware,
+    userController.removeLanguage
+);
+
 router.post(
     "/:id(\\d+)/avatar",
     ownerMiddleware,

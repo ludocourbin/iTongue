@@ -20,7 +20,7 @@ router.post("/login", userController.login);
 
 router.get("/:id(\\d+)", userController.showOne);
 
-router.post("/:id(\\d+)", ownerMiddleware, userController.editProfile);
+router.post("/:id(\\d+)", ownerMiddleware, validator(userSchema), userController.editProfile);
 
 router.get("/:slug([a-z\\d]+(?:-[a-z\\d]+)*)", userController.showOne);
 

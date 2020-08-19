@@ -1,5 +1,7 @@
 import validator from "validator";
-import React from "react";
+import React, { useState, useEffect } from "react";
+// import { ToastContainer } from "react-toastify";
+
 import { Link } from "react-router-dom";
 import {
     Input,
@@ -14,7 +16,7 @@ import {
 import "./signup.scss";
 
 /* Component */
-import Header from "../../containers/Header";
+import Layout from "../../containers/Layout";
 
 const Signup = ({
     signupData,
@@ -27,29 +29,34 @@ const Signup = ({
     togglePassword,
     signup,
     loading,
+    errorMailUsed,
 }) => {
+    const [terms, setTerms] = useState(false);
+    const [showText, setShowText] = useState(false);
     /* Destructuration de l'object state.user.signupData */
-    const {
-        name,
-        surname,
-        email,
-        password,
-        passwordConfirm,
-        terms,
-    } = signupData;
+    const { firstname, lastname, email, password, confirm } = signupData;
 
     const handleSubmit = () => {
-        console.log("submit");
+        // console.log("submit");
         signup();
     };
 
-    const handleChange = (e, data) => {
+    useEffect(() => {
+        if (errorMailUsed) {
+            setShowText(true);
+        }
+        setTimeout(() => {
+            setShowText(false);
+        }, 3000);
+    }, [errorMailUsed]);
+
+    const handleChange = (e) => {
         /* Extraction de l'id pour le checkbox */
-        const { name, value, id } = e.target;
+        const { name, value } = e.target;
 
         /* Ici je créer une variable pour les input et donne leur valeur, je donne l'id et la props checked  pour la checkbox  */
         const formData = {
-            [name || id]: value || data.checked || "",
+            [name]: value || "",
         };
         /* Dispatch de l'action pour actualiser le store user */
         onInputChange(formData);
@@ -72,12 +79,11 @@ const Signup = ({
 
     /* Création d'une fonction pour vérifier que le mail est valide*/
     const checkMail = (mail) => {
-        if (email === "") {
+        if (mail === "") {
             return true;
         }
         if (mail !== "" && !validator.isEmail(mail)) {
             setErrorMessageEmail("Le mail n'est pas valide");
-            return true;
         } else {
             setErrorMessageEmail("");
             return false;
@@ -90,7 +96,7 @@ const Signup = ({
     };
 
     return (
-        <Header>
+        <Layout>
             <Container>
                 <Form onSubmit={handleSubmit} size="large" className="signup">
                     <h3 className="signup-title">Inscription</h3>
@@ -100,9 +106,9 @@ const Signup = ({
                             label="Prénom"
                             type="text"
                             fluid
-                            name="name"
+                            name="firstname"
                             onChange={handleChange}
-                            value={name}
+                            value={firstname}
                             placeholder="John"
                         />
                         <Form.Field
@@ -110,9 +116,9 @@ const Signup = ({
                             label="Nom"
                             type="text"
                             fluid
-                            name="surname"
+                            name="lastname"
                             onChange={handleChange}
-                            value={surname}
+                            value={lastname}
                             placeholder="Doe"
                         />
                     </Form.Group>
@@ -149,15 +155,15 @@ const Signup = ({
                         width={16}
                         label="Confirmation du mot de passe"
                         type={showPassword ? "text" : "password"}
-                        name="passwordConfirm"
+                        name="confirm"
                         onChange={handleChange}
-                        value={passwordConfirm}
+                        value={confirm}
                         placeholder="**********"
                     />
 
                     <Form.Field
                         control={Checkbox}
-                        onChange={(e, data) => handleChange(e, data)}
+                        onChange={() => setTerms(!terms)}
                         id="terms"
                         label={{
                             children:
@@ -171,13 +177,14 @@ const Signup = ({
                     {errorMessageEmail && (
                         <Message negative content={errorMessageEmail} />
                     )}
+                    {showText && <Message negative content={errorMailUsed} />}
 
                     <div className="signup-button">
                         <Button
                             disabled={
-                                checkMinimumInput(name, surname) ||
+                                checkMinimumInput(firstname, lastname) ||
                                 checkMail(email) ||
-                                checkPassword(password, passwordConfirm) ||
+                                checkPassword(password, confirm) ||
                                 !terms
                             }
                             loading={loading}
@@ -192,7 +199,7 @@ const Signup = ({
                     </div>
                 </Form>
             </Container>
-        </Header>
+        </Layout>
     );
 };
 

@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./app.scss";
 
 /* Components */
-import Admin from "../Admin";
+import Admin from "../../containers/Admin/Index";
 
 const App = ({ user }) => {
     return (
@@ -23,7 +23,11 @@ const App = ({ user }) => {
                     <h1>Home page</h1>
                 </Route>
 
-                <Route exact path="/signup" render={() => (user ? <Redirect to="/" /> : <Signup />)} />
+                <Route
+                    exact
+                    path="/signup"
+                    render={() => (user ? <Redirect to="/" /> : <Signup />)}
+                />
                 <Route path="/search" component={Search} />
                 <Route path="/login" component={Login} />
 

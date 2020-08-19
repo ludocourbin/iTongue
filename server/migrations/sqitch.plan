@@ -1,0 +1,7 @@
+%syntax-version=1.0.0
+%project=itongue
+%uri=https://itongue.io/
+
+100-initial-migration 2020-08-16T05:39:23Z sacha-smz <sacha.zacaropoulos@gmail.com> # Création des tables initiales
+200-functions-user 2020-08-17T15:36:55Z sacha-smz <sacha.zacaropoulos@gmail.com> # Request complexity SQL side for user
+201-views-expressions 2020-08-18T12:06:49Z sacha-smz <sacha.zacaropoulos@gmail.com> # Display of expressions with translations

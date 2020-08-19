@@ -6,9 +6,13 @@
     max-height: 98vh;
 
     &-content {
-        height: calc(100vh - 108px);
+        height: calc(100vh - 54px);
         overflow-y: scroll;
     }
+}
+
+.main-content.user {
+    height: calc(100vh - 108px);
 }
 
 .header {

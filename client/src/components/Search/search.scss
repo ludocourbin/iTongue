@@ -4,5 +4,12 @@
 .search-input {
     margin-top: $margin;
     @include flex-column;
-    // align-items: center;
+}
+
+.search-content--items {
+    @include flex-column;
+    align-items: center;
+    h1 {
+        margin: 20px 0 !important;
+    }
 }

@@ -1,0 +1,71 @@
+@import "../../styles/vars";
+.irecords {
+    margin-bottom: 20px !important;
+    width: 100% !important;
+    &-container {
+        width: 100vw !important;
+    }
+
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
+    .avatar {
+        margin-right: 10px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .author.flex {
+        padding-bottom: 10px !important;
+    }
+
+    .text {
+        padding: 7px !important;
+    }
+
+    .flex {
+        display: flex;
+        align-items: center;
+        padding-bottom: 25px !important;
+        position: relative;
+
+        .icon {
+            position: relative;
+            top: -3px;
+        }
+
+        .progress {
+            flex: 1;
+            height: 10px;
+            // background-color: orange;
+            margin-left: 10px !important;
+            margin-bottom: 0px !important;
+            .bar {
+                height: 10px;
+            }
+
+            .orange.bar {
+                color: $primary-color;
+            }
+        }
+    }
+
+    .total {
+        position: absolute;
+        right: 15px;
+        top: 30px;
+        font-size: 0.9rem;
+    }
+
+    .played {
+        position: absolute;
+        top: 30px;
+        left: 60px;
+        font-size: 0.9rem;
+    }
+
+    .icon {
+        cursor: pointer;
+    }
+}
+
+// .controlBar[size="hidden"] {
+//     display: none;
+// }

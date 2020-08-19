@@ -7,15 +7,18 @@ import './expressions.scss';
 /* Containers */
 import ExpressionsList from '../../../containers/Admin/Expressions/ExpressionsList';
 import ExpressionsResult from '../../../containers/Admin/Expressions/ExpressionsResult';
+import HeaderAdmin from '../HeaderAdmin';
 
 const Expressions = () => {
 
     return (
-        <div className="expressions">
-            <ToastContainer autoClose={2000} />
-            <ExpressionsList />
-            <ExpressionsResult />
-        </div>
+        <HeaderAdmin>
+            <div className="expressions">
+                <ToastContainer autoClose={2000} />
+                <ExpressionsList />
+                <ExpressionsResult />
+            </div>
+        </HeaderAdmin>
     );
 };
 

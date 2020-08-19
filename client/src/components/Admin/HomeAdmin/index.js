@@ -1,12 +1,60 @@
-import React from 'react';
-import './homeadmin.scss';
+import React from "react";
 
-const HomeAdmin = () => {
+import { Segment, Statistic, Icon } from "semantic-ui-react";
+import "./homeadmin.scss";
+import HeaderAdmin from "../HeaderAdmin";
 
+const HomeAdmin = ({ userConnect }) => {
+    console.log("userConnect", userConnect);
     return (
-        <div className="home-admin">
-            <h3>Page en construction</h3>
-        </div>
+        <HeaderAdmin>
+            <div className="home-admin">
+                <Segment fluid inverted>
+                    <Statistic.Group widths="four">
+                        <Statistic>
+                            <Statistic.Value>200</Statistic.Value>
+                            <Statistic.Label>
+                                <Icon name="user" />
+                                Utilisateurs
+                            </Statistic.Label>
+                        </Statistic>
+                        <Statistic>
+                            <Statistic.Value>1548</Statistic.Value>
+                            <Statistic.Label>
+                                <Icon name="microphone" />
+                                iRecords
+                            </Statistic.Label>
+                        </Statistic>
+                        <Statistic>
+                            <Statistic.Value>5</Statistic.Value>
+                            <Statistic.Label>
+                                <Icon name="flag" />
+                                Langues
+                            </Statistic.Label>
+                        </Statistic>
+                        <Statistic>
+                            <Statistic.Value>4704</Statistic.Value>
+                            <Statistic.Label>
+                                <Icon name="book" />
+                                Traductions
+                            </Statistic.Label>
+                        </Statistic>
+                    </Statistic.Group>
+                </Segment>
+
+                <div className="home-admin_container">
+                    <Segment
+                        className="home-admin_container stats-left"
+                        inverted
+                    ></Segment>
+
+                    <Segment
+                        className="home-admin_container stats-right"
+                        inverted
+                    ></Segment>
+                </div>
+            </div>
+        </HeaderAdmin>
     );
 };
 

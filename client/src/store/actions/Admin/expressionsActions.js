@@ -179,9 +179,9 @@ export const deleteTraductionError = (payload) => ({
 
 // Add language 
 
-export const ADD_LANGUAGE_SUBMIT = "ADD_LANGUAGE";
-export const ADD_LANGUAGE_SUBMIT_SUCCESS = "ADD_LANGUAGE_SUCCESS";
-export const ADD_LANGUAGE_SUBMIT_ERROR = "ADD_LANGUAGE_ERROR";
+export const ADD_LANGUAGE_SUBMIT = "ADD_LANGUAGE_SUBMIT";
+export const ADD_LANGUAGE_SUBMIT_SUCCESS = "ADD_LANGUAGE_SUBMIT_SUCCESS";
+export const ADD_LANGUAGE_SUBMIT_ERROR = "ADD_LANGUAGE_SUBMIT_ERROR";
 export const LANGUAGE_INPUT_VALUE = "LANGUAGE_INPUT_VALUE";
 
 export const addLanguageSubmit = () => ({

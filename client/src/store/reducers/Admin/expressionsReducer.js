@@ -5,7 +5,6 @@ import {
     FETCH_EXPRESSIONS_SUCCESS,
     FETCH_EXPRESSIONS_ERROR,
 
-    FETCH_LANGUAGES,
     FETCH_LANGUAGES_SUCCESS,
 
     ADD_EXPRESSION_SUBMIT,
@@ -60,6 +59,7 @@ const initialState = {
         name: '', // Nom du language
         code: '', // Code du language ex: 'fr'
     },
+    newLanguageLoading: false,
 };
 
 export default (state = initialState, action = {}) => {
@@ -160,7 +160,7 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
             };
-        case EDIT_TRADUCTION_SUBMIT_SUCCESS: {
+        case EDIT_TRADUCTION_SUBMIT_SUCCESS: 
             return {
                 ...state,
                 expressionsList: [...action.payload],
@@ -170,31 +170,31 @@ export default (state = initialState, action = {}) => {
                     translation: '',
                 },
             };
-        };
-        case EDIT_TRADUCTION_INPUT_VALUE: {
+        case EDIT_TRADUCTION_INPUT_VALUE:
             return {
                 ...state,
                 editTraductionValue: {
                     ...state.editTraductionValue,
                     ...action.payload,
                     text: action.payload.translation
-                   // id: action.payload.id,
                 },
             };
-        };
         case DELETE_TRADUCTION_SUCCESS :
             return {
                 ...state,
                 expressionsList: [...action.payload],
             };
-
+        case DELETE_EXPRESSION_ERROR :
+            return {
+                ...state,
+            };
         case ADD_LANGUAGE_SUBMIT_SUCCESS: 
             return {
                 ...state,
-                languagesList: {
+                languagesList: [
                     ...state.languagesList,
-                    ...action.payload
-                }
+                    {...action.payload}
+                ]
             };
         case ADD_LANGUAGE_SUBMIT_ERROR: 
             return {

@@ -1,5 +1,6 @@
 /* Expressionsiddleware */
 
+/* Libs */
 import { toast } from "react-toastify";
 import axios from 'axios';
 
@@ -75,7 +76,6 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 url: 'https://itongue.herokuapp.com/languages/',
             })
             .then(res => {
-                console.log(res.data.data)
                 store.dispatch(fetchLanguagesSuccess(res.data.data));
             })
             .catch(err => {
@@ -145,7 +145,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             .catch(err => {
                 store.dispatch(deleteExpressionError(/* Todo */))
                 toast.error("Une erreur est survenue lors de la suppression de cette expression");
-                console.error(err);
+                console.error("DELETE_EXPRESSION", err);
             });
             break;
         };
@@ -260,8 +260,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             .catch(err => {
                 store.dispatch(editTraductionSubmitError(/* Todo */));
                 toast.error('Une erreur est survenue lors de la modification de la traduction');
-                console.error(err);
-                throw (new Error(err))
+                console.error("EDIT_TRADUCTION_SUBMIT", err);
             });
             break;
         };
@@ -277,7 +276,6 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 url: `https://itongue.herokuapp.com/admin/translations/${action.payload}`
             })
             .then(res => {
-                console.log(res)
                 const findExpression = expressionsList.find(
                     (expression) => expression.id === expressionId
                 );
@@ -305,33 +303,27 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             .catch(err => {
                 store.dispatch(deleteTraductionError(/* Todo */));
                 toast.error("Une erreur est survenue lors de la suppression de cette traduction");
-                console.error(err);
+                console.error("DELETE_TRADUCTION", err);
             });
             break;
         };
-        case ADD_LANGUAGE_SUBMIT : {
+        case ADD_LANGUAGE_SUBMIT : { // OK
 
-            /*
-                name: mon_language
-                code: fr
-            */
+            const languageValue = store.getState().expressionsReducer.languageValue;
 
-            console.log(action.payload);
-/*
             axios({
                 method: 'POST',
                 url: 'https://itongue.herokuapp.com/admin/languages/',
-                data: ''
+                data: languageValue,
             })
             .then(res => {
-                console.log(res);
-                store.dispatch(addLanguageSuccess());
+                store.dispatch(addLanguageSubmitSuccess(languageValue));
+                toast.info("La langue a bien été ajoutée");
             })
             .catch(err => {
-                console.error(err);
-                store.dispatch(addLanguageError());
+                store.dispatch(addLanguageSubmitError(/* Todo */));
+                toast.error("Une erreur est survenue lors de l'ajout de cette langue");
             });
-            */
             break;
         };
         default:
@@ -340,6 +332,3 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 };
 
 export default expressionsMiddleware;
-
-// https://itongue.herokuapp.com/languages ->
-// Faire un GET le stocker dans le store, pour l'afficher dans le dropdown de selection de pays

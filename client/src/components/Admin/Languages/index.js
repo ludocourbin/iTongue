@@ -1,8 +1,16 @@
 import React, { useEffect } from 'react';
+
+/* Components */
 import { Form, Segment, Table } from 'semantic-ui-react';
-import { allCountry } from '../../../data/allCountry';
 import HeaderAdmin from "../../../containers/Admin/HeaderAdmin";
+
+/* Style */
 import './languages.scss'
+
+/* All Country Local Data */
+import { allCountry } from '../../../data/allCountry';
+
+
 const Languages = (props) => {
 
     const { 
@@ -34,7 +42,7 @@ const Languages = (props) => {
         <HeaderAdmin>
             <div className="languages">
                 <Segment compact>
-                <Form >
+                <Form onSubmit={handdleSubmitLanguage}>
                     <Form.Group>
                         <Form.Input 
                         name="name"

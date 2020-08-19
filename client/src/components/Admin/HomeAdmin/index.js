@@ -1,8 +1,11 @@
 import React from "react";
 
+/* Components */
 import { Segment, Statistic, Icon } from "semantic-ui-react";
-import "./homeadmin.scss";
 import HeaderAdmin from "../../../containers/Admin/HeaderAdmin";
+
+/* Style */
+import "./homeadmin.scss";
 
 const HomeAdmin = ({ userConnect }) => {
     console.log("userConnect", userConnect);

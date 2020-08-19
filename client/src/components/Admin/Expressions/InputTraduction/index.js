@@ -1,4 +1,6 @@
 import React from 'react';
+
+/* Components */
 import { Form } from 'semantic-ui-react';
 
 const InputTraduction = ( props ) => {
@@ -14,23 +16,18 @@ const InputTraduction = ( props ) => {
 
     const handdleEditTraductionSubmit = (e) => {
         e.preventDefault();
-        
         editTraductionSubmit();
         setTraductionEditId(0);
         setDisableEditButton(false);
     };
 
     const handdleEditTraductionValue  = (e, translation) => {
-
-        console.log("language_id", translation.language_id)
-        console.log("language.id", translation.language.id)
         editTraductionInputValue({
             ...translation,
             translation: e.target.value,
         });
     };
 
-    console.log(editTraductionValue)
     return (
         <div className="input-traduction">
             <Form onSubmit={handdleEditTraductionSubmit}>
@@ -45,7 +42,3 @@ const InputTraduction = ( props ) => {
 };
 
 export default InputTraduction;
-
-
-// Lors du clique sur edit et qu'on entre une valeur, sans submit la valeur de l'input reste la meme partout
-// voir pour faire en sorte de détecter l'id de l'edit ? un useref ?

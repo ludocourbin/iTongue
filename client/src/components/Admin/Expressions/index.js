@@ -1,16 +1,15 @@
 import React from 'react';
 import { ToastContainer } from "react-toastify";
 
-/* Style */
-import './expressions.scss';
-
 /* Containers */
 import ExpressionsList from '../../../containers/Admin/Expressions/ExpressionsList';
 import ExpressionsResult from '../../../containers/Admin/Expressions/ExpressionsResult';
 import HeaderAdmin from "../../../containers/Admin/HeaderAdmin";
 
-const Expressions = () => {
+/* Style */
+import './expressions.scss';
 
+const Expressions = () => {
     return (
         <HeaderAdmin>
             <div className="expressions">

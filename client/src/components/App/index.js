@@ -7,6 +7,7 @@ import Signup from "../../containers/Signup";
 import Search from "../Search";
 import Login from "../../containers/Login";
 import IrecordsPage from "../IrecordsPage";
+import IusersPage from "../IusersPage";
 import Home from "../Home";
 
 /* Styles */
@@ -30,6 +31,7 @@ const App = ({ user }) => {
                 <Route path="/search" component={Search} />
                 <Route path="/login" component={Login} />
                 <Route path="/irecords" component={IrecordsPage} />
+                <Route path="/users" component={IusersPage} />
 
                 <Route path="/admin" component={Admin} />
 

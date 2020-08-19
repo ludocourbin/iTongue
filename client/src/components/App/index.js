@@ -6,6 +6,9 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Signup from "../../containers/Signup";
 import Search from "../Search";
 import Login from "../../containers/Login";
+import IrecordsPage from "../IrecordsPage";
+import IusersPage from "../IusersPage";
+import Home from "../Home";
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
@@ -19,25 +22,17 @@ const App = ({ user, isLogged }) => {
     return (
         <div className="App">
             <Switch>
-                <Route exact path="/">
-                    <h1>Home page</h1>
-                </Route>
-
+                <Route exact path="/" component={Home} />
                 <Route
-                    exact
                     path="/signup"
                     render={() => (user ? <Redirect to="/" /> : <Signup />)}
                 />
 
                 <Route path="/search" component={Search} />
-
-                <Route 
-                    exact path="/login"
-                    component={Login}
-                />
-
+                <Route path="/login" component={Login} />
+                <Route path="/irecords" component={IrecordsPage} />
+                <Route path="/users" component={IusersPage} />
                 <Route path="/admin" component={Admin} />
-
                 <Route>
                     <h1>La page n'existe pas</h1>
                 </Route>

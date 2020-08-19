@@ -28,26 +28,31 @@ export default {
             id: 3,
             pseudo: "Axel",
             type: "member",
+            avatar: "https://randomuser.me/api/portraits/men/84.jpg",
         },
         {
             id: 4,
             pseudo: "Ludo",
             type: "member",
+            avatar: "https://randomuser.me/api/portraits/men/3.jpg",
         },
         {
             id: 5,
             pseudo: "Gautier",
             type: "member",
+            avatar: "https://randomuser.me/api/portraits/men/14.jpg",
         },
         {
             id: 6,
             pseudo: "Quentin",
             type: "member",
+            avatar: "https://randomuser.me/api/portraits/men/24.jpg",
         },
         {
             id: 7,
             pseudo: "Sacha",
             type: "member",
+            avatar: "https://randomuser.me/api/portraits/men/41.jpg",
         },
         {
             id: 8,
@@ -57,7 +62,7 @@ export default {
             flagOrigin: "uk",
             author: "Ludo",
             type: "audio",
-            avatar: "https://randomuser.me/api/portraits/men/73.jpg",
+            avatar: "https://randomuser.me/api/portraits/men/45.jpg",
             audioUrl:
                 "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
         },

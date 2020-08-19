@@ -5,6 +5,7 @@ export const SHOW_PASSWORD = "SHOW_PASSWORD";
 export const SIGNUP = "SIGNUP";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const SIGNUP_ERROR = "SIGNUP_ERROR";
+export const LOGOUT = "LOGOUT";
 
 export const signupInputChange = (payload) => ({
     type: SIGNUP_INPUT_CHANGE,
@@ -36,4 +37,7 @@ export const signupSuccess = (payload) => ({
 export const signupError = (payload) => ({
     type: SIGNUP_ERROR,
     payload,
+});
+export const logout = () => ({
+    type: LOGOUT,
 });

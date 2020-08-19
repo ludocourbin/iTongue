@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Menu, Segment, Sidebar } from "semantic-ui-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import Header from "./menu";
 import NavigationBottom from "./navigationBottom";
 
 import "./header.scss";
 
-const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
+const LayoutHeader = ({ user, logout, ...props }) => {
+    const [visible, setVisible] = useState(false);
     return (
         <div className="main-header">
             <Sidebar.Pushable as={Segment}>
@@ -15,7 +16,7 @@ const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
                     as={Menu}
                     animation="overlay"
                     icon="labeled"
-                    onHide={() => setVisible()}
+                    onHide={() => setVisible(!visible)}
                     vertical
                     direction="right"
                     visible={visible}
@@ -44,14 +45,13 @@ const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
                             </NavLink>
                         </div>
                         {user ? (
-                            <div className="container">
-                                <NavLink
-                                    exact
+                            <div onClick={() => logout()} className="container">
+                                <Link
                                     to="/"
                                     className="main-header-links__item"
                                 >
                                     Se déconnecter
-                                </NavLink>
+                                </Link>
                             </div>
                         ) : (
                             <div className="container">
@@ -93,7 +93,10 @@ const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
                     </div>
                 </Sidebar>
                 <Sidebar.Pusher className="main" dimmed={visible}>
-                    <Header visible={visible} setVisible={() => setVisible()} />
+                    <Header
+                        visible={visible}
+                        setVisible={() => setVisible(!visible)}
+                    />
                     <div
                         className={user ? "main-content user" : "main-content"}
                     >

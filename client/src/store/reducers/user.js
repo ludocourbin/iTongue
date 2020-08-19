@@ -6,6 +6,7 @@ import {
     SIGNUP,
     SIGNUP_SUCCESS,
     SIGNUP_ERROR,
+    LOGOUT,
 } from "../actions/userActions";
 
 const initialState = {
@@ -35,6 +36,7 @@ export default (state = initialState, action = {}) => {
                     ...state.signupData,
                     ...action.payload,
                 },
+                errorMailUsed: "",
             };
         case SET_ERROR_MESSAGE_PASSWORD:
             return {
@@ -55,6 +57,11 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
                 loading: true,
+                currentUser: "",
+                errorMailUsed: "",
+                isLogged: false,
+                errorMessageEmail: "",
+                isLogged: false,
             };
         case SIGNUP_SUCCESS:
             return {
@@ -62,11 +69,11 @@ export default (state = initialState, action = {}) => {
                 loading: false,
                 isLogged: true,
                 signupData: {
-                    firstname: "",
-                    lastname: "",
-                    email: "",
-                    password: "",
-                    confirm: "",
+                    firstname: "ludovic",
+                    lastname: "ludovic",
+                    email: "ludovic.courbin@coco",
+                    password: "ludovic",
+                    confirm: "ludovic",
                 },
                 currentUser: "ludovic",
                 errorMailUsed: "",
@@ -89,6 +96,15 @@ export default (state = initialState, action = {}) => {
                 },
                 currentUser: "",
                 errorMailUsed: action.payload,
+                isLogged: false,
+            };
+        case LOGOUT:
+            return {
+                ...state,
+                token: null,
+                currentUser: "",
+                loggedMessage: "",
+                isLogged: false,
             };
         default:
             return state;

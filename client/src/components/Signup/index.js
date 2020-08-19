@@ -48,7 +48,7 @@ const Signup = ({
         setTimeout(() => {
             setShowText(false);
         }, 3000);
-    }, [errorMailUsed]);
+    }, [errorMailUsed, errorMessageEmail]);
 
     const handleChange = (e) => {
         /* Extraction de l'id pour le checkbox */

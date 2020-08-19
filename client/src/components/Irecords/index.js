@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, Flag, Icon, Image, Progress } from "semantic-ui-react";
-// import Audio from "./audio";
 
 import "./irecords.scss";
 
@@ -60,10 +59,6 @@ const Irecords = ({ audio, irecordSelectedId, setIrecordSelectedId }) => {
         const percentAudio = (currentTime / duration) * 100;
         setPercent(percentAudio);
     }, [currentTime, percent, duration]);
-
-    const setTotal = (number) => {
-        return (number / 60).toFixed(2);
-    };
 
     const padZero = (v) => {
         return v < 10 ? "0" + v : v;
@@ -136,7 +131,4 @@ const Irecords = ({ audio, irecordSelectedId, setIrecordSelectedId }) => {
         </div>
     );
 };
-// <h1>{setTotal(duration)}</h1>
 export default Irecords;
-
-// <Audio audioUrl={audioUrl} />

@@ -5,6 +5,9 @@ import {
     FETCH_EXPRESSIONS_SUCCESS,
     FETCH_EXPRESSIONS_ERROR,
 
+    FETCH_LANGUAGES,
+    FETCH_LANGUAGES_SUCCESS,
+
     ADD_EXPRESSION_SUBMIT,
     ADD_EXPRESSION_SUBMIT_SUCCESS,
     ADD_EXPRESSION_SUBMIT_ERROR,
@@ -31,6 +34,7 @@ const initialState = {
     newExpressionLoading: false,
     expressionsList: [],
     traductionsList: [],
+    languagesList: [],
     expressionId: 0,
 
     newTraductionInputValue: {
@@ -58,6 +62,13 @@ export default (state = initialState, action = {}) => {
                     ...action.payload
                 ],
             };
+        case FETCH_LANGUAGES_SUCCESS:
+            return {
+                ...state,
+                languagesList: [
+                    ...action.payload
+                ]
+            }
         case FETCH_EXPRESSIONS_ERROR: 
             return {
                 ...state,
@@ -111,7 +122,13 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
                 newTraductionLoading: false,
-                expressionsList: [...action.payload]
+                expressionsList: [...action.payload],
+                newTraductionInputValue: {
+                    text: '',
+                    language: {
+                        code: '',
+                    },
+                },
             };
         case ADD_TRADUCTION_SUBMIT_ERROR: 
             return {

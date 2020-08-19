@@ -8,8 +8,8 @@ import {
 
 const initialState = {
     loginData: {
-        email: "admin@dm.in",
-        password: "admin",
+        email: "gautier.colasse@gmail.com",
+        password: "123456789",
         //email: 'user@user.com',
         //password: '123456',
     },

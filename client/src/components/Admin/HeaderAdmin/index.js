@@ -1,7 +1,7 @@
 import React from "react";
 
 /* Components */
-import { Header, Menu, Image, Icon, Button } from "semantic-ui-react";
+import { Header, Menu, Image, Icon, Dropdown } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 
 /* Styles */
@@ -12,6 +12,19 @@ const HeaderAdmin = ( { logout, currentUser, ...props } ) => {
     const handdleLogout = () => {
         logout();
     };
+
+    const options = [
+        { key: 'sign-out', text: 'Déconnexion', icon: 'sign out', onClick:handdleLogout },
+    ];
+    
+    const trigger = (
+        <Image
+            src="https://ca.slack-edge.com/TUZFANP45-U0102DYQRUL-b7d05e08f84a-512"
+            avatar
+            size="mini"
+            spaced="left"
+        />
+    );
 
     return (
         <>
@@ -39,15 +52,13 @@ const HeaderAdmin = ( { logout, currentUser, ...props } ) => {
                     </NavLink>
                 </Menu.Item>
                 <Menu.Item>
-                    <Icon name="close" onClick={handdleLogout} link circular />
                     <span><b>Gautier Colasse</b></span>
-                    <Image
-                        src="https://ca.slack-edge.com/TUZFANP45-U0102DYQRUL-b7d05e08f84a-512"
-                        avatar
-                        size="mini"
-                        spaced="left"
+                    <Dropdown
+                    trigger={trigger}
+                    options={options}
+                    pointing='top right'
+                    icon={null}
                     />
-                    
                 </Menu.Item>
             </Menu>
 

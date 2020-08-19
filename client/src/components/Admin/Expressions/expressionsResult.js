@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 /* Components */
 import { Icon, Form, Table, Flag, Segment, Header, Confirm, Button } from 'semantic-ui-react'
@@ -19,6 +19,8 @@ const ExpressionsResult = ( props ) => {
         editTraductionValue,
         editTraductionInputValue,
         editTraductionSubmit,
+        fetchLanguages,
+        languagesList,
     } = props;
 
     const expressionIdIsSelect = expressionId !== 0 ? false : true;
@@ -27,11 +29,24 @@ const ExpressionsResult = ( props ) => {
     const [ traductionEditId, setTraductionEditId ] = useState(0);
     const [ disableEditButton, setDisableEditButton ] = useState(false);
 
+    useEffect(() => {
+        fetchLanguages();
+    }, []);
+
+    /* Remise en forme des datas pour le dropDown des langues */
+    const dropDownOptions = languagesList.map(language => {
+        return {
+            ...language,
+            value: language.id,
+            text: language.name,
+            flag: language.code,
+        };
+    });
+
     const handdleAddTraductionInputChange = (e, data) => {
 
         const { name, value} = e.target.value ? e.target : data;
 
-        console.log( name, value )
         addTraductionInputValue({
             [name] : value,
         });
@@ -52,6 +67,12 @@ const ExpressionsResult = ( props ) => {
         deleteTraduction(traductionDeleteId);
     };
 
+    const handdleAddLanguage = (e, data) => {
+
+        const { name, value} = e.target.value ? e.target : data;
+        console.log( name, value);
+    };
+
     return (
     <Segment className="expressions-result" basic>
         <Segment>
@@ -69,14 +90,18 @@ const ExpressionsResult = ( props ) => {
                     disabled={expressionIdIsSelect}
                     />
                     <Form.Dropdown 
-                    options={countryOptions} 
+                    options={dropDownOptions} 
                     search 
                     selection 
                     placeholder="Langues"
-                    name="code"
+                    name="language_id"
                     value={newTraductionInputValue.language.code}
                     onChange={handdleAddTraductionInputChange}
                     disabled={expressionIdIsSelect}
+                    additionLabel="Ajouter "
+                    additionPosition='top'
+                    allowAdditions={true}
+                    onAddItem={handdleAddLanguage}
                     />
                     <Form.Button 
                     type="submit" 

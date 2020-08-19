@@ -22,6 +22,8 @@ const InputTraduction = ( props ) => {
 
     const handdleEditTraductionValue  = (e, translation) => {
 
+        console.log("language_id", translation.language_id)
+        console.log("language.id", translation.language.id)
         editTraductionInputValue({
             ...translation,
             translation: e.target.value,

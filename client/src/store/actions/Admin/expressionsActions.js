@@ -19,6 +19,26 @@ export const fetchExpressionError = (payload) => ({
     payload,
 });
 
+// Get languages
+
+export const FETCH_LANGUAGES = "FETCH_LANGUAGES";
+export const FETCH_LANGUAGES_SUCCESS = "FETCH_LANGUAGES_SUCCESS";
+export const FETCH_LANGUAGES_ERROR = "FETCH_LANGUAGES_ERROR";
+
+export const fetchLanguages = () => ({
+    type: FETCH_LANGUAGES,
+});
+
+export const fetchLanguagesSuccess = (payload) => ({
+    type: FETCH_LANGUAGES_SUCCESS,
+    payload,
+});
+
+export const fetchLanguagesError = (payload) => ({
+    type: FETCH_LANGUAGES_ERROR,
+    payload,
+});
+
 
 // Add expression
 export const ADD_EXPRESSION_SUBMIT = "ADD_EXPRESSION_SUBMIT";

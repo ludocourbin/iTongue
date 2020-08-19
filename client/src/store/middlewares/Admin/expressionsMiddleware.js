@@ -10,6 +10,10 @@ import {
     fetchExpressionSuccess,
     fetchExpressionError,
 
+    FETCH_LANGUAGES,
+    fetchLanguagesSuccess,
+    fetchLanguagesError,
+
     // Expression add
     ADD_EXPRESSION_SUBMIT,
     addExpressionSubmitSuccess,
@@ -51,13 +55,28 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 url: 'https://itongue.herokuapp.com/expressions',
             })
             .then(res => {
-                console.log(res.data.data)
                 store.dispatch(fetchExpressionSuccess(res.data.data));
             })
             .catch(err => {
                 store.dispatch(fetchExpressionError(/* Todo */));
                 toast.error("Problème lors du chargement des expressions");
                 console.error("FETCH_EXPRESSIONS", err);
+            });
+            break;
+        };
+        case FETCH_LANGUAGES: {
+            axios({
+                method: 'GET',
+                url: 'https://itongue.herokuapp.com/languages/',
+            })
+            .then(res => {
+                console.log(res.data.data)
+                store.dispatch(fetchLanguagesSuccess(res.data.data));
+            })
+            .catch(err => {
+                store.dispatch(fetchLanguagesError(/* Todo */));
+                toast.error("Problème lors du chargement des languages");
+                console.error("FETCH_LANGUAGES", err);
             });
             break;
         };
@@ -111,7 +130,6 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 url: `https://itongue.herokuapp.com/admin/expressions/${action.payload}`
             })
             .then(res => {
-                console.log(res)
                 const expressionsFilter = expressionsList.filter((expression) => {
                     return expression.id === action.payload ? false : true;
                 });
@@ -131,14 +149,23 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 expressionsList,
                 expressionId,
                 newTraductionInputValue,
+                languagesList,
             } = store.getState().expressionsReducer;
+
+
+            const findCodeById = languagesList.find(language => {
+                if (language.id === newTraductionInputValue.language_id) {
+                    return language
+                }
+            });
 
             const dataObj = {
                 text: newTraductionInputValue.text, 
                 expression_id: expressionId, 
-                language_id : 1, // Voir pour obtenir la langue sélectionné 
+                language_id : newTraductionInputValue.language_id,
                 language: {
-                    code: newTraductionInputValue.language.code
+                    id: newTraductionInputValue.language_id,
+                    code: findCodeById.code,
                 },
             };
 
@@ -192,7 +219,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             const objData = {
                 text: traductionSelect.text, // si on change rien, erreur (a voir)
                 expression_id: expressionId,
-                language_id: traductionSelect.language.id,
+                language_id: traductionSelect.language_id //,
             };
 
             axios({
@@ -229,6 +256,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 store.dispatch(editTraductionSubmitError(/* Todo */));
                 toast.error('Une erreur est survenue lors de la modification de la traduction');
                 console.error(err);
+                throw (new Error(err))
             });
             break;
         };

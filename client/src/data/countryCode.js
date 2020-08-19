@@ -1,6 +1,6 @@
 export const countryOptions = [
-    { key: 'fr', value: 'fr', flag: 'fr', text: 'Français' },
-    { key: 'uk', value: 'uk', flag: 'uk', text: 'Anglais' },
-    { key: 'es', value: 'es', flag: 'es', text: 'Espagnol' },
-    { key: 'pt', value: 'pt', flag: 'pt', text: 'Portugais' },
+    { id: 1, key: 'fr', value: 1, flag: 'fr', text: 'Français' },
+    { id: 2, key: 'uk', value: 2, flag: 'uk', text: 'Anglais' },
+    { id: 3, key: 'es', value: 3, flag: 'es', text: 'Espagnol' },
+    { id: 4, key: 'pt', value: 4, flag: 'pt', text: 'Portugais' },
 ]

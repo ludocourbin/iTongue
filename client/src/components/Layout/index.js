@@ -7,7 +7,7 @@ import NavigationBottom from "./navigationBottom";
 
 import "./header.scss";
 
-const LayoutHeader = ({ user, logout, ...props }) => {
+const LayoutHeader = ({ userLogin, userSignup, logout, ...props }) => {
     const [visible, setVisible] = useState(false);
 
     const handleLogout = () => {
@@ -49,8 +49,13 @@ const LayoutHeader = ({ user, logout, ...props }) => {
                                 iUsers
                             </NavLink>
                         </div>
+<<<<<<< HEAD
                         {user ? (
                             <div onClick={handleLogout} className="container">
+=======
+                        {userLogin || userSignup ? (
+                            <div onClick={() => logout()} className="container">
+>>>>>>> Fix Feature LOGIN : Redirection after login, send response to store, add currentUser in store
                                 <Link
                                     to="/"
                                     className="main-header-links__item"
@@ -103,11 +108,11 @@ const LayoutHeader = ({ user, logout, ...props }) => {
                         setVisible={() => setVisible(!visible)}
                     />
                     <div
-                        className={user ? "main-content user" : "main-content"}
+                        className={userLogin || userSignup ? "main-content user" : "main-content"}
                     >
                         {props.children}
                     </div>
-                    {user ? <NavigationBottom user={user} /> : null}
+                    {userLogin || userSignup ? <NavigationBottom user={userLogin || userSignup} /> : null}
                 </Sidebar.Pusher>
             </Sidebar.Pushable>
         </div>

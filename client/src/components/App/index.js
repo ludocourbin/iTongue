@@ -18,21 +18,25 @@ import "./app.scss";
 /* Components */
 import Admin from "../../containers/Admin/Index";
 
-const App = ({ user, isLogged }) => {
+const App = ({ userLogin, userSignup, isLogged }) => {
+    // <Route path="/login" component={Login} />
+
     return (
         <div className="App">
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route
                     path="/signup"
-                    render={() => (user ? <Redirect to="/" /> : <Signup />)}
+                    render={() => (userLogin || userSignup ? <Redirect to="/" /> : <Signup />)}
+                />
+
+                <Route
+                    path="/login"
+                    render={() => (userLogin || userSignup ? <Redirect to="/" /> : <Login />)}
                 />
 
                 <Route path="/search" component={Search} />
-                <Route
-                    path="/login"
-                    render={() => (user ? <Redirect to="/" /> : <Login />)}
-                />
+                <Route path="/login" render={() => (user ? <Redirect to="/" /> : <Login />)} />
                 <Route path="/irecords" component={IrecordsPage} />
                 <Route path="/users" component={IusersPage} />
                 <Route path="/admin" component={Admin} />

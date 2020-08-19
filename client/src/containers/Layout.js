@@ -9,7 +9,8 @@ import { logout } from "../store/actions/userActions";
 
 const mapStateToProps = (state) => ({
     visible: state.settings.visible,
-    user: state.user.currentUser,
+    userSignup: state.user.currentUser,
+    userLogin: state.login.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -7,6 +7,7 @@ import Signup from "../../containers/Signup";
 import Search from "../Search";
 import Login from "../../containers/Login";
 import IrecordsPage from "../IrecordsPage";
+import Home from "../Home";
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
@@ -20,10 +21,7 @@ const App = ({ user }) => {
     return (
         <div className="App">
             <Switch>
-                <Route exact path="/">
-                    <h1>Home page</h1>
-                </Route>
-
+                <Route exact path="/" component={Home} />
                 <Route
                     exact
                     path="/signup"

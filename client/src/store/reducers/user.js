@@ -36,6 +36,7 @@ export default (state = initialState, action = {}) => {
                     ...state.signupData,
                     ...action.payload,
                 },
+                errorMailUsed: "",
             };
         case SET_ERROR_MESSAGE_PASSWORD:
             return {
@@ -56,6 +57,11 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
                 loading: true,
+                currentUser: "",
+                errorMailUsed: "",
+                isLogged: false,
+                errorMessageEmail: "",
+                isLogged: false,
             };
         case SIGNUP_SUCCESS:
             return {

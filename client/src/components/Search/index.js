@@ -5,14 +5,14 @@ import "./search.scss";
 
 /* Component */
 import Layout from "../../containers/Layout";
-import Irecords from "../Irecords/index";
+import Irecords from "../../containers/Irecords";
 
 import data from "./data";
 
 const Search = () => {
     const [isFocus, setIsFocus] = useState(false);
     const [keyword, setKeyword] = useState("");
-    const [irecordSelectedId, setIrecordSelectedId] = useState(null);
+    // const [irecordSelectedId, setIrecordSelectedId] = useState(null);
 
     // const filteredData = data.items.filter(
     //     (el) =>
@@ -51,15 +51,7 @@ const Search = () => {
                                         style={{ width: "100%" }}
                                         key={audio.id}
                                     >
-                                        <Irecords
-                                            audio={audio}
-                                            setIrecordSelectedId={
-                                                setIrecordSelectedId
-                                            }
-                                            irecordSelectedId={
-                                                irecordSelectedId
-                                            }
-                                        />
+                                        <Irecords audio={audio} />
                                     </div>
                                 );
                             })}
@@ -77,3 +69,13 @@ const Search = () => {
 };
 
 export default Search;
+
+// <Irecords
+//                                             audio={audio}
+//                                             setIrecordSelectedId={
+//                                                 setIrecordSelectedId
+//                                             }
+//                                             irecordSelectedId={
+//                                                 irecordSelectedId
+//                                             }
+//                                         />

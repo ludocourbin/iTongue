@@ -1,9 +1,10 @@
 import React from "react";
+// import './Home.scss';
 
 /* Components */
 import Layout from "../../containers/Layout";
 
-const IrecordsPage = () => {
+const Home = () => {
     return (
         <Layout>
             <h1 className="">hello</h1>
@@ -11,4 +12,4 @@ const IrecordsPage = () => {
     );
 };
 
-export default IrecordsPage;
+export default Home;

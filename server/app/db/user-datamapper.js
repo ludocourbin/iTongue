@@ -1,6 +1,6 @@
 const client = require("./");
 
-module.exports = {
+const dataMapper = {
     insertOne: async user => {
         const result = await client.query('SELECT insert_user($1) AS "id"', [user]);
         return result.rows[0];
@@ -26,6 +26,9 @@ module.exports = {
         return result.rows[0];
     },
 
+    findByPk: (id, withRelations = true) =>
+        dataMapper.findOne({ id: { operator: "=", value: id } }, withRelations),
+
     showOne: async filter => {
         const query = filterQuery('SELECT * FROM "user_display"', filter);
         query.text += ' ORDER BY "id" DESC LIMIT 1';
@@ -42,6 +45,14 @@ module.exports = {
     findSlugs: async slug => {
         const result = await client.query('SELECT get_similar_slugs($1) AS "slug"', [slug]);
         return result.rows;
+    },
+
+    setAvatarUrl: async (url, id) => {
+        const result = await client.query('UPDATE "user" SET "avatar_url" = $1 WHERE "id" = $2', [
+            url,
+            id
+        ]);
+        return result.rowCount;
     },
 
     findLanguage: async userLanguage => {
@@ -66,6 +77,8 @@ module.exports = {
         return result.rows[0];
     }
 };
+
+module.exports = dataMapper;
 
 function filterQuery(query, filter) {
     const text = Object.keys(filter).reduce((query, field, i) => {

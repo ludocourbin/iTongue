@@ -1,27 +1,29 @@
 import React, { useState } from "react";
-import { Container, Input } from "semantic-ui-react";
+import { Container, Input, Tab, Button } from "semantic-ui-react";
 
 import "./search.scss";
 
 /* Component */
 import Layout from "../../containers/Layout";
 import Irecords from "../../containers/Irecords";
+import MembersCard from "../MembersCard";
 
 import data from "./data";
 
 const Search = () => {
     const [isFocus, setIsFocus] = useState(false);
     const [keyword, setKeyword] = useState("");
-    // const [irecordSelectedId, setIrecordSelectedId] = useState(null);
 
-    // const filteredData = data.items.filter(
-    //     (el) =>
-    //         (el.type === "member" && el.pseudo.includes(keyword)) ||
-    //         (el.type === "audio" && el.label.includes(keyword))
-    // );
-    // const members = data.items.filter(
-    //     (el) => el.type === "member" && el.pseudo.includes(keyword)
-    // );
+    const filteredData = data.items.filter(
+        (el) =>
+            (el.type === "member" &&
+                el.pseudo.toLowerCase().includes(keyword)) ||
+            (el.type === "audio" && el.label.toLowerCase().includes(keyword))
+    );
+    const members = data.items.filter(
+        (el) =>
+            el.type === "member" && el.pseudo.toLowerCase().includes(keyword)
+    );
     const audios = data.items.filter((el) => el.type === "audio");
 
     const audiosFiltered = audios.filter(
@@ -31,14 +33,66 @@ const Search = () => {
             el.author.toLowerCase().includes(keyword)
     );
 
+    const panes = [
+        {
+            menuItem: "All",
+            render: () => (
+                <Tab.Pane>
+                    {filteredData.map((element) => (
+                        <div key={element.id}>
+                            {element.type === "member" ? (
+                                <MembersCard user={element} />
+                            ) : (
+                                <Irecords audio={element} />
+                            )}
+                        </div>
+                    ))}
+                </Tab.Pane>
+            ),
+        },
+        {
+            menuItem: "Members",
+            render: () => (
+                <Tab.Pane>
+                    {members.map((element) => (
+                        <MembersCard user={element} key={element.id} />
+                    ))}
+                </Tab.Pane>
+            ),
+        },
+        {
+            menuItem: "Audios",
+            render: () => (
+                <Tab.Pane>
+                    {audiosFiltered.map((audio) => (
+                        <Irecords key={audio.id} audio={audio} />
+                    ))}
+                </Tab.Pane>
+            ),
+        },
+    ];
+
     return (
         <Layout>
             <Container fluid>
-                <div onClick={() => setIsFocus(true)} className="search-input">
+                <div className="search-input">
                     <Input
+                        icon="search"
+                        iconPosition="left"
+                        onClick={() => setIsFocus(true)}
+                        className="search-input-item"
                         placeholder="Rechercher"
                         onChange={(e) => setKeyword(e.target.value)}
                     />
+                    {isFocus && (
+                        <Button
+                            className="search-input-button"
+                            color="black"
+                            onClick={() => setIsFocus(false)}
+                        >
+                            Annuler
+                        </Button>
+                    )}
                 </div>
 
                 <Container>
@@ -57,11 +111,7 @@ const Search = () => {
                             })}
                         </div>
                     )}
-                    {isFocus && (
-                        <div className="">
-                            <h1 className="">is focus</h1>
-                        </div>
-                    )}
+                    {isFocus && <Tab panes={panes} />}
                 </Container>
             </Container>
         </Layout>
@@ -69,13 +119,3 @@ const Search = () => {
 };
 
 export default Search;
-
-// <Irecords
-//                                             audio={audio}
-//                                             setIrecordSelectedId={
-//                                                 setIrecordSelectedId
-//                                             }
-//                                             irecordSelectedId={
-//                                                 irecordSelectedId
-//                                             }
-//                                         />

@@ -2,8 +2,19 @@
 @import "../../styles/mixin";
 
 .search-input {
-    margin-top: $margin;
-    @include flex-column;
+    margin: $margin 0;
+    display: flex;
+    // background-color: blue;
+    justify-content: center;
+    align-items: center;
+    &-item {
+        flex: 1;
+        margin-right: 5px;
+    }
+    &-button {
+        background-color: transparent !important;
+        color: black !important;
+    }
 }
 
 .search-content--items {

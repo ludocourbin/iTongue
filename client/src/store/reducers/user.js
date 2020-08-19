@@ -69,11 +69,11 @@ export default (state = initialState, action = {}) => {
                 loading: false,
                 isLogged: true,
                 signupData: {
-                    firstname: "",
-                    lastname: "",
-                    email: "",
-                    password: "",
-                    confirm: "",
+                    firstname: "ludovic",
+                    lastname: "ludovic",
+                    email: "ludovic.courbin@coco",
+                    password: "ludovic",
+                    confirm: "ludovic",
                 },
                 currentUser: "ludovic",
                 errorMailUsed: "",
@@ -104,6 +104,7 @@ export default (state = initialState, action = {}) => {
                 token: null,
                 currentUser: "",
                 loggedMessage: "",
+                isLogged: false,
             };
         default:
             return state;

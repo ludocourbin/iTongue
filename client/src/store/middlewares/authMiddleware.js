@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import { SIGNUP, signupSuccess, signupError } from "../actions/userActions";
 
@@ -31,6 +32,7 @@ export default (store) => (next) => (action) => {
                                 store.dispatch(
                                     signupSuccess({ token: res.accessToken })
                                 );
+                                toast.success("bienvenue ");
                             })
                             .catch((err) => {
                                 console.log(err);

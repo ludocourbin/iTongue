@@ -107,6 +107,7 @@ const LayoutHeader = ({ user, logout, ...props }) => {
                     >
                         {props.children}
                     </div>
+
                     {user ? <NavigationBottom user={user} /> : null}
                 </Sidebar.Pusher>
             </Sidebar.Pushable>

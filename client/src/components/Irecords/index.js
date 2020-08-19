@@ -4,7 +4,14 @@ import { Card, Flag, Icon, Image, Progress } from "semantic-ui-react";
 
 import "./irecords.scss";
 
-const Irecords = ({ audio, irecordSelectedId, setIrecordSelectedId }) => {
+const Irecords = ({
+    audio,
+    irecordSelectedId,
+    setIrecordSelectedId,
+    toggleRecording,
+    selectIrecordToRecord,
+    isRecording,
+}) => {
     const audioRef = useRef(null);
     const progress = useRef(null);
 
@@ -13,6 +20,9 @@ const Irecords = ({ audio, irecordSelectedId, setIrecordSelectedId }) => {
     const [duration, setDuration] = useState(0);
     const [percent, setPercent] = useState(0);
     const [mouseDown, setMouseDown] = useState(false);
+
+    const [selectediRecordId, setSelectediRecordId] = useState(null);
+    const [recording, setRecording] = useState(false);
 
     const user = { slug: "ludocourbin" };
     const {
@@ -70,12 +80,35 @@ const Irecords = ({ audio, irecordSelectedId, setIrecordSelectedId }) => {
         );
     };
 
+    const handleCopyiRecord = () => {
+        setSelectediRecordId(id);
+        selectIrecordToRecord(audio);
+        toggleRecording(true);
+        if (isRecording && selectediRecordId === id) {
+            toggleRecording(false);
+        } else {
+            toggleRecording(true);
+        }
+    };
+
     return (
         <div className="irecords">
             <Card className="irecords-container" key={id}>
                 <Card.Content className="flex author">
-                    <Image avatar floated="left" size="large" src={avatar} />
-                    <Link to={user.slug}>{author}</Link>
+                    <Link to={user.slug} className="flex author">
+                        <Image
+                            avatar
+                            floated="left"
+                            size="large"
+                            src={avatar}
+                        />
+                        {author}
+                    </Link>
+                    <Icon
+                        onClick={handleCopyiRecord}
+                        className="irecords-copy"
+                        name="copy"
+                    />
                 </Card.Content>
                 <Card.Content className="text">
                     <p>

@@ -97,4 +97,16 @@
     top: -300px;
     right: -30px;
     width: 100vw !important;
+
+    &-microphone {
+        // background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & i {
+            margin-bottom: 10px !important;
+            // width: ;
+        }
+    }
 }

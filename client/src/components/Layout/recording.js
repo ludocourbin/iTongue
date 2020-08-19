@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Flag, Button, Icon } from "semantic-ui-react";
+
 import AudioPlayer from "../../containers/Audio";
 
 const Recording = ({ audio, toggleRecording }) => {
+    const [recording, setRecording] = useState(false);
+
     const { flagOrigin, flagTarget, label, traduction } = audio;
+    const handleRecord = async () => {
+        console.log("Lets record some tune !");
+        setRecording(true);
+    };
+
+    const handleStopRecording = async () => {
+        setRecording(false);
+        console.log("stop recording");
+    };
+
     return (
         <div className="recording">
             <Card style={{ width: "60%" }} className="">
@@ -19,7 +32,19 @@ const Recording = ({ audio, toggleRecording }) => {
                     <div>
                         <AudioPlayer audio={audio} />
                         <div className="recording-microphone">
-                            <Icon size="big" name="microphone" />
+                            {recording ? (
+                                <Icon
+                                    onClick={handleStopRecording}
+                                    name="stop circle"
+                                    size="big"
+                                />
+                            ) : (
+                                <Icon
+                                    onClick={handleRecord}
+                                    name="microphone"
+                                    size="big"
+                                />
+                            )}
                         </div>
                     </div>
                 </Card.Content>

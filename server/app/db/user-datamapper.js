@@ -37,6 +37,27 @@ const dataMapper = {
         return result.rows[0];
     },
 
+    update: async user => {
+        const { id, ...updates } = user;
+        const fields = Object.keys(updates);
+
+        if (!fields.length) return 0;
+
+        const update = fields.reduce((query, field, i) => {
+            query += i > 0 ? "," : "";
+            query += ` "${field}" = $${i + 1}`;
+            return query;
+        }, 'UPDATE "user" SET');
+
+        const query = {
+            text: update + ` WHERE "id" = $${fields.length + 1}`,
+            values: [...Object.values(updates), id]
+        };
+
+        const result = await client.query(query);
+        return result.rowCount;
+    },
+
     deleteOne: async id => {
         const result = await client.query('DELETE FROM "user" WHERE "id" = $1', [id]);
         return result.rowCount;

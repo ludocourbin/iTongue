@@ -20,6 +20,8 @@ router.post("/login", userController.login);
 
 router.get("/:id(\\d+)", userController.showOne);
 
+router.post("/:id(\\d+)", ownerMiddleware, userController.editProfile);
+
 router.get("/:slug([a-z\\d]+(?:-[a-z\\d]+)*)", userController.showOne);
 
 router.delete("/:id(\\d+)", adminMiddleware, userController.deleteOne);

@@ -131,7 +131,7 @@ module.exports = {
         const userId = req.params.id;
         if (isNaN(userId))
             return res.status(400).json({
-                errors: [{ msg: "Le paramètre reçu n'est pas valide" }]
+                errors: [{ msg: "Le paramètre reçu dans l'url n'est pas valide" }]
             });
 
         const fileName = req.file.filename;
@@ -176,6 +176,32 @@ module.exports = {
         }
     },
 
+    editProfile: async (req, res, next) => {
+        const userId = req.params.id;
+        if (isNaN(userId))
+            return res.status(400).json({
+                errors: [{ msg: "Le paramètre reçu dans l'url n'est pas valide" }]
+            });
+
+        const user = req.body;
+        user.id = userId;
+
+        if (user.password) {
+            user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
+        }
+
+        try {
+            console.log(await userDatamapper.update(user));
+            const [accessToken, refreshToken] = await getNewTokenPair(user);
+
+            // TODO invalider l'access token
+
+            res.json({ data: { accessToken, refreshToken } });
+        } catch (err) {
+            next(err);
+        }
+    },
+
     login: async (req, res, next) => {
         const { email, password } = req.body;
 
@@ -185,20 +211,7 @@ module.exports = {
             });
 
             if (user && (await bcrypt.compare(password, user.password))) {
-                const payload = {
-                    id: user.id,
-                    email: user.email,
-                    slug: user.slug,
-                    avatarUrl: user.avatar_url,
-                    isAdmin: user.is_admin
-                };
-
-                const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-                    expiresIn: "20m"
-                });
-                const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
-
-                await storeRefreshToken(user, refreshToken);
+                const [accessToken, refreshToken] = await getNewTokenPair(user);
 
                 const keyMap = {
                     avatar_url: "avatarUrl",
@@ -224,6 +237,25 @@ module.exports = {
         }
     }
 };
+
+async function getNewTokenPair(user) {
+    const payload = {
+        id: user.id,
+        email: user.email,
+        slug: user.slug,
+        avatarUrl: user.avatar_url,
+        isAdmin: user.is_admin
+    };
+
+    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "20m"
+    });
+    const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
+
+    await storeRefreshToken(user, refreshToken);
+
+    return [accessToken, refreshToken];
+}
 
 function storeRefreshToken(user, token) {
     return new Promise((resolve, reject) => {

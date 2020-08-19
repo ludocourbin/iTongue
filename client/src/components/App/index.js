@@ -18,23 +18,21 @@ import "./app.scss";
 /* Components */
 import Admin from "../../containers/Admin/Index";
 
-const App = ({ user }) => {
+const App = ({ user, isLogged }) => {
     return (
         <div className="App">
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route
-                    exact
                     path="/signup"
                     render={() => (user ? <Redirect to="/" /> : <Signup />)}
                 />
+
                 <Route path="/search" component={Search} />
                 <Route path="/login" component={Login} />
                 <Route path="/irecords" component={IrecordsPage} />
                 <Route path="/users" component={IusersPage} />
-
                 <Route path="/admin" component={Admin} />
-
                 <Route>
                     <h1>La page n'existe pas</h1>
                 </Route>

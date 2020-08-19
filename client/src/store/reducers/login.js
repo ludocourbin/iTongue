@@ -13,6 +13,7 @@ import {
       password: '',
       stayConnected:true,
     },
+    isLogged:false,
     showPassword:false,
     loading:false,
     loginErrorMessage: '',
@@ -30,6 +31,7 @@ import {
         return {
           ...state,
           loading: false,
+          isLogged:true,
           loginErrorMessage: '',
         };
       case LOGIN_SUBMIT_ERROR:

@@ -9,6 +9,25 @@ const adminRouter = require("./admin-routes");
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /:
+ *  get:
+ *      summary: Check router status
+ *      description: Check router status
+ *      responses:
+ *          '200':
+ *              description: successful response
+ *              content:
+ *                  application/json:
+ *                    schema:
+ *                      type: object
+ *                      properties:
+ *                        message:
+ *                          type: string
+ *                      example:
+ *                        message: Router is working
+ */
 router.get("/", (_, res) => {
     res.json({ data: { message: "Router is working" } });
 });

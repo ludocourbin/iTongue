@@ -4,3 +4,6 @@ node_modules/
 sqitch.conf
 
 data/create-db.sql
+
+temp
+public/uploads

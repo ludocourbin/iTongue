@@ -11,8 +11,9 @@ module.exports = {
                     errors: [{ msg: newExpression.error }]
                 });
             }
-            console.log("newExpression", newExpression);
-            res.json({ data: newExpression });
+            
+            res.status(201).json({ data: newExpression });
+
         } catch (error) {
             console.log(error);
         }

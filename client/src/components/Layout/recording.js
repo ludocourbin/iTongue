@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Flag, Button, Icon } from "semantic-ui-react";
-import iRecords from "../../containers/Irecords";
+import Irecords from "../../containers/Irecords";
 
 const Recording = ({ audio }) => {
     const {
@@ -26,7 +26,7 @@ const Recording = ({ audio }) => {
                 <Card.Content>
                     <div>
                         <Icon name="microphone" />
-                        <iRecords audio={audio} />
+                        <Irecords audio={audio} />
                     </div>
 
                     <audio src={audioUrl} controls />

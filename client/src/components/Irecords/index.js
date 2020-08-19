@@ -11,6 +11,7 @@ const Irecords = ({
     toggleRecording,
     selectIrecordToRecord,
     isRecording,
+    user,
 }) => {
     const audioRef = useRef(null);
     const progress = useRef(null);
@@ -24,7 +25,7 @@ const Irecords = ({
     const [selectediRecordId, setSelectediRecordId] = useState(null);
     const [recording, setRecording] = useState(false);
 
-    const user = { slug: "ludocourbin" };
+    const userSlug = { slug: "ludocourbin" };
     const {
         avatar,
         author,
@@ -95,7 +96,7 @@ const Irecords = ({
         <div className="irecords">
             <Card className="irecords-container" key={id}>
                 <Card.Content className="flex author">
-                    <Link to={user.slug} className="flex author">
+                    <Link to={userSlug.slug} className="flex author">
                         <Image
                             avatar
                             floated="left"
@@ -104,11 +105,13 @@ const Irecords = ({
                         />
                         {author}
                     </Link>
-                    <Icon
-                        onClick={handleCopyiRecord}
-                        className="irecords-copy"
-                        name="copy"
-                    />
+                    {user && (
+                        <Icon
+                            onClick={handleCopyiRecord}
+                            className="irecords-copy"
+                            name="copy"
+                        />
+                    )}
                 </Card.Content>
                 <Card.Content className="text">
                     <p>

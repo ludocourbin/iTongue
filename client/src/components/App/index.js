@@ -9,6 +9,7 @@ import Login from "../../containers/Login";
 import IrecordsPage from "../IrecordsPage";
 import IusersPage from "../IusersPage";
 import Home from "../Home";
+import User from "../User";
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
@@ -17,6 +18,7 @@ import "./app.scss";
 
 /* Components */
 import Admin from "../../containers/Admin/Index";
+import Profil from "../../containers/User/Profil";
 
 const App = ({ userLogin, userSignup, isLogged }) => {
     // <Route path="/login" component={Login} />
@@ -39,6 +41,10 @@ const App = ({ userLogin, userSignup, isLogged }) => {
                 <Route path="/login" render={() => (user ? <Redirect to="/" /> : <Login />)} />
                 <Route path="/irecords" component={IrecordsPage} />
                 <Route path="/users" component={IusersPage} />
+
+
+                <Route path="/user/:slug" component={Profil} />
+
                 <Route path="/admin" component={Admin} />
                 <Route>
                     <h1>La page n'existe pas</h1>

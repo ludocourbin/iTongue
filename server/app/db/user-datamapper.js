@@ -42,6 +42,28 @@ module.exports = {
     findSlugs: async slug => {
         const result = await client.query('SELECT get_similar_slugs($1) AS "slug"', [slug]);
         return result.rows;
+    },
+
+    findLanguage: async userLanguage => {
+        const query = {
+            text:
+                'SELECT * FROM "language_user" WHERE "user_id" = $1 AND "language_id" = $2 AND "role" = $3 LIMIT 1',
+            values: [userLanguage.languageId, userLanguage.userId, userLanguage.role]
+        };
+
+        const result = await client.query(query);
+        return result.rows[0];
+    },
+
+    addLanguage: async userLanguage => {
+        const query = {
+            text:
+                'INSERT INTO "language_user" ("language_id", "user_id", "role") VALUES ($1, $2, $3) RETURNING "id"',
+            values: [userLanguage.languageId, userLanguage.userId, userLanguage.role]
+        };
+
+        const result = await client.query(query);
+        return result.rows[0];
     }
 };
 

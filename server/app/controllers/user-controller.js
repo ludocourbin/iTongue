@@ -5,7 +5,7 @@ const slugify = require("slugify");
 const redis = require("../redis");
 const userDatamapper = require("../db/user-datamapper");
 
-const { SALT_ROUNDS } = require("../constants");
+const { SALT_ROUNDS, USER_ROLES } = require("../constants");
 
 module.exports = {
     showAll: async (_, res, next) => {
@@ -87,10 +87,38 @@ module.exports = {
         }
     },
 
-    login: async (req, res, next) => {
-        try {
-            const { email, password } = req.body;
+    addLanguage: async (req, res, next) => {
+        const userId = req.params.id;
+        const { language_id: languageId, role } = req.body;
+        console.log(role);
 
+        if (isNaN(userId) || isNaN(languageId) || !USER_ROLES.includes(role))
+            return res
+                .status(400)
+                .json({ errors: [{ msg: "Au moins un des paramètres est invalide" }] });
+
+        if (!req.user || (!req.user.isAdmin && req.user.id != userId))
+            return res
+                .status(403)
+                .json({ errors: [{ msg: "Vous ne pouvez pas modifier ce compte utilisateur" }] });
+
+        const userLanguage = { languageId, userId, role };
+
+        const alreadyExists = await userDatamapper.findLanguage(userLanguage);
+        if (alreadyExists) return res.status(409).json({ alreadyExists });
+
+        try {
+            const result = await userDatamapper.addLanguage(userLanguage);
+            res.json({ data: result });
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    login: async (req, res, next) => {
+        const { email, password } = req.body;
+
+        try {
             const user = await userDatamapper.findOne({ email: { operator: "=", value: email } });
 
             if (user && (await bcrypt.compare(password, user.password))) {

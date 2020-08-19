@@ -1,13 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const slugify = require("slugify");
 
-const fsPromises = fs.promises;
-
-const redis = require("../redis");
 const userDatamapper = require("../db/user-datamapper");
+const authUtils = require("../utils/auth-utils");
+
+const fsPromises = fs.promises;
 
 const {
     SALT_ROUNDS,
@@ -191,10 +190,14 @@ module.exports = {
         }
 
         try {
-            console.log(await userDatamapper.update(user));
-            const [accessToken, refreshToken] = await getNewTokenPair(user);
+            await userDatamapper.update(user);
 
-            // TODO invalider l'access token
+            if (!req.user.isAdmin) {
+                const oldAccessToken = authUtils.getAccessToken(req);
+                await authUtils.invalidateAccessToken(oldAccessToken);
+            }
+
+            const [accessToken, refreshToken] = await authUtils.getNewTokenPair(user);
 
             res.json({ data: { accessToken, refreshToken } });
         } catch (err) {
@@ -211,7 +214,7 @@ module.exports = {
             });
 
             if (user && (await bcrypt.compare(password, user.password))) {
-                const [accessToken, refreshToken] = await getNewTokenPair(user);
+                const [accessToken, refreshToken] = await authUtils.getNewTokenPair(user);
 
                 const keyMap = {
                     avatar_url: "avatarUrl",
@@ -237,31 +240,3 @@ module.exports = {
         }
     }
 };
-
-async function getNewTokenPair(user) {
-    const payload = {
-        id: user.id,
-        email: user.email,
-        slug: user.slug,
-        avatarUrl: user.avatar_url,
-        isAdmin: user.is_admin
-    };
-
-    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "20m"
-    });
-    const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
-
-    await storeRefreshToken(user, refreshToken);
-
-    return [accessToken, refreshToken];
-}
-
-function storeRefreshToken(user, token) {
-    return new Promise((resolve, reject) => {
-        redis.client.hmset(redis.prefix + "refresh_tokens", user.id, token, (err, result) => {
-            if (err) return reject(err);
-            resolve(result);
-        });
-    });
-}

@@ -72,6 +72,21 @@ module.exports = {
         }
     },
 
+    deleteOne: async (req, res, next) => {
+        const userId = req.params.id;
+        if (isNaN(userId))
+            return res
+                .status(400)
+                .json({ errors: [{ msg: "Le paramètre reçu n'est pas valide" }] });
+
+        try {
+            await userDatamapper.deleteOne(userId);
+            res.status(204).json({});
+        } catch (err) {
+            next(err);
+        }
+    },
+
     login: async (req, res, next) => {
         try {
             const { email, password } = req.body;

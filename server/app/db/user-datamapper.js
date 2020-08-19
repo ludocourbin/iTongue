@@ -34,6 +34,11 @@ module.exports = {
         return result.rows[0];
     },
 
+    deleteOne: async id => {
+        const result = await client.query('DELETE FROM "user" WHERE "id" = $1', [id]);
+        return result.rowCount;
+    },
+
     findSlugs: async slug => {
         const result = await client.query('SELECT get_similar_slugs($1) AS "slug"', [slug]);
         return result.rows;

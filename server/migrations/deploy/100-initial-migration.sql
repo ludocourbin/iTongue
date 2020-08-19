@@ -30,16 +30,16 @@ CREATE TABLE "expression" (
 CREATE TABLE "translation" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "text" TEXT NOT NULL,
-  "expression_id" INT NOT NULL REFERENCES "expression"("id"),
-  "language_id" INT NOT NULL REFERENCES "language"("id"),
+  "expression_id" INT NOT NULL REFERENCES "expression"("id") ON DELETE CASCADE,
+  "language_id" INT NOT NULL REFERENCES "language"("id") ON DELETE CASCADE,
   "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP 
 );
 
 CREATE TABLE "record" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "url" TEXT UNIQUE NOT NULL,
-  "user_id" INT NOT NULL REFERENCES "user"("id"),
-  "translation_id" INT NOT NULL REFERENCES "translation"("id"),
+  "user_id" INT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
+  "translation_id" INT NOT NULL REFERENCES "translation"("id") ON DELETE CASCADE,
   "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -47,8 +47,8 @@ CREATE TYPE user_role AS ENUM('learner', 'teacher');
 
 CREATE TABLE "language_user" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "language_id" INT NOT NULL REFERENCES "language"("id"),
-  "user_id" INT NOT NULL REFERENCES "user"("id"),
+  "language_id" INT NOT NULL REFERENCES "language"("id") ON DELETE CASCADE,
+  "user_id" INT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
   "role" user_role NOT NULL
 );
 

@@ -1,10 +1,12 @@
 const fs = require("fs");
 const path = require("path");
+const glob = require("glob");
 const bcrypt = require("bcrypt");
 const slugify = require("slugify");
 
 const userDatamapper = require("../db/user-datamapper");
 const authUtils = require("../utils/auth-utils");
+const fileUtils = require("../utils/file-utils");
 
 const fsPromises = fs.promises;
 
@@ -159,7 +161,15 @@ module.exports = {
             let avatarUrl, destPath;
             if (user.avatar_url) {
                 avatarUrl = user.avatar_url;
-                destPath = path.join(PUBLIC_DIR, avatarUrl + extension);
+                const filename = path.join(PUBLIC_DIR, avatarUrl);
+                destPath = filename + extension;
+
+                const sameFileNames = await fileUtils.getSameFileNames(filename);
+                if (sameFileNames.length) {
+                    for (const file of sameFileNames) {
+                        await fsPromises.unlink(file);
+                    }
+                }
             } else {
                 const destSubDir = fileName.split("").slice(0, 4).join("/");
                 const destBaseName = fileName.substring(4);

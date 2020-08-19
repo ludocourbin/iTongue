@@ -29,7 +29,10 @@ const Login = ({
 
     const handleChange = (evt, data) => {
         const { name, value,id } = evt.target;
-
+        /* onInput gère le changement d'état d'une input 
+        Si c'est le champ email ou password, la propriété est name:value
+        Si c'est la checkbox, c'est id : data.checked
+        */
         onInputChange({
             [name || id ]: value || data.checked || "" || false,
         });

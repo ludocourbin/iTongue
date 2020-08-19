@@ -2,7 +2,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import { SIGNUP, signupSuccess, signupError } from "../actions/userActions";
-import { LOGIN, loginSubmitSuccess, loginSubmitError } from "../actions/loginActions";
+import {
+    LOGIN,
+    loginSubmitSuccess,
+    loginSubmitError,
+} from "../actions/loginActions";
 
 export default (store) => (next) => (action) => {
     next(action);
@@ -16,24 +20,22 @@ export default (store) => (next) => (action) => {
                 data,
             })
                 .then((res) => {
-                    console.log(res.data.data.id);
                     const data = {
                         email: store.getState().user.signupData.email,
                         password: store.getState().user.signupData.password,
                     };
                     if (res.data.data.id) {
-                        console.log(data);
                         axios({
                             method: "post",
                             url: "https://itongue.herokuapp.com/users/login",
                             data,
                         })
                             .then((res) => {
-                                console.log(res);
-                                store.dispatch(
-                                    signupSuccess({ token: res.accessToken })
+                                const currentUser = res.data.data.user;
+                                store.dispatch(signupSuccess(currentUser));
+                                toast.success(
+                                    `Bienvenue ${currentUser.firstname}`
                                 );
-                                toast.success("bienvenue ");
                             })
                             .catch((err) => {
                                 console.log(err);
@@ -44,7 +46,7 @@ export default (store) => (next) => (action) => {
                     if (error.response) {
                         // The request was made and the server responded with a status code
                         // that falls out of the range of 2xx
-                        console.log(error.response.data.errors[0].msg);
+                        // console.log(error.response.data.errors[0].msg);
                         store.dispatch(
                             signupError(error.response.data.errors[0].msg)
                         );
@@ -53,20 +55,20 @@ export default (store) => (next) => (action) => {
 
             return;
         case LOGIN:
-            const dataLogin = store.getState().login.loginData;
-            console.log(dataLogin);
+            const dataLogin = store.getState().user.loginData;
             axios({
                 method: "post",
                 url: "https://itongue.herokuapp.com/users/login",
                 data: dataLogin,
             })
                 .then((res) => {
-                    console.log("axios ok");
-                    toast.info("Connexion en cours..");
-                    store.dispatch(loginSubmitSuccess(res.data));
+                    const currentUser = res.data.data.user;
+                    store.dispatch(loginSubmitSuccess(currentUser));
+                    setTimeout(() => {
+                        toast.success(`Bienvenue ${currentUser.firstname}`);
+                    }, 1000);
                 })
                 .catch((err) => {
-                    console.log("error : " + err);
                     toast.warning("Sorry");
                     store.dispatch(
                         loginSubmitError("Désolé cet utilisateur n'existe pas")

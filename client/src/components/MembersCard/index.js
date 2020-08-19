@@ -1,7 +1,7 @@
 import React from "react";
-import { Button, Card, Image } from "semantic-ui-react";
+import { Card, Image } from "semantic-ui-react";
 
-const CardExampleGroups = ({ user }) => (
+const MemberCard = ({ user }) => (
     <Card fluid>
         <Card.Content>
             <Image floated="right" size="mini" src={user.avatar} />
@@ -10,4 +10,4 @@ const CardExampleGroups = ({ user }) => (
     </Card>
 );
 
-export default CardExampleGroups;
+export default MemberCard;

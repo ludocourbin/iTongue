@@ -20,6 +20,7 @@ const Search = () => {
                 el.pseudo.toLowerCase().includes(keyword)) ||
             (el.type === "audio" && el.label.toLowerCase().includes(keyword))
     );
+
     const members = data.items.filter(
         (el) =>
             el.type === "member" && el.pseudo.toLowerCase().includes(keyword)

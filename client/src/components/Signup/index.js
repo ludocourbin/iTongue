@@ -34,6 +34,7 @@ const Signup = ({
     const [terms, setTerms] = useState(false);
     const [showText, setShowText] = useState(false);
     /* Destructuration de l'object state.user.signupData */
+
     const { firstname, lastname, email, password, confirm } = signupData;
 
     const handleSubmit = () => {

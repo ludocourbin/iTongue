@@ -29,7 +29,10 @@ const App = ({ user, isLogged }) => {
                 />
 
                 <Route path="/search" component={Search} />
-                <Route path="/login" component={Login} />
+                <Route
+                    path="/login"
+                    render={() => (user ? <Redirect to="/" /> : <Login />)}
+                />
                 <Route path="/irecords" component={IrecordsPage} />
                 <Route path="/users" component={IusersPage} />
                 <Route path="/admin" component={Admin} />

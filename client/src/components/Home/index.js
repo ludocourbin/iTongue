@@ -9,7 +9,6 @@ const Home = () => {
     return (
         <Layout>
             <ToastContainer autoClose={2000} />
-            <h1 className="">hello</h1>
         </Layout>
     );
 };

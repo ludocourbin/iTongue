@@ -7,6 +7,7 @@ import data from "../Search/data";
 
 const IusersPage = () => {
     const members = data.items.filter((el) => el.type === "member");
+
     return (
         <Layout>
             <Header as="h1">Tout nos utilisateurs</Header>

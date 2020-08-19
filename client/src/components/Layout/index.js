@@ -9,6 +9,11 @@ import "./header.scss";
 
 const LayoutHeader = ({ user, logout, ...props }) => {
     const [visible, setVisible] = useState(false);
+
+    const handleLogout = () => {
+        setVisible(!visible);
+        logout();
+    };
     return (
         <div className="main-header">
             <Sidebar.Pushable as={Segment}>
@@ -45,7 +50,7 @@ const LayoutHeader = ({ user, logout, ...props }) => {
                             </NavLink>
                         </div>
                         {user ? (
-                            <div onClick={() => logout()} className="container">
+                            <div onClick={handleLogout} className="container">
                                 <Link
                                     to="/"
                                     className="main-header-links__item"

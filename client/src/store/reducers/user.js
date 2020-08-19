@@ -9,17 +9,29 @@ import {
     LOGOUT,
 } from "../actions/userActions";
 
+import {
+    LOGIN_INPUT_CHANGE,
+    LOGIN_SUBMIT_SUCCESS,
+    LOGIN_SUBMIT_ERROR,
+    LOGIN,
+} from "../actions/loginActions.js";
+
 const initialState = {
     currentUser: "",
     isLogged: false,
     loading: false,
     token: null,
     signupData: {
-        firstname: "ludovic",
-        lastname: "ludovic",
-        email: "ludovic.courbin@gmail.com",
-        password: "ludovic",
-        confirm: "ludovic",
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        confirm: "",
+    },
+    loginData: {
+        email: "",
+        password: "",
+        stayConnected: true,
     },
     showPassword: false,
     errorMessagePassword: "",
@@ -59,7 +71,6 @@ export default (state = initialState, action = {}) => {
                 loading: true,
                 currentUser: "",
                 errorMailUsed: "",
-                isLogged: false,
                 errorMessageEmail: "",
                 isLogged: false,
             };
@@ -69,22 +80,20 @@ export default (state = initialState, action = {}) => {
                 loading: false,
                 isLogged: true,
                 signupData: {
-                    firstname: "ludovic",
-                    lastname: "ludovic",
-                    email: "ludovic.courbin@coco",
-                    password: "ludovic",
-                    confirm: "ludovic",
+                    firstname: "",
+                    lastname: "",
+                    email: "",
+                    password: "",
+                    confirm: "",
                 },
-                currentUser: "ludovic",
                 errorMailUsed: "",
-                token: action.payload,
-                loggedMessage: `Bienvenue sur Itongue`,
+                errorMessageEmail: "",
+                currentUser: { ...action.payload },
+                token: action.payload.token,
             };
-
         case SIGNUP_ERROR:
             return {
                 ...state,
-                errorMessageEmail: "",
                 isLogged: false,
                 loading: false,
                 signupData: {
@@ -95,16 +104,64 @@ export default (state = initialState, action = {}) => {
                     confirm: "",
                 },
                 currentUser: "",
+                errorMessageEmail: "",
                 errorMailUsed: action.payload,
                 isLogged: false,
+            };
+
+        case LOGIN:
+            return {
+                ...state,
+                loading: true,
+            };
+        case LOGIN_SUBMIT_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                loginErrorMessage: "",
+                currentUser: { ...action.payload },
+                token: action.payload.token,
+                loginData: {
+                    email: "",
+                    password: "",
+                    stayConnected: true,
+                },
+            };
+        case LOGIN_SUBMIT_ERROR:
+            return {
+                ...state,
+                loading: false,
+                loginErrorMessage: action.payload,
+                currentUser: "",
+                token: "",
+                loginData: {
+                    email: state.loginData.email,
+                    password: "",
+                    stayConnected: true,
+                },
+            };
+        case LOGIN_INPUT_CHANGE:
+            return {
+                ...state,
+                loginData: {
+                    ...state.loginData,
+                    ...action.payload,
+                },
             };
         case LOGOUT:
             return {
                 ...state,
                 token: null,
+                loginData: {
+                    email: state.currentUser.email,
+                    password: "",
+                    stayConnected: true,
+                },
                 currentUser: "",
                 loggedMessage: "",
                 isLogged: false,
+                errorMailUsed: "",
+                errorMessageEmail: "",
             };
         default:
             return state;

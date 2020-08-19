@@ -12,21 +12,21 @@ import {
     togglePassword,
 } from "../store/actions/loginActions";
 
-const mapStateToProps = state => ({
-    loginData: state.login.loginData,
-    loginErrorMessage: state.login.loginErrorMessage,
-    loading: state.login.loading,
-    showPassword: state.login.showPassword,
+const mapStateToProps = (state) => ({
+    loginData: state.user.loginData,
+    loginErrorMessage: state.user.loginErrorMessage,
+    loading: state.user.loading,
+    showPassword: state.user.showPassword,
 });
 
-const mapDispatchToProps = dispatch => ({
-    onInputChange: changedData => {
+const mapDispatchToProps = (dispatch) => ({
+    onInputChange: (changedData) => {
         dispatch(loginInputChange(changedData));
     },
-    loginSubmitError: errorMessage => {
+    loginSubmitError: (errorMessage) => {
         dispatch(loginSubmitError(errorMessage));
     },
-    loginSubmitSuccess: successMessage => {
+    loginSubmitSuccess: (successMessage) => {
         dispatch(loginSubmitSuccess(successMessage));
     },
     togglePassword: () => {

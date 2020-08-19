@@ -17,6 +17,8 @@ router.post("/login", userController.login);
 
 router.get("/:id(\\d+)", userController.showOne);
 
+router.get("/:slug([a-z\\d]+(?:-[a-z\\d]+)*)", userController.showOne);
+
 router.delete("/:id(\\d+)", adminMiddleware, userController.deleteOne);
 
 router.post("/:id(\\d+)/language", authMiddleware, userController.addLanguage);

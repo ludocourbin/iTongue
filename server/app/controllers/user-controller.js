@@ -19,14 +19,17 @@ module.exports = {
     },
 
     showOne: async (req, res, next) => {
-        const userId = req.params.id;
-        if (isNaN(userId))
+        const { id: userId, slug } = req.params;
+        console.log(slug);
+
+        if ((userId && isNaN(userId)) || (slug && !/^[a-z\\d]+(-[a-z\\d]+)*$/.test(slug)))
             return res
                 .status(400)
                 .json({ errors: [{ msg: "Le paramètre reçu n'est pas valide" }] });
 
         try {
-            const user = await userDatamapper.showOne({ id: { operator: "=", value: userId } });
+            const [field, value] = userId ? ["id", userId] : ["slug", slug];
+            const user = await userDatamapper.showOne({ [field]: { operator: "=", value: value } });
             if (!user) return next();
             res.json({ data: user });
         } catch (err) {

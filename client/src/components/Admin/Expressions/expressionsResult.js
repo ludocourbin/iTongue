@@ -67,12 +67,6 @@ const ExpressionsResult = ( props ) => {
         deleteTraduction(traductionDeleteId);
     };
 
-    const handdleAddLanguage = (e, data) => {
-
-        const { name, value} = e.target.value ? e.target : data;
-        console.log( name, value);
-    };
-
     return (
     <Segment className="expressions-result" basic>
         <Segment>
@@ -98,10 +92,6 @@ const ExpressionsResult = ( props ) => {
                     value={newTraductionInputValue.language.code}
                     onChange={handdleAddTraductionInputChange}
                     disabled={expressionIdIsSelect}
-                    additionLabel="Ajouter "
-                    additionPosition='top'
-                    allowAdditions={true}
-                    onAddItem={handdleAddLanguage}
                     />
                     <Form.Button 
                     type="submit" 

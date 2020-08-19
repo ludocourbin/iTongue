@@ -94,8 +94,6 @@ export const expressionIdSelect = (payload) => ({
     payload,
 });
 
-/* Traductions  */
-
 // Set traductions in state
 export const SET_TRADUCTIONS_BY_EXPRESSION = "SET_TRADUCTIONS_BY_EXPRESSION";
 export const SET_TRADUCTIONS_BY_EXPRESSION_SUCCESS = "SET_TRADUCTIONS_BY_EXPRESSION_SUCCESS";
@@ -176,5 +174,31 @@ export const deleteTraductionSuccess = (payload) => ({
 
 export const deleteTraductionError = (payload) => ({
     type: DELETE_TRADUCTION_ERROR,
+    payload,
+});
+
+// Add language 
+
+export const ADD_LANGUAGE_SUBMIT = "ADD_LANGUAGE";
+export const ADD_LANGUAGE_SUBMIT_SUCCESS = "ADD_LANGUAGE_SUCCESS";
+export const ADD_LANGUAGE_SUBMIT_ERROR = "ADD_LANGUAGE_ERROR";
+export const LANGUAGE_INPUT_VALUE = "LANGUAGE_INPUT_VALUE";
+
+export const addLanguageSubmit = () => ({
+    type: ADD_LANGUAGE_SUBMIT,
+});
+
+export const addLanguageSubmitSuccess = (payload) => ({
+    type: ADD_LANGUAGE_SUBMIT_SUCCESS,
+    payload,
+});
+
+export const addLanguageSubmitError = (payload) => ({
+    type: ADD_LANGUAGE_SUBMIT_ERROR,
+    payload,
+});
+
+export const languageInputValue = (payload) => ({
+    type: LANGUAGE_INPUT_VALUE,
     payload,
 });

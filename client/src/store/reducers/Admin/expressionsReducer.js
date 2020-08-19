@@ -26,6 +26,11 @@ import {
     EDIT_TRADUCTION_SUBMIT,
     EDIT_TRADUCTION_SUBMIT_SUCCESS,
     EDIT_TRADUCTION_INPUT_VALUE,
+
+    ADD_LANGUAGE_SUBMIT_SUCCESS,
+    ADD_LANGUAGE_SUBMIT_ERROR,
+    LANGUAGE_INPUT_VALUE,
+
  } from '../../actions/Admin/expressionsActions';
 
 /* State */
@@ -49,6 +54,11 @@ const initialState = {
         id: 0,
         language: '',
         translation: '',
+    },
+
+    languageValue: {
+        name: '', // Nom du language
+        code: '', // Code du language ex: 'fr'
     },
 };
 
@@ -177,7 +187,28 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 expressionsList: [...action.payload],
             };
-        default:
+
+        case ADD_LANGUAGE_SUBMIT_SUCCESS: 
+            return {
+                ...state,
+                languagesList: {
+                    ...state.languagesList,
+                    ...action.payload
+                }
+            };
+        case ADD_LANGUAGE_SUBMIT_ERROR: 
+            return {
+                ...state,
+            };
+        case LANGUAGE_INPUT_VALUE: 
+            return {
+                ...state,
+                languageValue: {
+                    ...state.languageValue,
+                    ...action.payload
+                }
+            };
+    default:
             return state;
     };
 };

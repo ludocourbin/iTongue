@@ -5,6 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Expressions from './Expressions';
 import HomeAdmin from './HomeAdmin';
 import LoginAdmin from '../../containers/Admin/LoginAdmin';
+import Languages from '../../containers/Admin/Languages';
 
 /* Styles */
 import './admin.scss';
@@ -17,6 +18,7 @@ const Admin = ( { isLogged } ) => {
                 <Switch>
                         <Route exact path="/admin" component={HomeAdmin} />
                         <Route exact path="/admin/expressions" component={Expressions} ></Route>
+                        <Route exact path="/admin/languages" component={Languages} ></Route>
                         <Route path=''>
                             <Redirect to="/admin" /> 
                         </Route>

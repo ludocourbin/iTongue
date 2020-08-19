@@ -50,6 +50,13 @@ const HeaderAdmin = ( { logout, currentUser, ...props } ) => {
                     >
                         Expressions
                     </NavLink>
+                    <NavLink
+                        to="/admin/languages"
+                        activeClassName="active"
+                        className="header-admin links__item"
+                    >
+                        Langues
+                    </NavLink>
                 </Menu.Item>
                 <Menu.Item>
                     <span><b>Gautier Colasse</b></span>

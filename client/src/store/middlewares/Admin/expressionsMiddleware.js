@@ -44,6 +44,11 @@ import {
     setTraductionsByExpression,
     setTraductionsByExpressionSuccess,
 
+    // Add language
+    ADD_LANGUAGE_SUBMIT,
+    addLanguageSubmitSuccess,
+    addLanguageSubmitError,
+
 } from "../../actions/Admin/expressionsActions";
 
 const expressionsMiddleware = (store) => (next) => (action) => {
@@ -152,7 +157,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 languagesList,
             } = store.getState().expressionsReducer;
 
-
+            /* Retourne le code pour le flag par rapport à l'ID */
             const findCodeById = languagesList.find(language => {
                 if (language.id === newTraductionInputValue.language_id) {
                     return language
@@ -219,7 +224,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             const objData = {
                 text: traductionSelect.text, // si on change rien, erreur (a voir)
                 expression_id: expressionId,
-                language_id: traductionSelect.language_id //,
+                language_id: traductionSelect.language_id ? traductionSelect.language_id : traductionSelect.language.id //,
             };
 
             axios({
@@ -302,6 +307,31 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 toast.error("Une erreur est survenue lors de la suppression de cette traduction");
                 console.error(err);
             });
+            break;
+        };
+        case ADD_LANGUAGE_SUBMIT : {
+
+            /*
+                name: mon_language
+                code: fr
+            */
+
+            console.log(action.payload);
+/*
+            axios({
+                method: 'POST',
+                url: 'https://itongue.herokuapp.com/admin/languages/',
+                data: ''
+            })
+            .then(res => {
+                console.log(res);
+                store.dispatch(addLanguageSuccess());
+            })
+            .catch(err => {
+                console.error(err);
+                store.dispatch(addLanguageError());
+            });
+            */
             break;
         };
         default:

@@ -94,7 +94,11 @@ const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
                 </Sidebar>
                 <Sidebar.Pusher className="main" dimmed={visible}>
                     <Header visible={visible} setVisible={() => setVisible()} />
-                    <div className="main-content">{props.children}</div>
+                    <div
+                        className={user ? "main-content user" : "main-content"}
+                    >
+                        {props.children}
+                    </div>
                     {user ? <NavigationBottom user={user} /> : null}
                 </Sidebar.Pusher>
             </Sidebar.Pushable>
@@ -103,3 +107,4 @@ const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
 };
 
 export default LayoutHeader;
+// <NavigationBottom />

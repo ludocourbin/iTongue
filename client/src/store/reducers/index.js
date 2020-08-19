@@ -15,6 +15,6 @@ export default combineReducers({
     settings,
     user,
     expressionsReducer,
-    login
+    login,
     loginAdminReducer,
 });

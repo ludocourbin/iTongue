@@ -54,15 +54,13 @@ const ExpressionsResult = ( props ) => {
 
     return (
     <Segment className="expressions-result" basic>
-        <Header size='medium' content='Traductions' />
-
         <Segment>
-            <Header size="tiny" content="Ajouter une traduction"/>
+            <Header size='medium' content='Traductions'/>
             <Form onSubmit={handdleAddTraductionSubmit}>
                 <Form.Group>
                     <Form.Input 
                     icon="add" 
-                    placeholder="Comment vas-tu aujourd'hui ?" 
+                    placeholder="Ajouter une traduction" 
                     width='15'
                     onChange={handdleAddTraductionInputChange}
                     name="text"
@@ -99,7 +97,7 @@ const ExpressionsResult = ( props ) => {
             size="tiny"
             />
 
-            <Table celled>
+            <Table celled selectable striped>
                 <Table.Header>
                     <Table.Row textAlign='center'>
                         <Table.HeaderCell>ID</Table.HeaderCell>

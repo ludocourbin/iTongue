@@ -2,14 +2,14 @@ import React from "react";
 
 import { Segment, Statistic, Icon } from "semantic-ui-react";
 import "./homeadmin.scss";
-import HeaderAdmin from "../HeaderAdmin";
+import HeaderAdmin from "../../../containers/Admin/HeaderAdmin";
 
 const HomeAdmin = ({ userConnect }) => {
     console.log("userConnect", userConnect);
     return (
         <HeaderAdmin>
             <div className="home-admin">
-                <Segment inverted>
+                <Segment>
                     <Statistic.Group widths="four">
                         <Statistic>
                             <Statistic.Value>200</Statistic.Value>
@@ -45,12 +45,10 @@ const HomeAdmin = ({ userConnect }) => {
                 <div className="home-admin_container">
                     <Segment
                         className="home-admin_container stats-left"
-                        inverted
                     ></Segment>
 
                     <Segment
                         className="home-admin_container stats-right"
-                        inverted
                     ></Segment>
                 </div>
             </div>

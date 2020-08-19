@@ -2,6 +2,7 @@ export const LOGIN_SUBMIT = "LOGIN_SUBMIT";
 export const LOGIN_SUBMIT_SUCCESS = "LOGIN_SUBMIT_SUCCESS";
 export const LOGIN_SUBMIT_ERROR = "LOGIN_SUBMIT_ERROR";
 export const LOGIN_INPUT_VALUE = "LOGIN_INPUT_VALUE";
+export const LOGOUT = "LOGOUT";
 
 export const loginSubmit = () => ({
     type: LOGIN_SUBMIT,
@@ -20,4 +21,8 @@ export const loginSubmitError = (payload) => ({
 export const loginInputValue = (payload) => ({
     type: LOGIN_INPUT_VALUE,
     payload,
+});
+
+export const logout = () => ({
+    type: LOGOUT,
 });

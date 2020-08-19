@@ -7,7 +7,7 @@ import './expressions.scss';
 /* Containers */
 import ExpressionsList from '../../../containers/Admin/Expressions/ExpressionsList';
 import ExpressionsResult from '../../../containers/Admin/Expressions/ExpressionsResult';
-import HeaderAdmin from '../HeaderAdmin';
+import HeaderAdmin from "../../../containers/Admin/HeaderAdmin";
 
 const Expressions = () => {
 

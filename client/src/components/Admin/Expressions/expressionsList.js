@@ -52,14 +52,14 @@ const ExpressionsList = ( props ) => {
     return (
         
     <Segment className="expressions-list" basic>
-        <Header size='medium' content='Expressions' />
+       
         <Segment>
-            <Header size="tiny" content="Ajouter une expression"/>
+            <Header size='medium' content='Expressions' />
             <Form onSubmit={handdleAddExpressionSubmit}>
                 <Form.Group>
                     <Form.Input 
                     icon="add" 
-                    placeholder="How are you today ?" 
+                    placeholder="Ajouter une expression" 
                     width="16" 
                     value={newExpressionInputValue}
                     onChange={handdleAddExpressionInputChange}
@@ -71,7 +71,6 @@ const ExpressionsList = ( props ) => {
         </Segment>
         
         <Segment className="expression-list__table">
-
             <Confirm
             open={confirm}
             onCancel={() => setConfirm(false)}

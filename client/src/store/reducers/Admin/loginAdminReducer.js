@@ -3,6 +3,7 @@ import {
     LOGIN_SUBMIT_SUCCESS,
     LOGIN_SUBMIT_ERROR,
     LOGIN_INPUT_VALUE,
+    LOGOUT,
 } from "../../actions/Admin/loginAdminActions";
 
 const initialState = {
@@ -46,6 +47,12 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 loading: false,
                 message: action.payload,
+            };
+        case LOGOUT:
+            return {
+                ...state,
+                isLogged: false,
+                currentUser: {},
             };
         default:
             return state;

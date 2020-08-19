@@ -1,9 +1,7 @@
-/* Middleware Expressions */
+/* Expressionsiddleware */
 
 import { toast } from "react-toastify";
 import axios from 'axios';
-
-/***** EN ATTENTE DE L'API POUR REFAIRE CE MIDDLEWARE ******/
 
 /* Actions */
 import {
@@ -41,7 +39,7 @@ import {
     SET_TRADUCTIONS_BY_EXPRESSION,
     setTraductionsByExpression,
     setTraductionsByExpressionSuccess,
-    
+
 } from "../../actions/Admin/expressionsActions";
 
 const expressionsMiddleware = (store) => (next) => (action) => {
@@ -55,7 +53,6 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             .then(res => {
                 console.log(res.data.data)
                 store.dispatch(fetchExpressionSuccess(res.data.data));
-                //toast.success("Les données ont bien été chargées");
             })
             .catch(err => {
                 store.dispatch(fetchExpressionError(/* Todo */));
@@ -101,7 +98,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             })
             .catch(err => {
                 store.dispatch(addExpressionSubmitError(/* Todo */));
-                toast.info("Nouvelle expression enregistrée avec succès");
+                toast.error("Une erreur est survenue lors de l'ajout de votre expression");
                 console.error("ADD_EXPRESSION_SUBMIT", err);
             });
             break;
@@ -120,7 +117,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 });
     
                 store.dispatch(deleteExpressionSuccess(expressionsFilter));
-                toast.error("L'expression a bien été supprimée");
+                toast.info("L'expression a bien été supprimée");
             })
             .catch(err => {
                 store.dispatch(deleteExpressionError(/* Todo */))
@@ -179,6 +176,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             })
             .catch(err => {
                 store.dispatch(addTraductionSubmitError(/* Todo */));
+                toast.error("Une erreur est survenue lors de l'ajout de votre traduction");
                 console.error("ADD_TRADUCTION_SUBMIT", err);
             });
             break;
@@ -269,7 +267,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
     
                 store.dispatch(deleteTraductionSuccess(newExpressionList));
                 store.dispatch(setTraductionsByExpression());
-                toast.error("La traduction a bien été supprimée");
+                toast.info("La traduction a bien été supprimée");
             })
             .catch(err => {
                 store.dispatch(deleteTraductionError(/* Todo */));

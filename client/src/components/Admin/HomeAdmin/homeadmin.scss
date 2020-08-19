@@ -28,11 +28,13 @@
     }
     
     .ui .statistic .value {
-        color: #ffffff;
+        color: $primary-text-color;
     }
 
     .segment {
         border-radius: 12px;
+        background-color: $shape-color;
+        border: 0;
     }
 
     .ui.segment:first-child {

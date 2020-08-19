@@ -9,7 +9,13 @@ const fsPromises = fs.promises;
 const redis = require("../redis");
 const userDatamapper = require("../db/user-datamapper");
 
-const { SALT_ROUNDS, USER_ROLES, MIME_EXTENSION_MAP, PUBLIC_DIR } = require("../constants");
+const {
+    SALT_ROUNDS,
+    USER_ROLES,
+    MIME_EXTENSION_MAP,
+    PUBLIC_DIR,
+    AVATARS_DIR
+} = require("../constants");
 
 module.exports = {
     showAll: async (_, res, next) => {
@@ -24,7 +30,6 @@ module.exports = {
 
     showOne: async (req, res, next) => {
         const { id: userId, slug } = req.params;
-        console.log(slug);
 
         if ((userId && isNaN(userId)) || (slug && !/^[a-z\\d]+(-[a-z\\d]+)*$/.test(slug)))
             return res.status(400).json({
@@ -142,13 +147,12 @@ module.exports = {
                 avatarUrl = user.avatar_url;
                 destPath = path.join(PUBLIC_DIR, avatarUrl + extension);
             } else {
-                const destDir = "uploads/avatars";
                 const destSubDir = fileName.split("").slice(0, 4).join("/");
                 const destBaseName = fileName.substring(4);
                 const destFileName = destBaseName + extension;
 
-                avatarUrl = `${destDir}/${destSubDir}/${destBaseName}`;
-                destPath = path.join(PUBLIC_DIR, destDir, destSubDir, destFileName);
+                avatarUrl = `${AVATARS_DIR}/${destSubDir}/${destBaseName}`;
+                destPath = path.join(PUBLIC_DIR, AVATARS_DIR, destSubDir, destFileName);
             }
 
             const parentDir = path.dirname(destPath);
@@ -160,7 +164,7 @@ module.exports = {
                 await userDatamapper.setAvatarUrl(avatarUrl, user.id);
             }
 
-            res.json({ data: avatarUrl });
+            res.json({ data: { avatarUrl: avatarUrl } });
         } catch (renameErr) {
             try {
                 if (fs.existsSync(tempPath)) await fsPromises.unlink(tempPath);
@@ -188,6 +192,7 @@ module.exports = {
                     avatarUrl: user.avatar_url,
                     isAdmin: user.is_admin
                 };
+
                 const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
                     expiresIn: "20m"
                 });
@@ -195,20 +200,18 @@ module.exports = {
 
                 await storeRefreshToken(user, refreshToken);
 
-                const { avatar_url: avatarUrl, is_admin: isAdmin, created_at: createdAt } = user;
-                const { id, email, firstname, lastname, slug, records, languages } = user;
-                const display_user = {
-                    id,
-                    email,
-                    firstname,
-                    lastname,
-                    slug,
-                    avatarUrl,
-                    isAdmin,
-                    createdAt,
-                    records,
-                    languages
+                const keyMap = {
+                    avatar_url: "avatarUrl",
+                    is_admin: "isAdmin",
+                    created_at: "createdAt"
                 };
+
+                const cleanEntries = Object.entries(user).map(([key, value]) => [
+                    keyMap[key] || key,
+                    value
+                ]);
+
+                const display_user = Object.fromEntries(cleanEntries);
 
                 return res.json({
                     data: { accessToken, refreshToken, user: display_user }

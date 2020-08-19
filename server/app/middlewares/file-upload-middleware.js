@@ -15,7 +15,6 @@ const fileFilter = (req, file, cb) => {
 };
 
 module.exports = fieldname => (req, res, next) => {
-    console.log(path.resolve("temp/" + fieldname));
     const upload = multer({
         dest: path.resolve("temp/" + fieldname),
         limits,

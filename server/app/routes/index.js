@@ -6,6 +6,7 @@ const languageRouter = require("./language-routes");
 const expressionRouter = require("./expression-routes");
 const translationRouter = require("./translation-routes");
 const adminRouter = require("./admin-routes");
+const uploadRouter = require("./upload-routes");
 
 const router = express.Router();
 
@@ -53,6 +54,8 @@ router.use("/languages", languageRouter);
 router.use("/expressions", expressionRouter);
 
 router.use("/translations", translationRouter);
+
+router.use("/uploads", uploadRouter);
 
 router.use((_, res) => {
     res.status(404).json({ errors: [{ msg: "Resource not found" }] });

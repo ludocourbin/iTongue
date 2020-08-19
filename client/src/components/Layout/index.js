@@ -7,7 +7,7 @@ import NavigationBottom from "./navigationBottom";
 
 import "./header.scss";
 
-const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
+const LayoutHeader = ({ user, logout, visible, setVisible, ...props }) => {
     return (
         <div className="main-header">
             <Sidebar.Pushable as={Segment}>
@@ -44,7 +44,7 @@ const LayoutHeader = ({ user, visible, setVisible, ...props }) => {
                             </NavLink>
                         </div>
                         {user ? (
-                            <div className="container">
+                            <div onClick={() => logout()} className="container">
                                 <NavLink
                                     exact
                                     to="/"

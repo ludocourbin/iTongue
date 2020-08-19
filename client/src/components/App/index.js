@@ -6,6 +6,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Signup from "../../containers/Signup";
 import Search from "../Search";
 import Login from "../../containers/Login";
+import IrecordsPage from "../IrecordsPage";
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
@@ -30,6 +31,7 @@ const App = ({ user }) => {
                 />
                 <Route path="/search" component={Search} />
                 <Route path="/login" component={Login} />
+                <Route path="/irecords" component={IrecordsPage} />
 
                 <Route path="/admin" component={Admin} />
 

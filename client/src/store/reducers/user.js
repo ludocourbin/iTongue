@@ -6,6 +6,7 @@ import {
     SIGNUP,
     SIGNUP_SUCCESS,
     SIGNUP_ERROR,
+    LOGOUT,
 } from "../actions/userActions";
 
 const initialState = {
@@ -89,6 +90,14 @@ export default (state = initialState, action = {}) => {
                 },
                 currentUser: "",
                 errorMailUsed: action.payload,
+                isLogged: false,
+            };
+        case LOGOUT:
+            return {
+                ...state,
+                token: null,
+                currentUser: "",
+                loggedMessage: "",
             };
         default:
             return state;

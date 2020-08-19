@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 
 /* Actions */
 import { toggleMenu } from "../store/actions/settingsActions";
+import { logout } from "../store/actions/userActions";
 
 const mapStateToProps = (state) => ({
     visible: state.settings.visible,
@@ -14,6 +15,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     setVisible: () => {
         dispatch(toggleMenu());
+    },
+    logout: () => {
+        dispatch(logout());
     },
 });
 

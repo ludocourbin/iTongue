@@ -15,7 +15,7 @@ import "./app.scss";
 /* Components */
 import Admin from "../../containers/Admin/Index";
 
-const App = ({ user }) => {
+const App = ({ user, isLogged }) => {
     return (
         <div className="App">
             <Switch>
@@ -28,8 +28,13 @@ const App = ({ user }) => {
                     path="/signup"
                     render={() => (user ? <Redirect to="/" /> : <Signup />)}
                 />
+
                 <Route path="/search" component={Search} />
-                <Route path="/login" component={Login} />
+
+                <Route 
+                    exact path="/login"
+                    component={Login}
+                />
 
                 <Route path="/admin" component={Admin} />
 

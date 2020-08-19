@@ -1,4 +1,4 @@
-import React from "react";
+import React  from "react";
 import {
     Container,
     Button,
@@ -35,9 +35,25 @@ const Login = ({
         Si c'est le champ email ou password, la propriété est name:value
         Si c'est la checkbox, c'est id : data.checked
         */
-        onInputChange({
-            [name || id]: value || data.checked || "" || false,
-        });
+       
+       
+           if(name){
+            console.log(name);
+            onInputChange({
+                [name] : value || ""
+            });
+           }
+           if (id) {
+            console.log(id);
+            onInputChange({
+                 [id]: data.checked || false
+            });
+           } 
+       
+        // onInputChange({
+        //     [name || id]: value || data.checked || "" || false,
+        // });
+        
     };
 
     return (

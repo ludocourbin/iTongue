@@ -33,7 +33,7 @@ CREATE VIEW "record_display" AS
    SELECT "r"."id", "r"."url", "r"."user_id" AS "userId", "r"."created_at" AS "createdAt",
           (SELECT to_json(("id", "text", "created_at", "expression", "language")::"record_translation")
              FROM "translation_with_relations"
-            WHERE "language"->>'name' = 'english'
+            WHERE "language"->>'name' ILIKE 'english'
               AND "t"."expression"->>'id' = "expression"->>'id') AS "englishTranslation",
           to_json(("t"."id", "t"."text", "t"."created_at", "t"."expression", "t"."language")::"record_translation") AS "translation"
      FROM "record" "r"

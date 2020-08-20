@@ -1,20 +1,30 @@
 import React, { useState } from "react";
 import { Card, Flag, Button, Icon } from "semantic-ui-react";
+import { ReactMic } from "react-mic";
 
 import AudioPlayer from "../../containers/Audio";
 
 const Recording = ({ audio, toggleRecording }) => {
-    const [recording, setRecording] = useState(false);
-
     const { flagOrigin, flagTarget, label, traduction } = audio;
-    const handleRecord = async () => {
-        console.log("Lets record some tune !");
+
+    const [recording, setRecording] = useState(false);
+    const [recordedSound, setRecordedSound] = useState(null);
+
+    const startRecording = () => {
         setRecording(true);
     };
 
-    const handleStopRecording = async () => {
+    const stopRecording = () => {
         setRecording(false);
-        console.log("stop recording");
+    };
+
+    const onData = (recordedBlob) => {
+        // console.log("chunk of real-time data is: ", recordedBlob);
+    };
+
+    const onStop = (recordedBlob) => {
+        console.log("recordedBlob is: ", recordedBlob);
+        setRecordedSound(recordedBlob);
     };
 
     return (
@@ -30,17 +40,34 @@ const Recording = ({ audio, toggleRecording }) => {
                 </Card.Content>
                 <Card.Content>
                     <div>
-                        <AudioPlayer audio={audio} />
+                        <ReactMic
+                            record={recording}
+                            className="sound-wave"
+                            onStop={onStop}
+                            onData={onData}
+                            strokeColor="#FFFFFF"
+                            backgroundColor="#fe734c"
+                            onBlock={startRecording}
+                            mimeType="audio/mp3" // Change type wanted here
+                        />
+                        {recordedSound && !recording && (
+                            <AudioPlayer audio={recordedSound} />
+                        )}
+                        {recordedSound && recording && (
+                            <p>réenregistrement en cours</p>
+                        )}
+                        {!recordedSound && !recording && <p>Aucun audio</p>}
+
                         <div className="recording-microphone">
                             {recording ? (
                                 <Icon
-                                    onClick={handleStopRecording}
+                                    onClick={stopRecording}
                                     name="stop circle"
                                     size="big"
                                 />
                             ) : (
                                 <Icon
-                                    onClick={handleRecord}
+                                    onClick={startRecording}
                                     name="microphone"
                                     size="big"
                                 />

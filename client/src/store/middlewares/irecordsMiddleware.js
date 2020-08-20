@@ -14,7 +14,7 @@ export default (store) => (next) => (action) => {
             const user = store.getState().user.currentUser;
             const translation = { id: 11 };
 
-            const file = new File([blob], "filename");
+            const file = new File([blob], "iRecord");
             console.log(file);
         // const data = new FormData();
         // data.append("translation_id", translation.id);

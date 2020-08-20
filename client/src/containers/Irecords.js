@@ -2,26 +2,15 @@ import { connect } from "react-redux";
 
 import Irecords from "../components/Irecords";
 
-import {
-    setIrecordSelectedId,
-    toggleRecording,
-    selectIrecordToRecord,
-} from "../store/actions/irecordsActions";
+import { setIrecordSelectedId } from "../store/actions/irecordsActions";
 
 const mapStateToProps = (state) => ({
     irecordSelectedId: state.irecords.irecordSelectedId,
-    isRecording: state.irecords.isRecording,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     setIrecordSelectedId: (id) => {
         dispatch(setIrecordSelectedId(id));
-    },
-    toggleRecording: (bool) => {
-        dispatch(toggleRecording(bool));
-    },
-    selectIrecordToRecord: (irecord) => {
-        dispatch(selectIrecordToRecord(irecord));
     },
 });
 

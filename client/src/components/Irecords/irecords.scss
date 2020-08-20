@@ -20,12 +20,6 @@
         padding: 7px !important;
     }
 
-    &-copy {
-        position: absolute !important;
-        right: 10px;
-        padding: 10px;
-    }
-
     .flex {
         display: flex;
         align-items: center;
@@ -71,3 +65,7 @@
         cursor: pointer;
     }
 }
+
+// .controlBar[size="hidden"] {
+//     display: none;
+// }

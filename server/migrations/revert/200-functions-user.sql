@@ -2,7 +2,7 @@
 
 BEGIN;
 
-DROP VIEW "user_display", "user_with_relations", "records", "translation_with_relations";
+DROP VIEW "user_display", "user_with_relations", "record_display", "translation_with_relations";
 
 DROP TYPE "user_record", "record_translation", "expression_display";
 

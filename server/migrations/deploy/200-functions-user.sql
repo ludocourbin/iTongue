@@ -29,24 +29,27 @@ CREATE VIEW "translation_with_relations" AS
 
 CREATE TYPE "record_translation" AS ("id" INT, "text" TEXT, "createdAt" TIMESTAMPTZ, "expression" JSON, "language" JSON);
 
-CREATE VIEW "records" AS
-   SELECT "r"."id", "r"."url", "r"."user_id",
-           to_json(("t"."id", "t"."text", "t"."created_at", "t"."expression", "t"."language")::"record_translation") AS "translation",
-           "r"."created_at"
+CREATE VIEW "record_display" AS
+   SELECT "r"."id", "r"."url", "r"."user_id" AS "userId", "r"."created_at" AS "createdAt",
+          (SELECT to_json(("id", "text", "created_at", "expression", "language")::"record_translation")
+             FROM "translation_with_relations"
+            WHERE "language"->>'name' = 'english'
+              AND "t"."expression"->>'id' = "expression"->>'id') AS "englishTranslation",
+          to_json(("t"."id", "t"."text", "t"."created_at", "t"."expression", "t"."language")::"record_translation") AS "translation"
      FROM "record" "r"
 LEFT JOIN "translation_with_relations" "t"
        ON "r"."translation_id" = "t"."id";
 
-CREATE TYPE "user_record" AS ("id" INT, "url" TEXT, "createdAt" TIMESTAMPTZ, "translation" JSON);
+CREATE TYPE "user_record" AS ("id" INT, "url" TEXT, "createdAt" TIMESTAMPTZ, "englishTranslation" JSON, "translation" JSON);
 
 CREATE VIEW "user_with_relations" AS
    SELECT "u".*,
-         COALESCE(json_agg(("r"."id", "r"."url", "r"."created_at", "r"."translation")::"user_record") FILTER(WHERE "r"."id" IS NOT NULL), '[]') AS "records",
+         COALESCE(json_agg(("r"."id", "r"."url", "r"."createdAt", "r"."englishTranslation", "r"."translation")::"user_record") FILTER(WHERE "r"."id" IS NOT NULL), '[]') AS "records",
          COALESCE(json_agg("l".*) FILTER(WHERE "lu"."role" = 'learner'), '[]') AS "learnedLanguages",
          COALESCE(json_agg("l".*) FILTER(WHERE "lu"."role" = 'teacher'), '[]') AS "taughtLanguages"
      FROM "user" "u"
-LEFT JOIN "records" "r"
-       ON "u"."id" = "r"."user_id"
+LEFT JOIN "record_display" "r"
+       ON "u"."id" = "r"."userId"
 LEFT JOIN "language_user" "lu"
        ON "u"."id" = "lu"."user_id"
 LEFT JOIN "language" "l"

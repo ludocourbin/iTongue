@@ -24,6 +24,11 @@ const dataMapper = {
 
   findByPk: id => dataMapper.findOne({ id: { operator: "=", value: id } }),
 
+  findAll: async filter => {
+    const result = await client.query(queryUtils.filter(`SELECT * FROM "record_display"`, filter));
+    return result.rows;
+  },
+
   deleteOne: async recordId => {
     const result = await client.query('DELETE FROM "record" WHERE "id" = $1', [recordId]);
     return result.rowCount;

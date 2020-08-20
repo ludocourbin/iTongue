@@ -7,6 +7,7 @@ const expressionRouter = require("./expression-routes");
 const translationRouter = require("./translation-routes");
 const adminRouter = require("./admin-routes");
 const uploadRouter = require("./upload-routes");
+const recordRouter = require("./record-routes");
 
 const router = express.Router();
 
@@ -30,17 +31,17 @@ const router = express.Router();
  *                        message: Router is working
  */
 router.get("/", (_, res) => {
-    res.json({ data: { message: "Router is working" } });
+  res.json({ data: { message: "Router is working" } });
 });
 
 // Route de test pour auth-middleware
 router.get("/private", require("../middlewares/auth-middleware"), (_, res) => {
-    res.json({ data: { msg: "Authorized" } });
+  res.json({ data: { msg: "Authorized" } });
 });
 
 // Route de test pour admin-middleware
 router.get("/admin", require("../middlewares/admin-middleware"), (_, res) => {
-    res.json({ data: { msg: "Authorized" } });
+  res.json({ data: { msg: "Authorized" } });
 });
 
 router.use("/admin", adminRouter);
@@ -57,13 +58,15 @@ router.use("/translations", translationRouter);
 
 router.use("/uploads", uploadRouter);
 
+router.use("/records", recordRouter);
+
 router.use((_, res) => {
-    res.status(404).json({ errors: [{ msg: "Resource not found" }] });
+  res.status(404).json({ errors: [{ msg: "Resource not found" }] });
 });
 
 router.use((err, req, res, next) => {
-    res.json({ errors: [{ msg: err.toString() }] });
-    console.log(err);
+  res.json({ errors: [{ msg: err.toString() }] });
+  console.log(err);
 });
 
 module.exports = router;

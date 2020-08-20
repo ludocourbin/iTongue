@@ -17,10 +17,8 @@ const Recording = ({ audio, toggleRecording }) => {
                 </Card.Content>
                 <Card.Content>
                     <div>
+                        <Icon name="microphone" />
                         <AudioPlayer audio={audio} />
-                        <div className="recording-microphone">
-                            <Icon size="big" name="microphone" />
-                        </div>
                     </div>
                 </Card.Content>
                 <Card.Content extra>
@@ -33,7 +31,7 @@ const Recording = ({ audio, toggleRecording }) => {
                             Annuler
                         </Button>
                         <Button basic color="green">
-                            Sauvegarder
+                            Enregistrer
                         </Button>
                     </div>
                 </Card.Content>

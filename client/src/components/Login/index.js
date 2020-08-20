@@ -1,4 +1,4 @@
-import React from "react";
+import React  from "react";
 import {
     Container,
     Button,
@@ -6,7 +6,6 @@ import {
     Form,
     Checkbox,
     Icon,
-    Message,
 } from "semantic-ui-react";
 import Layout from "../../containers/Layout";
 import { ToastContainer } from "react-toastify";
@@ -17,7 +16,6 @@ const Login = ({
     loginData,
     loading,
     showPassword,
-    loginErrorMessage,
     // Fonctions qui dispatchent
     onInputChange,
     togglePassword,
@@ -37,23 +35,25 @@ const Login = ({
         Si c'est le champ email ou password, la propriété est name:value
         Si c'est la checkbox, c'est id : data.checked
         */
-
-        if (name) {
+       
+       
+           if(name){
             console.log(name);
             onInputChange({
-                [name]: value || "",
+                [name] : value || ""
             });
-        }
-        if (id) {
+           }
+           if (id) {
             console.log(id);
             onInputChange({
-                [id]: data.checked || false,
+                 [id]: data.checked || false
             });
-        }
-
+           } 
+       
         // onInputChange({
         //     [name || id]: value || data.checked || "" || false,
         // });
+        
     };
 
     return (
@@ -97,15 +97,7 @@ const Login = ({
                             id="stayConnected"
                         />
                     </Form.Field>
-                    {loginErrorMessage && (
-                        <Message content={loginErrorMessage} />
-                    )}
-
-                    <Button
-                        loading={loading}
-                        className="login-button"
-                        type="submit"
-                    >
+                    <Button className="login-button" type="submit">
                         Connectez-vous
                     </Button>
                 </Form>

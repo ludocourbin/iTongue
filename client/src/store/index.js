@@ -10,7 +10,7 @@ const persistConfig = {
     // configuration object for redux-persist
     key: "root",
     storage, // define which storage to use
-    blacklist: ["expressionsReducer", "irecords"],
+    blacklist: ["expressionsReducer"],
 };
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

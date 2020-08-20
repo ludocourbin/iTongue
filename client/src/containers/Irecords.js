@@ -11,7 +11,6 @@ import {
 const mapStateToProps = (state) => ({
     irecordSelectedId: state.irecords.irecordSelectedId,
     isRecording: state.irecords.isRecording,
-    user: state.user.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

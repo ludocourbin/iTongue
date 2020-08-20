@@ -1,31 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Menu, Segment, Sidebar } from "semantic-ui-react";
 import { NavLink, Link } from "react-router-dom";
 
 import Header from "./menu";
 import NavigationBottom from "./navigationBottom";
-import Recording from "./recording";
 
 import "./header.scss";
 
-const LayoutHeader = ({
-    user,
-    isRecording,
-    recording,
-    toggleRecording,
-    logout,
-    ...props
-}) => {
+const LayoutHeader = ({ user, logout, ...props }) => {
     const [visible, setVisible] = useState(false);
 
     const handleLogout = () => {
         setVisible(!visible);
         logout();
     };
-
-    // useEffect(() => {
-    //     toggleRecording(false);
-    // }, []);
     return (
         <div className="main-header">
             <Sidebar.Pushable as={Segment}>
@@ -119,7 +107,7 @@ const LayoutHeader = ({
                     >
                         {props.children}
                     </div>
-                    {isRecording ? <Recording audio={recording} /> : null}
+
                     {user ? <NavigationBottom user={user} /> : null}
                 </Sidebar.Pusher>
             </Sidebar.Pushable>

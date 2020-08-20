@@ -4,7 +4,12 @@ import { ReactMic } from "react-mic";
 
 import AudioPlayer from "../../containers/Audio";
 
-const Recording = ({ audio, toggleRecording }) => {
+const Recording = ({
+    audio,
+    toggleRecording,
+    sendIrecordsRecorded,
+    loading,
+}) => {
     const { flagOrigin, flagTarget, label, traduction } = audio;
 
     const [recording, setRecording] = useState(false);
@@ -25,6 +30,13 @@ const Recording = ({ audio, toggleRecording }) => {
     const onStop = (recordedBlob) => {
         console.log("recordedBlob is: ", recordedBlob);
         setRecordedSound(recordedBlob);
+    };
+
+    const onSave = () => {
+        if (recordedSound) {
+            sendIrecordsRecorded(recordedSound);
+        }
+        toggleRecording(false);
     };
 
     return (
@@ -84,7 +96,13 @@ const Recording = ({ audio, toggleRecording }) => {
                         >
                             Annuler
                         </Button>
-                        <Button basic color="green">
+                        <Button
+                            disabled={recordedSound ? false : true}
+                            onClick={onSave}
+                            basic
+                            color="green"
+                            loading={loading}
+                        >
                             Sauvegarder
                         </Button>
                     </div>

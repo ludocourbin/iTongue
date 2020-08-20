@@ -14,6 +14,8 @@ const LayoutHeader = ({
     recording,
     toggleRecording,
     logout,
+    loading,
+    sendIrecordsRecorded,
     ...props
 }) => {
     const [visible, setVisible] = useState(false);
@@ -120,6 +122,8 @@ const LayoutHeader = ({
                         <Recording
                             toggleRecording={toggleRecording}
                             audio={recording}
+                            sendIrecordsRecorded={sendIrecordsRecorded}
+                            loading={loading}
                         />
                     ) : null}
                     {user ? <NavigationBottom user={user} /> : null}

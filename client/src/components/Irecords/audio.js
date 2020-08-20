@@ -4,8 +4,12 @@ import getBlobDuration from "get-blob-duration";
 
 const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio, record }) => {
     
-    const { id, audioUrl, blobURL } = audio;
+    let blobURL;
 
+    if (audio) {
+        blobURL = audio.blob;
+    }
+    
     const audioRef = useRef(null);
     const progress = useRef(null);
 
@@ -67,7 +71,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio, record }) => {
     };
 
     const handleDuration = async () => {
-        if (audio.blob) {
+        if (audio && audio.blob) {
             const duration = await getBlobDuration(audio.blob);
             setDuration(duration);
         } else {

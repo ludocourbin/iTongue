@@ -70,7 +70,6 @@ const UserProfil = ({ user, match }) => {
                         
                         <div className="container_right__third-row">
                             <Statistics /> 
-                            
                         </div>
                     </div>
                 </Segment>
@@ -81,7 +80,7 @@ const UserProfil = ({ user, match }) => {
                 <div className="user-profil_feed">
                     { user.records ? 
                         user.records.map(audio => (
-                            <Irecords audio={audio} record={audio} key={audio.id} />
+                            <Irecords record={audio} key={audio.id} isUserRecord={user.id} />
                         )) 
                     :
                     <>

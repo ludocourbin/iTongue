@@ -11,9 +11,6 @@ export const loginAdminMiddleware = (store) => (next) => (action) => {
                 method: 'POST',
                 url: 'https://itongue.herokuapp.com/users/login',
                 data: { ...store.getState().loginAdminReducer.loginData },
-                headers: {
-                    "Authorization": `Bearer ${store.getState().loginAdminReducer.userConnect.accessToken}`
-                },
             })
             .then((res) => {
 

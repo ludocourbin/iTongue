@@ -20,7 +20,8 @@ const initialState = {
     currentUser: "",
     isLogged: false,
     loading: false,
-    token: null,
+    accessToken: null,
+    refreshToken: null,
     signupData: {
         firstname: "",
         lastname: "",
@@ -89,7 +90,8 @@ export default (state = initialState, action = {}) => {
                 errorMailUsed: "",
                 errorMessageEmail: "",
                 currentUser: { ...action.payload },
-                token: action.payload.token,
+                accessToken: action.payload.accessToken,
+                refreshToken: action.payload.refreshToken,
             };
         case SIGNUP_ERROR:
             return {
@@ -118,8 +120,9 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 loading: false,
                 loginErrorMessage: "",
-                currentUser: { ...action.payload },
-                token: action.payload.token,
+                currentUser: { ...action.payload.user },
+                accessToken: action.payload.accessToken,
+                refreshToken: action.payload.refreshToken,
                 loginData: {
                     email: "",
                     password: "",
@@ -132,7 +135,8 @@ export default (state = initialState, action = {}) => {
                 loading: false,
                 loginErrorMessage: action.payload,
                 currentUser: "",
-                token: "",
+                accessToken: "",
+                refreshToken: "",
                 loginData: {
                     email: state.loginData.email,
                     password: "",
@@ -150,7 +154,8 @@ export default (state = initialState, action = {}) => {
         case LOGOUT:
             return {
                 ...state,
-                token: null,
+                accessToken: null,
+                refreshToken: null,
                 loginData: {
                     email: state.currentUser.email,
                     password: "",

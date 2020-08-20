@@ -27,7 +27,7 @@ export default store => next => action => {
                             data
                         })
                             .then(res => {
-                                const currentUser = res.data.data.user;
+                                const currentUser = res.data.data;
                                 store.dispatch(signupSuccess(currentUser));
                                 toast.success(`Bienvenue ${currentUser.firstname}`);
                             })
@@ -54,7 +54,7 @@ export default store => next => action => {
                 data: dataLogin
             })
                 .then(res => {
-                    const currentUser = res.data.data.user;
+                    const currentUser = res.data.data;
                     store.dispatch(loginSubmitSuccess(currentUser));
                 })
                 .catch(err => {

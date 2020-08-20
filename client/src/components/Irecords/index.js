@@ -6,30 +6,20 @@ import AudioPlayer from "../../containers/Audio";
 import "./irecords.scss";
 
 const Irecords = ({
-    audio,
     toggleRecording,
     selectIrecordToRecord,
     isRecording,
     user,
     record,
+    isUserRecord,
 }) => {
     const [selectediRecordId, setSelectediRecordId] = useState(null);
 
-    const {
-        avatar,
-        author,
-        id,
-        flagOrigin,
-        flagTarget,
-        label,
-        traduction,
-    } = audio;
-
     const handleCopyiRecord = () => {
-        setSelectediRecordId(id);
-        selectIrecordToRecord(audio);
+        setSelectediRecordId(record.id);
+        selectIrecordToRecord(record);
         toggleRecording(true);
-        if (isRecording && selectediRecordId === id) {
+        if (isRecording && selectediRecordId === record.id) {
             toggleRecording(false);
         } else {
             toggleRecording(true);
@@ -49,7 +39,7 @@ const Irecords = ({
                         />
                         {`${user.firstname} ${user.lastname}`}
                     </Link>
-                    {user && (
+                    {(user && user.id !== isUserRecord) && ( 
                         <Icon
                             onClick={handleCopyiRecord}
                             className="irecords-copy"
@@ -65,11 +55,11 @@ const Irecords = ({
                 </Card.Content>
                 <Card.Content className="text">
                     <p>
-                        <Flag name={flagTarget} />
-                        {traduction}
+                        <Flag name={"es"} /> {/* englishTranslation -> en attente du back */}
+                        {"traduction"}
                     </p>
                 </Card.Content>
-                <AudioPlayer audio={audio } record={record }/>
+                <AudioPlayer record={record} />
             </Card>
         </div>
     );

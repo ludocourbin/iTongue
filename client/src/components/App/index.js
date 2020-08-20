@@ -27,10 +27,7 @@ const App = ({ userLogin, userSignup, isLogged }) => {
         <div className="App">
             <Switch>
                 <Route exact path="/" component={Home} />
-                <Route
-                    path="/signup"
-                    render={() => (userLogin || userSignup ? <Redirect to="/" /> : <Signup />)}
-                />
+                <Route path="/signup" render={() => <Signup />} />
 
                 <Route
                     path="/login"
@@ -38,13 +35,9 @@ const App = ({ userLogin, userSignup, isLogged }) => {
                 />
 
                 <Route path="/search" component={Search} />
-                <Route path="/login" render={() => (user ? <Redirect to="/" /> : <Login />)} />
                 <Route path="/irecords" component={IrecordsPage} />
                 <Route path="/users" component={IusersPage} />
-
-
                 <Route path="/user/:slug" component={Profil} />
-
                 <Route path="/admin" component={Admin} />
                 <Route>
                     <h1>La page n'existe pas</h1>

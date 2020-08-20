@@ -1,5 +1,8 @@
 @import "../../styles/vars";
 @import "../../styles/mixin";
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Capriola&display=swap');
 
 .main {
     background-color: $background-color !important;
@@ -15,20 +18,32 @@
     height: calc(100vh - 108px);
 }
 
-.header {
+.header-nav {
     @include flex-alignCenter;
-    padding: $padding-big;
+    padding: 2em .8em;
     height: 54px;
     z-index: 1000;
-    border-bottom: 1px solid $border-color;
+    border-bottom: 1px solid #f9ecec;
+    background-color: #ffffff!important;
 
-    &-icon {
+    &__icon {
         cursor: pointer;
-        color: $primary-color;
+        color: #cac7c7;
+        font-size: 1.4em!important;
     }
 
-    &-title {
+    &__icon:hover {
+        color: $primary-color;
+        border-bottom: 10px solid $primary-text-color;
+    }
+
+    &__title {
         margin: 0;
+        // font-family: 'Righteous', cursive;
+        // font-family: 'Pacifico', cursive;
+        // font-family: 'Capriola', sans-serif;
+        // letter-spacing: .12em;
+        font-size: 1.8em;
     }
 }
 
@@ -80,14 +95,26 @@
 
 .navigationBottom {
     padding: $padding;
-    height: 54px;
-    @include flex-spaceEvenly;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     position: fixed;
     width: 100%;
     bottom: 0;
-    border-top: 1px solid $border-color;
+    border-top: 1px solid #f9ecec;
 
     &-items {
         margin-left: 10px !important;
+        font-size: 1.4em!important;
+    }
+
+}
+
+.active-navbottom {
+    color: $primary-color!important;
+
+    .i.big.icon {
+        color: $primary-color!important;
     }
 }

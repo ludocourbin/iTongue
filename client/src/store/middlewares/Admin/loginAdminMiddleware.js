@@ -1,4 +1,5 @@
-import { LOGIN_SUBMIT, loginSubmitSuccess, loginSubmitError } from "../../actions/Admin/loginAdminActions";
+import { LOGIN_SUBMIT, loginSubmitSuccess, loginSubmitError, LOGOUT } from "../../actions/Admin/loginAdminActions";
+import { persistStore } from 'redux-persist';
 import axios from 'axios';
 
 export const loginAdminMiddleware = (store) => (next) => (action) => {
@@ -32,6 +33,10 @@ export const loginAdminMiddleware = (store) => (next) => (action) => {
                 console.error(err);
                 store.dispatch(loginSubmitError("Connexion refusée"));
             });
+            break;
+        };
+        case LOGOUT : {
+            // persistStore().purge();  ?? -> store.getState.loginAdminReducer
             break;
         };
         default: {

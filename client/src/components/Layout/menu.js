@@ -4,13 +4,13 @@ import { Icon } from "semantic-ui-react";
 
 const Header = ({ setVisible }) => {
     return (
-        <div className="header">
+        <div className="header-nav">
             <Link to="/search">
-                <Icon className="header-icon" name="search" size="big" />
+                <Icon className="header-nav__icon" name="search" size="big" />
             </Link>
-            <h1 className="header-title">iTongue</h1>
+            <h1 className="header-nav__title">iTongue</h1>
             <div onClick={() => setVisible()}>
-                <Icon className="header-icon" name="sidebar" size="big" />
+                <Icon className="header-nav__icon" name="sidebar" size="big" />
             </div>
         </div>
     );

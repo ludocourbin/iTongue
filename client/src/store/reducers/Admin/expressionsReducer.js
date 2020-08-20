@@ -29,6 +29,7 @@ import {
     ADD_LANGUAGE_SUBMIT_SUCCESS,
     ADD_LANGUAGE_SUBMIT_ERROR,
     LANGUAGE_INPUT_VALUE,
+    ADD_LANGUAGE_SUBMIT,
 
  } from '../../actions/Admin/expressionsActions';
 
@@ -188,17 +189,24 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
             };
+        case ADD_LANGUAGE_SUBMIT: 
+            return {
+                ...state,
+                newLanguageLoading: true,
+            };
         case ADD_LANGUAGE_SUBMIT_SUCCESS: 
             return {
                 ...state,
                 languagesList: [
                     ...state.languagesList,
                     {...action.payload}
-                ]
+                ],
+                newLanguageLoading: false,
             };
         case ADD_LANGUAGE_SUBMIT_ERROR: 
             return {
                 ...state,
+                newLanguageLoading: false,
             };
         case LANGUAGE_INPUT_VALUE: 
             return {

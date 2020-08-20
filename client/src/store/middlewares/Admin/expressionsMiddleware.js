@@ -319,10 +319,12 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             .then(res => {
                 store.dispatch(addLanguageSubmitSuccess(languageValue));
                 toast.info("La langue a bien été ajoutée");
+                console.log(res.data.data)
             })
             .catch(err => {
                 store.dispatch(addLanguageSubmitError(/* Todo */));
                 toast.error("Une erreur est survenue lors de l'ajout de cette langue");
+                console.error(err)
             });
             break;
         };

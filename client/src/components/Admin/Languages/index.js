@@ -18,12 +18,13 @@ const Languages = (props) => {
         languagesList, 
         languageInputValue, 
         languageValue, 
-        fetchLanguages 
+        fetchLanguages,
+        newLanguageLoading,
     } = props;
 
     useEffect(() => {
         fetchLanguages();
-    }, []);
+    }, [newLanguageLoading]);
 
     const handdleSubmitLanguage = () => {
         addLanguageSubmit();
@@ -62,6 +63,7 @@ const Languages = (props) => {
                         <Form.Button 
                         type="submit"
                         content="Ajouter la langue"
+                        loading={newLanguageLoading}
                         />
                     </Form.Group>
                 </Form>

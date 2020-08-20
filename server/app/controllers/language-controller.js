@@ -14,7 +14,7 @@ module.exports = {
         return;
       }
 
-      res.statuts(201).json({ data: newLanguage });
+      res.status(201).json({ data: newLanguage });
 
     } catch (error) {
       console.log(error)

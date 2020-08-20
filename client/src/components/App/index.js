@@ -20,7 +20,7 @@ import "./app.scss";
 import Admin from "../../containers/Admin/Index";
 import Profil from "../../containers/User/Profil";
 
-const App = ({ userLogin, userSignup, isLogged }) => {
+const App = ({ user, isLogged }) => {
     // <Route path="/login" component={Login} />
 
     return (
@@ -31,13 +31,13 @@ const App = ({ userLogin, userSignup, isLogged }) => {
 
                 <Route
                     path="/login"
-                    render={() => (userLogin || userSignup ? <Redirect to="/" /> : <Login />)}
+                    render={() => (user ? <Redirect to="/" /> : <Login />)}
                 />
 
                 <Route path="/search" component={Search} />
                 <Route path="/irecords" component={IrecordsPage} />
                 <Route path="/users" component={IusersPage} />
-                <Route path="/user/:slug" component={Profil} />
+                <Route path={`/user/${user.slug}`} component={Profil} />
                 <Route path="/admin" component={Admin} />
                 <Route>
                     <h1>La page n'existe pas</h1>

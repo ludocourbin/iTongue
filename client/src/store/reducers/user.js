@@ -29,8 +29,8 @@ const initialState = {
         confirm: "",
     },
     loginData: {
-        email: "",
-        password: "",
+        email: "gautier.colasse@gmail.com",
+        password: "123456",
         stayConnected: true,
     },
     showPassword: false,

@@ -1,4 +1,5 @@
 @import "../../styles/vars";
+@import "../../styles/mixin";
 
 
 .login{
@@ -9,9 +10,8 @@
     }
     &-button {
         margin:0 auto;
-        color:$primary-color !important;
-        background-color:$background-color !important;
-        border : solid 1px #fe734c !important;
+        @include button;
+        text-align: center;
     }
     &-title{
         text-align:center;

@@ -11,10 +11,10 @@ const Irecords = ({
     selectIrecordToRecord,
     isRecording,
     user,
+    record,
 }) => {
     const [selectediRecordId, setSelectediRecordId] = useState(null);
 
-    const userSlug = { slug: "ludocourbin" };
     const {
         avatar,
         author,
@@ -38,16 +38,16 @@ const Irecords = ({
 
     return (
         <div className="irecords">
-            <Card className="irecords-container" key={id}>
+            <Card className="irecords-container" key={record.id}>
                 <Card.Content className="flex author">
-                    <Link to={userSlug.slug} className="flex author">
+                    <Link to={user.slug} className="flex author">
                         <Image
                             avatar
                             floated="left"
                             size="large"
-                            src={avatar}
+                            src={user.avatarUrl}
                         />
-                        {author}
+                        {`${user.firstname} ${user.lastname}`}
                     </Link>
                     {user && (
                         <Icon
@@ -59,8 +59,8 @@ const Irecords = ({
                 </Card.Content>
                 <Card.Content className="text">
                     <p>
-                        <Flag name={flagOrigin} />
-                        {label}
+                        <Flag name={record.translation.language.code} />
+                        {record.translation.text}
                     </p>
                 </Card.Content>
                 <Card.Content className="text">
@@ -69,7 +69,7 @@ const Irecords = ({
                         {traduction}
                     </p>
                 </Card.Content>
-                <AudioPlayer audio={audio} />
+                <AudioPlayer audio={audio } record={record }/>
             </Card>
         </div>
     );

@@ -1,18 +1,27 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { matchPath, useParams } from 'react-router-dom';
 import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
-import './userprofil.scss';
 import { Segment, Image, Icon } from 'semantic-ui-react';
 import Statistics from '../Statistics';
-
 import data from "../../Search/data";
+import './userprofil.scss';
 
-const UserProfil = ({ user }) => {
+const UserProfil = ({ user, match }) => {
 
-    let { slug } = useParams();
-    // if user.slug !== slug
-    console.log(slug, user);
+    let { path } = match;
+
+    const checkUser = () => {
+        
+        if (user.slug === path.slice(6)) {
+            console.log("GOOD USER");
+            console.log(user.slug, path)
+        } else {
+            console.log("BAD USER");
+            console.log(user.slug, path)
+        }
+    }
+    checkUser();
 
     const audios = data.items.filter((el) => el.type === "audio");
 
@@ -61,16 +70,29 @@ const UserProfil = ({ user }) => {
                         
                         <div className="container_right__third-row">
                             <Statistics /> 
+                            
                         </div>
                     </div>
                 </Segment>
+
                 <div className="container_bio">
                     <p>« Lorem, ipsum dolor sit amet consectetur adipisicing elit. Earum suscipit illo velit ✈️ »</p>
                 </div>
                 <div className="user-profil_feed">
-                    { audios.map(audio => (
-                        <Irecords audio={audio} key={audio.id} />
-                    )) }
+                    { user.records ? 
+                        user.records.map(audio => (
+                            <Irecords audio={audio} record={audio} key={audio.id} />
+                        )) 
+                    :
+                    <>
+                    <div className="user-profil_feed__norecords">
+                        <Icon name="microphone slash" size="big" circular/>
+                        <div className="norecords-informations">
+                            Aucun iRecord.
+                        </div>
+                    </div>
+                    </>
+                    }
                 </div>
             </div>
         </Layout>

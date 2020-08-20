@@ -2,7 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import { Card, Icon, Progress } from "semantic-ui-react";
 import getBlobDuration from "get-blob-duration";
 
-const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
+const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio, record }) => {
+    
     const { id, audioUrl, blobURL } = audio;
 
     const audioRef = useRef(null);
@@ -18,7 +19,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
         setPlaying(!playing);
         if (!playing) {
             audioRef.current.play();
-            setIrecordSelectedId(id);
+            setIrecordSelectedId(record.id);
         } else {
             audioRef.current.pause();
         }
@@ -38,11 +39,11 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
     };
 
     useEffect(() => {
-        if (irecordSelectedId !== id) {
+        if (irecordSelectedId !== record.id) {
             setPlaying(false);
             audioRef.current.pause();
         }
-    }, [irecordSelectedId, id]);
+    }, [irecordSelectedId, record.id]);
 
     useEffect(() => {
         const percentAudio = (currentTime / duration) * 100;
@@ -76,10 +77,10 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
     return (
         <Card.Content className="flex" textAlign="left">
             <audio
-                id={id}
+                id={record.id}
                 ref={audioRef}
                 type="audio/mp3"
-                src={audioUrl || blobURL}
+                src={record.url || blobURL}
                 onLoadedData={handleDuration}
                 onTimeUpdate={() => {
                     setCurrentTime(audioRef.current.currentTime);

@@ -110,6 +110,21 @@
         
         padding: 1em;
         padding-top: 2em;
+
+        &__norecords {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+
+            .norecords-informations {
+                padding-top: 1em;
+                font-size: 1.2em;
+                text-align: center;
+                width: 150px;
+            }
+        }
     }
 }
 

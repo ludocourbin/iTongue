@@ -1,23 +1,24 @@
 @import "../../styles/vars";
+@import "../../styles/mixin";
 
-
-.login{
+.login {
     &-form {
-        margin-top:20px;
-        height:100vh;
-        padding:50px;
+        margin-top: 20px;
+        height: 100vh;
+        padding: 50px;
+        @include flex-column;
+        align-items: center;
     }
     &-button {
-        margin:0 auto;
-        color:$primary-color !important;
-        background-color:$background-color !important;
-        border : solid 1px #fe734c !important;
+        @include button;
+        display: block;
+        margin: 0 auto;
     }
-    &-title{
-        text-align:center;
-        padding-bottom:30px;
+    &-title {
+        text-align: center;
+        padding-bottom: 30px;
     }
-    >input {
-        width:50px !important;
+    > input {
+        width: 50px !important;
     }
 }

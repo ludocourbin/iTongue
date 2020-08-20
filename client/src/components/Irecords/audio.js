@@ -1,10 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Card, Icon, Progress } from "semantic-ui-react";
-import getBlobDuration from "get-blob-duration";
 
 const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
-    const { id, audioUrl, blobURL } = audio;
-
+    const { id, audioUrl } = audio;
     const audioRef = useRef(null);
     const progress = useRef(null);
 
@@ -59,31 +57,19 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
         );
     };
 
-    const start = (start) => {
-        if (start != null) {
-            setDuration(audioRef.current.duration);
-        }
-    };
-
-    const handleDuration = async () => {
-        if (audio.blob) {
-            const duration = await getBlobDuration(audio.blob);
-            setDuration(duration);
-        } else {
-            setDuration(audioRef.current.duration);
-        }
-    };
     return (
         <Card.Content className="flex" textAlign="left">
             <audio
                 id={id}
-                ref={audioRef}
-                type="audio/mp3"
-                src={audioUrl || blobURL}
-                onLoadedData={handleDuration}
+                onLoadedData={() => {
+                    setDuration(audioRef.current.duration);
+                }}
                 onTimeUpdate={() => {
                     setCurrentTime(audioRef.current.currentTime);
                 }}
+                ref={audioRef}
+                type="audio/mpeg"
+                src={audioUrl}
             />
             <Icon className="icon" onClick={handleStop} name="stop" />
             <Icon

@@ -68,8 +68,10 @@ router.use((_, res) => {
 });
 
 router.use((err, req, res, next) => {
-  res.json({ errors: [{ msg: err.toString() }] });
-  console.log(err);
+  const msg = err.displayMsg || err.toString();
+  res.status(res.statusCode || 500).json({ errors: [{ msg }] });
+
+  console.log({ msg, err });
 });
 
 module.exports = router;

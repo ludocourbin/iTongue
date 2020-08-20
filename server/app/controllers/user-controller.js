@@ -7,6 +7,7 @@ const userDatamapper = require("../db/user-datamapper");
 const recordDatamapper = require("../db/record-datamapper");
 const authUtils = require("../utils/auth-utils");
 const fileUtils = require("../utils/file-utils");
+const errorMiddleware = require("../middlewares/error-middleware");
 
 const fsPromises = fs.promises;
 
@@ -23,10 +24,9 @@ module.exports = {
   showAll: async (_, res, next) => {
     try {
       const users = await userDatamapper.showAll({});
-
       res.json({ data: users });
     } catch (err) {
-      next(err);
+      errorMiddleware.handleError(err, next);
     }
   },
 
@@ -46,7 +46,7 @@ module.exports = {
       if (!user) return next();
       res.json({ data: user });
     } catch (err) {
-      next(err);
+      errorMiddleware.handleError(err, next);
     }
   },
 
@@ -80,7 +80,7 @@ module.exports = {
 
       res.json({ data: result });
     } catch (err) {
-      next(err);
+      errorMiddleware.handleError(err, next);
     }
   },
 
@@ -95,7 +95,7 @@ module.exports = {
       await userDatamapper.deleteOne(userId);
       res.status(204).json({});
     } catch (err) {
-      next(err);
+      errorMiddleware.handleError(err, next);
     }
   },
 
@@ -119,7 +119,7 @@ module.exports = {
       const result = await userDatamapper.addLanguage(userLanguage);
       res.json({ data: result });
     } catch (err) {
-      next(err);
+      errorMiddleware.handleError(err, next);
     }
   },
 
@@ -135,7 +135,7 @@ module.exports = {
       await userDatamapper.deleteLanguage({ userId, languageId, role });
       res.status(204).json({});
     } catch (err) {
-      next(err);
+      errorMiddleware.handleError(err, next);
     }
   },
 
@@ -188,14 +188,14 @@ module.exports = {
       }
 
       res.json({ data: { avatarUrl } });
-    } catch (renameErr) {
+    } catch (err) {
       try {
         if (fs.existsSync(tempPath)) await fsPromises.unlink(tempPath);
       } catch (unlinkErr) {
         next(unlinkErr);
       }
 
-      next(renameErr);
+      errorMiddleware.handleError(err, next);
     }
   },
 
@@ -210,7 +210,7 @@ module.exports = {
       const user = await userDatamapper.findByPk(userId);
       if (!user) return next();
     } catch (err) {
-      return next(err);
+      return errorMiddleware.handleError(err, next);
     }
 
     const fileName = req.file.filename;
@@ -233,7 +233,7 @@ module.exports = {
       const result = await recordDatamapper.insertOne({ userId, translationId, url: recordUrl });
 
       res.status(201).json({ data: { recordId: result.id, recordUrl } });
-    } catch (renameErr) {
+    } catch (err) {
       try {
         if (fs.existsSync(tempPath)) await fsPromises.unlink(tempPath);
         if (fs.existsSync(destPath)) await fsPromises.unlink(destPath);
@@ -241,7 +241,7 @@ module.exports = {
         return next(unlinkErr);
       }
 
-      next(renameErr);
+      errorMiddleware.handleError(err, next);
     }
   },
 
@@ -264,7 +264,7 @@ module.exports = {
       await recordDatamapper.deleteOne(recordId);
       res.status(204).json({});
     } catch (err) {
-      next(err);
+      errorMiddleware.handleError(err, next);
     }
   },
 
@@ -294,7 +294,7 @@ module.exports = {
 
       res.json({ data: { accessToken, refreshToken } });
     } catch (err) {
-      next(err);
+      errorMiddleware.handleError(err, next);
     }
   },
 
@@ -330,7 +330,7 @@ module.exports = {
 
       res.status(401).json({ errors: [{ msg: "Not allowed" }] });
     } catch (err) {
-      next(err);
+      errorMiddleware.handleError(err, next);
     }
   }
 };

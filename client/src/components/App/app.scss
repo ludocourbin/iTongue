@@ -4,3 +4,12 @@ body {
     color: $primary-text-color;
     // background-color: $background-color;
 }
+
+::-webkit-scrollbar {
+    width: 2px !important; /* Remove scrollbar space */
+    background: transparent !important; /* Optional: just make scrollbar invisible */
+}
+
+::-webkit-scrollbar-thumb {
+    background: $primary-color !important;
+}

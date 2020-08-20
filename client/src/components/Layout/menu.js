@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "semantic-ui-react";
 
-const Header = ({ setVisible }) => {
+const Header = ({ setVisible, ...props }) => {
+    // console.log(props);
     return (
         <div className="header-nav">
             <Link to="/search">

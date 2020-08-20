@@ -27,7 +27,6 @@ const Login = ({
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        console.log("onSubmit");
         login();
     };
 
@@ -39,21 +38,15 @@ const Login = ({
         */
 
         if (name) {
-            console.log(name);
             onInputChange({
                 [name]: value || "",
             });
         }
         if (id) {
-            console.log(id);
             onInputChange({
                 [id]: data.checked || false,
             });
         }
-
-        // onInputChange({
-        //     [name || id]: value || data.checked || "" || false,
-        // });
     };
 
     return (

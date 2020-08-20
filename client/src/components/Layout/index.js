@@ -8,7 +8,14 @@ import Recording from "./recording";
 
 import "./header.scss";
 
-const LayoutHeader = ({ user, isRecording, recording, toggleRecording, logout, ...props }) => {
+const LayoutHeader = ({
+    user,
+    isRecording,
+    recording,
+    toggleRecording,
+    logout,
+    ...props
+}) => {
     const [visible, setVisible] = useState(false);
 
     const handleLogout = () => {
@@ -31,53 +38,89 @@ const LayoutHeader = ({ user, isRecording, recording, toggleRecording, logout, .
                 >
                     <div className="main-header-links">
                         <div className="container">
-                            <NavLink exact className="main-header-links__item" to={"/"}>
+                            <NavLink
+                                exact
+                                className="main-header-links__item"
+                                to={"/"}
+                            >
                                 Accueil
                             </NavLink>
-                            <NavLink className="main-header-links__item" to={"/irecords"}>
+                            <NavLink
+                                className="main-header-links__item"
+                                to={"/irecords"}
+                            >
                                 iRecords
                             </NavLink>
-                            <NavLink className="main-header-links__item" to={"/users"}>
+                            <NavLink
+                                className="main-header-links__item"
+                                to={"/users"}
+                            >
                                 iUsers
                             </NavLink>
                         </div>
                         {user ? (
                             <div onClick={handleLogout} className="container">
-                                <Link to="/" className="main-header-links__item">
+                                <Link
+                                    to="/"
+                                    className="main-header-links__item"
+                                >
                                     Se déconnecter
                                 </Link>
                             </div>
                         ) : (
                             <div className="container">
-                                <NavLink className="main-header-links__item" to={"/login"}>
+                                <NavLink
+                                    className="main-header-links__item"
+                                    to={"/login"}
+                                >
                                     Connexion
                                 </NavLink>
-                                <NavLink className="main-header-links__item" to={"/signup"}>
+                                <NavLink
+                                    className="main-header-links__item"
+                                    to={"/signup"}
+                                >
                                     Inscription
                                 </NavLink>
                             </div>
                         )}
 
                         <div className="container">
-                            <NavLink className="main-header-links__item" to={"/team"}>
+                            <NavLink
+                                className="main-header-links__item"
+                                to={"/team"}
+                            >
                                 Team
                             </NavLink>
-                            <NavLink className="main-header-links__item" to={"/contact"}>
+                            <NavLink
+                                className="main-header-links__item"
+                                to={"/contact"}
+                            >
                                 Contact/FAQ
                             </NavLink>
-                            <NavLink className="main-header-links__item" to={"/terms"}>
+                            <NavLink
+                                className="main-header-links__item"
+                                to={"/terms"}
+                            >
                                 Mentions Légales
                             </NavLink>
                         </div>
                     </div>
                 </Sidebar>
                 <Sidebar.Pusher className="main" dimmed={visible}>
-                    <Header visible={visible} setVisible={() => setVisible(!visible)} />
-                    <div className={userLogin || userSignup ? "main-content user" : "main-content"}>
+                    <Header
+                        visible={visible}
+                        setVisible={() => setVisible(!visible)}
+                    />
+                    <div
+                        className={user ? "main-content user" : "main-content"}
+                    >
                         {props.children}
                     </div>
                     {isRecording ? (
-                        <Recording toggleRecording={toggleRecording} audio={recording} />
+                        <Recording
+                            toggleRecording={toggleRecording}
+                            audio={recording}
+                        />
                     ) : null}
                     {user ? <NavigationBottom user={user} /> : null}
                 </Sidebar.Pusher>

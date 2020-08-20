@@ -34,15 +34,15 @@
 
     &__icon:hover {
         color: $primary-color;
-        border-bottom: 10px solid $primary-text-color;
+        // border-bottom: 10px solid $primary-text-color;
     }
 
     &__title {
         margin: 0;
-        // font-family: 'Righteous', cursive;
-        // font-family: 'Pacifico', cursive;
-        // font-family: 'Capriola', sans-serif;
-        // letter-spacing: .12em;
+        // font-family: "Righteous", cursive;
+        font-family: "Pacifico", cursive;
+        // font-family: "Capriola", sans-serif;
+        letter-spacing: 0.12em;
         font-size: 1.8em;
     }
 }

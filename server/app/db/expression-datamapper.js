@@ -53,7 +53,7 @@ module.exports = {
 
     /**
      * This method returns all languages in database
-     * @returns {Array.Object} - Set of objects representing available languages
+     * @returns {Array} - Set of objects representing available languages
      */
     findAll: async () => {
         try {

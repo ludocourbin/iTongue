@@ -8,6 +8,7 @@ const translationRouter = require("./translation-routes");
 const adminRouter = require("./admin-routes");
 const uploadRouter = require("./upload-routes");
 const recordRouter = require("./record-routes");
+const searchRouter = require("./search-routes");
 
 const router = express.Router();
 
@@ -43,6 +44,8 @@ router.get("/private", require("../middlewares/auth-middleware"), (_, res) => {
 router.get("/admin", require("../middlewares/admin-middleware"), (_, res) => {
   res.json({ data: { msg: "Authorized" } });
 });
+
+router.use("/search", searchRouter);
 
 router.use("/admin", adminRouter);
 

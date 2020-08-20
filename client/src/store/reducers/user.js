@@ -106,6 +106,7 @@ export default (state = initialState, action = {}) => {
                 currentUser: "",
                 errorMessageEmail: "",
                 errorMailUsed: action.payload,
+                isLogged: false,
             };
 
         case LOGIN:

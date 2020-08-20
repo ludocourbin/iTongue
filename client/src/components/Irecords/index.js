@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Card, Flag, Icon, Image } from "semantic-ui-react";
+import { Card, Flag, Icon, Image, Progress } from "semantic-ui-react";
 import AudioPlayer from "../../containers/Audio";
 
 import "./irecords.scss";

@@ -86,7 +86,7 @@ console.log(user.records);
                 <div className="user-profil_feed">
                     { user.records ? 
                         user.records.map(audio => (
-                            <Irecords record={audio} key={audio.id} isUserRecord={user.id} />
+                            <Irecords record={audio} user={user} key={audio.id} isUserRecord={user.id} />
                         )) 
                     :
                     <>

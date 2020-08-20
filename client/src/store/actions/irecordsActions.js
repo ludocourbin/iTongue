@@ -14,3 +14,23 @@ export const selectIrecordToRecord = (payload) => ({
     type: SELECTED_IRECORDS_TO_RECORD,
     payload,
 });
+
+/* Fetch all records for iRecordsPage */
+
+export const FETCH_ALL_RECORDS = "FETCH_ALL_RECORDS";
+export const FETCH_ALL_RECORDS_SUCCESS = "FETCH_ALL_RECORDS_SUCCESS";
+export const FETCH_ALL_RECORDS_ERROR = "FETCH_ALL_RECORDS_ERROR";
+
+export const fetchAllRecords = () => ({
+    type: FETCH_ALL_RECORDS
+});
+
+export const fetchAllRecordsSuccess = (payload) => ({
+    type: FETCH_ALL_RECORDS_SUCCESS,
+    payload,
+});
+
+export const fetchAllRecordsError = (payload) => ({
+    type: FETCH_ALL_RECORDS_ERROR,
+    payload,
+});

@@ -2,14 +2,10 @@ import React, { useRef, useState, useEffect } from "react";
 import { Card, Icon, Progress } from "semantic-ui-react";
 import getBlobDuration from "get-blob-duration";
 
-const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio, record }) => {
-    
-    let blobURL;
+const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
 
-    if (audio) {
-        blobURL = audio.blob;
-    }
-    
+    const { id, audioUrl, url, blobURL } = audio;
+
     const audioRef = useRef(null);
     const progress = useRef(null);
 
@@ -23,7 +19,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio, record }) => {
         setPlaying(!playing);
         if (!playing) {
             audioRef.current.play();
-            setIrecordSelectedId(record.id);
+            setIrecordSelectedId(id);
         } else {
             audioRef.current.pause();
         }
@@ -43,11 +39,11 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio, record }) => {
     };
 
     useEffect(() => {
-        if (irecordSelectedId !== record.id) {
+        if (irecordSelectedId !== id) {
             setPlaying(false);
             audioRef.current.pause();
         }
-    }, [irecordSelectedId, record.id]);
+    }, [irecordSelectedId, id]);
 
     useEffect(() => {
         const percentAudio = (currentTime / duration) * 100;
@@ -71,7 +67,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio, record }) => {
     };
 
     const handleDuration = async () => {
-        if (audio && audio.blob) {
+        if (audio.blob) {
             const duration = await getBlobDuration(audio.blob);
             setDuration(duration);
         } else {
@@ -81,10 +77,10 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio, record }) => {
     return (
         <Card.Content className="flex" textAlign="left">
             <audio
-                id={record.id}
+                id={id}
                 ref={audioRef}
                 type="audio/mp3"
-                src={record.url || blobURL}
+                src={url || blobURL || audioUrl}
                 onLoadedData={handleDuration}
                 onTimeUpdate={() => {
                     setCurrentTime(audioRef.current.currentTime);

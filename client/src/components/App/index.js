@@ -2,11 +2,7 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 /* Components */
-
-import Signup from "../../containers/Signup";
 import Search from "../Search";
-import Login from "../../containers/Login";
-import IrecordsPage from "../IrecordsPage";
 import IusersPage from "../IusersPage";
 import Home from "../Home";
 
@@ -15,9 +11,12 @@ import "semantic-ui-css/semantic.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./app.scss";
 
-/* Components */
+/* Containers */
+import Signup from "../../containers/Signup";
+import Login from "../../containers/Login";
 import Admin from "../../containers/Admin/Index";
 import Profil from "../../containers/User/Profil";
+import IrecordsPage from "../../containers/IrecordsPage";
 
 const App = ({ user, isLogged }) => {
     // <Route path="/login" component={Login} />

@@ -1,9 +1,12 @@
 import { createStore, compose, applyMiddleware } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+import storage from "redux-persist/lib/storage";
 import rootReducers from "./reducers";
+
+/* Middlewares */
 import authMiddleware from "./middlewares/authMiddleware";
 import expressionsMiddleware from "./middlewares/Admin/expressionsMiddleware";
+import { irecordsMiddleware } from "./middlewares/irecordsMiddleware";
 import { loginAdminMiddleware } from "./middlewares/Admin/loginAdminMiddleware";
 
 const persistConfig = {
@@ -16,7 +19,7 @@ const persistConfig = {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const enhancers = composeEnhancers(
-    applyMiddleware(authMiddleware, expressionsMiddleware, loginAdminMiddleware)
+    applyMiddleware(authMiddleware, expressionsMiddleware, loginAdminMiddleware, irecordsMiddleware)
 );
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);

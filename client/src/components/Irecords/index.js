@@ -9,10 +9,12 @@ const Irecords = ({
     toggleRecording,
     selectIrecordToRecord,
     isRecording,
-    user,
     record,
     isUserRecord,
+    user
 }) => {
+
+    console.log("record", record)
     const [selectediRecordId, setSelectediRecordId] = useState(null);
 
     const handleCopyiRecord = () => {
@@ -59,7 +61,7 @@ const Irecords = ({
                         {"traduction"}
                     </p>
                 </Card.Content>
-                <AudioPlayer record={record} />
+                <AudioPlayer audio={record} />
             </Card>
         </div>
     );

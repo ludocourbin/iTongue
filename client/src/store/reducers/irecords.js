@@ -2,12 +2,18 @@ import {
     SET_IRECORD_SELECTED_ID,
     SELECTED_IRECORDS_TO_RECORD,
     TOGGLE_RECORDING,
+    FETCH_ALL_RECORDS,
+    FETCH_ALL_RECORDS_SUCCESS,
+    FETCH_ALL_RECORDS_ERROR,
 } from "../actions/irecordsActions";
 
 const initialState = {
     irecordSelectedId: null,
     isRecording: false,
     recording: null,
+    allRecordsList: [],
+    isLoadingAllRecords: false,
+    recordsListError: "",
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
@@ -25,6 +31,24 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
                 recording: action.payload,
+            };
+        case FETCH_ALL_RECORDS :
+            return {
+                ...state,
+                isLoadingAllRecords: true,
+            };
+        case FETCH_ALL_RECORDS_SUCCESS :
+            return {
+                ...state,
+                allRecordsList: [...action.payload],
+                isLoadingAllRecords: false,
+                recordsListError: "",
+            };
+        case FETCH_ALL_RECORDS_ERROR :
+            return {
+                ...state,
+                isLoadingAllRecords: false,
+                recordsListError: action.payload,
             };
         default:
             return state;

@@ -56,9 +56,6 @@ export default store => next => action => {
                 .then(res => {
                     const currentUser = res.data.data.user;
                     store.dispatch(loginSubmitSuccess(currentUser));
-                    setTimeout(() => {
-                        toast.success(`Bienvenue ${currentUser.firstname}`);
-                    }, 1000);
                 })
                 .catch(err => {
                     toast.warning("Sorry");

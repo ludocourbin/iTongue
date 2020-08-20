@@ -4,16 +4,18 @@ import { NavLink, Link } from "react-router-dom";
 
 import Header from "./menu";
 import NavigationBottom from "./navigationBottom";
+import Recording from "./recording";
 
 import "./header.scss";
 
-const LayoutHeader = ({ userLogin, userSignup, logout, ...props }) => {
+const LayoutHeader = ({ user, isRecording, recording, toggleRecording, logout, ...props }) => {
     const [visible, setVisible] = useState(false);
 
     const handleLogout = () => {
         setVisible(!visible);
         logout();
     };
+
     return (
         <div className="main-header">
             <Sidebar.Pushable as={Segment}>
@@ -29,90 +31,55 @@ const LayoutHeader = ({ userLogin, userSignup, logout, ...props }) => {
                 >
                     <div className="main-header-links">
                         <div className="container">
-                            <NavLink
-                                exact
-                                className="main-header-links__item"
-                                to={"/"}
-                            >
+                            <NavLink exact className="main-header-links__item" to={"/"}>
                                 Accueil
                             </NavLink>
-                            <NavLink
-                                className="main-header-links__item"
-                                to={"/irecords"}
-                            >
+                            <NavLink className="main-header-links__item" to={"/irecords"}>
                                 iRecords
                             </NavLink>
-                            <NavLink
-                                className="main-header-links__item"
-                                to={"/users"}
-                            >
+                            <NavLink className="main-header-links__item" to={"/users"}>
                                 iUsers
                             </NavLink>
                         </div>
-<<<<<<< HEAD
                         {user ? (
                             <div onClick={handleLogout} className="container">
-=======
-                        {userLogin || userSignup ? (
-                            <div onClick={() => logout()} className="container">
->>>>>>> Fix Feature LOGIN : Redirection after login, send response to store, add currentUser in store
-                                <Link
-                                    to="/"
-                                    className="main-header-links__item"
-                                >
+                                <Link to="/" className="main-header-links__item">
                                     Se déconnecter
                                 </Link>
                             </div>
                         ) : (
                             <div className="container">
-                                <NavLink
-                                    className="main-header-links__item"
-                                    to={"/login"}
-                                >
+                                <NavLink className="main-header-links__item" to={"/login"}>
                                     Connexion
                                 </NavLink>
-                                <NavLink
-                                    className="main-header-links__item"
-                                    to={"/signup"}
-                                >
+                                <NavLink className="main-header-links__item" to={"/signup"}>
                                     Inscription
                                 </NavLink>
                             </div>
                         )}
 
                         <div className="container">
-                            <NavLink
-                                className="main-header-links__item"
-                                to={"/team"}
-                            >
+                            <NavLink className="main-header-links__item" to={"/team"}>
                                 Team
                             </NavLink>
-                            <NavLink
-                                className="main-header-links__item"
-                                to={"/contact"}
-                            >
+                            <NavLink className="main-header-links__item" to={"/contact"}>
                                 Contact/FAQ
                             </NavLink>
-                            <NavLink
-                                className="main-header-links__item"
-                                to={"/terms"}
-                            >
+                            <NavLink className="main-header-links__item" to={"/terms"}>
                                 Mentions Légales
                             </NavLink>
                         </div>
                     </div>
                 </Sidebar>
                 <Sidebar.Pusher className="main" dimmed={visible}>
-                    <Header
-                        visible={visible}
-                        setVisible={() => setVisible(!visible)}
-                    />
-                    <div
-                        className={userLogin || userSignup ? "main-content user" : "main-content"}
-                    >
+                    <Header visible={visible} setVisible={() => setVisible(!visible)} />
+                    <div className={userLogin || userSignup ? "main-content user" : "main-content"}>
                         {props.children}
                     </div>
-                    {userLogin || userSignup ? <NavigationBottom user={userLogin || userSignup} /> : null}
+                    {isRecording ? (
+                        <Recording toggleRecording={toggleRecording} audio={recording} />
+                    ) : null}
+                    {user ? <NavigationBottom user={user} /> : null}
                 </Sidebar.Pusher>
             </Sidebar.Pushable>
         </div>

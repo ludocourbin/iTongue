@@ -13,14 +13,14 @@ const Irecords = ({
     isUserRecord,
     user
 }) => {
-
-    console.log("record", record)
+ 
     const [selectediRecordId, setSelectediRecordId] = useState(null);
 
     const handleCopyiRecord = () => {
         setSelectediRecordId(record.id);
         selectIrecordToRecord(record);
         toggleRecording(true);
+
         if (isRecording && selectediRecordId === record.id) {
             toggleRecording(false);
         } else {
@@ -51,14 +51,14 @@ const Irecords = ({
                 </Card.Content>
                 <Card.Content className="text">
                     <p>
-                        <Flag name={record.translation.language.code} />
-                        {record.translation.text}
+                        <Flag name={record.englishTranslation.language.code} /> {/* englishTranslation -> en attente du back */}
+                        {record.englishTranslation.text}
                     </p>
                 </Card.Content>
                 <Card.Content className="text">
                     <p>
-                        <Flag name={"es"} /> {/* englishTranslation -> en attente du back */}
-                        {"traduction"}
+                        <Flag name={record.translation.language.code} />
+                        {record.translation.text}
                     </p>
                 </Card.Content>
                 <AudioPlayer audio={record} />
@@ -66,4 +66,5 @@ const Irecords = ({
         </div>
     );
 };
+
 export default Irecords;

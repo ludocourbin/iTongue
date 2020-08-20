@@ -8,9 +8,10 @@ import authMiddleware from "./middlewares/authMiddleware";
 import expressionsMiddleware from "./middlewares/Admin/expressionsMiddleware";
 import { irecordsMiddleware } from "./middlewares/irecordsMiddleware";
 import { loginAdminMiddleware } from "./middlewares/Admin/loginAdminMiddleware";
+import { usersMiddleware } from "./middlewares/usersMiddleware";
 
+// Configuration object for redux-persist
 const persistConfig = {
-    // configuration object for redux-persist
     key: "root",
     storage, // define which storage to use
     blacklist: ["expressionsReducer", "irecords"],
@@ -19,7 +20,7 @@ const persistConfig = {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const enhancers = composeEnhancers(
-    applyMiddleware(authMiddleware, expressionsMiddleware, loginAdminMiddleware, irecordsMiddleware)
+    applyMiddleware(authMiddleware, expressionsMiddleware, loginAdminMiddleware, irecordsMiddleware, usersMiddleware)
 );
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);

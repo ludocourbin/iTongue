@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 /* Components */
-import Search from "../Search";
 import IusersPage from "../IusersPage";
 import Home from "../Home";
 
@@ -17,6 +16,7 @@ import Login from "../../containers/Login";
 import Admin from "../../containers/Admin/Index";
 import Profil from "../../containers/User/Profil";
 import IrecordsPage from "../../containers/IrecordsPage";
+import Search from "../../containers/Search";
 
 const App = ({ user, isLogged }) => {
     // <Route path="/login" component={Login} />

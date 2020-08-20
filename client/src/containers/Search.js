@@ -1,17 +1,25 @@
 import { connect } from "react-redux";
-import IrecordsPage from "../components/IrecordsPage";
+import Search from "../components/Search";
 import { fetchAllRecords } from '../store/actions/irecordsActions';
+import { fetchAllUsers } from '../store/actions/userActions';
 
 const mapStateToProps = (state) => ({
     isLoadingAllRecords: state.irecords.isLoadingAllRecords,
     allRecordsList: state.irecords.allRecordsList,
     recordsListError: state.irecords.recordsListError,
+
+    allUsersList: state.user.allUsersList,
+    isLoadingallUsers: state.user.isLoadingallUsers,
+    usersListError: state.user.usersListError,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     fetchAllRecords: () => {
         dispatch(fetchAllRecords());
     },
+    fetchAllUsers: () => {
+        dispatch(fetchAllUsers());
+    },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(IrecordsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

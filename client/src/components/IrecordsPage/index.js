@@ -49,9 +49,3 @@ const IrecordsPage = (props) => {
 };
 
 export default IrecordsPage;
-
-
-/*
-
-
-*/

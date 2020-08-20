@@ -18,7 +18,7 @@ const Search = () => {
         (el) =>
             (el.type === "member" &&
                 el.pseudo.toLowerCase().includes(keyword)) ||
-            (el.type === "audio" && el.label.toLowerCase().includes(keyword))
+            (el.type === "audio" && el.record.englishTranslation.toLowerCase().includes(keyword))
     );
 
     const members = data.items.filter(
@@ -29,9 +29,9 @@ const Search = () => {
 
     const audiosFiltered = audios.filter(
         (el) =>
-            el.label.toLowerCase().includes(keyword) ||
-            el.traduction.toLowerCase().includes(keyword) ||
-            el.author.toLowerCase().includes(keyword)
+            el.record.englishTranslation.toLowerCase().includes(keyword) ||
+            el.record.translation.text.toLowerCase().includes(keyword) ||
+            el.firstname.toLowerCase().includes(keyword)
     );
 
     const panes = [
@@ -106,7 +106,7 @@ const Search = () => {
                                         style={{ width: "100%" }}
                                         key={audio.id}
                                     >
-                                        <Irecords audio={audio} />
+                                        <Irecords record={audio} />
                                     </div>
                                 );
                             })}

@@ -1,29 +1,31 @@
 import React from 'react';
-import { Icon, Statistic } from 'semantic-ui-react';
+import { Statistic } from 'semantic-ui-react';
 
 import './statistics.scss'
 
-const Statistics = () => {
+const Statistics = (props) => {
+
+    const { totalRecords, totalFollow, totalFollower } = props;
 
     return (
         <Statistic.Group widths="three" size="mini" className="statistics-group">
 
             <Statistic>
-                <Statistic.Value>1478</Statistic.Value>
+                <Statistic.Value>{totalRecords}</Statistic.Value>
                 <Statistic.Label>
                     iRecords
                 </Statistic.Label>
             </Statistic>
 
             <Statistic>
-                <Statistic.Value>547</Statistic.Value>
+                <Statistic.Value>{totalFollow}</Statistic.Value>
                 <Statistic.Label>
                     iFollow
                 </Statistic.Label>
             </Statistic>
             
             <Statistic>
-                <Statistic.Value>645</Statistic.Value>
+                <Statistic.Value>{totalFollower}</Statistic.Value>
                 <Statistic.Label>
                     iFollower
                 </Statistic.Label>

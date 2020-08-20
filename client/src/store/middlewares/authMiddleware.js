@@ -13,7 +13,10 @@ export default store => next => action => {
             axios({
                 method: "post",
                 url: "https://itongue.herokuapp.com/users",
-                data
+                data: {
+                    ...data,
+                    avatarUrl : "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                }
             })
                 .then(res => {
                     const data = {

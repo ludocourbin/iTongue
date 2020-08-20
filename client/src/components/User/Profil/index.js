@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { matchPath, useParams } from 'react-router-dom';
 import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
@@ -21,10 +21,12 @@ const UserProfil = ({ user, match }) => {
             console.log(user.slug, path)
         }
     }
-    checkUser();
 
-    const audios = data.items.filter((el) => el.type === "audio");
-
+    useEffect(() => {
+        checkUser();
+    }, [])
+    
+console.log(user.records);
     return (
 
         <Layout>
@@ -35,7 +37,7 @@ const UserProfil = ({ user, match }) => {
                             <Image 
                             avatar 
                             size="small"
-                            src="https://ca.slack-edge.com/TUZFANP45-U0102DYQRUL-b7d05e08f84a-512"
+                            src={user.avatarUrl || 'https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg'}
                             bordered
                             />
                             <Icon name="add" className="add_image_avatar" circular />
@@ -44,9 +46,9 @@ const UserProfil = ({ user, match }) => {
                     <div className="container_right">
                         <div className="container_right__first-row">
                             <span className="user-title">
-                                Gautier Colasse
+                                {user.firstname} {user.lastname}
                             </span> 
-                            <Icon name="check circle" /> 
+                            { user.isAdmin && <Icon name="check circle" /> }
                             <Icon name="setting" />
                         </div>
 
@@ -69,13 +71,17 @@ const UserProfil = ({ user, match }) => {
                         </div>
                         
                         <div className="container_right__third-row">
-                            <Statistics /> 
+                            <Statistics 
+                            totalRecords={user.records.lenght || 0}
+                            totalFollow={547}
+                            totalFollower={645}
+                            /> 
                         </div>
                     </div>
                 </Segment>
 
                 <div className="container_bio">
-                    <p>« Lorem, ipsum dolor sit amet consectetur adipisicing elit. Earum suscipit illo velit ✈️ »</p>
+                    { user.bio &&  <p>« {user.bio} »</p> }
                 </div>
                 <div className="user-profil_feed">
                     { user.records ? 

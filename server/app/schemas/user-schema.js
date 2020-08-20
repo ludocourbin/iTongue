@@ -8,7 +8,7 @@ module.exports = {
     },
     password: {
         if: {
-            options: (value, { req }) => !req.params.id
+            options: (_, { req }) => !req.params.id
         },
         exists: true,
         errorMessage: "Le mot de passe est requis"

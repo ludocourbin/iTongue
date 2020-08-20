@@ -5,6 +5,7 @@ const ownerMiddleware = require("../middlewares/owner-middleware");
 const validator = require("../middlewares/validator");
 const fileUploadMiddleware = require("../middlewares/file-upload-middleware");
 const userSchema = require("../schemas/user-schema");
+const recordSchema = require("../schemas/record-schema");
 const userController = require("../controllers/user-controller");
 
 const router = express.Router();
@@ -29,16 +30,24 @@ router.delete("/:id(\\d+)", adminMiddleware, userController.deleteOne);
 router.post("/:id(\\d+)/language", ownerMiddleware, userController.addLanguage);
 
 router.delete(
-    "/:id(\\d+)/language/:languageId(\\d+)/:role",
-    ownerMiddleware,
-    userController.removeLanguage
+  "/:id(\\d+)/language/:languageId(\\d+)/:role",
+  ownerMiddleware,
+  userController.removeLanguage
 );
 
 router.post(
-    "/:id(\\d+)/avatar",
-    ownerMiddleware,
-    fileUploadMiddleware("avatar"),
-    userController.updateAvatar
+  "/:id(\\d+)/avatar",
+  ownerMiddleware,
+  fileUploadMiddleware("avatar"),
+  userController.updateAvatar
+);
+
+router.post(
+  "/:id(\\d+)/record",
+  ownerMiddleware,
+  fileUploadMiddleware("record"),
+  validator(recordSchema),
+  userController.addRecord
 );
 
 module.exports = router;

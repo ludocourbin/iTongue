@@ -50,4 +50,6 @@ router.post(
   userController.addRecord
 );
 
+router.delete("/:id/record/:recordId", ownerMiddleware, userController.removeRecord);
+
 module.exports = router;

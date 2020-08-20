@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const slugify = require("slugify");
 
 const userDatamapper = require("../db/user-datamapper");
+const recordDatamapper = require("../db/record-datamapper");
 const authUtils = require("../utils/auth-utils");
 const fileUtils = require("../utils/file-utils");
 
@@ -97,6 +98,8 @@ module.exports = {
       next(err);
     }
   },
+
+  // TODO Séparer les responsabilités : language, avatar, record
 
   addLanguage: async (req, res, next) => {
     const userId = req.params.id;
@@ -227,9 +230,9 @@ module.exports = {
 
       await fsPromises.rename(tempPath, destPath);
 
-      const recordId = await userDatamapper.addRecord({ userId, translationId, url: recordUrl });
+      const result = await recordDatamapper.insertOne({ userId, translationId, url: recordUrl });
 
-      res.status(201).json({ data: { recordId, recordUrl } });
+      res.status(201).json({ data: { recordId: result.id, recordUrl } });
     } catch (renameErr) {
       try {
         if (fs.existsSync(tempPath)) await fsPromises.unlink(tempPath);
@@ -239,6 +242,29 @@ module.exports = {
       }
 
       next(renameErr);
+    }
+  },
+
+  removeRecord: async (req, res, next) => {
+    const { recordId } = req.params;
+
+    try {
+      const record = await recordDatamapper.findByPk(recordId);
+      if (!record) return next();
+
+      const filename = path.join(PUBLIC_DIR, record.url);
+
+      const sameFileNames = await fileUtils.getSameFileNames(filename);
+      if (sameFileNames.length) {
+        for (const file of sameFileNames) {
+          await fsPromises.unlink(file);
+        }
+      }
+
+      await recordDatamapper.deleteOne(recordId);
+      res.status(204).json({});
+    } catch (err) {
+      next(err);
     }
   },
 

@@ -1,5 +1,7 @@
 const client = require("./");
 
+const queryUtils = require("../utils/query-utils");
+
 // TODO Cache Redis
 
 const dataMapper = {
@@ -10,18 +12,18 @@ const dataMapper = {
 
   findAll: async (filter, withRelations = true) => {
     const table = withRelations ? "user_with_relations" : "user";
-    const result = await client.query(filterQuery(`SELECT * FROM "${table}"`, filter));
+    const result = await client.query(queryUtils.filter(`SELECT * FROM "${table}"`, filter));
     return result.rows;
   },
 
   showAll: async filter => {
-    const result = await client.query(filterQuery('SELECT * FROM "user_display"', filter));
+    const result = await client.query(queryUtils.filter('SELECT * FROM "user_display"', filter));
     return result.rows;
   },
 
   findOne: async (filter, withRelations = true) => {
     const table = withRelations ? "user_with_relations" : "user";
-    const query = filterQuery(`SELECT * FROM "${table}"`, filter);
+    const query = queryUtils.filter(`SELECT * FROM "${table}"`, filter);
     query.text += ' ORDER BY "id" DESC LIMIT 1';
 
     const result = await client.query(query);
@@ -32,7 +34,7 @@ const dataMapper = {
     dataMapper.findOne({ id: { operator: "=", value: id } }, withRelations),
 
   showOne: async filter => {
-    const query = filterQuery('SELECT * FROM "user_display"', filter);
+    const query = queryUtils.filter('SELECT * FROM "user_display"', filter);
     query.text += ' ORDER BY "id" DESC LIMIT 1';
 
     const result = await client.query(query);
@@ -109,30 +111,7 @@ const dataMapper = {
     };
     const result = await client.query(query);
     return result.rowCount;
-  },
-
-  addRecord: async record => {
-    const query = {
-      text:
-        'INSERT INTO "record" ("url", "user_id", "translation_id") VALUES ($1, $2, $3) RETURNING "id"',
-      values: [record.url, record.userId, record.translationId]
-    };
-
-    const result = await client.query(query);
-    return result.rows[0];
   }
 };
-
-function filterQuery(query, filter) {
-  const text = Object.keys(filter).reduce((query, field, i) => {
-    query += i === 0 ? " WHERE " : " AND ";
-    query += field + " " + filter[field].operator + " $" + (i + 1);
-    return query;
-  }, query);
-
-  const values = Object.values(filter).map(detail => detail.value);
-
-  return { text, values };
-}
 
 module.exports = dataMapper;

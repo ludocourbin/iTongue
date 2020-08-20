@@ -1,12 +1,20 @@
 import React from "react";
 import { Card, Flag, Button, Icon } from "semantic-ui-react";
-import AudioPlayer from "../../containers/Audio";
+import Irecords from "../../containers/Irecords";
 
-const Recording = ({ audio, toggleRecording }) => {
-    const { flagOrigin, flagTarget, label, traduction } = audio;
+const Recording = ({ audio }) => {
+    const {
+        author,
+        avatar,
+        audioUrl,
+        flagOrigin,
+        flagTarget,
+        label,
+        traduction,
+    } = audio;
     return (
         <div className="recording">
-            <Card style={{ width: "60%" }} className="">
+            <Card>
                 <Card.Content>
                     <Flag name={flagOrigin} />
                     {label}
@@ -18,16 +26,14 @@ const Recording = ({ audio, toggleRecording }) => {
                 <Card.Content>
                     <div>
                         <Icon name="microphone" />
-                        <AudioPlayer audio={audio} />
+                        <Irecords audio={audio} />
                     </div>
+
+                    <audio src={audioUrl} controls />
                 </Card.Content>
                 <Card.Content extra>
                     <div className="ui two buttons">
-                        <Button
-                            onClick={() => toggleRecording(false)}
-                            basic
-                            color="red"
-                        >
+                        <Button basic color="red">
                             Annuler
                         </Button>
                         <Button basic color="green">

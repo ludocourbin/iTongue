@@ -23,6 +23,9 @@ const LayoutHeader = ({
         logout();
     };
 
+    // useEffect(() => {
+    //     toggleRecording(false);
+    // }, []);
     return (
         <div className="main-header">
             <Sidebar.Pushable as={Segment}>
@@ -116,12 +119,7 @@ const LayoutHeader = ({
                     >
                         {props.children}
                     </div>
-                    {isRecording ? (
-                        <Recording
-                            toggleRecording={toggleRecording}
-                            audio={recording}
-                        />
-                    ) : null}
+                    {isRecording ? <Recording audio={recording} /> : null}
                     {user ? <NavigationBottom user={user} /> : null}
                 </Sidebar.Pusher>
             </Sidebar.Pushable>

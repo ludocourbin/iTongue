@@ -1,4 +1,6 @@
 import { FETCH_ALL_USERS, fetchAllUsersSuccess, fetchAllUsersError } from "../actions/userActions";
+import { EDIT_PROFIL, editProfilSuccess, editProfilError } from "../actions/editProfilActions";
+
 import axios from 'axios';
 
 export const usersMiddleware = (store) => (next) => (action) => {
@@ -23,6 +25,11 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 store.dispatch(fetchAllUsersError("Un problème est survenue lors du chargement de la liste des Utilisateurs"));
                 console.error(err);
             })
+            break;
+        };
+
+        case EDIT_PROFIL : {
+            
             break;
         };
         default:

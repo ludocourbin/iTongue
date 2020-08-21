@@ -11,14 +11,23 @@ import {
     FETCH_ALL_USERS_SUCCESS,
     FETCH_ALL_USERS_ERROR,
 } from "../actions/userActions";
+
 import {
     LOGIN_INPUT_CHANGE,
     LOGIN_SUBMIT_SUCCESS,
     LOGIN_SUBMIT_ERROR,
     LOGIN,
 } from "../actions/loginActions.js";
+
+import {
+    EDIT_PROFIL,
+    EDIT_PROFIL_SUCCESS,
+    EDIT_PROFIL_ERROR,
+    EDIT_PROFIL_INPUT,
+} from '../actions/editProfilActions';
+
 const initialState = {
-    currentUser: "",
+    currentUser: {},
     isLogged: false,
     loading: false,
     accessToken: null,
@@ -43,6 +52,18 @@ const initialState = {
     allUsersList: [],
     isLoadingallUsers: false,
     usersListError: "",
+
+    editProfilData: {
+        id: 0,
+        email: "",
+        bio: "",
+        avatarUrl: "",
+        firstname: "",
+        lastname: "",
+        slug: "",
+        learnedLanguages: [],
+        taughtLanguages: [],
+    },
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
@@ -96,6 +117,10 @@ export default (state = initialState, action = {}) => {
                 currentUser: { ...action.payload },
                 accessToken: action.payload.accessToken,
                 refreshToken: action.payload.refreshToken,
+                editProfilData: {
+                    ...state.editProfilData,
+                    ...action.payload.user
+                },
             };
         case SIGNUP_ERROR:
             return {
@@ -131,6 +156,10 @@ export default (state = initialState, action = {}) => {
                     password: "",
                     stayConnected: true,
                 },
+                editProfilData: {
+                    ...state.editProfilData,
+                    ...action.payload.user
+                }
             };
         case LOGIN_SUBMIT_ERROR:
             return {
@@ -187,6 +216,30 @@ export default (state = initialState, action = {}) => {
                 isLoadingallUsers: false,
                 usersListError: action.payload,
             };
+        case EDIT_PROFIL:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case EDIT_PROFIL_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                currentUser: {
+                    ...state.currentUser,
+                    ...action.payload,
+                }
+            };
+        case EDIT_PROFIL_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+            };
+        case EDIT_PROFIL_INPUT:
+            return {
+                ...state,
+
+            }
         default:
             return state;
     }

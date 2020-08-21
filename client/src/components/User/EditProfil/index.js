@@ -1,33 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './editprofil.scss';
 import { Divider, Image, Checkbox, Form, Label, Input, Dropdown } from 'semantic-ui-react';
 import Layout from '../../../containers/Layout';
 
-const EditProfil = ({ currentUser }) => {
+const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProfil, editProfilData }) => {
 
-    const { 
-        id, 
-        email,
-        bio, 
-        avatarUrl, 
-        firstname, 
-        lastname, 
-        slug, 
-        learnedLanguages, 
-        taughtLanguages
-    } = currentUser;
+    useEffect(() => {
+        fetchAllLanguages();
+    }, []);
 
+    const optionsLanguages = allLanguagesList.map(language => {
+        return {
+            value: language.id,
+            text: language.name,
+            flag: language.code,
+        };
+    });
 
-    console.log("learnedLanguages", learnedLanguages);
-    console.log("taughtLanguages", taughtLanguages);
-
-    const options = [
-        {value:'1', text:'A', flag: 'fr'},
-        {value:'2', text:'B', flag: 'fr'},
-        {value:'3', text:'C', flag: 'fr'},
-      ];
-
-      const selected = ['1', '2'];
+    const selectedLanguages = (role) => {
+        const map = role.map(language => {
+            return language.id;
+        });
+        return map;
+    };
 
     return (
         <Layout>
@@ -38,7 +33,7 @@ const EditProfil = ({ currentUser }) => {
 
                     <div className="edit-profil_container">
 
-                        <Image src={avatarUrl} avatar size="big" className="edit-profil_container__avatar"/>
+                        <Image src={editProfilData.avatarUrl} avatar size="big" className="edit-profil_container__avatar"/>
 
                         <div className="edit-profil_container__toggle">
                             <div className="toggle_container">
@@ -66,14 +61,14 @@ const EditProfil = ({ currentUser }) => {
                                 <span>Prénom</span>
                                 <Input 
                                 name="firstname"
-                                value={firstname}
+                                value={editProfilData.firstname}
                                 />
                             </Form.Field>
                             <Form.Field>
                                 <span>Nom</span>
                                 <Input 
                                 name="lastname"
-                                value={lastname}
+                                value={editProfilData.lastname}
                                 />
                             </Form.Field>
                         </Form.Group>
@@ -85,6 +80,8 @@ const EditProfil = ({ currentUser }) => {
                                 selection 
                                 placeholder="iLearn" 
                                 name="learnedLanguages" 
+                                options={optionsLanguages}
+                                defaultValue={selectedLanguages(editProfilData.learnedLanguages)}
                                 />
                             </Form.Field>
                             <Form.Field>
@@ -94,9 +91,8 @@ const EditProfil = ({ currentUser }) => {
                                 selection 
                                 placeholder="iTeach" 
                                 name="taughtLanguages" 
-                                options={options}
-                                //defaultSelectedLabel={[{text: "Test", value: "Test"}]}
-                                defaultValue={selected}
+                                options={optionsLanguages}
+                                defaultValue={selectedLanguages(editProfilData.taughtLanguages)}
                                 />
                             </Form.Field>
                         </Form.Group>

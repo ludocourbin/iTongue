@@ -1,23 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
-import './userprofil.scss';
 import { Segment, Image, Icon } from 'semantic-ui-react';
 import Statistics from '../Statistics';
+import './userprofil.scss';
 
-import data from "../../Search/data";
+const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
 
-const UserProfil = ({ user }) => {
+    const [ isUserAccount , setIsUserAccount ] = useState(false);
+    let slug = useParams();
 
-    let { slug } = useParams();
-    // if user.slug !== slug
-    console.log(slug, user);
+    const checkUser = () => {
+        if(currentUser.slug === slug.slug) {
+            setIsUserAccount(true);
+        } else {
+            setIsUserAccount(false);
+        }
+    };
 
-    const audios = data.items.filter((el) => el.type === "audio");
+    useEffect(() => {
+        fetchAllUsers();
+        checkUser();
+    }, []);
+
+    const filterUser = allUsersList.filter(user => {
+        if( user.slug == slug.slug) {
+            return true;
+        }
+    });
+
+    const { 
+        id, 
+        avatarUrl, 
+        firstname, 
+        lastname, 
+        isAdmin, 
+        bio, 
+        records,
+    } = filterUser[0];
 
     return (
-
         <Layout>
             <div className="user-profil">
                 <Segment className="user-profil_header">
@@ -26,19 +49,21 @@ const UserProfil = ({ user }) => {
                             <Image 
                             avatar 
                             size="small"
-                            src="https://ca.slack-edge.com/TUZFANP45-U0102DYQRUL-b7d05e08f84a-512"
+                            src={avatarUrl || 'https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg'}
                             bordered
                             />
-                            <Icon name="add" className="add_image_avatar" circular />
+                            { isUserAccount && <Icon name="add" className="add_image_avatar" circular /> }
+                            
                         </div>
                     </div>
                     <div className="container_right">
                         <div className="container_right__first-row">
                             <span className="user-title">
-                                Gautier Colasse
+                                {firstname} {lastname}
                             </span> 
-                            <Icon name="check circle" /> 
-                            <Icon name="setting" />
+                            { isAdmin && <Icon name="check circle" /> }
+                            { isUserAccount && <Icon name="setting" /> }
+                            
                         </div>
 
                         <div className="container_right__second-row">
@@ -60,17 +85,33 @@ const UserProfil = ({ user }) => {
                         </div>
                         
                         <div className="container_right__third-row">
-                            <Statistics /> 
+                            <Statistics 
+                            totalRecords={records ? records.length : 0}
+                            totalFollow={547}
+                            totalFollower={645}
+                            /> 
                         </div>
                     </div>
                 </Segment>
+
                 <div className="container_bio">
-                    <p>« Lorem, ipsum dolor sit amet consectetur adipisicing elit. Earum suscipit illo velit ✈️ »</p>
+                    { bio &&  <p>« {bio} »</p> }
                 </div>
                 <div className="user-profil_feed">
-                    { audios.map(audio => (
-                        <Irecords audio={audio} key={audio.id} />
-                    )) }
+                    { records && records.length ? 
+                        records.map(audio => (
+                            <Irecords record={audio} user={filterUser[0]} key={audio.id} isUserRecord={id} />
+                        )) 
+                    :
+                    <>
+                    <div className="user-profil_feed__norecords">
+                        <Icon name="microphone slash" size="big" circular/>
+                        <div className="norecords-informations">
+                            Aucun iRecord.
+                        </div>
+                    </div>
+                    </>
+                    }
                 </div>
             </div>
         </Layout>

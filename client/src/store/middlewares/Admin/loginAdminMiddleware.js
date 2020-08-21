@@ -1,5 +1,4 @@
 import { LOGIN_SUBMIT, loginSubmitSuccess, loginSubmitError, LOGOUT } from "../../actions/Admin/loginAdminActions";
-import { persistStore } from 'redux-persist';
 import axios from 'axios';
 
 export const loginAdminMiddleware = (store) => (next) => (action) => {
@@ -12,10 +11,8 @@ export const loginAdminMiddleware = (store) => (next) => (action) => {
                 method: 'POST',
                 url: 'https://itongue.herokuapp.com/users/login',
                 data: { ...store.getState().loginAdminReducer.loginData },
-                //withCredentials: true,
             })
             .then((res) => {
-                console.log(res.data.data);
 
                 const data = res.data.data;
 
@@ -36,7 +33,7 @@ export const loginAdminMiddleware = (store) => (next) => (action) => {
             break;
         };
         case LOGOUT : {
-            // persistStore().purge();  ?? -> store.getState.loginAdminReducer
+            
             break;
         };
         default: {

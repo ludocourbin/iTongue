@@ -7,6 +7,9 @@ import {
     SIGNUP_SUCCESS,
     SIGNUP_ERROR,
     LOGOUT,
+    FETCH_ALL_USERS,
+    FETCH_ALL_USERS_SUCCESS,
+    FETCH_ALL_USERS_ERROR,
 } from "../actions/userActions";
 import {
     LOGIN_INPUT_CHANGE,
@@ -36,6 +39,10 @@ const initialState = {
     errorMessagePassword: "",
     errorMessageEmail: "",
     errorMailUsed: "",
+
+    allUsersList: [],
+    isLoadingallUsers: false,
+    usersListError: "",
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
@@ -162,6 +169,23 @@ export default (state = initialState, action = {}) => {
                 isLogged: false,
                 errorMailUsed: "",
                 errorMessageEmail: "",
+            };
+        case FETCH_ALL_USERS: 
+            return {
+                ...state,
+                isLoadingallUsers: true,
+            };
+        case FETCH_ALL_USERS_SUCCESS: 
+            return {
+                ...state,
+                allUsersList: [...action.payload],
+                isLoadingallUsers: false,
+            };
+        case FETCH_ALL_USERS_ERROR: 
+            return {
+                ...state,
+                isLoadingallUsers: false,
+                usersListError: action.payload,
             };
         default:
             return state;

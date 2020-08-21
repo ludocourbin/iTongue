@@ -41,3 +41,21 @@ export const signupError = (payload) => ({
 export const logout = () => ({
     type: LOGOUT,
 });
+
+export const FETCH_ALL_USERS = "FETCH_ALL_USERS";
+export const FETCH_ALL_USERS_SUCCESS = "FETCH_ALL_USERS_SUCCESS";
+export const FETCH_ALL_USERS_ERROR = "FETCH_ALL_USERS_ERROR";
+
+export const fetchAllUsers = () => ({
+    type: FETCH_ALL_USERS,
+});
+
+export const fetchAllUsersSuccess = (payload) => ({
+    type: FETCH_ALL_USERS_SUCCESS,
+    payload,
+});
+
+export const fetchAllUsersError = (payload) => ({
+    type: FETCH_ALL_USERS_ERROR,
+    payload,
+});

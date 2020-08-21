@@ -48,7 +48,7 @@
             .add_image_avatar {
                 position: absolute;
                 display: block;
-                left: 45%;
+                left: 50%;
                 transform: translate(-50%,-50%);
                 background-color: $primary-color;
                 color: #ffffff;
@@ -110,6 +110,21 @@
         
         padding: 1em;
         padding-top: 2em;
+
+        &__norecords {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+
+            .norecords-informations {
+                padding-top: 1em;
+                font-size: 1.2em;
+                text-align: center;
+                width: 150px;
+            }
+        }
     }
 }
 

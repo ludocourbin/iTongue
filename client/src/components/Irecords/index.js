@@ -6,30 +6,22 @@ import AudioPlayer from "../../containers/Audio";
 import "./irecords.scss";
 
 const Irecords = ({
-    audio,
     toggleRecording,
     selectIrecordToRecord,
     isRecording,
-    user,
+    record,
+    isUserRecord,
+    user
 }) => {
+ 
     const [selectediRecordId, setSelectediRecordId] = useState(null);
 
-    const userSlug = { slug: "ludocourbin" };
-    const {
-        avatar,
-        author,
-        id,
-        flagOrigin,
-        flagTarget,
-        label,
-        traduction,
-    } = audio;
-
     const handleCopyiRecord = () => {
-        setSelectediRecordId(id);
-        selectIrecordToRecord(audio);
+        setSelectediRecordId(record.id);
+        selectIrecordToRecord(record);
         toggleRecording(true);
-        if (isRecording && selectediRecordId === id) {
+
+        if (isRecording && selectediRecordId === record.id) {
             toggleRecording(false);
         } else {
             toggleRecording(true);
@@ -38,18 +30,18 @@ const Irecords = ({
 
     return (
         <div className="irecords">
-            <Card className="irecords-container" key={id}>
+            <Card className="irecords-container" key={record.id}>
                 <Card.Content className="flex author">
-                    <Link to={userSlug.slug} className="flex author">
+                    <Link to={user.slug} className="flex author">
                         <Image
                             avatar
                             floated="left"
                             size="large"
-                            src={avatar}
+                            src={user.avatarUrl}
                         />
-                        {author}
+                        {`${user.firstname} ${user.lastname}`}
                     </Link>
-                    {user && (
+                    {(user && user.id !== isUserRecord) && ( 
                         <Icon
                             onClick={handleCopyiRecord}
                             className="irecords-copy"
@@ -59,19 +51,20 @@ const Irecords = ({
                 </Card.Content>
                 <Card.Content className="text">
                     <p>
-                        <Flag name={flagOrigin} />
-                        {label}
+                        <Flag name={record.englishTranslation.language.code} /> {/* englishTranslation -> en attente du back */}
+                        {record.englishTranslation.text}
                     </p>
                 </Card.Content>
                 <Card.Content className="text">
                     <p>
-                        <Flag name={flagTarget} />
-                        {traduction}
+                        <Flag name={record.translation.language.code} />
+                        {record.translation.text}
                     </p>
                 </Card.Content>
-                <AudioPlayer audio={audio} />
+                <AudioPlayer audio={record} />
             </Card>
         </div>
     );
 };
+
 export default Irecords;

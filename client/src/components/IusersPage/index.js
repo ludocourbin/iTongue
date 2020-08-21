@@ -5,15 +5,16 @@ import MembersCard from "../MembersCard";
 import Layout from "../../containers/Layout";
 import data from "../Search/data";
 
-const IusersPage = () => {
-    const members = data.items.filter((el) => el.type === "member");
+const IusersPage = (props) => {
+
+    const { allUsersList, isLoadingallUsers, usersListError} = props;
 
     return (
         <Layout>
             <Header as="h1">Tout nos utilisateurs</Header>
-            {members.map((element) => (
-                <MembersCard user={element} key={element.id} />
-            ))}
+                {allUsersList.map((element) => (
+                    <MembersCard user={element} key={element.id} />
+                ))}
         </Layout>
     );
 };

@@ -1,37 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Input, Tab, Button } from "semantic-ui-react";
-
-import "./search.scss";
 
 /* Component */
 import Layout from "../../containers/Layout";
 import Irecords from "../../containers/Irecords";
 import MembersCard from "../MembersCard";
 
-import data from "./data";
+/* Style */
+import "./search.scss";
 
-const Search = () => {
+const Search = (props) => {
+
+    const { 
+        allRecordsList, 
+        fetchAllRecords, 
+        fetchAllUsers,
+        allUsersList, 
+        isLoadingallUsers, 
+        usersListError 
+    } = props;
+
+    useEffect(() => {
+        fetchAllRecords();
+        fetchAllUsers();
+    }, [])
+    
+    const fakeUser = {
+        id: '100',
+        slug: 'ludo-dodo',
+        avatarUrl: 'https://ca.slack-edge.com/TUZFANP45-U010EV73MG8-fb8c0bdc3d1e-512',
+        firstname: 'Ludovic',
+        lastname: 'Dodo',
+    };
+
     const [isFocus, setIsFocus] = useState(false);
     const [keyword, setKeyword] = useState("");
 
-    const filteredData = data.items.filter(
+    const tabRecordsUsers = [...allRecordsList, ...allUsersList];
+    const orderCreateByDate = tabRecordsUsers.sort((a, b) => a.createdAt - b.createdAt);
+
+    const usersAndRecords = orderCreateByDate.filter(
         (el) =>
             (el.type === "member" &&
-                el.pseudo.toLowerCase().includes(keyword)) ||
-            (el.type === "audio" && el.label.toLowerCase().includes(keyword))
+                el.firstname.toLowerCase().includes(keyword)) ||
+            (el.type === "audio" && el.englishTranslation.text.toLowerCase().includes(keyword))
     );
 
-    const members = data.items.filter(
+    const members = allUsersList.filter(
         (el) =>
-            el.type === "member" && el.pseudo.toLowerCase().includes(keyword)
+            el.firstname.toLowerCase().includes(keyword)
     );
-    const audios = data.items.filter((el) => el.type === "audio");
-
-    const audiosFiltered = audios.filter(
+    
+    const audiosFiltered = allRecordsList.filter(
         (el) =>
-            el.label.toLowerCase().includes(keyword) ||
-            el.traduction.toLowerCase().includes(keyword) ||
-            el.author.toLowerCase().includes(keyword)
+            el.englishTranslation.text.toLowerCase().includes(keyword) ||
+            el.translation.text.toLowerCase().includes(keyword)
     );
 
     const panes = [
@@ -39,12 +62,12 @@ const Search = () => {
             menuItem: "All",
             render: () => (
                 <Tab.Pane>
-                    {filteredData.map((element) => (
-                        <div key={element.id}>
+                    {usersAndRecords && usersAndRecords.map((element, index) => (
+                        <div key={index}>
                             {element.type === "member" ? (
                                 <MembersCard user={element} />
                             ) : (
-                                <Irecords audio={element} />
+                                <Irecords record={element} key={element.id} user={fakeUser}/>
                             )}
                         </div>
                     ))}
@@ -55,7 +78,7 @@ const Search = () => {
             menuItem: "Members",
             render: () => (
                 <Tab.Pane>
-                    {members.map((element) => (
+                    {members && members.map((element) => (
                         <MembersCard user={element} key={element.id} />
                     ))}
                 </Tab.Pane>
@@ -65,8 +88,8 @@ const Search = () => {
             menuItem: "Audios",
             render: () => (
                 <Tab.Pane>
-                    {audiosFiltered.map((audio) => (
-                        <Irecords key={audio.id} audio={audio} />
+                    {audiosFiltered && audiosFiltered.map((audio) => (
+                        <Irecords key={audio.id} record={audio} user={fakeUser} />
                     ))}
                 </Tab.Pane>
             ),
@@ -100,13 +123,13 @@ const Search = () => {
                     {!isFocus && (
                         <div className="search-content--items">
                             <h1>Nos derniers iRecords</h1>
-                            {audiosFiltered.map((audio) => {
+                            {allRecordsList.map((audio) => {
                                 return (
                                     <div
                                         style={{ width: "100%" }}
                                         key={audio.id}
                                     >
-                                        <Irecords audio={audio} />
+                                        <Irecords record={audio} user={fakeUser} />
                                     </div>
                                 );
                             })}

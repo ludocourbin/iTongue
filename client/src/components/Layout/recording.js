@@ -4,9 +4,7 @@ import { ReactMic } from "react-mic";
 
 import AudioPlayer from "../../containers/Audio";
 
-const Recording = ({ audio, toggleRecording, sendIrecordsRecorded, loading }) => {
-    const { flagOrigin, flagTarget, label, traduction } = audio;
-
+const Recording = ({ audio, toggleRecording }) => {
     const [recording, setRecording] = useState(false);
     const [recordedSound, setRecordedSound] = useState(null);
 
@@ -38,12 +36,12 @@ const Recording = ({ audio, toggleRecording, sendIrecordsRecorded, loading }) =>
         <div className="recording">
             <Card style={{ width: "60%" }} className="">
                 <Card.Content>
-                    <Flag name={flagOrigin} />
-                    {label}
+                    <Flag name={audio.englishTranslation.language.code} />
+                    {audio.englishTranslation.text}
                 </Card.Content>
                 <Card.Content>
-                    <Flag name={flagTarget} />
-                    {traduction}
+                    <Flag name={audio.translation.language.code} />
+                    {audio.translation.text}
                 </Card.Content>
                 <Card.Content>
                     <div>

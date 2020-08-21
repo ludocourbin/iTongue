@@ -52,11 +52,11 @@ CREATE TYPE "user_record" AS ("id" INT, "url" TEXT, "createdAt" TIMESTAMPTZ, "en
 CREATE VIEW "user_with_relations" AS
    SELECT "u".*,
          COALESCE(json_agg(("r"."id", "r"."url", "r"."createdAt", "r"."englishTranslation", "r"."translation")::"user_record") FILTER(WHERE "r"."id" IS NOT NULL), '[]') AS "records",
-         COALESCE(json_agg("l".*) FILTER(WHERE "lu"."role" = 'learner'), '[]') AS "learnedLanguages",
-         COALESCE(json_agg("l".*) FILTER(WHERE "lu"."role" = 'teacher'), '[]') AS "taughtLanguages"
+         COALESCE(json_agg(DISTINCT "l".*) FILTER(WHERE "lu"."role" = 'learner'), '[]') AS "learnedLanguages",
+         COALESCE(json_agg(DISTINCT "l".*) FILTER(WHERE "lu"."role" = 'teacher'), '[]') AS "taughtLanguages"
      FROM "user" "u"
 LEFT JOIN "record_display" "r"
-       ON "u"."id"::TEXT = "r"."user"->>'id'
+       ON "u"."id" = ("r"."user"->>'id')::INT
 LEFT JOIN "language_user" "lu"
        ON "u"."id" = "lu"."user_id"
 LEFT JOIN "language" "l"

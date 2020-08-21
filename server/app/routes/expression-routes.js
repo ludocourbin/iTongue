@@ -83,6 +83,6 @@ router.get("/", expressionController.getAll);
  *          '404':
  *              description: Not Found
  */
-router.get("/:id([0-9]+)", expressionController.todo);
+router.get("/:id([0-9]+)", expressionController.getOneById);
 
 module.exports = router;

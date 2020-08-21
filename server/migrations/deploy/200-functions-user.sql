@@ -64,7 +64,7 @@ LEFT JOIN "language" "l"
  GROUP BY "u"."id";
 
 CREATE VIEW "user_display" AS
-     SELECT "id", "email", "firstname", "lastname", "slug", "avatar_url" AS "avatarUrl", "is_admin" AS "isAdmin", "created_at" AS "createdAt", "records", "learnedLanguages", "taughtLanguages"
+     SELECT "id", "email", "firstname", "lastname", "bio", "slug", "avatar_url" AS "avatarUrl", "is_admin" AS "isAdmin", "created_at" AS "createdAt", "records", "learnedLanguages", "taughtLanguages"
        FROM "user_with_relations";
 
 COMMIT;

@@ -26,7 +26,7 @@ export const irecordsMiddleware = store => next => action => {
                 data,
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${store.getState().user.accessToken}`
+                    "Authorization": `Bearer ${store.getState().user.accessToken}`
                 }
             })
                 .then(res => {

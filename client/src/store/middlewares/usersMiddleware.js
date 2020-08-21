@@ -60,8 +60,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
 
             const finalData = {
                 ...editProfilData,
-                learnedLanguages: mapper(learnedLanguages),
-                taughtLanguages: mapper(taughtLanguages),
+                //learnedLanguages: mapper(learnedLanguages),
+                //taughtLanguages: mapper(taughtLanguages),
             };
 
             console.log("finalData", finalData);
@@ -82,7 +82,6 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 console.error(err);
                 store.dispatch(editProfilError(/* Todo */));
             })  
-        
             break;
         };
         default:

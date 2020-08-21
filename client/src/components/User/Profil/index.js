@@ -21,14 +21,13 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
 
     useEffect(() => {
         fetchAllUsers();
-        checkUser();
     }, []);
 
-    const filterUser = allUsersList.filter(user => {
-        if( user.slug == slug.slug) {
-            return true;
-        }
-    });
+    useEffect(() => {
+        checkUser();
+    }, [isUserAccount, slug]);
+
+    const filterUser = allUsersList.find(user => user.slug == slug.slug);
 
     const { 
         id, 
@@ -40,7 +39,7 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
         records,
         learnedLanguages,
         taughtLanguages,
-    } = filterUser[0] || filterUser;
+    } = filterUser;
 
     return (
         <Layout>
@@ -107,7 +106,7 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
                 <div className="user-profil_feed">
                     { records && records.length ? 
                         records.map(audio => (
-                            <Irecords record={audio} user={filterUser[0]} key={audio.id} isUserRecord={id} />
+                            <Irecords record={audio} user={filterUser} key={audio.id} isUserRecord={id} />
                         )) 
                     :
                     <>

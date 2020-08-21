@@ -4,12 +4,7 @@ import { ReactMic } from "react-mic";
 
 import AudioPlayer from "../../containers/Audio";
 
-const Recording = ({
-    audio,
-    toggleRecording,
-    sendIrecordsRecorded,
-    loading,
-}) => {
+const Recording = ({ audio, toggleRecording, sendIrecordsRecorded, loading }) => {
     const { flagOrigin, flagTarget, label, traduction } = audio;
 
     const [recording, setRecording] = useState(false);
@@ -23,11 +18,11 @@ const Recording = ({
         setRecording(false);
     };
 
-    const onData = (recordedBlob) => {
+    const onData = recordedBlob => {
         // console.log("chunk of real-time data is: ", recordedBlob);
     };
 
-    const onStop = (recordedBlob) => {
+    const onStop = recordedBlob => {
         console.log("recordedBlob is: ", recordedBlob);
         setRecordedSound(recordedBlob);
     };
@@ -62,38 +57,22 @@ const Recording = ({
                             onBlock={startRecording}
                             mimeType="audio/mp3" // Change type wanted here
                         />
-                        {recordedSound && !recording && (
-                            <AudioPlayer audio={recordedSound} />
-                        )}
-                        {recordedSound && recording && (
-                            <p>réenregistrement en cours</p>
-                        )}
+                        {recordedSound && !recording && <AudioPlayer audio={recordedSound} />}
+                        {recordedSound && recording && <p>réenregistrement en cours</p>}
                         {!recordedSound && !recording && <p>Aucun audio</p>}
 
                         <div className="recording-microphone">
                             {recording ? (
-                                <Icon
-                                    onClick={stopRecording}
-                                    name="stop circle"
-                                    size="big"
-                                />
+                                <Icon onClick={stopRecording} name="stop circle" size="big" />
                             ) : (
-                                <Icon
-                                    onClick={startRecording}
-                                    name="microphone"
-                                    size="big"
-                                />
+                                <Icon onClick={startRecording} name="microphone" size="big" />
                             )}
                         </div>
                     </div>
                 </Card.Content>
                 <Card.Content extra>
                     <div className="ui two buttons">
-                        <Button
-                            onClick={() => toggleRecording(false)}
-                            basic
-                            color="red"
-                        >
+                        <Button onClick={() => toggleRecording(false)} basic color="red">
                             Annuler
                         </Button>
                         <Button

@@ -3,10 +3,10 @@ import axios from "axios";
 import {
     SEND_IRECORDS_RECORDED,
     sendIrecordsSuccess,
-    sendIrecordsError,
+    sendIrecordsError
 } from "../actions/irecordsActions";
 
-export default (store) => (next) => (action) => {
+export default store => next => action => {
     next(action);
     switch (action.type) {
         case SEND_IRECORDS_RECORDED:
@@ -20,21 +20,22 @@ export default (store) => (next) => (action) => {
             // data.append("record", blob);
             data.append("record", file);
 
-            const config = {
-                header: { "Content-Type": "multipart/form-data" },
-            };
-
-            axios
-                .post(
-                    `https://itongue.herokuapp.com/users/${user.id}/record`,
-                    data,
-                    config
-                )
-                .then((res) => {
-                    store.dispatch(sendIrecordsSuccess(res));
+            axios({
+                method: "POST",
+                url: `https://itongue.herokuapp.com/users/${user.id}/record`,
+                data,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${store.getState().user.accessToken}`
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                    // store.dispatch(sendIrecordsSuccess(res));
                 })
-                .catch((err) => {
-                    store.dispatch(sendIrecordsError(err));
+                .catch(err => {
+                    console.log(err);
+                    // store.dispatch(sendIrecordsError(err));
                 });
 
         default:

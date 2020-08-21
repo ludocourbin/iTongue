@@ -20,18 +20,19 @@ import "./app.scss";
 import Admin from "../../containers/Admin/Index";
 import Profil from "../../containers/User/Profil";
 
-const App = ({ userLogin, userSignup, isLogged }) => {
-    // <Route path="/login" component={Login} />
-
+const App = ({ user }) => {
     return (
         <div className="App">
             <Switch>
                 <Route exact path="/" component={Home} />
-                <Route path="/signup" render={() => <Signup />} />
+                <Route
+                    path="/signup"
+                    render={() => (user ? <Redirect to="/" /> : <Signup />)}
+                />
 
                 <Route
                     path="/login"
-                    render={() => (userLogin || userSignup ? <Redirect to="/" /> : <Login />)}
+                    render={() => (user ? <Redirect to="/" /> : <Login />)}
                 />
 
                 <Route path="/search" component={Search} />

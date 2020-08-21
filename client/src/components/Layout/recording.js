@@ -54,7 +54,7 @@ const Recording = ({ audio, toggleRecording, sendIrecordsRecorded, loading }) =>
                             strokeColor="#FFFFFF"
                             backgroundColor="#fe734c"
                             onBlock={startRecording}
-                            mimeType="audio/mp3" // Change type wanted here
+                            mimeType="audio/mpeg" // Change type wanted here
                         />
                         {recordedSound && !recording && <AudioPlayer audio={recordedSound} />}
                         {recordedSound && recording && <p>réenregistrement en cours</p>}

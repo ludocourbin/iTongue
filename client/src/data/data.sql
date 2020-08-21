@@ -11,6 +11,10 @@ SET "bio" = 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Earum sus
 , "avatar_url" = 'https://ca.slack-edge.com/TUZFANP45-U0102DYQRUL-b7d05e08f84a-512'
 WHERE "id" = 5;
 
+UPDATE "user"
+SET "avatar_url" = ''
+WHERE "id" = 5;
+
 /* Add record */ 
 INSERT INTO "record" ("url", "user_id", "translation_id")
 VALUES ('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3', 

@@ -21,3 +21,22 @@ export const editProfilInput = (payload) => ({
     type: EDIT_PROFIL_INPUT,
     payload
 });
+
+export const EDIT_PROFIL_AVATAR = "EDIT_PROFIL_AVATAR";
+export const EDIT_PROFIL_AVATAR_SUCCESS = "EDIT_PROFIL_AVATAR_SUCCESS";
+export const EDIT_PROFIL_AVATAR_ERROR = "EDIT_PROFIL_AVATAR_ERROR";
+
+export const editProfilAvatar = (payload) => ({
+    type: EDIT_PROFIL_AVATAR,
+    payload ,
+});
+
+export const editProfilAvatarSuccess = (payload) => ({
+    type: EDIT_PROFIL_AVATAR_SUCCESS,
+    payload
+});
+
+export const editProfilAvatarError = (payload) => ({
+    type: EDIT_PROFIL_AVATAR_ERROR,
+    payload
+});

@@ -27,7 +27,7 @@ const App = ({ user, isLogged }) => {
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/signup" render={() => <Signup />} />
-                <Route path="/login" render={() => (user ? <Redirect to="/" /> : <Login />)} />
+                <Route path="/login" render={() => (isLogged ? <Redirect to="/" /> : <Login />)} />
                 <Route path="/search" component={Search} />
                 <Route path="/irecords" component={IrecordsPage} />
                 <Route path="/users" component={IusersPage} />

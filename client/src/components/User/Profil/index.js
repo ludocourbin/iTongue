@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
@@ -6,9 +6,12 @@ import { Segment, Image, Icon } from 'semantic-ui-react';
 import Statistics from '../Statistics';
 import './userprofil.scss';
 
-const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
+const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfos }) => {
 
     const [ isUserAccount , setIsUserAccount ] = useState(false);
+    const [ currentImage, setCurrentImage ] = useState(null);
+    const addAvatarRef = useRef(null);
+
     let slug = useParams();
 
     const checkUser = () => {
@@ -20,15 +23,14 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
     };
 
     useEffect(() => {
-        fetchAllUsers();
+        checkUserSlug(slug.slug);
     }, []);
 
     useEffect(() => {
         checkUser();
     }, [isUserAccount, slug]);
 
-    const filterUser = allUsersList.find(user => user.slug == slug.slug);
-
+    
     const { 
         id, 
         avatarUrl, 
@@ -39,7 +41,20 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
         records,
         learnedLanguages,
         taughtLanguages,
-    } = filterUser;
+    } = userSlugInfos;
+
+
+    const handdleClickAvatar = (e) => {
+        addAvatarRef.current.click();
+    };
+
+    const handdleAvatarChange = (e) => {
+        if(e.target.files) {
+            console.log(e.target.files[0]);
+            setCurrentImage(e.target.files[0]);
+            editProfilAvatar(e.target.files[0]);
+        }
+    };
 
     return (
         <Layout>
@@ -50,11 +65,16 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
                             <Image 
                             avatar 
                             size="small"
-                            src={avatarUrl || 'https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg'}
+                            src={`${process.env.REACT_APP_API_URL}/${avatarUrl}` || 'https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg'}
                             bordered
                             />
-                            { isUserAccount && <Icon name="add" className="add_image_avatar" circular /> }
-                            
+                            { isUserAccount && <Icon name="add" className="add_image_avatar" circular onClick={handdleClickAvatar}/> }
+                            <input 
+                            type="file" 
+                            ref={addAvatarRef} 
+                            style={{ visibility: "hidden" }}
+                            onChange={handdleAvatarChange}
+                            />
                         </div>
                     </div>
                     <div className="container_right">
@@ -75,7 +95,7 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
                                 <div className="title">iTeach</div> 
                                 <div className="flags">
                                     { taughtLanguages && taughtLanguages.map(language => (
-                                        <Image src={`https://www.countryflags.io/${language.code}/flat/32.png`} className="flag_image"/>
+                                        <Image key={language.id} src={`https://www.countryflags.io/${language.code}/flat/32.png`} className="flag_image"/>
                                     ))}
                                 </div>
                             </div>
@@ -84,7 +104,7 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
                                 <div className="title">iLearn</div> 
                                 <div className="flags">
                                     { learnedLanguages && learnedLanguages.map(language => (
-                                        <Image src={`https://www.countryflags.io/${language.code}/flat/32.png`} className="flag_image"/>
+                                        <Image key={language.id} src={`https://www.countryflags.io/${language.code}/flat/32.png`} className="flag_image"/>
                                     ))}
                                 </div>
                             </div>
@@ -106,7 +126,7 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
                 <div className="user-profil_feed">
                     { records && records.length ? 
                         records.map(audio => (
-                            <Irecords record={audio} user={filterUser} key={audio.id} isUserRecord={id} />
+                            <Irecords record={audio} user={userSlugInfos} key={audio.id} isUserRecord={id} />
                         )) 
                     :
                     <>
@@ -119,7 +139,7 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
                     </>
                     }
                 </div>
-            </div>
+            </div> 
         </Layout>
     );
 };

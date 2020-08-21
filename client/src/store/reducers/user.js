@@ -10,6 +10,8 @@ import {
     FETCH_ALL_USERS,
     FETCH_ALL_USERS_SUCCESS,
     FETCH_ALL_USERS_ERROR,
+    CHECK_USER_SLUG,
+    CHECK_USER_SLUG_SUCCESS,
 } from "../actions/userActions";
 
 import {
@@ -24,6 +26,9 @@ import {
     EDIT_PROFIL_SUCCESS,
     EDIT_PROFIL_ERROR,
     EDIT_PROFIL_INPUT,
+    EDIT_PROFIL_AVATAR,
+    EDIT_PROFIL_AVATAR_SUCCESS,
+    EDIT_PROFIL_AVATAR_ERROR,
 } from '../actions/editProfilActions';
 
 const initialState = {
@@ -50,6 +55,7 @@ const initialState = {
     errorMailUsed: "",
 
     allUsersList: [],
+    userSlugInfos: {},
     isLoadingallUsers: false,
     usersListError: "",
 
@@ -159,7 +165,8 @@ export default (state = initialState, action = {}) => {
                 editProfilData: {
                     ...state.editProfilData,
                     ...action.payload.user
-                }
+                },
+                isLogged: true,
             };
         case LOGIN_SUBMIT_ERROR:
             return {
@@ -193,11 +200,12 @@ export default (state = initialState, action = {}) => {
                     password: "",
                     stayConnected: true,
                 },
-                currentUser: "",
+                currentUser: {},
                 loggedMessage: "",
                 isLogged: false,
                 errorMailUsed: "",
                 errorMessageEmail: "",
+                allUsersList: [],
             };
         case FETCH_ALL_USERS: 
             return {
@@ -243,7 +251,38 @@ export default (state = initialState, action = {}) => {
                     ...action.payload
                 },
             };
+        case EDIT_PROFIL_AVATAR:
+            return {
+                ...state,
+            };
+        case EDIT_PROFIL_AVATAR_SUCCESS:
+            return {
+                ...state,
+                editProfilData: {
+                    ...state.editProfilData,
+                    avatarUrl: action.payload,
+                },
+                currentUser: {
+                    ...state.currentUser,
+                    avatarUrl: action.payload,
+                }
+            };
+        case EDIT_PROFIL_AVATAR_ERROR:
+            return {
+                ...state,
+            };
+
+        case CHECK_USER_SLUG:
+            return {
+                ...state,
+            };
+        case CHECK_USER_SLUG_SUCCESS:
+            return {
+                ...state,
+                userSlugInfos: action.payload,
+            };
         default:
             return state;
     }
 };
+

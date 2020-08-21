@@ -16,6 +16,7 @@ const LayoutHeader = ({
     logout,
     loading,
     sendIrecordsRecorded,
+    isLogged,
     ...props
 }) => {
     const [visible, setVisible] = useState(false);
@@ -60,7 +61,7 @@ const LayoutHeader = ({
                                 iUsers
                             </NavLink>
                         </div>
-                        {user ? (
+                        {isLogged ? (
                             <div onClick={handleLogout} className="container">
                                 <Link
                                     to="/"
@@ -126,7 +127,7 @@ const LayoutHeader = ({
                             loading={loading}
                         />
                     ) : null}
-                    {user ? <NavigationBottom user={user} /> : null}
+                    {isLogged ? <NavigationBottom user={user} /> : null}
                 </Sidebar.Pusher>
             </Sidebar.Pushable>
         </div>

@@ -12,21 +12,25 @@ export const irecordsMiddleware = store => next => action => {
     next(action);
     switch (action.type) {
         case SEND_IRECORDS_RECORDED:
-            const blob = action.payload;
+           
+            let blob = action.payload;
+
+            console.log(blob);
             const user = store.getState().user.currentUser;
-            const translation = { id: 11 };
-            const file = new File([blob], "iRecord");
-            const data = new FormData();
-            data.append("translation_id", translation.id);
-            // data.append("record", blob);
-            data.append("record", file);
+            const translation = { id: 15 };
+ 
+            const file = new File([blob], "record", {type:"audio/mpeg"});
+            const formData = new FormData();
+            formData.append("record", file); 
+            formData.append("translation_id", translation.id); 
+
             axios({
                 method: "POST",
                 url: `https://itongue.herokuapp.com/users/${user.id}/record`,
-                data,
+                data: formData,
                 headers: {
-                    "Content-Type": "multipart/form-data",
-                    "Authorization": `Bearer ${store.getState().user.accessToken}`
+                    "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+                    "Authorization": `Bearer ${store.getState().user.accessToken}`,
                 }
             })
                 .then(res => {

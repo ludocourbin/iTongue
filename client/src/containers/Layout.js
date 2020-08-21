@@ -17,6 +17,7 @@ const mapStateToProps = (state) => ({
     recording: state.irecords.recording,
     isRecording: state.irecords.isRecording,
     loading: state.irecords.loading,
+    isLogged: state.user.isLogged,
 });
 
 const mapDispatchToProps = (dispatch) => ({

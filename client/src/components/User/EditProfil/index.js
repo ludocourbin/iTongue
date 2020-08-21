@@ -76,7 +76,7 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
 
                     <div className="edit-profil_container">
 
-                        <Image src={editProfilData.avatarUrl} avatar size="big" className="edit-profil_container__avatar"/>
+                        <Image src={`${process.env.REACT_APP_API_URL}/${editProfilData.avatarUrl}`} avatar size="big" className="edit-profil_container__avatar"/>
 
                         <div className="edit-profil_container__toggle">
                             <div className="toggle_container">

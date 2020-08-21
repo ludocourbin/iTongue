@@ -37,7 +37,7 @@ const Irecords = ({
                             avatar
                             floated="left"
                             size="large"
-                            src={user.avatarUrl}
+                            src={`${process.env.REACT_APP_API_URL}/${user.avatarUrl}`}
                         />
                         {`${user.firstname} ${user.lastname}`}
                     </Link>

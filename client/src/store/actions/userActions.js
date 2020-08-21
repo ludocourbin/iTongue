@@ -59,3 +59,22 @@ export const fetchAllUsersError = (payload) => ({
     type: FETCH_ALL_USERS_ERROR,
     payload,
 });
+
+export const CHECK_USER_SLUG = "CHECK_USER_SLUG";
+export const CHECK_USER_SLUG_SUCCESS = "CHECK_USER_SLUG_SUCCESS";
+export const CHECK_USER_SLUG_ERROR = "CHECK_USER_SLUG_ERROR";
+
+export const checkUserSlug = (payload) => ({
+    type: CHECK_USER_SLUG,
+    payload,
+});
+
+export const checkUserSlugSuccess = (payload) => ({
+    type: CHECK_USER_SLUG_SUCCESS,
+    payload,
+});
+
+export const checkUserSlugError = (payload) => ({
+    type: CHECK_USER_SLUG_ERROR,
+    payload,
+});

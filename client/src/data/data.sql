@@ -35,4 +35,21 @@ INSERT INTO "language" ("name", "code")
             ('English', 'uk'),
             ('Espagnol', 'es'),
             ('Portuguais', 'pt');
-            
+   /*         
+Pour le back :
+
+GET /records :
+
+id
+slug
+avatarUrl
+firstname
+lastname
+
+Créer une route qui retourne des stats pour le dashboard genre: (au lieu de faire 4 requests)
+Nombre d'utilisateur total
+Nombre d'iRecords total
+Nombre de traductions total
+Nombre de langues total
+
+*/

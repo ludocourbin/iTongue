@@ -1,9 +1,17 @@
 import { connect } from "react-redux";
 import Profil from "../../components/User/Profil";
+import { fetchAllUsers } from '../../store/actions/userActions';
 
 const mapStateToProps = (state) => ({
     user: state.user.currentUser,
     isLogged: state.user.isLogged,
+    allUsersList: state.user.allUsersList,
 });
 
-export default connect(mapStateToProps)(Profil);
+const mapDispatchToProps = (dispatch) => ({
+    fetchAllUsers: () => {
+        dispatch(fetchAllUsers());
+    },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profil);

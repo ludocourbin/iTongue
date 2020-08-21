@@ -1,34 +1,37 @@
-import React, { useEffect } from 'react';
-import { matchPath, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
 import { Segment, Image, Icon } from 'semantic-ui-react';
 import Statistics from '../Statistics';
-import data from "../../Search/data";
 import './userprofil.scss';
 
-const UserProfil = ({ user, match }) => {
+const UserProfil = ({ fetchAllUsers, allUsersList, match }) => {
 
-    let { path } = match;
+    const [ isUserAccount , setIsUserAccount ] = useState(false);
+    let slug = useParams();
 
-    const checkUser = () => {
-        
-        if (user.slug === path.slice(6)) {
-            console.log("GOOD USER");
-            console.log(user.slug, path)
-        } else {
-            console.log("BAD USER");
-            console.log(user.slug, path)
+    const filterUser = allUsersList.filter(user => {
+        if( user.slug == slug.slug) {
+            return true;
         }
-    }
+    });
+
+    const { 
+        id, 
+        avatarUrl, 
+        firstname, 
+        lastname, 
+        isAdmin, 
+        bio, 
+        records,
+    } = filterUser[0];
 
     useEffect(() => {
-        checkUser();
+        fetchAllUsers();
     }, [])
     
-console.log(user.records);
     return (
-
         <Layout>
             <div className="user-profil">
                 <Segment className="user-profil_header">
@@ -37,19 +40,21 @@ console.log(user.records);
                             <Image 
                             avatar 
                             size="small"
-                            src={user.avatarUrl || 'https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg'}
+                            src={avatarUrl || 'https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg'}
                             bordered
                             />
-                            <Icon name="add" className="add_image_avatar" circular />
+                            { isUserAccount && <Icon name="add" className="add_image_avatar" circular /> }
+                            
                         </div>
                     </div>
                     <div className="container_right">
                         <div className="container_right__first-row">
                             <span className="user-title">
-                                {user.firstname} {user.lastname}
+                                {firstname} {lastname}
                             </span> 
-                            { user.isAdmin && <Icon name="check circle" /> }
-                            <Icon name="setting" />
+                            { isAdmin && <Icon name="check circle" /> }
+                            { isUserAccount && <Icon name="setting" /> }
+                            
                         </div>
 
                         <div className="container_right__second-row">
@@ -72,7 +77,7 @@ console.log(user.records);
                         
                         <div className="container_right__third-row">
                             <Statistics 
-                            totalRecords={user.records.lenght || 0}
+                            totalRecords={records ? records.length : 0}
                             totalFollow={547}
                             totalFollower={645}
                             /> 
@@ -81,12 +86,12 @@ console.log(user.records);
                 </Segment>
 
                 <div className="container_bio">
-                    { user.bio &&  <p>« {user.bio} »</p> }
+                    { bio &&  <p>« {bio} »</p> }
                 </div>
                 <div className="user-profil_feed">
-                    { user.records ? 
-                        user.records.map(audio => (
-                            <Irecords record={audio} user={user} key={audio.id} isUserRecord={user.id} />
+                    { records && records.length ? 
+                        records.map(audio => (
+                            <Irecords record={audio} user={filterUser[0]} key={audio.id} isUserRecord={id} />
                         )) 
                     :
                     <>

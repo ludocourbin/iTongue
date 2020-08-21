@@ -7,8 +7,6 @@ const NavigationBottom = ({ user }) => {
 
     let slug = useParams();
 
-    console.log(slug)
-
     return (
         <div className="navigationBottom">
             <NavLink to={`/user/${user.slug}`}  activeClassName="active-navbottom">

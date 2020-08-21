@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 /* Components */
-import IusersPage from "../IusersPage";
 import Home from "../Home";
 
 /* Styles */
@@ -16,6 +15,7 @@ import Login from "../../containers/Login";
 import Admin from "../../containers/Admin/Index";
 import Profil from "../../containers/User/Profil";
 import IrecordsPage from "../../containers/IrecordsPage";
+import IusersPage from "../../containers/IusersPage";
 import Search from "../../containers/Search";
 
 const App = ({ user, isLogged }) => {
@@ -33,7 +33,9 @@ const App = ({ user, isLogged }) => {
                 <Route path="/search" component={Search} />
                 <Route path="/irecords" component={IrecordsPage} />
                 <Route path="/users" component={IusersPage} />
-                <Route path={`/user/${user.slug}`} component={Profil} />
+                {/* <Route path={`/user/${user.slug}`} component={Profil} /> */}
+                <Route path='/user/:slug' component={Profil} />
+
                 <Route path="/admin" component={Admin} />
                 <Route>
                     <h1>La page n'existe pas</h1>

@@ -1,10 +1,11 @@
 const searchDatamapper = require("../db/search-datamapper");
+const errorMiddleware = require("../middlewares/error-middleware");
 
 module.exports = {
   /**
    * Retrieves both matching expressions for users and irecords relations
    */
-  find: async (req, res) => {
+  find: async (req, res, next) => {
     try {
       const { query, type } = req.query;
 
@@ -24,8 +25,8 @@ module.exports = {
 
       res.json({ data: results });
 
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      errorMiddleware.handleError(err, res, next);
     }
   },
   

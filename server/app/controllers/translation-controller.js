@@ -1,87 +1,56 @@
 const translationDatamapper = require("../db/translation-datamapper");
+const errorMiddleware = require("../middlewares/error-middleware");
 
 module.exports = {
-  create: async (req, res) => {
+  create: async (req, res, next) => {
     try {
       const { body } = req;
       const newTranslation = await translationDatamapper.create(body);
-
-      if(newTranslation.error) {
-        return res.status(409).json({
-          errors: [{ msg: newTranslation.error }]
-        });
-      }
-      
-      res.json({ data: newTranslation });
-
-    } catch (error) {
-      console.log(error)
+      res.status(201).json({ data: newTranslation });
+    } catch (err) {
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
-  update: async (req, res) => {
+  update: async (req, res, next) => {
     try {
       const { body } = req;
       const id = parseInt(req.params.id, 10);
       const newTranslation = await translationDatamapper.updateOne(id, body);
-
-      if(newTranslation.error) {
-        return res.status(409).json({
-          errors: [{ msg: newTranslation.error }]
-        });
-      }
-      
       res.json({ data: newTranslation });
-
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
-  getAll: async (_, res) => {
+  getAll: async (_, res, next) => {
     try {  
       const translations = await translationDatamapper.findAll();
-
-      if (!translations) {
-        res.status(404).json({
-          data: "Unexpected error, no expression found"
-        });
-        return
-      }
-
       res.status(200).json({ data: translations });
-
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
-  getOneById: async (req, res) => {
+  getOneById: async (req, res, next) => {
     try {
       const id = parseInt(req.params.id, 10);
-
       const result = await translationDatamapper.findOneById(id);
-
-      res.status(200).json({
-        data: result
-      })
-
-    } catch (error) {
-      console.log(error)
-    }
       
+      if(!result) return next();
+      res.status(200).json({ data: result }); 
+    } catch (err) {
+      errorMiddleware.handleError(err, res, next);
+    } 
   },
 
-  deleteOne: async (req, res) => {
+  deleteOne: async (req, res, next) => {
     try {
-      
       const id = parseInt(req.params.id, 10);
       const result = await translationDatamapper.deleteOne(id);
-
       res.status(200).json({ data: result })
-
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      errorMiddleware.handleError(err, res, next);
     }
   },
 

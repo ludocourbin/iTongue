@@ -1,65 +1,26 @@
 const client = require("./index");
 
-/**
- * @property {Number} id - id of the language
- * @property {String} name - name of the language
- * @property {String} code - code of the language
- */
-
 module.exports = {
   /**
    * Creates a new language
-   * @property {String} name - name of the language
-   * @property {String} code - code of the language
-   * @returns {Boolean} - True if success
+   * @param {String} name - name of the language
+   * @param {String} code - code of the language
+   * @returns {Number} - Id of the language
    */
-  create: async (data) => {
-    try {
-      const query = {
-        name: "create-language",
-        text: `
-          INSERT INTO "language"("name", "code")
-               VALUES($1, $2)
-            RETURNING *
-          `,
-        values: [data.name, data.code],
-      };
-
-      const result = await client.query(query);
-
-      return result.rows;
-      
-    } catch (error) {
-      console.log(error);
-      if (error.code === "23505") {
-        return { error: error.detail };
-      }
-    }
+  create: async ({ name, code }) => {
+    const query = 'INSERT INTO "language"("name", "code") VALUES($1, $2) RETURNING "id"';
+    const result = await client.query(query, [name, code]);
+    return result.rows;
   },
 
   /**
-   * This method returns all languages in database
-   * @returns {Array.Object} - Set of objects representing available languages
+   *Find all languges
+   * @returns {Array} - Set of objects representing available languages
    */
   findAll: async () => {
-    try {
-      const query = {
-        name: "get-languages",
-        text: 'SELECT * FROM "language"',
-        values: [],
-      };
-
-      const result = await client.query(query);
-      // console.log("result datamapper", result);
-
-      if (!result.rows) {
-        throw new Error("Unexpected issue: unable to get languages");
-      }
-
-      return result.rows;
-    } catch (error) {
-      console.log("Error", error);
-    }
+    const query = 'SELECT * FROM "language"';
+    const result = await client.query(query);
+    return result.rows;
   },
 
   /**
@@ -68,7 +29,6 @@ module.exports = {
    * @returns {Object} - Object representing the language
    */
   findOneByName: async name => {
-
     try {
       const query = {
         name: "get-language-by-name",
@@ -77,26 +37,24 @@ module.exports = {
             FROM "language" 
            WHERE name = $1
           `,
-        values: [name],
+        values: [name]
       };
-  
+
       const result = await client.query(query);
-      console.log(result)
-  
+      console.log(result);
+
       if (!result.rows) {
         throw new Error(`Unexpected issue: unable to get language : ${name}`);
       }
-      
+
       if (result.rows.length === 0) {
         return {};
       }
 
       return result.rows[0];
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    
   },
 
   /**
@@ -113,21 +71,20 @@ module.exports = {
             FROM "language" 
            WHERE "code" = $1
           `,
-        values: [code],
+        values: [code]
       };
-  
+
       const result = await client.query(query);
 
       if (!result.rows) {
         throw new Error(`Unexpected issue: unable to get language : ${code}`);
       }
-      
+
       if (result.rows.length === 0) {
         return {};
       }
-      
-      return result.rows[0];
 
+      return result.rows[0];
     } catch (error) {
       console.log(error);
     }
@@ -137,5 +94,5 @@ module.exports = {
   LanguageAlreadyExistsException: function (detail) {
     this.message = detail;
     this.toString = () => this.message;
-  },
+  }
 };

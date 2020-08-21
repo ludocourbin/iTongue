@@ -12,6 +12,7 @@ module.exports = {
   },
   DB_ERR_MAP: {
     23505: { msg: "Violation de contrainte unique SQL", code: 409 },
+    23503: { msg: "Violation de contrainte de clé étrangère SQL", code: 409 },
     42601: { msg: "Erreur de syntaxe dans la requête SQL" }
   },
   NODE_ERR_MAP: {

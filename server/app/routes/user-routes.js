@@ -27,6 +27,8 @@ router.get("/:slug([a-z\\d]+(?:-[a-z\\d]+)*)", userController.showOne);
 
 router.delete("/:id(\\d+)", adminMiddleware, userController.deleteOne);
 
+router.post("/:id(\\d+)/slug", ownerMiddleware, validator(userSchema), userController.updateSlug);
+
 router.post("/:id(\\d+)/language", ownerMiddleware, userController.addLanguage);
 
 router.delete(

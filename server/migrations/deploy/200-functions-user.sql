@@ -12,7 +12,10 @@ $$ LANGUAGE SQL VOLATILE;
 
 CREATE FUNCTION "get_similar_slugs" ("slg" TEXT)
 RETURNS SETOF TEXT AS $$
-  SELECT "slug" FROM "user" WHERE "slug" LIKE "slg" || '%' ORDER BY "id" DESC;
+    SELECT "slug"
+      FROM "user"
+     WHERE "slug" ~ ("slg" || '\d*$')
+  ORDER BY COALESCE(substring("slug" FROM '\d+$')::INT, 0) DESC;
 $$ LANGUAGE SQL STABLE;
 
 CREATE TYPE "expression_display" AS ("id" INT, "label" TEXT, "createdAt" TIMESTAMPTZ);

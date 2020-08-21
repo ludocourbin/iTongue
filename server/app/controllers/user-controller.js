@@ -58,15 +58,7 @@ module.exports = {
 
       if (user) return res.status(409).json({ errors: [{ msg: "L'adresse email existe déjà" }] });
 
-      let userSlug = slugify(firstname + " " + lastname, { lower: true });
-      const slugsRows = await userDatamapper.findSlugs(userSlug);
-      const slugs = slugsRows.map(row => row.slug);
-
-      if (slugs.includes(userSlug)) {
-        const lastSuffixInDb = slugs[0].match(/\d+$/);
-        const suffix = lastSuffixInDb ? parseInt(lastSuffixInDb[0], 10) + 1 : 1;
-        userSlug += suffix;
-      }
+      const userSlug = await getAvailableSlug(slugify(firstname + " " + lastname, { lower: true }));
 
       const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
@@ -134,6 +126,22 @@ module.exports = {
     try {
       await userDatamapper.deleteLanguage({ userId, languageId, role });
       res.status(204).json({});
+    } catch (err) {
+      errorMiddleware.handleError(err, res, next);
+    }
+  },
+
+  updateSlug: async (req, res, next) => {
+    const slug = slugify(req.body.slug, { lower: true });
+    try {
+      const availableSlug = await getAvailableSlug(slug);
+
+      if (availableSlug === slug) {
+        await userDatamapper.update({ id: req.params.id, slug });
+        return res.status(204).json({});
+      }
+
+      return res.status(409).json({ data: availableSlug });
     } catch (err) {
       errorMiddleware.handleError(err, res, next);
     }
@@ -334,3 +342,14 @@ module.exports = {
     }
   }
 };
+
+async function getAvailableSlug(slug) {
+  const slugsRows = await userDatamapper.findSlugs(slug);
+  const slugs = slugsRows.map(row => row.slug);
+
+  if (!slugs.includes(slug)) return slug;
+
+  const lastSuffixInDb = slugs[0].match(/\d+$/);
+  const suffix = lastSuffixInDb ? parseInt(lastSuffixInDb[0], 10) + 1 : 1;
+  return slug.match(/[^\d]+(?=\d*$)/)[0] + suffix;
+}

@@ -15,6 +15,9 @@ export const languagesMiddleware = (store) => (next) => (action) => {
             axios({
                 method: 'GET',
                 url: `${process.env.REACT_APP_API_URL}/languages`,
+                headers: {
+                    "Authorization": `Bearer ${store.getState().user.accessToken}`
+                }
             })
             .then(res => {
                 const allLanguagesList = res.data.data;

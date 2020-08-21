@@ -238,8 +238,11 @@ export default (state = initialState, action = {}) => {
         case EDIT_PROFIL_INPUT:
             return {
                 ...state,
-
-            }
+                editProfilData: {
+                    ...state.editProfilData,
+                    ...action.payload
+                },
+            };
         default:
             return state;
     }

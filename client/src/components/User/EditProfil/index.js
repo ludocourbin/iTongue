@@ -3,7 +3,7 @@ import './editprofil.scss';
 import { Divider, Image, Checkbox, Form, Label, Input, Dropdown } from 'semantic-ui-react';
 import Layout from '../../../containers/Layout';
 
-const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProfil, editProfilData }) => {
+const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProfil, editProfilInput, editProfilData }) => {
 
     useEffect(() => {
         fetchAllLanguages();
@@ -11,6 +11,7 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
 
     const optionsLanguages = allLanguagesList.map(language => {
         return {
+            key: language.id,
             value: language.id,
             text: language.name,
             flag: language.code,
@@ -18,10 +19,52 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
     });
 
     const selectedLanguages = (role) => {
-        const map = role.map(language => {
-            return language.id;
+        const map = role.map((language, index) => {
+            return language.id || index + 1 ;
         });
         return map;
+    };
+
+    const handdleInputChange = (e, data) => {
+
+        const { name, value } = e.target.value ? e.target : data; // Pour les languages cela me retourne un tableau de language_id
+
+        const test =  {
+            [name]: value,
+        };
+
+        editProfilInput(test);
+        console.log(test);
+    };
+
+/*
+    const handdleInputChange = (e, data) => {
+
+        const { name, value } = e.target.value ? e.target : data; // Pour les languages cela me retourne un tableau de language_id
+
+        const test = () => {
+
+            if(name === ("learnedLanguages" || "taughtLanguages")) {
+
+                let addPropertyToLangId = allLanguagesList.filter(language => language.id === value);
+                return {
+                    [name]: addPropertyToLangId,
+                }
+            } else {
+                return {
+                    [name]: value,
+                }
+            }
+        };
+
+        editProfilInput(test);
+        console.log(test);
+    };
+*/
+    
+    const handdleSubmit = (e) => {
+        e.preventDefault();
+        editProfil();
     };
 
     return (
@@ -55,13 +98,14 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                         </div>
                     </div>
 
-                    <Form>
+                    <Form onSubmit={handdleSubmit}>
                         <Form.Group widths="equal">
                             <Form.Field>
                                 <span>Prénom</span>
                                 <Input 
                                 name="firstname"
                                 value={editProfilData.firstname}
+                                onChange={handdleInputChange}
                                 />
                             </Form.Field>
                             <Form.Field>
@@ -69,21 +113,11 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                                 <Input 
                                 name="lastname"
                                 value={editProfilData.lastname}
+                                onChange={handdleInputChange}
                                 />
                             </Form.Field>
                         </Form.Group>
                         <Form.Group widths="equal">
-                            <Form.Field>
-                                <span>iLearn</span>
-                                <Dropdown 
-                                multiple 
-                                selection 
-                                placeholder="iLearn" 
-                                name="learnedLanguages" 
-                                options={optionsLanguages}
-                                defaultValue={selectedLanguages(editProfilData.learnedLanguages)}
-                                />
-                            </Form.Field>
                             <Form.Field>
                                 <span>iTeach</span>
                                 <Dropdown 
@@ -93,6 +127,19 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                                 name="taughtLanguages" 
                                 options={optionsLanguages}
                                 defaultValue={selectedLanguages(editProfilData.taughtLanguages)}
+                                onChange={handdleInputChange}
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <span>iLearn</span>
+                                <Dropdown 
+                                multiple 
+                                selection 
+                                placeholder="iLearn" 
+                                name="learnedLanguages" 
+                                options={optionsLanguages}
+                                defaultValue={selectedLanguages(editProfilData.learnedLanguages)}
+                                onChange={handdleInputChange}
                                 />
                             </Form.Field>
                         </Form.Group>

@@ -29,7 +29,60 @@ export const usersMiddleware = (store) => (next) => (action) => {
         };
 
         case EDIT_PROFIL : {
-            
+
+            /* On récupere les data editées depuis le store*/
+            const { 
+                id, 
+                avatarUrl: avatar_url, // a test
+                createdAt, 
+                records, 
+                isAdmin, 
+                learnedLanguages,
+                taughtLanguages,
+                ...editProfilData 
+            } = store.getState().user.editProfilData;
+
+            /* Avec cette liste de languages, 
+            on va chercher l'id dans notre allLanguagesList 
+            pour renvoyer toutes les infos concernant cet ID 
+            */
+            const { allLanguagesList } = store.getState().languagesReducer;
+
+            const mapper = (role) => {
+                return role.map(learnLanguageId => {
+                    return allLanguagesList.find(language => {
+                        if (language.id === learnLanguageId) {
+                            return language;
+                        }
+                    });
+                }) 
+            };
+
+            const finalData = {
+                ...editProfilData,
+                learnedLanguages: mapper(learnedLanguages),
+                taughtLanguages: mapper(taughtLanguages),
+            };
+
+            console.log("finalData", finalData);
+
+            axios({
+                method: 'POST',
+                url: `${process.env.REACT_APP_API_URL}/users/${id}`,
+                data: finalData,
+                headers: {
+                    "Authorization": `Bearer ${store.getState().user.accessToken}`
+                }
+            })
+            .then(res => {
+                console.log(res);
+                store.dispatch(editProfilSuccess(finalData));
+            })
+            .catch(err => {
+                console.error(err);
+                store.dispatch(editProfilError(/* Todo */));
+            })  
+        
             break;
         };
         default:

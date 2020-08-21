@@ -18,6 +18,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     editProfilInput: () => {
         dispatch(editProfilInput());
+    },
+    editProfilInput: (inputData) => {
+        dispatch(editProfilInput(inputData));
     }
 });
 

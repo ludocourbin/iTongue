@@ -38,7 +38,9 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
         isAdmin, 
         bio, 
         records,
-    } = filterUser[0];
+        learnedLanguages,
+        taughtLanguages,
+    } = filterUser[0] || filterUser;
 
     return (
         <Layout>
@@ -73,16 +75,18 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
                             <div className="second-row_iteach">
                                 <div className="title">iTeach</div> 
                                 <div className="flags">
-                                    <Image src="https://www.countryflags.io/be/flat/32.png" className="flag_image"/>
-                                    <Image src="https://www.countryflags.io/fr/flat/32.png" className="flag_image"/>
-                                    <Image src="https://www.countryflags.io/us/flat/32.png" className="flag_image"/>
+                                    { taughtLanguages && taughtLanguages.map(language => (
+                                        <Image src={`https://www.countryflags.io/${language.code}/flat/32.png`} className="flag_image"/>
+                                    ))}
                                 </div>
                             </div>
                             <div className="second-row_ilearn">
                                  
                                 <div className="title">iLearn</div> 
                                 <div className="flags">
-                                    <Image src="https://www.countryflags.io/es/flat/32.png" className="flag_image"/>
+                                    { learnedLanguages && learnedLanguages.map(language => (
+                                        <Image src={`https://www.countryflags.io/${language.code}/flat/32.png`} className="flag_image"/>
+                                    ))}
                                 </div>
                             </div>
                         </div>

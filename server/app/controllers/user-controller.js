@@ -26,7 +26,7 @@ module.exports = {
       const users = await userDatamapper.showAll({});
       res.json({ data: users });
     } catch (err) {
-      errorMiddleware.handleError(err, next);
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
@@ -46,7 +46,7 @@ module.exports = {
       if (!user) return next();
       res.json({ data: user });
     } catch (err) {
-      errorMiddleware.handleError(err, next);
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
@@ -80,7 +80,7 @@ module.exports = {
 
       res.json({ data: result });
     } catch (err) {
-      errorMiddleware.handleError(err, next);
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
@@ -95,7 +95,7 @@ module.exports = {
       await userDatamapper.deleteOne(userId);
       res.status(204).json({});
     } catch (err) {
-      errorMiddleware.handleError(err, next);
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
@@ -119,7 +119,7 @@ module.exports = {
       const result = await userDatamapper.addLanguage(userLanguage);
       res.json({ data: result });
     } catch (err) {
-      errorMiddleware.handleError(err, next);
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
@@ -135,7 +135,7 @@ module.exports = {
       await userDatamapper.deleteLanguage({ userId, languageId, role });
       res.status(204).json({});
     } catch (err) {
-      errorMiddleware.handleError(err, next);
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
@@ -195,7 +195,7 @@ module.exports = {
         next(unlinkErr);
       }
 
-      errorMiddleware.handleError(err, next);
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
@@ -210,7 +210,7 @@ module.exports = {
       const user = await userDatamapper.findByPk(userId);
       if (!user) return next();
     } catch (err) {
-      return errorMiddleware.handleError(err, next);
+      return errorMiddleware.handleError(err, res, next);
     }
 
     const fileName = req.file.filename;
@@ -241,7 +241,7 @@ module.exports = {
         return next(unlinkErr);
       }
 
-      errorMiddleware.handleError(err, next);
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
@@ -264,7 +264,7 @@ module.exports = {
       await recordDatamapper.deleteOne(recordId);
       res.status(204).json({});
     } catch (err) {
-      errorMiddleware.handleError(err, next);
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
@@ -294,7 +294,7 @@ module.exports = {
 
       res.json({ data: { accessToken, refreshToken } });
     } catch (err) {
-      errorMiddleware.handleError(err, next);
+      errorMiddleware.handleError(err, res, next);
     }
   },
 
@@ -330,7 +330,7 @@ module.exports = {
 
       res.status(401).json({ errors: [{ msg: "Not allowed" }] });
     } catch (err) {
-      errorMiddleware.handleError(err, next);
+      errorMiddleware.handleError(err, res, next);
     }
   }
 };

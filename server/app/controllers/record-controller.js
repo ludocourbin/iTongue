@@ -8,7 +8,7 @@ module.exports = {
       const records = await recordDatamapper.findAll({});
       res.json({ data: records });
     } catch (err) {
-      errorMiddleware.handleError(err, next);
+      errorMiddleware.handleError(err, res, next);
     }
   }
 };

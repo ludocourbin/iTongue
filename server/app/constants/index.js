@@ -10,12 +10,14 @@ module.exports = {
     "audio/mpeg": ".mp3",
     "audio/ogg": ".oga"
   },
-  DB_ERR_MSG_MAP: {
-    23505: "Violation de contrainte unique SQL",
-    42601: "Erreur de syntaxe dans la requête SQL"
+  DB_ERR_MAP: {
+    23505: { msg: "Violation de contrainte unique SQL", code: 409 },
+    42601: { msg: "Erreur de syntaxe dans la requête SQL" }
   },
-  NODE_ERR_MSG_MAP: {
-    ENOENT: "Erreur d'écriture de fichier, tentative d'accès à un chemin inexistant",
-    ENOTDIR: "Erreur d'écriture de fichier, le chemin fourni ne correspond pas à un dossier"
+  NODE_ERR_MAP: {
+    ENOENT: { msg: "Erreur d'écriture de fichier, tentative d'accès à un chemin inexistant" },
+    ENOTDIR: {
+      msg: "Erreur d'écriture de fichier, le chemin fourni ne correspond pas à un dossier"
+    }
   }
 };

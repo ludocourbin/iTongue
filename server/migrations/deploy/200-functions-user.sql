@@ -49,19 +49,22 @@ LEFT JOIN "translation_with_relations" "t"
 
 CREATE TYPE "user_record" AS ("id" INT, "url" TEXT, "createdAt" TIMESTAMPTZ, "englishTranslation" JSON, "translation" JSON);
 
+
 CREATE VIEW "user_with_relations" AS
-   SELECT "u".*,
-         COALESCE(json_agg(("r"."id", "r"."url", "r"."createdAt", "r"."englishTranslation", "r"."translation")::"user_record") FILTER(WHERE "r"."id" IS NOT NULL), '[]') AS "records",
-         COALESCE(json_agg(DISTINCT "l".*) FILTER(WHERE "lu"."role" = 'learner'), '[]') AS "learnedLanguages",
-         COALESCE(json_agg(DISTINCT "l".*) FILTER(WHERE "lu"."role" = 'teacher'), '[]') AS "taughtLanguages"
-     FROM "user" "u"
-LEFT JOIN "record_display" "r"
-       ON "u"."id" = ("r"."user"->>'id')::INT
-LEFT JOIN "language_user" "lu"
-       ON "u"."id" = "lu"."user_id"
-LEFT JOIN "language" "l"
-       ON "lu"."language_id" = "l"."id"
- GROUP BY "u"."id";
+SELECT "u".*,
+ 	     (SELECT COALESCE(json_agg(("r"."id", "r"."url", "r"."createdAt", "r"."englishTranslation", "r"."translation")::"user_record") FILTER(WHERE "r"."id" IS NOT NULL), '[]')
+		     FROM "record_display" "r"
+	 	     WHERE "u"."id" = ("r"."user"->>'id')::INT ) AS "records",
+	     (SELECT COALESCE(json_agg("l".*) FILTER(WHERE "lu"."role" = 'learner'), '[]')
+		      FROM "language_user" "lu"
+		      JOIN "language" "l"
+            ON "lu"."language_id" = "l"."id"
+		     WHERE "lu"."user_id" = "u"."id") AS "learnedLanguages",
+       (SELECT COALESCE(json_agg("l".*) FILTER(WHERE "lu"."role" = 'teacher'), '[]')
+		      FROM "language_user" "lu"
+		      JOIN "language" "l" ON "lu"."language_id" = "l"."id"
+		     WHERE "lu"."user_id" = "u"."id") AS "taughtLanguages"
+  FROM "user" "u";
 
 CREATE VIEW "user_display" AS
      SELECT "id", "email", "firstname", "lastname", "bio", "slug", "avatar_url" AS "avatarUrl", "is_admin" AS "isAdmin", "created_at" AS "createdAt", "records", "learnedLanguages", "taughtLanguages"

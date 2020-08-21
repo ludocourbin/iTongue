@@ -27,16 +27,20 @@ CREATE VIEW "translation_with_relations" AS
   LEFT JOIN "language" "l"
          ON "t"."language_id" = "l"."id";
 
+CREATE TYPE "record_user" AS ("id" INT, "firstname" TEXT, "lastname" TEXT, "slug" TEXT, "avatarUrl" TEXT);
 CREATE TYPE "record_translation" AS ("id" INT, "text" TEXT, "createdAt" TIMESTAMPTZ, "expression" JSON, "language" JSON);
 
 CREATE VIEW "record_display" AS
-   SELECT "r"."id", "r"."url", "r"."user_id" AS "userId", "r"."created_at" AS "createdAt",
+   SELECT "r"."id", "r"."url", "r"."created_at" AS "createdAt",
+          to_json(("u"."id", "u"."firstname", "u"."lastname", "u"."slug", "u"."avatar_url")::"record_user") AS "user",
           (SELECT to_json(("id", "text", "created_at", "expression", "language")::"record_translation")
              FROM "translation_with_relations"
             WHERE "language"->>'name' ILIKE 'english'
               AND "t"."expression"->>'id' = "expression"->>'id') AS "englishTranslation",
           to_json(("t"."id", "t"."text", "t"."created_at", "t"."expression", "t"."language")::"record_translation") AS "translation"
      FROM "record" "r"
+LEFT JOIN "user" "u"
+       ON "r"."user_id" = "u"."id"
 LEFT JOIN "translation_with_relations" "t"
        ON "r"."translation_id" = "t"."id";
 
@@ -49,7 +53,7 @@ CREATE VIEW "user_with_relations" AS
          COALESCE(json_agg("l".*) FILTER(WHERE "lu"."role" = 'teacher'), '[]') AS "taughtLanguages"
      FROM "user" "u"
 LEFT JOIN "record_display" "r"
-       ON "u"."id" = "r"."userId"
+       ON "u"."id"::TEXT = "r"."user"->>'id'
 LEFT JOIN "language_user" "lu"
        ON "u"."id" = "lu"."user_id"
 LEFT JOIN "language" "l"

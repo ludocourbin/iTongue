@@ -1,3 +1,5 @@
+const { USER_FIELDS } = require("../constants");
+
 module.exports = {
   email: {
     if: {
@@ -55,6 +57,15 @@ module.exports = {
     isLength: {
       options: { max: 140 },
       errorMessage: "La description ne doit pas excéder 140 caractères"
+    }
+  },
+  "*": {
+    in: ["body"],
+    custom: {
+      options: (_, { __, ___, path }) => {
+        if (!USER_FIELDS.includes(path)) throw new Error(`${path} n'est pas un paramètre valide`);
+        return true;
+      }
     }
   }
 };

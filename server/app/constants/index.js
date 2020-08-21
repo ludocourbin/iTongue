@@ -20,5 +20,17 @@ module.exports = {
     ENOTDIR: {
       msg: "Erreur d'écriture de fichier, le chemin fourni ne correspond pas à un dossier"
     }
-  }
+  },
+  USER_FIELDS: [
+    "id",
+    "email",
+    "password",
+    "confirm",
+    "firstname",
+    "lastname",
+    "slug",
+    "bio",
+    "avatar_url",
+    "is_admin"
+  ]
 };

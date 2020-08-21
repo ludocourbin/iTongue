@@ -1,15 +1,17 @@
 import React from "react";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import { Icon } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 
 const NavigationBottom = ({ user }) => {
-
     let slug = useParams();
 
     return (
         <div className="navigationBottom">
-            <NavLink to={`/user/${user.slug}`}  activeClassName="active-navbottom">
+            <NavLink
+                to={`/user/${user.slug}`}
+                activeClassName="active-navbottom"
+            >
                 <Icon
                     className="header-icon navigationBottom-items"
                     name="user"

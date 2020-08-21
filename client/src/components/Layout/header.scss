@@ -32,9 +32,13 @@
         font-size: 1.4em !important;
     }
 
+    .invisible {
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+
     &__icon:hover {
         color: $primary-color;
-        // border-bottom: 10px solid $primary-text-color;
     }
 
     &__title {

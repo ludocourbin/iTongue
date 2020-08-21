@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Menu, Segment, Sidebar } from "semantic-ui-react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 
 import Header from "./menu";
 import NavigationBottom from "./navigationBottom";
@@ -20,6 +20,7 @@ const LayoutHeader = ({
     ...props
 }) => {
     const [visible, setVisible] = useState(false);
+    const { pathname } = useLocation();
 
     const handleLogout = () => {
         setVisible(!visible);
@@ -111,6 +112,7 @@ const LayoutHeader = ({
                 </Sidebar>
                 <Sidebar.Pusher className="main" dimmed={visible}>
                     <Header
+                        pathname={pathname}
                         visible={visible}
                         setVisible={() => setVisible(!visible)}
                     />

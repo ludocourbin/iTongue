@@ -29,7 +29,7 @@ import {
     EDIT_PROFIL_AVATAR,
     EDIT_PROFIL_AVATAR_SUCCESS,
     EDIT_PROFIL_AVATAR_ERROR,
-} from '../actions/editProfilActions';
+} from "../actions/editProfilActions";
 
 const initialState = {
     currentUser: {},
@@ -45,8 +45,8 @@ const initialState = {
         confirm: "",
     },
     loginData: {
-        email: "gautier.colasse@gmail.com",
-        password: "123456",
+        email: "",
+        password: "",
         stayConnected: true,
     },
     showPassword: false,
@@ -125,7 +125,7 @@ export default (state = initialState, action = {}) => {
                 refreshToken: action.payload.refreshToken,
                 editProfilData: {
                     ...state.editProfilData,
-                    ...action.payload.user
+                    ...action.payload.user,
                 },
             };
         case SIGNUP_ERROR:
@@ -164,7 +164,7 @@ export default (state = initialState, action = {}) => {
                 },
                 editProfilData: {
                     ...state.editProfilData,
-                    ...action.payload.user
+                    ...action.payload.user,
                 },
                 isLogged: true,
             };
@@ -207,18 +207,18 @@ export default (state = initialState, action = {}) => {
                 errorMessageEmail: "",
                 allUsersList: [],
             };
-        case FETCH_ALL_USERS: 
+        case FETCH_ALL_USERS:
             return {
                 ...state,
                 isLoadingallUsers: true,
             };
-        case FETCH_ALL_USERS_SUCCESS: 
+        case FETCH_ALL_USERS_SUCCESS:
             return {
                 ...state,
                 allUsersList: [...action.payload],
                 isLoadingallUsers: false,
             };
-        case FETCH_ALL_USERS_ERROR: 
+        case FETCH_ALL_USERS_ERROR:
             return {
                 ...state,
                 isLoadingallUsers: false,
@@ -236,7 +236,7 @@ export default (state = initialState, action = {}) => {
                 currentUser: {
                     ...state.currentUser,
                     ...action.payload,
-                }
+                },
             };
         case EDIT_PROFIL_ERROR:
             return {
@@ -248,7 +248,7 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 editProfilData: {
                     ...state.editProfilData,
-                    ...action.payload
+                    ...action.payload,
                 },
             };
         case EDIT_PROFIL_AVATAR:
@@ -265,7 +265,7 @@ export default (state = initialState, action = {}) => {
                 currentUser: {
                     ...state.currentUser,
                     avatarUrl: action.payload,
-                }
+                },
             };
         case EDIT_PROFIL_AVATAR_ERROR:
             return {
@@ -285,4 +285,3 @@ export default (state = initialState, action = {}) => {
             return state;
     }
 };
-

@@ -5,7 +5,6 @@ import rootReducers from "./reducers";
 
 /* Middlewares */
 import authMiddleware from "./middlewares/authMiddleware";
-import irecordsMiddleware from "./middlewares/irecordsMiddleware";
 import expressionsMiddleware from "./middlewares/Admin/expressionsMiddleware";
 import { irecordsMiddleware } from "./middlewares/irecordsMiddleware";
 import { loginAdminMiddleware } from "./middlewares/Admin/loginAdminMiddleware";

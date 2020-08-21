@@ -3,9 +3,7 @@ import { connect } from "react-redux";
 import App from "../components/App";
 
 const mapStateToProps = (state) => ({
-    userSignup: state.user.currentUser,
-    userLogin: state.user.currentUser,
-    isLogged: state.user.isLogged,
+    user: state.user.currentUser,
 });
 
 export default connect(mapStateToProps)(App);

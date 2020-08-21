@@ -8,19 +8,18 @@ import {
     SIGNUP_ERROR,
     LOGOUT,
 } from "../actions/userActions";
-
 import {
     LOGIN_INPUT_CHANGE,
     LOGIN_SUBMIT_SUCCESS,
     LOGIN_SUBMIT_ERROR,
     LOGIN,
 } from "../actions/loginActions.js";
-
 const initialState = {
     currentUser: "",
     isLogged: false,
     loading: false,
-    token: null,
+    accessToken: null,
+    refreshToken: null,
     signupData: {
         firstname: "",
         lastname: "",
@@ -29,8 +28,8 @@ const initialState = {
         confirm: "",
     },
     loginData: {
-        email: "",
-        password: "",
+        email: "gautier.colasse@gmail.com",
+        password: "123456",
         stayConnected: true,
     },
     showPassword: false,
@@ -38,7 +37,6 @@ const initialState = {
     errorMessageEmail: "",
     errorMailUsed: "",
 };
-
 export default (state = initialState, action = {}) => {
     switch (action.type) {
         case SIGNUP_INPUT_CHANGE:
@@ -89,7 +87,8 @@ export default (state = initialState, action = {}) => {
                 errorMailUsed: "",
                 errorMessageEmail: "",
                 currentUser: { ...action.payload },
-                token: action.payload.token,
+                accessToken: action.payload.accessToken,
+                refreshToken: action.payload.refreshToken,
             };
         case SIGNUP_ERROR:
             return {
@@ -107,7 +106,6 @@ export default (state = initialState, action = {}) => {
                 errorMessageEmail: "",
                 errorMailUsed: action.payload,
             };
-
         case LOGIN:
             return {
                 ...state,
@@ -118,8 +116,9 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 loading: false,
                 loginErrorMessage: "",
-                currentUser: { ...action.payload },
-                token: action.payload.token,
+                currentUser: { ...action.payload.user },
+                accessToken: action.payload.accessToken,
+                refreshToken: action.payload.refreshToken,
                 loginData: {
                     email: "",
                     password: "",
@@ -132,7 +131,8 @@ export default (state = initialState, action = {}) => {
                 loading: false,
                 loginErrorMessage: action.payload,
                 currentUser: "",
-                token: "",
+                accessToken: "",
+                refreshToken: "",
                 loginData: {
                     email: state.loginData.email,
                     password: "",
@@ -150,7 +150,8 @@ export default (state = initialState, action = {}) => {
         case LOGOUT:
             return {
                 ...state,
-                token: null,
+                accessToken: null,
+                refreshToken: null,
                 loginData: {
                     email: state.currentUser.email,
                     password: "",

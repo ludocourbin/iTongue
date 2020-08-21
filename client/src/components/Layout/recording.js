@@ -101,7 +101,6 @@ const Recording = ({
                             onClick={onSave}
                             basic
                             color="green"
-                            loading={loading}
                         >
                             Sauvegarder
                         </Button>

@@ -1,4 +1,4 @@
-const { USER_FIELDS } = require("../constants");
+const { USER_FIELDS, USER_LANGUAGE_FIELDS } = require("../constants");
 
 module.exports = {
   email: {
@@ -28,7 +28,7 @@ module.exports = {
   },
   firstname: {
     if: {
-      options: (value, { req }) => !req.params.id
+      options: (_, { req }) => !req.params.id
     },
     notEmpty: {
       errorMessage: "Le prénom est requis"
@@ -36,7 +36,7 @@ module.exports = {
   },
   lastname: {
     if: {
-      options: (value, { req }) => !req.params.id
+      options: (_, { req }) => !req.params.id
     },
     notEmpty: {
       errorMessage: "Le nom de famille est requis"
@@ -59,6 +59,24 @@ module.exports = {
       errorMessage: "La description ne doit pas excéder 140 caractères"
     }
   },
+  learnedLanguages: {
+    if: {
+      options: (value, { req }) => req.params.id && value
+    },
+    custom: {
+      options: isArrayOfLanguages,
+      errorMessage: "Le format du tableau des langues apprises est invalide"
+    }
+  },
+  taughtLanguages: {
+    if: {
+      options: (value, { req }) => req.params.id && value
+    },
+    custom: {
+      options: isArrayOfLanguages,
+      errorMessage: "Le format du tableau des langues enseignées est invalide"
+    }
+  },
   "*": {
     in: ["body"],
     custom: {
@@ -69,3 +87,13 @@ module.exports = {
     }
   }
 };
+
+function isArrayOfLanguages(value) {
+  if (!Array.isArray(value)) return false;
+
+  for (const field of value.map(obj => Object.keys(obj)).flat()) {
+    if (!USER_LANGUAGE_FIELDS.includes(field)) return false;
+  }
+
+  return true;
+}

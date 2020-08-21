@@ -19,6 +19,7 @@ const {
   AVATARS_DIR,
   RECORDS_DIR
 } = require("../constants");
+const dataMapper = require("../db/user-datamapper");
 
 module.exports = {
   showAll: async (_, res, next) => {
@@ -283,14 +284,31 @@ module.exports = {
         errors: [{ msg: "Le paramètre reçu dans l'url n'est pas valide" }]
       });
 
-    const user = req.body;
+    const { learnedLanguages, taughtLanguages, ...user } = req.body;
     user.id = userId;
 
-    if (user.password) {
-      user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
-    }
+    const learnedLanguagesInserts = !learnedLanguages
+      ? []
+      : learnedLanguages.map(language => ({
+          language_id: language.id,
+          user_id: userId,
+          role: "learner"
+        }));
+
+    const taughtLanguagesInserts = !taughtLanguages
+      ? []
+      : taughtLanguages.map(language => ({
+          language_id: language.id,
+          user_id: userId,
+          role: "teacher"
+        }));
 
     try {
+      await userDatamapper.syncLanguages([...learnedLanguagesInserts, ...taughtLanguagesInserts]);
+
+      if (user.password) {
+        user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
+      }
       await userDatamapper.update(user);
 
       if (!req.user.isAdmin) {

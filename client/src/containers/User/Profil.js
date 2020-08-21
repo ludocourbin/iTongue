@@ -3,7 +3,7 @@ import Profil from "../../components/User/Profil";
 import { fetchAllUsers } from '../../store/actions/userActions';
 
 const mapStateToProps = (state) => ({
-    user: state.user.currentUser,
+    currentUser: state.user.currentUser,
     isLogged: state.user.isLogged,
     allUsersList: state.user.allUsersList,
 });

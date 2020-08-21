@@ -6,10 +6,23 @@ import { Segment, Image, Icon } from 'semantic-ui-react';
 import Statistics from '../Statistics';
 import './userprofil.scss';
 
-const UserProfil = ({ fetchAllUsers, allUsersList, match }) => {
+const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
 
     const [ isUserAccount , setIsUserAccount ] = useState(false);
     let slug = useParams();
+
+    const checkUser = () => {
+        if(currentUser.slug === slug.slug) {
+            setIsUserAccount(true);
+        } else {
+            setIsUserAccount(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchAllUsers();
+        checkUser();
+    }, []);
 
     const filterUser = allUsersList.filter(user => {
         if( user.slug == slug.slug) {
@@ -27,10 +40,6 @@ const UserProfil = ({ fetchAllUsers, allUsersList, match }) => {
         records,
     } = filterUser[0];
 
-    useEffect(() => {
-        fetchAllUsers();
-    }, [])
-    
     return (
         <Layout>
             <div className="user-profil">

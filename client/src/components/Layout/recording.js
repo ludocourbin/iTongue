@@ -5,6 +5,7 @@ import { ReactMic } from "react-mic";
 import AudioPlayer from "../../containers/Audio";
 
 const Recording = ({ audio, toggleRecording, sendIrecordsRecorded, loading }) => {
+    
     const [recording, setRecording] = useState(false);
     const [recordedSound, setRecordedSound] = useState(null);
 

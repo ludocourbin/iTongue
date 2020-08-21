@@ -35,6 +35,15 @@ INSERT INTO "language" ("name", "code")
             ('English', 'uk'),
             ('Espagnol', 'es'),
             ('Portuguais', 'pt');
+
+/*add language to user ( teacher || learner ) */
+
+INSERT INTO "language_user" ("language_id", "user_id", "role")
+     VALUES ('1', '5', 'teacher'),
+     ('2', '5', 'teacher'),
+     ('3', '5', 'learner'),
+     ('4', '5', 'learner');
+
    /*         
 Pour le back :
 

@@ -10,6 +10,7 @@ import loginAdminReducer from "./Admin/loginAdminReducer";
 import settings from "./settings";
 import user from "./user";
 import irecords from "./irecords";
+import languagesReducer from './languagesReducer';
 
 export default combineReducers({
     settings,
@@ -17,4 +18,5 @@ export default combineReducers({
     expressionsReducer,
     loginAdminReducer,
     irecords,
+    languagesReducer,
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
 import { Segment, Image, Icon } from 'semantic-ui-react';
@@ -62,8 +62,11 @@ const UserProfil = ({ fetchAllUsers, allUsersList, currentUser, match }) => {
                                 {firstname} {lastname}
                             </span> 
                             { isAdmin && <Icon name="check circle" /> }
-                            { isUserAccount && <Icon name="setting" /> }
-                            
+                            { isUserAccount && 
+                            <Link to={`/user/${slug.slug}/edit`}>
+                                <Icon name="setting" /> 
+                            </Link>
+                            }
                         </div>
 
                         <div className="container_right__second-row">

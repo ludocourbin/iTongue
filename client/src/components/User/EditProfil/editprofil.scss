@@ -1,0 +1,48 @@
+@import '../../../styles/mixin';
+@import '../../../styles/vars';
+
+.edit-profil {
+    padding: 1em;
+
+    &_profil {
+        margin: 1em 0;
+    }
+
+    &_title {
+        font-size: 1.1em;
+    }
+
+    .ui.button {
+        margin: 0 auto;
+        @include button;
+        text-align: center;
+    }
+
+    &_container {
+
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        margin: 1em 0;
+
+        &__avatar {
+            max-width: 120px!important;
+        }
+    
+        &__toggle {
+            display: flex;
+            flex-direction: column;
+            width: 150px;
+            
+
+            .toggle_container {
+                display: flex;
+                justify-content: space-between;
+                align-content: center;
+                padding: .4em 0;
+            }
+        }
+    }
+
+
+}

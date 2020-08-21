@@ -43,7 +43,7 @@ const router = express.Router();
  *                  name: spanish
  *                  code: es_ES
  *      responses:
- *          '200':
+ *          '201':
  *              description: Created language object
  *              content:
  *                application/json:
@@ -52,15 +52,8 @@ const router = express.Router();
  *                    properties:
  *                      id:
  *                        type: integer
- *                        readOnly: true
- *                      name:
- *                        type: string
- *                      code:
- *                        type: string
  *                    example:
  *                       id: 1
- *                       name: french
- *                       code: fr_FR
  *          '401':
  *              description: Unauthorized
  */
@@ -99,15 +92,8 @@ router.post("/languages", validator(languageSchema), languageController.create);
  *                    properties:
  *                      id:
  *                        type: integer
- *                        readOnly: true
- *                      label:
- *                        type: string
- *                      createdAt:
- *                        type: string
  *                    example:
  *                       id: 1
- *                       label: bjr
- *                       createdAt: 2020-08-19T11:44:20.590Z
  *          '401':
  *              description: Unauthorized
  */
@@ -146,8 +132,17 @@ router.post("/expressions", validator(expressionSchema), expressionController.cr
  *                value:
  *                  label: bjr
  *      responses:
- *          '204':
+ *          '200':
  *              description: Expression updated successfully
+ *              content:
+ *                application/json:
+ *                  schema:
+ *                    type: object
+ *                    properties:
+ *                      updated:
+ *                        type: boolean
+ *                    example:
+ *                      updated: true
  *          '401':
  *              description: Unauthorized
  *          '409':
@@ -291,8 +286,17 @@ router.post("/translations", validator(translationSchema), translationController
  *                  expression_id: 2
  *                  language_id: 2
  *      responses:
- *          '204':
+ *          '200':
  *              description: Translation updated successfully
+ *              content:
+ *                application/json:
+ *                  schema:
+ *                    type: object
+ *                    properties:
+ *                      updated:
+ *                        type: boolean
+ *                    example:
+ *                      updated: true
  *          '401':
  *              description: Unauthorized
  *          '409':

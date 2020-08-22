@@ -40,7 +40,7 @@ const NavigationBottom = ({
                     disabled
                 />
             </NavLink>
-            <div onClick={handleClick} activeClassName="active-navbottom">
+            <div onClick={handleClick}>
                 <Icon
                     className="header-icon navigationBottom-items"
                     name="microphone"
@@ -69,3 +69,5 @@ const NavigationBottom = ({
 };
 
 export default NavigationBottom;
+
+// activeClassName="active-navbottom"

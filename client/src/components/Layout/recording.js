@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Card, Flag, Button, Icon } from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+import { Card, Flag, Button, Icon, Dropdown } from "semantic-ui-react";
 import { ReactMic } from "react-mic";
 
 import AudioPlayer from "../../containers/Audio";
+import data from "./data";
 
 const Recording = ({
     audio,
@@ -13,6 +14,9 @@ const Recording = ({
 }) => {
     const [recording, setRecording] = useState(false);
     const [recordedSound, setRecordedSound] = useState(null);
+    const [expressionSelected, setExpressionSelected] = useState(null);
+    const [translationsSelected, setTranslationsSelected] = useState(null);
+    const [translationSelected, seTranlationSelected] = useState(null);
 
     const startRecording = () => {
         setRecording(true);
@@ -42,12 +46,47 @@ const Recording = ({
         toggleRecording(false);
         selectIrecordToRecord(null);
     };
+    const optionsText = data.map((option) => {
+        return {
+            key: option.id,
+            value: option.englishText,
+            text: option.englishText,
+        };
+    });
+
+    const handleChangeExpression = (e, data) => {
+        setExpressionSelected(data.value);
+    };
+
+    const handleChangeTranslation = (e, data) => {
+        seTranlationSelected(data.value);
+    };
+
+    useEffect(() => {
+        if (expressionSelected) {
+            const expression = data.find(
+                (option) => option.englishText === expressionSelected
+            );
+
+            console.log(expression.translations);
+
+            const options = expression.translations.map((option) => {
+                return {
+                    key: option.id,
+                    value: option.text,
+                    text: option.text,
+                };
+            });
+
+            setTranslationsSelected(options);
+        }
+    }, [expressionSelected]);
 
     return (
         <div className="recording">
             <Card style={{ width: "60%" }} className="">
                 {audio && (
-                    <>
+                    <div>
                         <Card.Content>
                             <Flag
                                 name={audio.englishTranslation.language.code}
@@ -117,18 +156,39 @@ const Recording = ({
                                 </Button>
                             </div>
                         </Card.Content>
-                    </>
+                    </div>
                 )}
                 {!audio && (
-                    <>
+                    <div>
                         <Card.Content>
-                            <Flag name="uk" />
-                            new text
+                            <Dropdown
+                                selection
+                                placeholder="expression to record"
+                                name="expressions"
+                                options={optionsText}
+                                value={expressionSelected}
+                                onChange={handleChangeExpression}
+                            />
                         </Card.Content>
-                        <Card.Content>
-                            <Flag name="fr" />
-                            target text
-                        </Card.Content>
+                        {expressionSelected && (
+                            <Card.Content>
+                                <Dropdown
+                                    selection
+                                    placeholder="expression to record"
+                                    name="expressions"
+                                    options={
+                                        translationsSelected &&
+                                        translationsSelected
+                                    }
+                                    value={
+                                        translationSelected &&
+                                        translationSelected
+                                    }
+                                    onChange={handleChangeTranslation}
+                                />
+                            </Card.Content>
+                        )}
+
                         <Card.Content>
                             <div>
                                 <ReactMic
@@ -188,7 +248,7 @@ const Recording = ({
                                 </Button>
                             </div>
                         </Card.Content>
-                    </>
+                    </div>
                 )}
             </Card>
         </div>

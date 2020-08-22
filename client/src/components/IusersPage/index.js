@@ -4,7 +4,8 @@ import { Header } from "semantic-ui-react";
 import MembersCard from "../MembersCard";
 import Layout from "../../containers/Layout";
 import Placeholder from "../Placeholder";
-import data from "../Search/data";
+
+import "./iusersPage.scss";
 
 const IusersPage = (props) => {
     const {
@@ -19,12 +20,14 @@ const IusersPage = (props) => {
     }, []);
     return (
         <Layout>
-            <Header as="h1">Tout nos utilisateurs</Header>
-            {isLoadingallUsers && <Placeholder />}
-            {!isLoadingallUsers &&
-                allUsersList.map((element) => (
-                    <MembersCard user={element} key={element.id} />
-                ))}
+            <div className="usersPage">
+                <h1>Tout nos utilisateurs</h1>
+                {isLoadingallUsers && <Placeholder />}
+                {!isLoadingallUsers &&
+                    allUsersList.map((element) => (
+                        <MembersCard user={element} key={element.id} />
+                    ))}
+            </div>
         </Layout>
     );
 };

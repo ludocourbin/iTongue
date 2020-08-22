@@ -1,0 +1,35 @@
+@import "../../styles/vars";
+.member-card {
+    font-weight: 600;
+    display: flex;
+    background-color: $background-color;
+    color: $primary-text-color;
+    padding: 8px 0;
+    border-top: $border-color 1px solid;
+    &_left {
+        width: 60%;
+        min-width: 230px;
+    }
+
+    &_right {
+        width: 30%;
+        margin-left: 15px;
+    }
+    .fullname {
+        margin-bottom: 0;
+    }
+
+    .avatar {
+        margin-left: 10px;
+    }
+
+    .records {
+        font-weight: 300;
+        font-size: 0.9em;
+    }
+
+    .ui.floated.image {
+        margin-bottom: 0 !important;
+        margin-top: 0.2em !important;
+    }
+}

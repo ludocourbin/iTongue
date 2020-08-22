@@ -1,0 +1,11 @@
+@import "../../styles/vars";
+
+.usersPage {
+    h1 {
+        padding: 20px 0 10px !important;
+        font-weight: 700;
+        text-align: center;
+        font-size: 2rem;
+    }
+    border-bottom: $border-color 1px solid;
+}

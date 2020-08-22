@@ -20,14 +20,15 @@ import IusersPage from "../../containers/IusersPage";
 import Search from "../../containers/Search";
 
 const App = ({ user, isLogged }) => {
-    // <Route path="/login" component={Login} />
-
     return (
         <div className="App">
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/signup" render={() => <Signup />} />
-                <Route path="/login" render={() => (isLogged ? <Redirect to="/" /> : <Login />)} />
+                <Route
+                    path="/login"
+                    render={() => (isLogged ? <Redirect to="/" /> : <Login />)}
+                />
                 <Route path="/search" component={Search} />
                 <Route path="/irecords" component={IrecordsPage} />
                 <Route path="/users" component={IusersPage} />

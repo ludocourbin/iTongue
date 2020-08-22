@@ -119,7 +119,9 @@ const LayoutHeader = ({
                         setVisible={() => setVisible(!visible)}
                     />
                     <div
-                        className={user ? "main-content user" : "main-content"}
+                        className={
+                            isLogged ? "main-content user" : "main-content"
+                        }
                     >
                         {props.children}
                     </div>

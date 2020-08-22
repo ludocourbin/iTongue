@@ -13,6 +13,7 @@ const Irecords = ({
     isUserRecord,
     user,
     setTranslationId,
+    isLogged,
 }) => {
     const [selectediRecordId, setSelectediRecordId] = useState(null);
 
@@ -32,27 +33,27 @@ const Irecords = ({
     return (
         <div className="irecords">
             <Card className="irecords-container" key={record.id}>
-                <Card.Content className="flex author">
-                    <Link to={`user/${user.slug}`} className="flex author">
-                        <Image
-                            avatar
-                            floated="left"
-                            size="large"
-                            src={
-                                "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg" ||
-                                `${process.env.REACT_APP_API_URL}/${user.avatarUrl}`
-                            }
-                        />
-                        {`${user.firstname} ${user.lastname}`}
-                    </Link>
-                    {user && user.id !== isUserRecord && (
+                {isLogged && user.id !== isUserRecord && (
+                    <Card.Content className="flex author">
+                        <Link to={`user/${user.slug}`} className="flex author">
+                            <Image
+                                avatar
+                                floated="left"
+                                size="large"
+                                src={
+                                    `${process.env.REACT_APP_API_URL}/${user.avatarUrl}` ||
+                                    "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                                }
+                            />
+                            {`${user.firstname} ${user.lastname}`}
+                        </Link>
                         <Icon
                             onClick={handleCopyiRecord}
                             className="irecords-copy"
                             name="copy"
                         />
-                    )}
-                </Card.Content>
+                    </Card.Content>
+                )}
                 <Card.Content className="text">
                     <p>
                         <Flag name={record.englishTranslation.language.code} />{" "}

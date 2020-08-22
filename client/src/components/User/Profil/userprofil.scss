@@ -74,6 +74,10 @@
                 width: 100%;
                 display: flex;
                 flex-direction: row;
+
+                .icon-settings {
+                    //margin-left: 1.5em;
+                }
             }
 
             &__second-row {

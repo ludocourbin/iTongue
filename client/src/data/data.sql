@@ -15,6 +15,10 @@ UPDATE "user"
 SET "avatar_url" = ''
 WHERE "id" = 5;
 
+UPDATE "language"
+SET "code" = 'gb'
+WHERE "id" = 2;
+
 /* Add record */ 
 INSERT INTO "record" ("url", "user_id", "translation_id")
 VALUES ('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3', 

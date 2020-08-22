@@ -4,7 +4,8 @@ import {
     fetchAllUsersError,
     CHECK_USER_SLUG,
     checkUserSlugSuccess,
-    checkUserSlugError
+    checkUserSlugError,
+    checkUserSlug,
 } from "../actions/userActions";
 
 import { 
@@ -74,8 +75,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
 
             const finalData = {
                 ...editProfilData,
-                //learnedLanguages: mapper(learnedLanguages),
-                //taughtLanguages: mapper(taughtLanguages),
+                learnedLanguages: mapper(learnedLanguages),
+                taughtLanguages: mapper(taughtLanguages),
             };
 
             console.log("finalData", finalData);
@@ -115,17 +116,13 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 },
             })
             .then(res => {
-                console.log(res.data.data.avatarUrl);
-
-                const responseAvatarUrl = res.data.data.avatarUrl;
-                const newAvatarUrl = `${process.env.REACT_APP_API_URL}/${responseAvatarUrl}`;
-                store.dispatch(editProfilAvatarSuccess(newAvatarUrl))
-                
+                const responseAvatarUrl = `${res.data.data.avatarUrl}?v=${Date.now()}`;
+               // const newAvatarUrl = `${process.env.REACT_APP_API_URL}/${responseAvatarUrl}`;
+                store.dispatch(editProfilAvatarSuccess(responseAvatarUrl))
             })
             .catch(err => {
                 console.error(err);
             })
-
             break;
         };
         
@@ -136,7 +133,10 @@ export const usersMiddleware = (store) => (next) => (action) => {
             })
             .then(res => {
                 console.log(res)
-                store.dispatch(checkUserSlugSuccess(res.data.data));
+                store.dispatch(checkUserSlugSuccess({
+                    ...res.data.data,
+                    avatarUrl: `${res.data.data.avatarUrl}?v=${Date.now()}`
+                }));
             })
             .catch(err => {
                 store.dispatch(checkUserSlugError(/* */));

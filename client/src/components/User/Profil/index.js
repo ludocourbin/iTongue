@@ -9,7 +9,7 @@ import './userprofil.scss';
 const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfos }) => {
 
     const [ isUserAccount , setIsUserAccount ] = useState(false);
-    const [ currentImage, setCurrentImage ] = useState(null);
+
     const addAvatarRef = useRef(null);
 
     let slug = useParams();
@@ -50,8 +50,6 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 
     const handdleAvatarChange = (e) => {
         if(e.target.files) {
-            console.log(e.target.files[0]);
-            setCurrentImage(e.target.files[0]);
             editProfilAvatar(e.target.files[0]);
         }
     };
@@ -85,7 +83,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                             { isAdmin && <Icon name="check circle" /> }
                             { isUserAccount && 
                             <Link to={`/user/${slug.slug}/edit`}>
-                                <Icon name="setting" /> 
+                                <Icon name="setting" style={{ color: "#fe734c", }} className="icon-settings" /> 
                             </Link>
                             }
                         </div>
@@ -121,7 +119,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                 </Segment>
 
                 <div className="container_bio">
-                    { bio &&  <p>« {bio} »</p> }
+                    { bio &&  <p><strong>«</strong> {bio} <strong>»</strong></p> }
                 </div>
                 <div className="user-profil_feed">
                     { records && records.length ? 

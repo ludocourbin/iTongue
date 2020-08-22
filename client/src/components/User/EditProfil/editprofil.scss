@@ -2,11 +2,24 @@
 @import '../../../styles/vars';
 
 .edit-profil {
-    padding: 1em;
+    padding: 1em 2em;
 
     &_profil {
-        margin: 1em 0;
+        padding: 2em 0;
     }
+
+    &_password {
+        padding: 2em 0;
+    }
+
+    &_email {
+        padding: 2em 0;
+    }
+
+    &_slug {
+        padding: 2em 0;
+    }
+
 
     &_title {
         font-size: 1.1em;
@@ -27,6 +40,7 @@
 
         &__avatar {
             max-width: 120px!important;
+            // border-radius: 50%!important;
         }
     
         &__toggle {

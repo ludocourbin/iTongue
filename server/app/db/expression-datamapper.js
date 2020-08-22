@@ -1,4 +1,4 @@
-const client = require("./index");
+const client = require("../redis/cache");
 
 module.exports = {
   /**
@@ -7,8 +7,12 @@ module.exports = {
    * @returns {Number} - ID the new expression
    */
   create: async label => {
-    const query = 'INSERT INTO "expression"("label") VALUES($1) RETURNING "id"';
-    const result = await client.query(query, [label]);
+    const query = {
+      name: "insert-expression",
+      text: 'INSERT INTO "expression"("label") VALUES($1) RETURNING "id"',
+      values: [label]
+    }
+    const result = await client.query(query);
     return result.rows[0];
   },
 
@@ -19,8 +23,12 @@ module.exports = {
    * @returns {Boolean} - True if updates successfully
    */
   updateOne: async ({ id, label }) => {
-		const query = 'UPDATE "expression" SET "label" = $1 WHERE "id" = $2 RETURNING TRUE AS "updated"';
-    const result = await client.query(query, [label, id]);
+    const query = {
+      name: "update-expression-byId",
+      text: 'UPDATE "expression" SET "label" = $1 WHERE "id" = $2 RETURNING TRUE AS "updated"',
+      values: [label, id]
+    }
+    const result = await client.query(query);
     return result.rows[0];
   },
 
@@ -29,12 +37,11 @@ module.exports = {
    * @returns {Array} - Set of objects representing available expressions
    */
   findAll: async () => {
-    try {
-      const result = await client.query('SELECT * FROM "expression_with_relations"');
-      return result.rows;
-    } catch (err) {
-      // next(err);
+    const query = {
+      name: "select-expressions",
+      text: 'SELECT * FROM "expression_with_relations"'
     }
+    return await client.query(query);
   },
 
   /**
@@ -43,9 +50,13 @@ module.exports = {
    * @returns {Object} - Object representing the expression
    */
   findOneById: async id => {
-		const query = 'SELECT * FROM "expression" WHERE "id" = $1';
-    const result = await client.query(query, [id]);
-    return result.rows[0];
+    const query = {
+      name: "select-expression-byId",
+      text: 'SELECT * FROM "expression" WHERE "id" = $1',
+      values: [id]
+    };
+    const results = await client.query(query);
+    return results[0];
   },
 
   /**
@@ -54,8 +65,12 @@ module.exports = {
    * @returns {Boolean} - True if success
    */
   deleteOne: async id => {
-		const query = 'DELETE FROM "expression" WHERE "id" = $1';
-		await client.query(query, [id]);
-		return true;
+    const query = {
+      name: "delete-expression-byId",
+      text: 'DELETE FROM "expression" WHERE "id" = $1 RETURNING TRUE AS "deleted"',
+      values: [id]
+    };
+    const result = await client.query(query);
+    return result[0];
   }
 };

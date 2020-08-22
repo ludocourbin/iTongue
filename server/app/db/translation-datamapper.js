@@ -1,4 +1,4 @@
-const client = require("./index");
+const client = require("../redis/cache");
 
 module.exports = {
   /**
@@ -6,11 +6,14 @@ module.exports = {
    * @returns {Object} - Created translation
    */
   create: async translation => {
-    const query = 'SELECT "insert_translation"($1) AS "id"';
-    const results = await client.query(query, [translation]);
-    return results.rows[0];
+    const query = {
+      name: "insert-translation",
+      text: 'SELECT "insert_translation"($1) AS "id"',
+      values: [translation]
+    };
+    return await client.query(query);
   },
-  
+
   /**
    * Updates an existing translation
    * @param {Number} translation_id - ID of the translation to update
@@ -19,10 +22,14 @@ module.exports = {
    * @param {Number} language_id - ID of the language related to the translation
    * @returns {Boolean} - True if success
    */
-  updateOne: async (translation_id, {text, expression_id, language_id}) => {
-    const query = 'SELECT update_translation($1, $2, $3, $4) AS "updated"';
-    const results = await client.query(query, [translation_id, text, expression_id, language_id]);
-    return results.rows[0];
+  updateOne: async (translation_id, { text, expression_id, language_id }) => {
+    const query = {
+      name: "update-translation-by-id",
+      text: 'SELECT update_translation($1, $2, $3, $4) AS "updated"',
+      values: [translation_id, text, expression_id, language_id]
+    };
+    const results = await client.query(query);
+    return results[0];
   },
 
   /**
@@ -30,9 +37,11 @@ module.exports = {
    * @returns {Array} - Set of objects representing available translations
    */
   findAll: async () => {
-    const query = 'SELECT * FROM "translation"';
-    const results = await client.query(query);
-    return results.rows;
+    const query = {
+      name: "select-all-translations",
+      text: 'SELECT * FROM "translation"'
+    };
+    return await client.query(query);
   },
 
   /**
@@ -41,19 +50,27 @@ module.exports = {
    * @returns {Object} - Fetched translation
    */
   findOneById: async id => {
-    const query = 'SELECT * FROM "translation" WHERE "id" = $1';
-    const results = await client.query(query, [id]);
-    return results.rows[0];
+    const query = {
+      name: "select-translation-by-id",
+      text: 'SELECT * FROM "translation" WHERE "id" = $1',
+      values: [id]
+    };
+    const results = await client.query(query);
+    return results[0];
   },
-  
+
   /**
-  * Deletes one translation by ID
-  * @param {Number} id - ID of the translation to delete
-  * @returns {Boolean} - True if success
-  */
- deleteOne: async id => {
-    const query = 'DELETE FROM "translation" WHERE "id" = $1';
-    await client.query(query, [id]);
-    return true;
- },
+   * Deletes one translation by ID
+   * @param {Number} id - ID of the translation to delete
+   * @returns {Boolean} - True if success
+   */
+  deleteOne: async id => {
+    const query = {
+      name: "delete-translation-by-id",
+      text: 'DELETE FROM "translation" WHERE "id" = $1 RETURNING TRUE AS "deleted"',
+      values: [id]
+    };
+    const results = await client.query(query);
+    return results[0];
+  }
 };

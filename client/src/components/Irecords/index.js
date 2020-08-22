@@ -33,12 +33,15 @@ const Irecords = ({
         <div className="irecords">
             <Card className="irecords-container" key={record.id}>
                 <Card.Content className="flex author">
-                    <Link to={user.slug} className="flex author">
+                    <Link to={`user/${user.slug}`} className="flex author">
                         <Image
                             avatar
                             floated="left"
                             size="large"
-                            src={`${process.env.REACT_APP_API_URL}/${user.avatarUrl}`}
+                            src={
+                                "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg" ||
+                                `${process.env.REACT_APP_API_URL}/${user.avatarUrl}`
+                            }
                         />
                         {`${user.firstname} ${user.lastname}`}
                     </Link>
@@ -57,12 +60,16 @@ const Irecords = ({
                         {record.englishTranslation.text}
                     </p>
                 </Card.Content>
-                <Card.Content className="text">
-                    <p>
-                        <Flag name={record.translation.language.code} />
-                        {record.translation.text}
-                    </p>
-                </Card.Content>
+                {record.englishTranslation.language.code !==
+                    record.translation.language.code && (
+                    <Card.Content className="text">
+                        <p>
+                            <Flag name={record.translation.language.code} />
+                            {record.translation.text}
+                        </p>
+                    </Card.Content>
+                )}
+
                 <AudioPlayer audio={record} />
             </Card>
         </div>

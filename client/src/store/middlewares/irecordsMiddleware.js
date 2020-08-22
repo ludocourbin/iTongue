@@ -16,12 +16,12 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
 
             console.log(blob);
             const user = store.getState().user.currentUser;
-            const translation = { id: 15 };
+            const translationId = store.getState().irecords.languageId;
 
             // const file = new File([blob], "record", { type: "audio/mp3" });
             const formData = new FormData();
             formData.append("record", blob);
-            formData.append("translation_id", translation.id);
+            formData.append("translation_id", translationId);
 
             axios({
                 method: "POST",

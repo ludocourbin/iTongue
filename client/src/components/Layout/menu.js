@@ -7,9 +7,11 @@ const Header = ({ setVisible, pathname, ...props }) => {
         <div className="header-nav">
             <Link to="/search">
                 <Icon
-                    disabled={pathname == "/search" ? true : false}
+                    disabled={pathname === "/search" ? true : false}
                     className={
-                        pathname == "/search" ? "invisible" : "header-nav__icon"
+                        pathname === "/search"
+                            ? "invisible"
+                            : "header-nav__icon"
                     }
                     name="search"
                     size="big"

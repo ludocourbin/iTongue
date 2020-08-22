@@ -18,9 +18,9 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
             const user = store.getState().user.currentUser;
             const translation = { id: 15 };
 
-            const file = new File([blob], "record", { type: "audio/mp3" });
+            // const file = new File([blob], "record", { type: "audio/mp3" });
             const formData = new FormData();
-            formData.append("record", file);
+            formData.append("record", blob);
             formData.append("translation_id", translation.id);
 
             axios({

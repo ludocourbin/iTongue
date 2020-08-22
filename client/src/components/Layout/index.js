@@ -17,6 +17,7 @@ const LayoutHeader = ({
     loading,
     sendIrecordsRecorded,
     isLogged,
+    selectIrecordToRecord,
     ...props
 }) => {
     const [visible, setVisible] = useState(false);
@@ -123,13 +124,21 @@ const LayoutHeader = ({
                     </div>
                     {isRecording ? (
                         <Recording
+                            selectIrecordToRecord={selectIrecordToRecord}
                             toggleRecording={toggleRecording}
                             audio={recording}
                             sendIrecordsRecorded={sendIrecordsRecorded}
                             loading={loading}
                         />
                     ) : null}
-                    {isLogged ? <NavigationBottom user={user} /> : null}
+                    {isLogged ? (
+                        <NavigationBottom
+                            toggleRecording={toggleRecording}
+                            selectIrecordToRecord={selectIrecordToRecord}
+                            user={user}
+                            isRecording={isRecording}
+                        />
+                    ) : null}
                 </Sidebar.Pusher>
             </Sidebar.Pushable>
         </div>

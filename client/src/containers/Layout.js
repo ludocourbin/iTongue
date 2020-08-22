@@ -9,6 +9,7 @@ import { logout } from "../store/actions/userActions";
 import {
     toggleRecording,
     sendIrecordsRecorded,
+    selectIrecordToRecord,
 } from "../store/actions/irecordsActions";
 
 const mapStateToProps = (state) => ({
@@ -32,6 +33,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     sendIrecordsRecorded: (blob) => {
         dispatch(sendIrecordsRecorded(blob));
+    },
+    selectIrecordToRecord: (irecord) => {
+        dispatch(selectIrecordToRecord(irecord));
     },
 });
 

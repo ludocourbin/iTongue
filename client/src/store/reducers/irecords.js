@@ -7,7 +7,8 @@ import {
     SEND_IRECORDS_ERROR,
     FETCH_ALL_RECORDS,
     FETCH_ALL_RECORDS_SUCCESS,
-    FETCH_ALL_RECORDS_ERROR
+    FETCH_ALL_RECORDS_ERROR,
+    SET_TRANSLATION_ID,
 } from "../actions/irecordsActions";
 
 const initialState = {
@@ -17,57 +18,63 @@ const initialState = {
     loading: false,
     allRecordsList: [],
     isLoadingAllRecords: false,
-    recordsListError: ""
+    recordsListError: "",
+    languageId: null,
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
         case SET_IRECORD_SELECTED_ID:
             return {
                 ...state,
-                irecordSelectedId: action.payload
+                irecordSelectedId: action.payload,
+            };
+        case SET_TRANSLATION_ID:
+            return {
+                ...state,
+                languageId: action.payload,
             };
         case TOGGLE_RECORDING:
             return {
                 ...state,
-                isRecording: action.payload
+                isRecording: action.payload,
             };
         case SELECTED_IRECORDS_TO_RECORD:
             return {
                 ...state,
-                recording: action.payload
+                recording: action.payload,
             };
         case SEND_IRECORDS_RECORDED:
             return {
                 ...state,
-                loading: true
+                loading: true,
             };
         case SEND_IRECORDS_SUCCESS:
             return {
                 ...state,
-                loading: false
+                loading: false,
             };
         case SEND_IRECORDS_ERROR:
             return {
                 ...state,
-                loading: false
+                loading: false,
             };
         case FETCH_ALL_RECORDS:
             return {
                 ...state,
-                isLoadingAllRecords: true
+                isLoadingAllRecords: true,
             };
         case FETCH_ALL_RECORDS_SUCCESS:
             return {
                 ...state,
                 allRecordsList: [...action.payload],
                 isLoadingAllRecords: false,
-                recordsListError: ""
+                recordsListError: "",
             };
         case FETCH_ALL_RECORDS_ERROR:
             return {
                 ...state,
                 isLoadingAllRecords: false,
-                recordsListError: action.payload
+                recordsListError: action.payload,
             };
         default:
             return state;

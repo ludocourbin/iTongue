@@ -11,12 +11,13 @@ const Recording = ({
     sendIrecordsRecorded,
     loading,
     selectIrecordToRecord,
+    setTranslationId,
 }) => {
     const [recording, setRecording] = useState(false);
     const [recordedSound, setRecordedSound] = useState(null);
     const [expressionSelected, setExpressionSelected] = useState(null);
     const [translationsSelected, setTranslationsSelected] = useState(null);
-    const [translationSelected, seTranlationSelected] = useState(null);
+    const [translationSelected, seTranslationSelected] = useState(null);
 
     const startRecording = () => {
         setRecording(true);
@@ -59,7 +60,12 @@ const Recording = ({
     };
 
     const handleChangeTranslation = (e, data) => {
-        seTranlationSelected(data.value);
+        seTranslationSelected(data.value);
+        const languageObject = data.options.find(
+            (translation) => translation.value === data.value
+        );
+        console.log(languageObject.language);
+        setTranslationId(languageObject.language);
     };
 
     useEffect(() => {
@@ -68,13 +74,13 @@ const Recording = ({
                 (option) => option.englishText === expressionSelected
             );
 
-            console.log(expression.translations);
-
             const options = expression.translations.map((option) => {
                 return {
                     key: option.id,
                     value: option.text,
                     text: option.text,
+                    flag: option.language.code,
+                    language: option.language.id,
                 };
             });
 
@@ -163,7 +169,7 @@ const Recording = ({
                         <Card.Content>
                             <Dropdown
                                 selection
-                                placeholder="expression to record"
+                                placeholder="Choose an expression"
                                 name="expressions"
                                 options={optionsText}
                                 value={expressionSelected}
@@ -174,7 +180,7 @@ const Recording = ({
                             <Card.Content>
                                 <Dropdown
                                     selection
-                                    placeholder="expression to record"
+                                    placeholder="Choose a translation"
                                     name="expressions"
                                     options={
                                         translationsSelected &&

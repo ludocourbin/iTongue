@@ -11,14 +11,15 @@ const Irecords = ({
     isRecording,
     record,
     isUserRecord,
-    user
+    user,
+    setTranslationId,
 }) => {
- 
     const [selectediRecordId, setSelectediRecordId] = useState(null);
 
     const handleCopyiRecord = () => {
         setSelectediRecordId(record.id);
         selectIrecordToRecord(record);
+        setTranslationId(record.translation.language.id);
         toggleRecording(true);
 
         if (isRecording && selectediRecordId === record.id) {
@@ -41,7 +42,7 @@ const Irecords = ({
                         />
                         {`${user.firstname} ${user.lastname}`}
                     </Link>
-                    {(user && user.id !== isUserRecord) && ( 
+                    {user && user.id !== isUserRecord && (
                         <Icon
                             onClick={handleCopyiRecord}
                             className="irecords-copy"
@@ -51,7 +52,8 @@ const Irecords = ({
                 </Card.Content>
                 <Card.Content className="text">
                     <p>
-                        <Flag name={record.englishTranslation.language.code} /> {/* englishTranslation -> en attente du back */}
+                        <Flag name={record.englishTranslation.language.code} />{" "}
+                        {/* englishTranslation -> en attente du back */}
                         {record.englishTranslation.text}
                     </p>
                 </Card.Content>

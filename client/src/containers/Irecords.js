@@ -6,6 +6,7 @@ import {
     setIrecordSelectedId,
     toggleRecording,
     selectIrecordToRecord,
+    setTranslationId,
 } from "../store/actions/irecordsActions";
 
 const mapStateToProps = (state) => ({
@@ -17,6 +18,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     setIrecordSelectedId: (id) => {
         dispatch(setIrecordSelectedId(id));
+    },
+    setTranslationId: (id) => {
+        dispatch(setTranslationId(id));
     },
     toggleRecording: (bool) => {
         dispatch(toggleRecording(bool));

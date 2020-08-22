@@ -18,6 +18,7 @@ const LayoutHeader = ({
     sendIrecordsRecorded,
     isLogged,
     selectIrecordToRecord,
+    setTranslationId,
     ...props
 }) => {
     const [visible, setVisible] = useState(false);
@@ -127,6 +128,7 @@ const LayoutHeader = ({
                             selectIrecordToRecord={selectIrecordToRecord}
                             toggleRecording={toggleRecording}
                             audio={recording}
+                            setTranslationId={setTranslationId}
                             sendIrecordsRecorded={sendIrecordsRecorded}
                             loading={loading}
                         />

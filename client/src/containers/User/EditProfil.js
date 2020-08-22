@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import EditProfil from "../../components/User/EditProfil";
 import { fetchAllLanguages } from '../../store/actions/languagesAction';
 import { checkUserSlug } from '../../store/actions/userActions';
-import { editProfil, editProfilInput } from '../../store/actions/editProfilActions';
+import { editProfil, editProfilInput, editProfilAvatar } from '../../store/actions/editProfilActions';
 
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,
@@ -23,6 +23,9 @@ const mapDispatchToProps = (dispatch) => ({
     checkUserSlug: (slug) => {
         dispatch(checkUserSlug(slug));
     },
+    editProfilAvatar: (avatarFile) => {
+        dispatch(editProfilAvatar(avatarFile));
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfil);

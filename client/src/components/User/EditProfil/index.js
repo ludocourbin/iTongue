@@ -5,12 +5,22 @@ import { useParams, Redirect } from 'react-router-dom';
 import Layout from '../../../containers/Layout';
 
 /* Components */ 
-import { Image, Checkbox, Form, Input, Dropdown, TextArea } from 'semantic-ui-react';
+import { Checkbox, Form, Input, Dropdown, TextArea } from 'semantic-ui-react';
 
 /* Style */ 
 import './editprofil.scss';
+import UpdateAvatar from '../UpdateAvatar';
 
-const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProfil, editProfilInput, editProfilData  }) => {
+const EditProfil = (props) => {
+
+    const { 
+        currentUser, 
+        allLanguagesList, 
+        fetchAllLanguages, 
+        editProfil, editProfilInput, 
+        editProfilData ,
+        editProfilAvatar 
+    } = props;
 
     let slug = useParams();
 
@@ -27,9 +37,7 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
         };
     });
 
-    let profilData = editProfilData= {
-        ...editProfilData,
-    };
+    let profilData =  {...editProfilData};
 
     const handdleInputChange = (e, data) => {
         // Pour les languages cela me retourne un tableau de language_id
@@ -49,14 +57,14 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
         <Layout>
             {  (currentUser.slug !== slug.slug) && <Redirect to={`/user/${currentUser.slug}`} /> }
             <div className="edit-profil">
-
                 <div className="edit-profil_profil">
                     <h3 className="edit-profil_title">Modification du profil</h3>
-
                     <div className="edit-profil_container">
-
-                        <Image src={`${process.env.REACT_APP_API_URL}/${profilData.avatarUrl}`} avatar size="small" className="edit-profil_container__avatar"/>
-
+                        <UpdateAvatar
+                            avatarUrl={profilData.avatarUrl} 
+                            isUserAccount={true}
+                            editProfilAvatar={editProfilAvatar}
+                        />
                         <div className="edit-profil_container__toggle">
                             <div className="toggle_container">
                                 <span>Profil Privé</span>
@@ -76,7 +84,6 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                             </div>
                         </div>
                     </div>
-
                     <Form onSubmit={handdleSubmit}>
                         <Form.Field>
                             <span>Bio</span>
@@ -137,18 +144,10 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                         />
                     </Form>
                 </div>
-
                 <div className="edit-profil_password">
                     <h3 className="edit-profil_title">Modification du mot de passe</h3>
                     <Form onSubmit={handdleSubmit}>
                         <Form.Group widths="equal">
-                            {/* <Form.Field>
-                                <span>Ancien mot de passe</span>
-                                <Input 
-                                name="old_password"
-                                type="password"
-                                />
-                            </Form.Field> */}
                             <Form.Field>
                                 <span>Nouveau mot de passe</span>
                                 <Input 
@@ -173,7 +172,6 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                         />
                     </Form>
                 </div>
-
                 <div className="edit-profil_email">
                     <h3 className="edit-profil_title">Modification de l'email</h3>
                     <Form onSubmit={handdleSubmit}>
@@ -204,7 +202,6 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                         />
                     </Form>
                 </div>
-
                 <div className="edit-profil_slug">
                     <h3 className="edit-profil_title">Modification du slug</h3>
                     <Form>

@@ -11,12 +11,11 @@ import Statistics from '../Statistics';
 
 /* Style */
 import './userprofil.scss';
+import UpdateAvatar from '../UpdateAvatar';
 
 const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfos }) => {
 
     const [ isUserAccount , setIsUserAccount ] = useState(false);
-
-    const addAvatarRef = useRef(null);
 
     let slug = useParams();
 
@@ -27,8 +26,6 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
             setIsUserAccount(false);
         }
     };
-
-    console.log(slug.slug);
 
     useEffect(() => {
         checkUserSlug(slug.slug);
@@ -50,17 +47,6 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
         taughtLanguages,
     } = userSlugInfos;
 
-
-    const handdleClickAvatar = (e) => {
-        addAvatarRef.current.click();
-    };
-
-    const handdleAvatarChange = (e) => {
-        if(e.target.files) {
-            editProfilAvatar(e.target.files[0]);
-        }
-    };
-
     return (
         <Layout>
             
@@ -70,18 +56,10 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                 <Segment className="user-profil_header">
                     <div className="container_left">
                         <div className="container_left__container">
-                            <Image 
-                            avatar 
-                            size="small"
-                            src={`${process.env.REACT_APP_API_URL}/${avatarUrl}` || 'https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg'}
-                            bordered
-                            />
-                            { isUserAccount && <Icon name="add" className="add_image_avatar" circular onClick={handdleClickAvatar}/> }
-                            <input 
-                            type="file" 
-                            ref={addAvatarRef} 
-                            style={{ visibility: "hidden" }}
-                            onChange={handdleAvatarChange}
+                            <UpdateAvatar 
+                            avatarUrl={avatarUrl} 
+                            isUserAccount={isUserAccount} 
+                            editProfilAvatar={editProfilAvatar}
                             />
                         </div>
                     </div>

@@ -20,7 +20,6 @@ import IusersPage from "../../containers/IusersPage";
 import Search from "../../containers/Search";
 
 const App = ({ user, isLogged }) => {
-    // <Route path="/login" component={Login} />
 
     return (
         <div className="App">

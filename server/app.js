@@ -5,7 +5,7 @@ const path = require("path");
 const cors = require("cors");
 
 const swaggerUi = require("swagger-ui-express");
-const swaggerSpec = require("./doc/swaggerOptions");
+const swaggerSpec = require(path.resolve("doc/swaggerOptions"));
 
 const router = require("./app/routes");
 
@@ -17,7 +17,18 @@ app.use(express.static(path.resolve("app/public")));
 
 app.use(express.urlencoded({ extended: true }), express.json());
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    swaggerOptions: {
+      deepLinking: true,
+      filter: true,
+      defaultModelsExpandDepth: -1,
+      defaultModelExpandDepth: 3
+    }
+  })
+);
 
 app.use(router);
 

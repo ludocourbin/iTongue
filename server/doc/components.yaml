@@ -1,0 +1,104 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+          format: email
+        firstname:
+          type: string
+          example: Michael
+        lastname:
+          type: string
+          example: Rapaport
+        bio:
+          type: string
+          example: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla turpis venenatis, ultrices felis quis, consectetur purus cras amet.
+          maxLength: 140
+        slug:
+          type: string
+          example: michael-rapaport24
+          pattern: '[a-z\d]+(-[a-z\d])*'
+        avatarUrl:
+          $ref: "#components/schemas/URL"
+        isAdmin:
+          type: boolean
+        createdAt:
+          $ref: "#components/schemas/DateTZ"
+        records:
+          type: array
+          items:
+            $ref: "#components/schemas/Record"
+        learnedLanguages:
+          type: array
+          items:
+            $ref: "#components/schemas/Language"
+        taughtLanguages:
+          type: array
+          items:
+            $ref: "#components/schemas/Language"
+
+    Record:
+      type: object
+      properties:
+        id:
+          type: integer
+        url:
+          $ref: "#components/schemas/URL"
+        createdAt:
+          $ref: "#components/schemas/DateTZ"
+        englishTranslation:
+          $ref: "#components/schemas/Translation"
+        translation:
+          $ref: "#components/schemas/Translation"
+
+    Language:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          example: english
+        code:
+          type: string
+          example: en
+          pattern: "[a-z]{2,4}"
+
+    Translation:
+      type: object
+      properties:
+        id:
+          type: integer
+        text:
+          type: string
+          example: How are you ?
+        createdAt:
+          $ref: "#components/schemas/DateTZ"
+        expression:
+          $ref: "#components/schemas/Expression"
+        language:
+          $ref: "#components/schemas/Language"
+
+    EXpression:
+      type: object
+      properties:
+        id:
+          type: integer
+        label:
+          type: string
+          example: "greetings"
+        createdAt:
+          $ref: "#components/schemas/DateTZ"
+
+    URL:
+      type: string
+      format: uri
+      example: /c/0/f/6/sdfesse55ad54uom8da
+
+    DateTZ:
+      type: string
+      format: date-time

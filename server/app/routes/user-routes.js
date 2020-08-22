@@ -12,6 +12,23 @@ const router = express.Router();
 
 // TODO évaluer pour chaque route la pertinence du middleware validator
 
+/**
+ * @swagger
+ * /users:
+ *  get:
+ *      tags:
+ *        - Users
+ *      summary: Returns a list of users
+ *      description: List of **users** with detail about their activity on the app
+ *      responses:
+ *          '200':
+ *              description: A JSON array of user objects with their records and languages nested in it
+ *              content:
+ *                application/json:
+ *                  schema:
+ *                    $ref: '#/components/schemas/User'
+ */
+
 router.get("/", userController.showAll);
 
 router.post("/", validator(userSchema), userController.create);

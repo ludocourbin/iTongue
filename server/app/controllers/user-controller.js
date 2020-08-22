@@ -32,7 +32,7 @@ module.exports = {
   showOne: async (req, res, next) => {
     const { id: userId, slug } = req.params;
 
-    if ((userId && isNaN(userId)) || (slug && !/^[a-z\\d]+(-[a-z\\d]+)*$/.test(slug)))
+    if ((userId && isNaN(userId)) || (slug && !/^[a-z\d]+(-[a-z\d]+)*$/.test(slug)))
       return next({ statusCode: 400, displayMsg: "Le paramètre reçu dans l'url n'est pas valide" });
 
     try {
@@ -275,7 +275,7 @@ module.exports = {
     if (isNaN(userId))
       return next({ statusCode: 400, displayMsg: "Le paramètre reçu dans l'url n'est pas valide" });
 
-    const { learnedLanguages, taughtLanguages, ...user } = req.body;
+    const { confirm, learnedLanguages, taughtLanguages, ...user } = req.body;
     user.id = userId;
 
     const learnedLanguagesInserts = !learnedLanguages

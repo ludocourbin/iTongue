@@ -10,6 +10,9 @@ const uploadRouter = require("./upload-routes");
 const recordRouter = require("./record-routes");
 const searchRouter = require("./search-routes");
 
+const notFoundMiddleware = require("../middlewares/not-found-middleware");
+const errorMiddleware = require("../middlewares/error-middleware");
+
 const router = express.Router();
 
 /**
@@ -63,15 +66,6 @@ router.use("/uploads", uploadRouter);
 
 router.use("/records", recordRouter);
 
-router.use((_, res) => {
-  res.status(404).json({ errors: [{ msg: "Resource not found" }] });
-});
-
-router.use((err, req, res, next) => {
-  const msg = err.displayMsg || err.toString();
-  res.status(res.statusCode || 500).json({ errors: [{ msg }] });
-
-  console.log({ msg, err });
-});
+router.use(notFoundMiddleware, errorMiddleware);
 
 module.exports = router;

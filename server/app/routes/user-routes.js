@@ -14,7 +14,6 @@ const router = express.Router();
 
 router.get("/", userController.showAll);
 
-// TODO remettre l'adminMiddleware
 router.post("/", validator(userSchema), userController.create);
 
 router.post("/login", userController.login);

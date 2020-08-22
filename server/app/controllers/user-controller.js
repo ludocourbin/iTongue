@@ -7,7 +7,6 @@ const userDatamapper = require("../db/user-datamapper");
 const recordDatamapper = require("../db/record-datamapper");
 const authUtils = require("../utils/auth-utils");
 const fileUtils = require("../utils/file-utils");
-const errorMiddleware = require("../middlewares/error-middleware");
 
 const fsPromises = fs.promises;
 
@@ -19,7 +18,6 @@ const {
   AVATARS_DIR,
   RECORDS_DIR
 } = require("../constants");
-const dataMapper = require("../db/user-datamapper");
 
 module.exports = {
   showAll: async (_, res, next) => {
@@ -27,7 +25,7 @@ module.exports = {
       const users = await userDatamapper.showAll({});
       res.json({ data: users });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
@@ -35,9 +33,7 @@ module.exports = {
     const { id: userId, slug } = req.params;
 
     if ((userId && isNaN(userId)) || (slug && !/^[a-z\\d]+(-[a-z\\d]+)*$/.test(slug)))
-      return res.status(400).json({
-        errors: [{ msg: "Le paramètre reçu dans l'url n'est pas valide" }]
-      });
+      return next({ statusCode: 400, displayMsg: "Le paramètre reçu dans l'url n'est pas valide" });
 
     try {
       const [field, value] = userId ? ["id", userId] : ["slug", slug];
@@ -47,7 +43,7 @@ module.exports = {
       if (!user) return next();
       res.json({ data: user });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
@@ -57,7 +53,7 @@ module.exports = {
 
       const user = await userDatamapper.findOne({ email: { operator: "=", value: email } }, false);
 
-      if (user) return res.status(409).json({ errors: [{ msg: "L'adresse email existe déjà" }] });
+      if (user) return next({ statusCode: 409, displayMsg: "L'adresse email existe déjà" });
 
       const userSlug = await getAvailableSlug(slugify(firstname + " " + lastname, { lower: true }));
 
@@ -73,22 +69,20 @@ module.exports = {
 
       res.json({ data: result });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
   deleteOne: async (req, res, next) => {
     const userId = req.params.id;
     if (isNaN(userId))
-      return res.status(400).json({
-        errors: [{ msg: "Le paramètre reçu dans l'url n'est pas valide" }]
-      });
+      return next({ statusCode: 400, displayMsg: "Le paramètre reçu dans l'url n'est pas valide" });
 
     try {
       await userDatamapper.deleteOne(userId);
       res.status(204).json({});
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
@@ -99,9 +93,7 @@ module.exports = {
     const { language_id: languageId, role } = req.body;
 
     if (isNaN(userId) || isNaN(languageId) || !USER_ROLES.includes(role))
-      return res.status(400).json({
-        errors: [{ msg: "Au moins un des paramètres est invalide" }]
-      });
+      return next({ statusCode: 400, displayMsg: "Au moins un des paramètres est invalide" });
 
     const userLanguage = { languageId, userId, role };
 
@@ -112,7 +104,7 @@ module.exports = {
       const result = await userDatamapper.addLanguage(userLanguage);
       res.json({ data: result });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
@@ -120,15 +112,16 @@ module.exports = {
     const { id: userId, languageId, role } = req.params;
 
     if (isNaN(userId) || isNaN(languageId) || !USER_ROLES.includes(role))
-      return res.status(400).json({
-        errors: [{ msg: "Au moins un des paramètres reçus dans l'url n'est pas valide" }]
+      return next({
+        statusCode: 400,
+        displayMsg: "Au moins un des paramètres reçus dans l'url n'est pas valide"
       });
 
     try {
       await userDatamapper.deleteLanguage({ userId, languageId, role });
       res.status(204).json({});
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
@@ -144,19 +137,16 @@ module.exports = {
 
       return res.status(409).json({ data: availableSlug });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
   updateAvatar: async (req, res, next) => {
-    if (!req.file)
-      return res.status(400).json({ errors: [{ msg: "Le fichier image est manquant" }] });
+    if (!req.file) return next({ statusCode: 400, displayMsg: "Le fichier image est manquant" });
 
     const userId = req.params.id;
     if (isNaN(userId))
-      return res.status(400).json({
-        errors: [{ msg: "Le paramètre reçu dans l'url n'est pas valide" }]
-      });
+      return next({ statusCode: 400, displayMsg: "Le paramètre reçu dans l'url n'est pas valide" });
 
     const fileName = req.file.filename;
     const tempPath = path.resolve(req.file.path);
@@ -204,13 +194,12 @@ module.exports = {
         next(unlinkErr);
       }
 
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
   addRecord: async (req, res, next) => {
-    if (!req.file)
-      return res.status(400).json({ errors: [{ msg: "Le fichier audio est manquant" }] });
+    if (!req.file) return next({ statusCode: 400, displayMsg: "Le fichier audio est manquant" });
 
     const userId = req.params.id;
     const translationId = req.body.translation_id;
@@ -219,7 +208,7 @@ module.exports = {
       const user = await userDatamapper.findByPk(userId);
       if (!user) return next();
     } catch (err) {
-      return errorMiddleware.handleError(err, res, next);
+      return next(err);
     }
 
     const fileName = req.file.filename;
@@ -239,7 +228,11 @@ module.exports = {
 
       await fsPromises.rename(tempPath, destPath);
 
-      const result = await recordDatamapper.insertOne({ userId, translationId, url: recordUrl });
+      const result = await recordDatamapper.insertOne({
+        userId,
+        translationId,
+        url: recordUrl
+      });
 
       res.status(201).json({ data: { recordId: result.id, recordUrl } });
     } catch (err) {
@@ -250,7 +243,7 @@ module.exports = {
         return next(unlinkErr);
       }
 
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
@@ -273,16 +266,14 @@ module.exports = {
       await recordDatamapper.deleteOne(recordId);
       res.status(204).json({});
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
   editProfile: async (req, res, next) => {
     const userId = req.params.id;
     if (isNaN(userId))
-      return res.status(400).json({
-        errors: [{ msg: "Le paramètre reçu dans l'url n'est pas valide" }]
-      });
+      return next({ statusCode: 400, displayMsg: "Le paramètre reçu dans l'url n'est pas valide" });
 
     const { learnedLanguages, taughtLanguages, ...user } = req.body;
     user.id = userId;
@@ -320,7 +311,7 @@ module.exports = {
 
       res.json({ data: { accessToken, refreshToken } });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
@@ -354,9 +345,9 @@ module.exports = {
         });
       }
 
-      res.status(401).json({ errors: [{ msg: "Not allowed" }] });
+      next({ statusCode: 401, displayMsg: "Identifiants incorrects" });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   }
 };

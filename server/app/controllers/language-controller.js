@@ -1,5 +1,4 @@
 const languageDatamapper = require("../db/language-datamapper");
-const errorMiddleware = require("../middlewares/error-middleware");
 
 module.exports = {
   create: async (req, res, next) => {
@@ -8,21 +7,21 @@ module.exports = {
       const newLanguage = await languageDatamapper.create(body);
       res.status(201).json({ data: newLanguage });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
   getAll: async (req, res, next) => {
-    try {  
+    try {
       const languages = await languageDatamapper.findAll();
-      if(!languages) return next();
+      if (!languages) return next();
       res.json({ data: languages });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
-  
+
   todo: async (_, res) => {
-    res.status(200).json({ data: 'todo' })
+    res.status(200).json({ data: "todo" });
   }
-}
+};

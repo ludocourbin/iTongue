@@ -1,19 +1,22 @@
 const { DB_ERR_MAP, NODE_ERR_MAP } = require("../constants");
 
-module.exports = {
-  handleError: (err, res, next) => {
-    err.displayMsg =
-      (DB_ERR_MAP[err.code] && DB_ERR_MAP[err.code].msg) ||
-      (NODE_ERR_MAP[err.code] && NODE_ERR_MAP[err.code].msg);
+module.exports = (err, _, res, __) => {
+  const code =
+    err.statusCode ||
+    (DB_ERR_MAP[err.code] && DB_ERR_MAP[err.code].code) ||
+    (NODE_ERR_MAP[err.code] && NODE_ERR_MAP[err.code].code);
 
-    if (err.displayMsg) {
-      err.displayMsg += ` (${err.toString()})`;
-    }
+  let msg =
+    (DB_ERR_MAP[err.code] && DB_ERR_MAP[err.code].msg) ||
+    (NODE_ERR_MAP[err.code] && NODE_ERR_MAP[err.code].msg);
 
-    res.statusCode =
-      (DB_ERR_MAP[err.code] && DB_ERR_MAP[err.code].code) ||
-      (NODE_ERR_MAP[err.code] && NODE_ERR_MAP[err.code].code);
-
-    next(err);
+  if (msg) {
+    msg += ` (${err.toString()})`;
+  } else {
+    msg = err.displayMsg || err.toString();
   }
+
+  res.status(code || 500).json({ errors: [{ msg }] });
+
+  console.log({ msg, err });
 };

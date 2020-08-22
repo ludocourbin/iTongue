@@ -6,6 +6,9 @@ import {
     sendIrecordsError,
     fetchAllRecordsSuccess,
     fetchAllRecordsError,
+    FETCH_EXPRESSIONS,
+    fetchAllExpressionsSuccess,
+    fetchAllExpressionsError,
 } from "../actions/irecordsActions";
 
 export const irecordsMiddleware = (store) => (next) => (action) => {
@@ -16,19 +19,20 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
 
             console.log(blob);
             const user = store.getState().user.currentUser;
-            const translationId = store.getState().irecords.languageId;
-
-            // const file = new File([blob], "record", { type: "audio/mp3" });
+            let translationId = store.getState().irecords.languageId;
+            translationId = parseInt(translationId, 10);
+            console.log(translationId);
+            const file = new File([blob.blob], "record");
             const formData = new FormData();
-            formData.append("record", blob);
-            formData.append("translation_id", translationId);
+            formData.append("record", file);
+            formData.append("translation_id", "2");
 
             axios({
                 method: "POST",
                 url: `https://itongue.herokuapp.com/users/${user.id}/record`,
                 data: formData,
                 headers: {
-                    "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+                    "Content-Type": `multipart/form-data`,
                     Authorization: `Bearer ${
                         store.getState().user.accessToken
                     }`,
@@ -67,6 +71,23 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
                 });
             break;
         }
+        case FETCH_EXPRESSIONS:
+            axios({
+                method: "GET",
+                url: "https://itongue.herokuapp.com/expressions",
+            })
+                .then((res) => {
+                    const expressions = res.data.data;
+                    store.dispatch(fetchAllExpressionsSuccess(expressions));
+                })
+                .catch((err) => {
+                    store.dispatch(
+                        fetchAllExpressionsError(
+                            "Un problème est survenue lors du chargement de la liste des expressions"
+                        )
+                    );
+                    console.error(err);
+                });
         default:
             return;
     }

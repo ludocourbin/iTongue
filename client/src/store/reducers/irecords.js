@@ -9,6 +9,9 @@ import {
     FETCH_ALL_RECORDS_SUCCESS,
     FETCH_ALL_RECORDS_ERROR,
     SET_TRANSLATION_ID,
+    FETCH_EXPRESSIONS,
+    FETCH_EXPRESSIONS_ERROR,
+    FETCH_EXPRESSIONS_SUCCESS,
 } from "../actions/irecordsActions";
 
 const initialState = {
@@ -20,6 +23,9 @@ const initialState = {
     isLoadingAllRecords: false,
     recordsListError: "",
     languageId: null,
+    allExpressions: [],
+    isLoadingExpressions: false,
+    errorFetchingExpressions: null,
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
@@ -75,6 +81,27 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 isLoadingAllRecords: false,
                 recordsListError: action.payload,
+            };
+        case FETCH_EXPRESSIONS:
+            return {
+                ...state,
+                errorFetchingExpressions: null,
+                allExpressions: [],
+                isLoadingExpressions: true,
+            };
+        case FETCH_EXPRESSIONS_SUCCESS:
+            return {
+                ...state,
+                isLoadingExpressions: false,
+                allExpressions: [...action.payload],
+                errorFetchingExpressions: null,
+            };
+        case FETCH_EXPRESSIONS_ERROR:
+            return {
+                ...state,
+                allExpressions: [],
+                errorFetchingExpressions: action.payload,
+                isLoadingExpressions: false,
             };
         default:
             return state;

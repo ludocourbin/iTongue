@@ -19,6 +19,8 @@ const LayoutHeader = ({
     isLogged,
     selectIrecordToRecord,
     setTranslationId,
+    allExpressions,
+    fetchAllExpressions,
     ...props
 }) => {
     const [visible, setVisible] = useState(false);
@@ -133,6 +135,8 @@ const LayoutHeader = ({
                             setTranslationId={setTranslationId}
                             sendIrecordsRecorded={sendIrecordsRecorded}
                             loading={loading}
+                            allExpressions={allExpressions}
+                            fetchAllExpressions={fetchAllExpressions}
                         />
                     ) : null}
                     {isLogged ? (

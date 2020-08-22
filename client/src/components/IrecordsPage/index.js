@@ -33,7 +33,7 @@ const IrecordsPage = (props) => {
                                 <Irecords
                                     record={recordUser}
                                     user={recordUser.user}
-                                    isUserRecord={user.id}
+                                    isUserRecord={recordUser.user.id}
                                 />
                             </div>
                         );

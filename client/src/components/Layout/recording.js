@@ -3,7 +3,6 @@ import { Card, Flag, Button, Icon, Dropdown } from "semantic-ui-react";
 import { ReactMic } from "react-mic";
 
 import AudioPlayer from "../../containers/Audio";
-import data from "./data";
 
 const Recording = ({
     audio,
@@ -12,12 +11,18 @@ const Recording = ({
     loading,
     selectIrecordToRecord,
     setTranslationId,
+    fetchAllExpressions,
+    allExpressions,
 }) => {
     const [recording, setRecording] = useState(false);
     const [recordedSound, setRecordedSound] = useState(null);
     const [expressionSelected, setExpressionSelected] = useState(null);
     const [translationsSelected, setTranslationsSelected] = useState(null);
     const [translationSelected, seTranslationSelected] = useState(null);
+
+    useEffect(() => {
+        fetchAllExpressions();
+    }, []);
 
     const startRecording = () => {
         setRecording(true);
@@ -47,7 +52,7 @@ const Recording = ({
         toggleRecording(false);
         selectIrecordToRecord(null);
     };
-    const optionsText = data.map((option) => {
+    const optionsText = allExpressions.map((option) => {
         return {
             key: option.id,
             value: option.englishText,
@@ -70,7 +75,7 @@ const Recording = ({
 
     useEffect(() => {
         if (expressionSelected) {
-            const expression = data.find(
+            const expression = allExpressions.find(
                 (option) => option.englishText === expressionSelected
             );
 
@@ -91,7 +96,7 @@ const Recording = ({
     return (
         <div className="recording">
             <Card style={{ width: "60%" }} className="">
-                {audio && (
+                {audio ? (
                     <div>
                         <Card.Content>
                             <Flag
@@ -103,68 +108,8 @@ const Recording = ({
                             <Flag name={audio.translation.language.code} />
                             {audio.translation.text}
                         </Card.Content>
-                        <Card.Content>
-                            <div>
-                                <ReactMic
-                                    record={recording}
-                                    className="sound-wave"
-                                    onStop={onStop}
-                                    onData={onData}
-                                    strokeColor="#FFFFFF"
-                                    backgroundColor="#fe734c"
-                                    onBlock={startRecording}
-                                    mimeType="audio/mp3" // Change type wanted here
-                                />
-                                {recordedSound && !recording && (
-                                    <AudioPlayer audio={recordedSound} />
-                                )}
-                                {recordedSound && recording && (
-                                    <p>réenregistrement en cours</p>
-                                )}
-                                {!recordedSound && !recording && (
-                                    <p>Aucun audio</p>
-                                )}
-
-                                <div className="recording-microphone">
-                                    {recording ? (
-                                        <Icon
-                                            onClick={stopRecording}
-                                            name="stop circle"
-                                            size="big"
-                                        />
-                                    ) : (
-                                        <Icon
-                                            onClick={startRecording}
-                                            name="microphone"
-                                            size="big"
-                                        />
-                                    )}
-                                </div>
-                            </div>
-                        </Card.Content>
-                        <Card.Content extra>
-                            <div className="ui two buttons">
-                                <Button
-                                    onClick={handleCancel}
-                                    basic
-                                    color="red"
-                                >
-                                    Annuler
-                                </Button>
-                                <Button
-                                    disabled={recordedSound ? false : true}
-                                    onClick={onSave}
-                                    basic
-                                    color="green"
-                                    loading={loading}
-                                >
-                                    Sauvegarder
-                                </Button>
-                            </div>
-                        </Card.Content>
                     </div>
-                )}
-                {!audio && (
+                ) : (
                     <div>
                         <Card.Content>
                             <Dropdown
@@ -194,68 +139,62 @@ const Recording = ({
                                 />
                             </Card.Content>
                         )}
-
-                        <Card.Content>
-                            <div>
-                                <ReactMic
-                                    record={recording}
-                                    className="sound-wave"
-                                    onStop={onStop}
-                                    onData={onData}
-                                    strokeColor="#FFFFFF"
-                                    backgroundColor="#fe734c"
-                                    onBlock={startRecording}
-                                    mimeType="audio/mp3" // Change type wanted here
-                                />
-                                {recordedSound && !recording && (
-                                    <AudioPlayer audio={recordedSound} />
-                                )}
-                                {recordedSound && recording && (
-                                    <p>réenregistrement en cours</p>
-                                )}
-                                {!recordedSound && !recording && (
-                                    <p>Aucun audio</p>
-                                )}
-
-                                <div className="recording-microphone">
-                                    {recording ? (
-                                        <Icon
-                                            onClick={stopRecording}
-                                            name="stop circle"
-                                            size="big"
-                                        />
-                                    ) : (
-                                        <Icon
-                                            onClick={startRecording}
-                                            name="microphone"
-                                            size="big"
-                                        />
-                                    )}
-                                </div>
-                            </div>
-                        </Card.Content>
-                        <Card.Content extra>
-                            <div className="ui two buttons">
-                                <Button
-                                    onClick={handleCancel}
-                                    basic
-                                    color="red"
-                                >
-                                    Annuler
-                                </Button>
-                                <Button
-                                    disabled={recordedSound ? false : true}
-                                    onClick={onSave}
-                                    basic
-                                    color="green"
-                                    loading={loading}
-                                >
-                                    Sauvegarder
-                                </Button>
-                            </div>
-                        </Card.Content>
                     </div>
                 )}
+                <Card.Content>
+                    <div>
+                        <ReactMic
+                            record={recording}
+                            className="sound-wave"
+                            onStop={onStop}
+                            onData={onData}
+                            strokeColor="#FFFFFF"
+                            backgroundColor="#fe734c"
+                            onBlock={startRecording}
+                            mimeType="audio/mp3" // Change type wanted here
+                        />
+                        {recordedSound && !recording && (
+                            <AudioPlayer audio={recordedSound} />
+                        )}
+                        {recordedSound && recording && (
+                            <p>réenregistrement en cours</p>
+                        )}
+                        {!recordedSound && !recording && <p>Aucun audio</p>}
+
+                        <div className="recording-microphone">
+                            {recording ? (
+                                <Icon
+                                    onClick={stopRecording}
+                                    name="stop circle"
+                                    size="big"
+                                />
+                            ) : (
+                                <Icon
+                                    onClick={startRecording}
+                                    name="microphone"
+                                    size="big"
+                                />
+                            )}
+                        </div>
+                    </div>
+                </Card.Content>
+
+                <Card.Content extra>
+                    <div className="ui two buttons">
+                        <Button onClick={handleCancel} basic color="red">
+                            Annuler
+                        </Button>
+                        <Button
+                            disabled={recordedSound ? false : true}
+                            onClick={onSave}
+                            basic
+                            color="green"
+                            loading={loading}
+                        >
+                            Sauvegarder
+                        </Button>
+                    </div>
+                </Card.Content>
             </Card>
         </div>
     );

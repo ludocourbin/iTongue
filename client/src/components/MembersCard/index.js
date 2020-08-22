@@ -11,8 +11,8 @@ const MemberCard = ({ user }) => (
                     size="large"
                     avatar
                     src={
-                        `${process.env.REACT_APP_API_URL}/${user.avatarUrl}` ||
-                        "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                        "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg" ||
+                        `${process.env.REACT_APP_API_URL}/${user.avatarUrl}`
                     }
                 />
                 <Card.Header>

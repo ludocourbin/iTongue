@@ -14,6 +14,7 @@ const Irecords = ({
     user,
     setTranslationId,
     isLogged,
+    currentUser,
 }) => {
     const [selectediRecordId, setSelectediRecordId] = useState(null);
 
@@ -33,7 +34,7 @@ const Irecords = ({
     return (
         <div className="irecords">
             <Card className="irecords-container" key={record.id}>
-                {isLogged && user.id !== isUserRecord && (
+                {isLogged && currentUser.id !== isUserRecord && (
                     <Card.Content className="flex author">
                         <Link to={`user/${user.slug}`} className="flex author">
                             <Image
@@ -41,8 +42,8 @@ const Irecords = ({
                                 floated="left"
                                 size="large"
                                 src={
-                                    `${process.env.REACT_APP_API_URL}/${user.avatarUrl}` ||
-                                    "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                                    "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg" ||
+                                    `${process.env.REACT_APP_API_URL}/${user.avatarUrl}`
                                 }
                             />
                             {`${user.firstname} ${user.lastname}`}

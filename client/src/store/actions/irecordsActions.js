@@ -54,3 +54,20 @@ export const fetchAllRecordsError = (payload) => ({
     type: FETCH_ALL_RECORDS_ERROR,
     payload,
 });
+
+export const FETCH_EXPRESSIONS = "FETCH_EXPRESSIONS";
+export const FETCH_EXPRESSIONS_SUCCESS = "FETCH_EXPRESSIONS_SUCCESS";
+export const FETCH_EXPRESSIONS_ERROR = "FETCH_EXPRESSIONS_ERROR";
+
+export const fetchAllExpressions = () => ({
+    type: FETCH_EXPRESSIONS,
+});
+export const fetchAllExpressionsSuccess = (payload) => ({
+    type: FETCH_EXPRESSIONS_ERROR,
+    payload,
+});
+
+export const fetchAllExpressionsError = (payload) => ({
+    type: FETCH_EXPRESSIONS_SUCCESS,
+    payload,
+});

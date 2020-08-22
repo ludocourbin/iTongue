@@ -215,12 +215,31 @@ module.exports = {
     const tempPath = path.resolve(req.file.path);
     const extension = MIME_EXTENSION_MAP[req.file.mimetype];
 
-    const destSubDir = fileName.split("").slice(0, 4).join("/");
-    const destBaseName = fileName.substring(4);
-    const destFileName = destBaseName + extension;
+    const oldRecord = await recordDatamapper.findOne({
+      user_id: { operator: "=", value: userId },
+      translation_id: { operator: "=", value: translationId }
+    });
 
-    const recordUrl = `${RECORDS_DIR}/${destSubDir}/${destBaseName}`;
-    const destPath = path.join(PUBLIC_DIR, RECORDS_DIR, destSubDir, destFileName);
+    let recordUrl, destPath;
+    if (oldRecord) {
+      recordUrl = oldRecord.url;
+      const filename = path.join(PUBLIC_DIR, recordUrl);
+      destPath = filename + extension;
+
+      const sameFileNames = await fileUtils.getSameFileNames(filename);
+      if (sameFileNames.length) {
+        for (const file of sameFileNames) {
+          await fsPromises.unlink(file);
+        }
+      }
+    } else {
+      const destSubDir = fileName.split("").slice(0, 4).join("/");
+      const destBaseName = fileName.substring(4);
+      const destFileName = destBaseName + extension;
+
+      recordUrl = `${RECORDS_DIR}/${destSubDir}/${destBaseName}`;
+      destPath = path.join(PUBLIC_DIR, RECORDS_DIR, destSubDir, destFileName);
+    }
 
     try {
       const parentDir = path.dirname(destPath);
@@ -228,13 +247,17 @@ module.exports = {
 
       await fsPromises.rename(tempPath, destPath);
 
+      res.statusCode = 201;
+
+      if (oldRecord) return res.json({ data: { recordId: oldRecord.id, recordUrl } });
+
       const result = await recordDatamapper.insertOne({
         userId,
         translationId,
         url: recordUrl
       });
 
-      res.status(201).json({ data: { recordId: result.id, recordUrl } });
+      res.json({ data: { recordId: result.id, recordUrl } });
     } catch (err) {
       try {
         if (fs.existsSync(tempPath)) await fsPromises.unlink(tempPath);

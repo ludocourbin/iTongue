@@ -19,6 +19,7 @@ const Search = (props) => {
         fetchAllUsers,
         allUsersList,
         isLoadingallUsers,
+        user,
     } = props;
 
     useEffect(() => {
@@ -70,6 +71,7 @@ const Search = (props) => {
                                         record={record}
                                         key={record.id}
                                         user={record.user}
+                                        isUserRecord={user.id}
                                     />
                                 )}
                             </div>
@@ -98,6 +100,7 @@ const Search = (props) => {
                                 key={record.id}
                                 record={record}
                                 user={record.user}
+                                isUserRecord={user.id}
                             />
                         ))}
                 </Tab.Pane>
@@ -142,6 +145,7 @@ const Search = (props) => {
                                         <Irecords
                                             record={record}
                                             user={record.user}
+                                            isUserRecord={user.id}
                                         />
                                     </div>
                                 );

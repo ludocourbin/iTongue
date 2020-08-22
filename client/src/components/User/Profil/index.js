@@ -1,9 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Redirect } from 'react-router-dom';
+
+/* Containers */ 
 import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
+
+/* Components */ 
 import { Segment, Image, Icon } from 'semantic-ui-react';
 import Statistics from '../Statistics';
+
+/* Style */
 import './userprofil.scss';
 
 const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfos }) => {
@@ -22,14 +28,15 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
         }
     };
 
+    console.log(slug.slug);
+
     useEffect(() => {
         checkUserSlug(slug.slug);
-    }, []);
+    }, [slug.slug]);
 
     useEffect(() => {
         checkUser();
     }, [isUserAccount, slug]);
-
     
     const { 
         id, 
@@ -56,6 +63,9 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 
     return (
         <Layout>
+            
+             {  !userSlugInfos.slug  && <Redirect to={`/user/${currentUser.slug}`} /> }
+            
             <div className="user-profil">
                 <Segment className="user-profil_header">
                     <div className="container_left">
@@ -101,8 +111,8 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                  
                                 <div className="title">iLearn</div> 
                                 <div className="flags">
-                                    { learnedLanguages && learnedLanguages.map(language => (
-                                        <Image key={language.id} src={`https://www.countryflags.io/${language.code}/flat/32.png`} className="flag_image"/>
+                                    { learnedLanguages && learnedLanguages.map((language, i) => (
+                                        <Image key={i} src={`https://www.countryflags.io/${language.code}/flat/32.png`} className="flag_image"/>
                                     ))}
                                 </div>
                             </div>

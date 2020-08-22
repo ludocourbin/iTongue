@@ -54,12 +54,14 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 isAdmin, 
                 learnedLanguages,
                 taughtLanguages,
+                modifyTaughtLanguages,
+                modifylearnedLanguages,
                 ...editProfilData 
             } = store.getState().user.editProfilData;
 
-            /* Avec cette liste de languages, 
-            on va chercher l'id dans notre allLanguagesList 
-            pour renvoyer toutes les infos concernant cet ID 
+            /*  Avec cette liste de languages, 
+                on va chercher l'id dans notre allLanguagesList 
+                pour renvoyer toutes les infos concernant cet ID 
             */
             const { allLanguagesList } = store.getState().languagesReducer;
 
@@ -73,13 +75,14 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 }) 
             };
 
+            var checkIsObject = (array) => array.some(  
+                value => { return typeof value == "object" } ); 
+
             const finalData = {
                 ...editProfilData,
-                learnedLanguages: mapper(learnedLanguages),
-                taughtLanguages: mapper(taughtLanguages),
+                learnedLanguages: checkIsObject(learnedLanguages) ? learnedLanguages : mapper(learnedLanguages),
+                taughtLanguages: checkIsObject(taughtLanguages) ? taughtLanguages : mapper(taughtLanguages),
             };
-
-            console.log("finalData", finalData);
 
             axios({
                 method: 'POST',
@@ -127,16 +130,28 @@ export const usersMiddleware = (store) => (next) => (action) => {
         };
         
         case CHECK_USER_SLUG: {
+
+            const selectedLanguages = (role) => {
+                const map = role.map((language, index) => {
+                    return language.id || index + 1 ;
+                });
+                return map;
+            };
+
             axios({
                 method: 'GET',
                 url: `${process.env.REACT_APP_API_URL}/users/${action.payload}`,
             })
             .then(res => {
-                console.log(res)
-                store.dispatch(checkUserSlugSuccess({
+                
+                const profilData = res.data.data;
+                let profilUserData = {
                     ...res.data.data,
-                    avatarUrl: `${res.data.data.avatarUrl}?v=${Date.now()}`
-                }));
+                    modifyTaughtLanguages: selectedLanguages(profilData.taughtLanguages),
+                    modifylearnedLanguages: selectedLanguages(profilData.learnedLanguages),
+                    avatarUrl: `${profilData.avatarUrl}?v=${Date.now()}`
+                };
+                store.dispatch(checkUserSlugSuccess(profilUserData));
             })
             .catch(err => {
                 store.dispatch(checkUserSlugError(/* */));

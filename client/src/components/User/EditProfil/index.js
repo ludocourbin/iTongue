@@ -1,9 +1,18 @@
 import React, { useEffect } from 'react';
-import './editprofil.scss';
-import { Divider, Image, Checkbox, Form, Label, Input, Dropdown } from 'semantic-ui-react';
+import { useParams, Redirect } from 'react-router-dom';
+
+/* Containers */ 
 import Layout from '../../../containers/Layout';
 
-const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProfil, editProfilInput, editProfilData }) => {
+/* Components */ 
+import { Image, Checkbox, Form, Input, Dropdown, TextArea } from 'semantic-ui-react';
+
+/* Style */ 
+import './editprofil.scss';
+
+const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProfil, editProfilInput, editProfilData  }) => {
+
+    let slug = useParams();
 
     useEffect(() => {
         fetchAllLanguages();
@@ -18,23 +27,17 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
         };
     });
 
-    const selectedLanguages = (role) => {
-        const map = role.map((language, index) => {
-            return language.id || index + 1 ;
-        });
-        return map;
+    let profilData = editProfilData= {
+        ...editProfilData,
     };
 
     const handdleInputChange = (e, data) => {
-
-        const { name, value } = e.target.value ? e.target : data; // Pour les languages cela me retourne un tableau de language_id
-
+        // Pour les languages cela me retourne un tableau de language_id
+        const { name, value } = e.target.value ? e.target : data; 
         const test =  {
             [name]: value,
         };
-
         editProfilInput(test);
-        console.log(test);
     };
 
     const handdleSubmit = (e) => {
@@ -44,6 +47,7 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
 
     return (
         <Layout>
+            {  (currentUser.slug !== slug.slug) && <Redirect to={`/user/${currentUser.slug}`} /> }
             <div className="edit-profil">
 
                 <div className="edit-profil_profil">
@@ -51,7 +55,7 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
 
                     <div className="edit-profil_container">
 
-                        <Image src={`${process.env.REACT_APP_API_URL}/${editProfilData.avatarUrl}`} avatar size="small" className="edit-profil_container__avatar"/>
+                        <Image src={`${process.env.REACT_APP_API_URL}/${profilData.avatarUrl}`} avatar size="small" className="edit-profil_container__avatar"/>
 
                         <div className="edit-profil_container__toggle">
                             <div className="toggle_container">
@@ -74,12 +78,20 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                     </div>
 
                     <Form onSubmit={handdleSubmit}>
+                        <Form.Field>
+                            <span>Bio</span>
+                            <TextArea 
+                            name="bio"
+                            value={profilData.bio}
+                            onChange={handdleInputChange}
+                            />
+                        </Form.Field>
                         <Form.Group widths="equal">
                             <Form.Field>
                                 <span>Prénom</span>
                                 <Input 
                                 name="firstname"
-                                value={editProfilData.firstname}
+                                value={profilData.firstname}
                                 onChange={handdleInputChange}
                                 />
                             </Form.Field>
@@ -87,7 +99,7 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                                 <span>Nom</span>
                                 <Input 
                                 name="lastname"
-                                value={editProfilData.lastname}
+                                value={profilData.lastname}
                                 onChange={handdleInputChange}
                                 />
                             </Form.Field>
@@ -101,7 +113,7 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                                 placeholder="iTeach" 
                                 name="taughtLanguages" 
                                 options={optionsLanguages}
-                                defaultValue={selectedLanguages(editProfilData.taughtLanguages)}
+                                defaultValue={profilData.modifyTaughtLanguages}
                                 onChange={handdleInputChange}
                                 />
                             </Form.Field>
@@ -113,7 +125,7 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                                 placeholder="iLearn" 
                                 name="learnedLanguages" 
                                 options={optionsLanguages}
-                                defaultValue={selectedLanguages(editProfilData.learnedLanguages)}
+                                defaultValue={profilData.modifylearnedLanguages}
                                 onChange={handdleInputChange}
                                 />
                             </Form.Field>
@@ -128,28 +140,30 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
 
                 <div className="edit-profil_password">
                     <h3 className="edit-profil_title">Modification du mot de passe</h3>
-                    <Form>
+                    <Form onSubmit={handdleSubmit}>
                         <Form.Group widths="equal">
-                            <Form.Field>
+                            {/* <Form.Field>
                                 <span>Ancien mot de passe</span>
                                 <Input 
                                 name="old_password"
                                 type="password"
                                 />
-                            </Form.Field>
+                            </Form.Field> */}
                             <Form.Field>
                                 <span>Nouveau mot de passe</span>
                                 <Input 
-                                name="new_password"
+                                name="password"
                                 type="password"
+                                onChange={handdleInputChange}
                                 />
                             </Form.Field>
                         </Form.Group>
                         <Form.Field>
                             <span>Confirmation du nouveau mot de passe</span>
                             <Input 
-                            name="confirm_new_password"
+                            name="confirm"
                             type="password"
+                            onChange={handdleInputChange}
                             />
                         </Form.Field>
                         <Form.Button 
@@ -178,7 +192,7 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                                 <Input 
                                 name="email"
                                 type="email"
-                                value={editProfilData.email}
+                                value={profilData.email}
                                 onChange={handdleInputChange}
                                 />
                             </Form.Field>
@@ -200,7 +214,7 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                                 <Input 
                                 name="slug"
                                 type="email"
-                                value={editProfilData.slug}
+                                value={profilData.slug}
                                 />
                             </Form.Field>
                             <Form.Button 
@@ -209,7 +223,6 @@ const EditProfil = ({ currentUser, allLanguagesList, fetchAllLanguages, editProf
                             className="edit-profil_formbtn"
                             />
                         </Form.Group>
-
                     </Form>
                 </div>
             </div>

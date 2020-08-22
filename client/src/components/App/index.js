@@ -32,7 +32,7 @@ const App = ({ user, isLogged }) => {
                 <Route path="/irecords" component={IrecordsPage} />
                 <Route path="/users" component={IusersPage} />
                 <Route exact path="/user/:slug" component={Profil} />
-                <Route exact path="/user/:slug/edit" component={EditProfil} />
+                <Route exact path="/user/:slug/edit" render={() => (isLogged ? <EditProfil /> : <Redirect to="/login" />)} />
                 <Route path="/admin" component={Admin} />
                 <Route>
                     <h1>La page n'existe pas</h1>

@@ -199,7 +199,7 @@ components:
 
   responses:
     BadRequest:
-      description: Bad request. Missing field(s) or invalid value(s)
+      description: Bad request. Missing parameter(s) or invalid value(s)
       content:
         application/json:
           schema:

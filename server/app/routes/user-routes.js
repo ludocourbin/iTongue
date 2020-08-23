@@ -136,6 +136,8 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *                   properties:
  *                     user:
  *                      $ref: "#/components/schemas/User"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
  *       "404":
  *         $ref: "#/components/responses/NotFound"
  *   post:
@@ -161,7 +163,7 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *           schema:
  *             $ref: "#/components/schemas/UpdatedUser"
  *     responses:
- *       "204":
+ *       "200":
  *         description: Success. An object containing the new access token and refresh token taking into account the amendments.
  *         content:
  *           application/json:
@@ -179,15 +181,72 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *   delete:
+ *     tags:
+ *       - Users
+ *     security:
+ *       - BearerJWT: []
+ *     summary: User account deletion
+ *     description: User account deletion. This operation requires administrator rights.
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          $ref: "#/components/schemas/PrimaryKey"
+ *        required: true
+ *        description: Primary key of the user to get.
+ *     responses:
+ *       "204":
+ *         description: Success. An empty object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
  */
 router
   .route("/:id(\\d+)")
   .get(userController.showOne)
-  .post(ownerMiddleware, validator(userSchema), userController.editProfile);
+  .post(ownerMiddleware, validator(userSchema), userController.editProfile)
+  .delete(adminMiddleware, userController.deleteOne);
 
+/**
+ * @swagger
+ * /users/{slug}:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: User profile
+ *     description: Information about a user, his records and languages
+ *     parameters:
+ *      - in: path
+ *        name: slug
+ *        schema:
+ *          $ref: "#/components/schemas/Slug"
+ *        required: true
+ *        description: Slug of the user to get.
+ *     responses:
+ *       "200":
+ *         description: Success. An object containing the detail of the user activity.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     user:
+ *                      $ref: "#/components/schemas/User"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "404":
+ *         $ref: "#/components/responses/NotFound"
+ */
 router.get("/:slug([a-z\\d]+(?:-[a-z\\d]+)*)", userController.showOne);
-
-router.delete("/:id(\\d+)", adminMiddleware, userController.deleteOne);
 
 router.post("/:id(\\d+)/slug", ownerMiddleware, validator(userSchema), userController.updateSlug);
 

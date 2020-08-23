@@ -13,9 +13,9 @@ module.exports = {
 
   update: async (req, res, next) => {
     try {
-      const { body } = req;
       const id = parseInt(req.params.id, 10);
-      const newTranslation = await translationDatamapper.updateOne(id, body);
+      const { text, expression_id, language_id } = req.body;
+      const newTranslation = await translationDatamapper.updateOne(id, text, expression_id, language_id);
       res.json({ data: newTranslation });
     } catch (err) {
       next(err);

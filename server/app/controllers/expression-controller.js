@@ -15,7 +15,7 @@ module.exports = {
     try {
       const id = parseInt(req.params.id, 10);
       const { label } = req.body;
-      const result = await expressionDatamapper.updateOne({ id, label });
+      const result = await expressionDatamapper.updateOne(id, label);
       res.json({ data: result });
     } catch (err) {
       next(err);

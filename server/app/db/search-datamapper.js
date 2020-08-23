@@ -10,10 +10,8 @@ module.exports = {
 
     const query = {
       name: "search-users-irecords",
-      text: `
-        SELECT * FROM find_users_records($1);
-      `,
-      values: [expression],
+      text: "SELECT * FROM find_users_records($1)",
+      values: [expression]
     };
 
     const result = await client.query(query);
@@ -30,10 +28,8 @@ module.exports = {
 
     const query = {
       name: "search-users",
-      text: `
-        SELECT * FROM find_users($1);
-      `,
-      values: [expression],
+      text: "SELECT * FROM find_users($1)",
+      values: [expression]
     };
 
     const result = await client.query(query);
@@ -50,10 +46,8 @@ module.exports = {
 
     const query = {
       name: "search-records",
-      text: `
-        SELECT * FROM find_records($1);
-      `,
-      values: [expression],
+      text: "SELECT * FROM find_records($1)",
+      values: [expression]
     };
 
     const result = await client.query(query);

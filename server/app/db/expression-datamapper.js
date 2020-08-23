@@ -1,76 +1,94 @@
 const client = require("../redis/cache");
 
+ /**
+ * @typedef {Object} Expression
+ * @property {Number} id ID of the expression
+ * @property {String} label Label of the expression
+ * @property {String} created_at Date of creation
+ */
+
+/**
+ * @typedef {Object} Created
+ * @property {Number} id ID of created expression
+ */
+
+/**
+* @typedef {Object} Updated
+* @property {Boolean} updated True if succes
+*/
+
+ /**
+ * @typedef {Object} Deleted
+ * @property {Boolean} deleted True if succes
+ */
+
 module.exports = {
   /**
-   * Creates a new expression
-   * @param {String} label - Label of the expression
-   * @returns {Number} - ID the new expression
+   * Create a new expression
+   * @param {String} label Label of the expression
+   * @returns {Created} ID the new expression
    */
   create: async label => {
     const query = {
-      name: "insert-expression",
+      name: `create-expression-${label}`,
       text: 'INSERT INTO "expression"("label") VALUES($1) RETURNING "id"',
       values: [label]
     }
-    const result = await client.query(query);
-    return result.rows[0];
+    return await client.query(query);
   },
 
   /**
-   * Updates an expression
-   * @param {Number} id - Label of the expression
-   * @param {String} label - Label of the expression
-   * @returns {Boolean} - True if updates successfully
+   * Update one expression by ID
+   * @param {Number} id ID of the expression
+   * @param {String} label New label of the expression
+   * @returns {Updated} True if updated successfully
    */
-  updateOne: async ({ id, label }) => {
+  updateOne: async (id, label) => {
     const query = {
-      name: "update-expression-byId",
+      name: `update-expression-${id}`,
       text: 'UPDATE "expression" SET "label" = $1 WHERE "id" = $2 RETURNING TRUE AS "updated"',
       values: [label, id]
     }
-    const result = await client.query(query);
-    return result.rows[0];
+    return await client.query(query);
   },
 
   /**
    * Find all expressions
-   * @returns {Array} - Set of objects representing available expressions
+   * @returns {Expression[]} Available expressions
    */
   findAll: async () => {
     const query = {
-      name: "select-expressions",
+      name: "read-expressions",
       text: 'SELECT * FROM "expression_with_relations"'
     }
     return await client.query(query);
   },
 
   /**
-   * Finds one expression by ID
-   * @param {Number} id - ID of the expression
-   * @returns {Object} - Object representing the expression
+   * Find one expression by ID
+   * @param {Number} id ID of the expression
+   * @returns {Expression} Queried expression
    */
   findOneById: async id => {
     const query = {
-      name: "select-expression-byId",
+      name: `read-expression-${id}`,
       text: 'SELECT * FROM "expression" WHERE "id" = $1',
       values: [id]
     };
-    const results = await client.query(query);
-    return results[0];
+    return await client.query(query);
   },
 
   /**
-   * Deletes one expression
-   * @param {Number} id - id of the expression
-   * @returns {Boolean} - True if success
+   * Delete one expression by ID
+   * @param {Number} id ID of the expression
+   * @returns {Deleted} True if success
    */
   deleteOne: async id => {
     const query = {
-      name: "delete-expression-byId",
+      name: `delete-expression-${id}`,
       text: 'DELETE FROM "expression" WHERE "id" = $1 RETURNING TRUE AS "deleted"',
       values: [id]
     };
-    const result = await client.query(query);
-    return result[0];
+    return await client.query(query);
   }
 };

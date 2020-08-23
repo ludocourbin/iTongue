@@ -1,98 +1,103 @@
-const client = require("./index");
+const client = require("../redis/cache");
+
+ /**
+ * @typedef {Object} Language
+ * @property {Number} id - ID of the language
+ * @property {String} text - Text of the language
+ * @property {Number} expression_id - ID of the relative expression
+ * @property {Number} language_id - ID of the relative language
+ * @property {String} created_at - Date of creation
+ */
+
+/**
+ * @typedef {Object} Created
+ * @property {Number} id Id of created language
+ */
+
+/**
+* @typedef {Object} UpdateFilter
+* @property {String} text New text of the language
+* @property {Number} expression_id ID of the expression related to the language
+* @property {Number} language_id ID of the language related to the language
+*/
+
+/**
+* @typedef {Object} Updated
+* @property {Boolean} updated True if succes
+*/
+
+ /**
+ * @typedef {Object} Deleted
+ * @property {Boolean} deleted True if succes
+ */
 
 module.exports = {
   /**
-   * Creates a new language
-   * @param {String} name - name of the language
-   * @param {String} code - code of the language
-   * @returns {Number} - Id of the language
+   * Create a new language
+   * @param {String} name Name of the language
+   * @param {String} code Code of the language
+   * @returns {Created} Id of the language
    */
-  create: async ({ name, code }) => {
-    const query = 'INSERT INTO "language"("name", "code") VALUES($1, $2) RETURNING "id"';
-    const result = await client.query(query, [name, code]);
-    return result.rows;
+  create: async (name, code) => {
+    const query = {
+      name: `create-language-${code}`,
+      text: 'INSERT INTO "language"("name", "code") VALUES($1, $2) RETURNING "id"',
+      values: [name, code]
+    };
+    return await client.query(query);
   },
 
   /**
-   *Find all languges
-   * @returns {Array} - Set of objects representing available languages
+   * Find all languages
+   * @returns {Language[]} Available languages
    */
   findAll: async () => {
-    const query = 'SELECT * FROM "language"';
-    const result = await client.query(query);
-    return result.rows;
+    const query = {
+      name: "read-all-languages",
+      text: 'SELECT * FROM "language"'
+    };
+    return await client.query(query);
   },
 
   /**
-   * This method returns asked language
-   * @property {String} name - Name of the language
-   * @returns {Object} - Object representing the language
+   * Find one language by ID
+   * @param {Number} id ID of the language
+   * @returns {Language} Queried language
+   */
+  findOneById: async id => {
+    const query = {
+      name: `read-language-${id}`,
+      text: 'SELECT * FROM "language" WHERE "id" = $1',
+      values: [id]
+    };
+    return await client.query(query);
+  },
+
+  /**
+   * Find one languge by name
+   * @param {String} name Name of the language
+   * @returns {Language} Queried language
    */
   findOneByName: async name => {
-    try {
-      const query = {
-        name: "get-language-by-name",
-        text: `
-          SELECT * 
-            FROM "language" 
-           WHERE name = $1
-          `,
-        values: [name]
-      };
-
-      const result = await client.query(query);
-      console.log(result);
-
-      if (!result.rows) {
-        throw new Error(`Unexpected issue: unable to get language : ${name}`);
-      }
-
-      if (result.rows.length === 0) {
-        return {};
-      }
-
-      return result.rows[0];
-    } catch (error) {
-      console.log(error);
-    }
+    const query = {
+      name: `read-language-${name}`,
+      text: 'SELECT * FROM "language" WHERE "name" = $1',
+      values: [name]
+    };
+    return await client.query(query);
   },
 
   /**
-   * This method returns asked language
-   * @property {String} code - Code of the language
-   * @returns {Object} - Object representing the language
+   * Find one languges by code
+   * @param {String} code Code of the language
+   * @returns {Language} Queried language
    */
   findOneByCode: async code => {
-    try {
-      const query = {
-        name: "get-language-by-code",
-        text: `
-          SELECT * 
-            FROM "language" 
-           WHERE "code" = $1
-          `,
-        values: [code]
-      };
-
-      const result = await client.query(query);
-
-      if (!result.rows) {
-        throw new Error(`Unexpected issue: unable to get language : ${code}`);
-      }
-
-      if (result.rows.length === 0) {
-        return {};
-      }
-
-      return result.rows[0];
-    } catch (error) {
-      console.log(error);
-    }
-  },
-
-  // Error handling with details
-  LanguageAlreadyExistsException: function (detail) {
-    this.message = detail;
-    this.toString = () => this.message;
+    const query = {
+      name: `read-language-${code}`,
+      text: 'SELECT * FROM "language" WHERE "code" = $1',
+      values: [code]
+    };
+    return await client.query(query);
   }
 };

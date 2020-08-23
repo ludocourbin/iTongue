@@ -69,8 +69,6 @@ const Recording = ({
         const languageObject = data.options.find(
             (translation) => translation.value === data.value
         );
-        console.log(languageObject.key);
-        // console.log(languageObject.language);
         setTranslationId(languageObject.key);
     };
 

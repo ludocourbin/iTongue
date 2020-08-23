@@ -49,6 +49,7 @@ const initialState = {
         password: "",
         stayConnected: true,
     },
+    loginErrorMessage: "",
     showPassword: false,
     errorMessagePassword: "",
     errorMessageEmail: "",
@@ -206,6 +207,7 @@ export default (state = initialState, action = {}) => {
                 errorMailUsed: "",
                 errorMessageEmail: "",
                 allUsersList: [],
+                loginErrorMessage: "",
             };
         case FETCH_ALL_USERS:
             return {

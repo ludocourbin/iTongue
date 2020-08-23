@@ -3,7 +3,7 @@ import { Card, Icon, Progress } from "semantic-ui-react";
 import getBlobDuration from "get-blob-duration";
 
 const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
-    const { id, audioUrl, url, blobURL } = audio;
+    const { id, url, blobURL } = audio;
 
     const audioRef = useRef(null);
     const progress = useRef(null);
@@ -13,11 +13,14 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
     const [duration, setDuration] = useState(0);
     const [percent, setPercent] = useState(0);
     const [mouseDown, setMouseDown] = useState(false);
+    const [displayCurrentime, setDisplayCurrentTime] = useState(false);
 
     const togglePlaying = () => {
         setPlaying(!playing);
+
         if (!playing) {
             audioRef.current.play();
+
             setIrecordSelectedId(id);
         } else {
             audioRef.current.pause();
@@ -28,6 +31,9 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
         const scrubTime =
             (e.nativeEvent.offsetX / progress.current.offsetWidth) *
             audioRef.current.duration;
+        if (!audioRef.current.currentTime) {
+            return;
+        }
         audioRef.current.currentTime = scrubTime;
     };
 
@@ -45,8 +51,10 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
     }, [irecordSelectedId, id]);
 
     useEffect(() => {
-        const percentAudio = (currentTime / duration) * 100;
-        setPercent(percentAudio);
+        if (displayCurrentime) {
+            const percentAudio = (currentTime / duration) * 100;
+            setPercent(percentAudio);
+        }
     }, [currentTime, percent, duration]);
 
     const padZero = (v) => {
@@ -68,9 +76,17 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
     const handleDuration = async () => {
         if (audio.blob) {
             const duration = await getBlobDuration(audio.blob);
+            setDisplayCurrentTime(true);
             setDuration(duration);
         } else {
-            setDuration(audioRef.current.duration);
+            while (audioRef.current.duration === Infinity) {
+                await new Promise((r) => setTimeout(r, 10));
+                audioRef.current.currentTime = 10000000 * Math.random();
+            }
+            audioRef.current.currentTime = 0.0;
+            setDisplayCurrentTime(true);
+            let duration = audioRef.current.duration;
+            setDuration(duration);
         }
     };
     return (
@@ -79,15 +95,12 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
                 id={id}
                 ref={audioRef}
                 type="audio/mp3"
-                src={
-                    "https://itongue.herokuapp.com/" + url ||
-                    blobURL ||
-                    audioUrl
-                }
+                src={blobURL || "https://itongue.herokuapp.com/" + url}
                 onLoadedData={handleDuration}
                 onTimeUpdate={() => {
                     setCurrentTime(audioRef.current.currentTime);
                 }}
+                preload="auto"
             />
             <Icon className="icon" onClick={handleStop} name="stop" />
             <Icon
@@ -118,3 +131,5 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
 };
 
 export default Audio;
+
+// url

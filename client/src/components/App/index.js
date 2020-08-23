@@ -24,7 +24,10 @@ const App = ({ user, isLogged }) => {
         <div className="App">
             <Switch>
                 <Route exact path="/" component={Home} />
-                <Route path="/signup" render={() => <Signup />} />
+                <Route
+                    path="/signup"
+                    render={() => (isLogged ? <Redirect to="/" /> : <Signup />)}
+                />
                 <Route
                     path="/login"
                     render={() => (isLogged ? <Redirect to="/" /> : <Login />)}

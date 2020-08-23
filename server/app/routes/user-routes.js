@@ -115,7 +115,7 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *     tags:
  *       - Users
  *     summary: User profile
- *     description: Information about a user, his records and languages
+ *     description: Information about a user, his records and languages.
  *     parameters:
  *      - in: path
  *        name: id
@@ -139,14 +139,14 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *       "400":
  *         $ref: "#/components/responses/BadRequest"
  *       "404":
- *         $ref: "#/components/responses/NotFound"
+ *         $ref: "#/components/responses/UserNotFound"
  *   post:
  *     tags:
  *       - Users
  *     security:
  *       - BearerJWT: []
  *     summary: User profile edition
- *     description: Profile edit form submission. Modification possiblities include the learned and taught languages, password, name, custom slug, and bio
+ *     description: Profile edit form submission. Modification possiblities include the learned and taught languages, password, name, custom slug, and bio.
  *     parameters:
  *      - in: path
  *        name: id
@@ -181,6 +181,8 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *       "404":
+ *         $ref: "#/components/responses/UserNotFound"
  *   delete:
  *     tags:
  *       - Users
@@ -197,15 +199,13 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *        description: Primary key of the user to get.
  *     responses:
  *       "204":
- *         description: Success. An empty object.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
+ *         $ref: "#/components/responses/NoContent"
  *       "400":
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *       "404":
+ *         $ref: "#/components/responses/UserNotFound"
  */
 router
   .route("/:id(\\d+)")
@@ -244,10 +244,68 @@ router
  *       "400":
  *         $ref: "#/components/responses/BadRequest"
  *       "404":
- *         $ref: "#/components/responses/NotFound"
+ *         $ref: "#/components/responses/UserNotFound"
  */
 router.get("/:slug([a-z\\d]+(?:-[a-z\\d]+)*)", userController.showOne);
 
+/**
+ * @swagger
+ * /users/{id}/slug:
+ *   post:
+ *     tags:
+ *       - Users
+ *     security:
+ *       - BearerJWT: []
+ *     summary: User custom slug edition
+ *     description: User slug edit form submission. Updates the slug if there is no conflict in database, suggests an available one otherwise.
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          $ref: "#/components/schemas/PrimaryKey"
+ *        required: true
+ *        description: Primary key of the user to get.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               slug:
+ *                 $ref: "#/components/schemas/Slug"
+ *             required:
+ *               -slug
+ *         application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               slug:
+ *                 $ref: "#/components/schemas/Slug"
+ *             required:
+ *               -slug
+ *     responses:
+ *       "204":
+ *         $ref: "#/components/responses/NoContent"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ *       "404":
+ *         $ref: "#/components/responses/UserNotFound"
+ *       "409":
+ *         description: Conflict. The requested slug is already in use.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     availableSlug:
+ *                       $ref: "#/components/schemas/Slug"
+ */
 router.post("/:id(\\d+)/slug", ownerMiddleware, validator(userSchema), userController.updateSlug);
 
 router.post("/:id(\\d+)/language", ownerMiddleware, userController.addLanguage);

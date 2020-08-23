@@ -185,17 +185,20 @@ components:
       example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
       format: JWT
 
-    Error:
+    Errors:
       type: object
       properties:
         errors:
           type: array
           items:
-            type: object
-            properties:
-              msg:
-                type: string
-                example: An error has occured
+            $ref: "#components/schemas/Error"
+
+    Error:
+      type: object
+      properties:
+        msg:
+          type: string
+          example: An error has occured
 
   responses:
     BadRequest:
@@ -203,28 +206,35 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#components/schemas/Error"
+            $ref: "#components/schemas/Errors"
 
     Conflict:
       description: Conflict. Field(s) already set in database
       content:
         application/json:
           schema:
-            $ref: "#components/schemas/Error"
+            $ref: "#components/schemas/Errors"
 
     Unauthorized:
       description: Unauthorized. The authentication process failed.
       content:
         application/json:
           schema:
-            $ref: "#components/schemas/Error"
+            $ref: "#components/schemas/Errors"
 
-    NotFound:
-      description: Not Found. The requested resource can't be found.
+    UserNotFound:
+      description: Not Found. No user corresponding to the specified parameter exists in our database.
       content:
         application/json:
           schema:
-            $ref: "#components/schemas/Error"
+            $ref: "#components/schemas/Errors"
+
+    NoContent:
+      description: Success. An empty object.
+      content:
+        application/json:
+          schema:
+            type: object
 
   securitySchemes:
     BearerJWT:

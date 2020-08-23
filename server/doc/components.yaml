@@ -29,13 +29,9 @@ components:
           items:
             $ref: "#components/schemas/Record"
         learnedLanguages:
-          type: array
-          items:
-            $ref: "#components/schemas/Language"
+          $ref: "#components/schemas/Languages"
         taughtLanguages:
-          type: array
-          items:
-            $ref: "#components/schemas/Language"
+          $ref: "#components/schemas/Languages"
 
     UpdatedUser:
       type: object
@@ -56,13 +52,9 @@ components:
           example: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla turpis venenatis, ultrices felis quis, consectetur purus cras amet.
           maxLength: 140
         learnedLanguages:
-          type: array
-          items:
-            $ref: "#components/schemas/Language"
+          $ref: "#components/schemas/Languages"
         taughtLanguages:
-          type: array
-          items:
-            $ref: "#components/schemas/Language"
+          $ref: "#components/schemas/Languages"
 
     NewUser:
       type: object
@@ -109,6 +101,12 @@ components:
         translation:
           $ref: "#components/schemas/Translation"
 
+    Languages:
+      type: array
+      items:
+        $ref: "#components/schemas/Language"
+      description: An array of languages.
+
     Language:
       type: object
       properties:
@@ -126,10 +124,11 @@ components:
       type: object
       properties:
         language_id:
-          $ref: "#components/schemas/PrimaryKey"
+          $ref: "#components/schemas/LanguagePk"
         role:
           type: string
           enum: [learner, teacher]
+          description: Indicates the type of language, i.e. a learned or a taught one.
       required:
         - language_id
         - role
@@ -138,7 +137,7 @@ components:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/PrimaryKey"
+          $ref: "#components/schemas/TranslationPk"
         text:
           type: string
           example: How are you ?
@@ -173,6 +172,16 @@ components:
       type: integer
       minimum: 1
       example: 24
+
+    TranslationPk:
+      allOf:
+        - "#components/schemas/PrimaryKey"
+        - description: The primary key of the recorded translation.
+
+    LanguagePk:
+      allOf:
+        - "#components/schemas/PrimaryKey"
+        - description: The primary key of the language.
 
     Firstname:
       type: string
@@ -223,9 +232,16 @@ components:
     LanguagePk:
       name: language_id
       schema:
-        $ref: "#components/schemas/PrimaryKey"
+        $ref: "#components/schemas/LanguagePk"
       required: true
       description: Primary key of the language.
+
+    RecordPk:
+      name: language_id
+      schema:
+        $ref: "#components/schemas/PrimaryKey"
+      required: true
+      description: Primary key of the record.
 
   responses:
     BadRequest:
@@ -251,6 +267,13 @@ components:
 
     UserNotFound:
       description: Not Found. No user corresponding to the specified parameter exists in our database.
+      content:
+        application/json:
+          schema:
+            $ref: "#components/schemas/Errors"
+
+    RecordNotFound:
+      description: Not Found. No record corresponding to the specified parameter exists in our database.
       content:
         application/json:
           schema:

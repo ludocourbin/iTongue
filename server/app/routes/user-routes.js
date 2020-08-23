@@ -19,7 +19,7 @@ const router = express.Router();
  *   get:
  *     tags:
  *       - Users
- *     summary: Returns a list of users
+ *     summary: Show a list of users
  *     description: List of **users** with detail about their activity on the app
  *     responses:
  *       "200":
@@ -63,7 +63,7 @@ router.route("/").get(userController.showAll).post(validator(userSchema), userCo
  *   post:
  *     tags:
  *       - Users
- *     summary: User authentication
+ *     summary: Authenticate a user
  *     description: Login form submission. Returns the logged user if the authentication process succeeds.
  *     requestBody:
  *       required: true
@@ -104,7 +104,7 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *   get:
  *     tags:
  *       - Users
- *     summary: User profile
+ *     summary: Show a user profile
  *     description: Information about a user, his records and languages.
  *     parameters:
  *     - in: path
@@ -131,7 +131,7 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *       - Users
  *     security:
  *       - BearerJWT: []
- *     summary: User profile edition
+ *     summary: Update a user profile
  *     description: Profile edit form submission. Modification possiblities include the learned and taught languages, password, name, custom slug, and bio.
  *     parameters:
  *     - in: path
@@ -170,7 +170,7 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *       - Users
  *     security:
  *       - BearerJWT: []
- *     summary: User account deletion
+ *     summary: Delete a user account
  *     description: User account deletion. This operation requires administrator rights.
  *     parameters:
  *     - in: path
@@ -197,7 +197,7 @@ router
  *   get:
  *     tags:
  *       - Users
- *     summary: User profile
+ *     summary: Show a user profile
  *     description: Information about a user, his records and languages
  *     parameters:
  *      - in: path
@@ -234,7 +234,7 @@ router.get("/:slug([a-z\\d]+(?:-[a-z\\d]+)*)", userController.showOne);
  *       - Users
  *     security:
  *       - BearerJWT: []
- *     summary: User custom slug edition
+ *     summary: Edit the user custom slug
  *     description: User slug edit form submission. Updates the slug if there is no conflict in database, suggests an available one otherwise.
  *     parameters:
  *     - in: path
@@ -292,7 +292,7 @@ router.post("/:id(\\d+)/slug", ownerMiddleware, validator(userSchema), userContr
  *     security:
  *       - BearerJWT: []
  *     summary: Add a language to a user
- *     description: Adds a new language to a user. It can be a learned language or a tauthgt one.
+ *     description: Add a new language to a user. It can be a learned language or a tauthgt one.
  *     parameters:
  *     - in: path
  *       $ref: "#/components/parameters/UserPk"
@@ -328,7 +328,7 @@ router.post("/:id(\\d+)/language", ownerMiddleware, userController.addLanguage);
  *       - Languages
  *     security:
  *       - BearerJWT: []
- *     summary: User language deletion
+ *     summary: Delete a user language
  *     description: User language deletion. Removal of one of the user learned or taught languages.
  *     parameters:
  *     - in: path
@@ -356,6 +356,55 @@ router.delete(
   userController.removeLanguage
 );
 
+/**
+ * @swagger
+ * /users/{id}/avatar:
+ *   post:
+ *     tags:
+ *       - Users
+ *     security:
+ *       - BearerJWT: []
+ *     summary: Update the user profile picture
+ *     description: Image file upload to replace the user profile picture.
+ *     parameters:
+ *     - in: path
+ *       $ref: "#/components/parameters/UserPk"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               avatar:
+ *                 type: string
+ *                 format: binary
+ *                 description: The image file to upload.
+ *             required:
+ *               - avatar
+ *           encoding:
+ *             avatar:
+ *               contentType: image/png, image/jpeg
+ *     responses:
+ *       "200":
+ *         description: Success. An object containing the url to the newly upladed profile picture.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     avatarUrl:
+ *                      $ref: "#/components/schemas/URL"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ *       "404":
+ *         $ref: "#/components/responses/UserNotFound"
+ */
 router.post(
   "/:id(\\d+)/avatar",
   ownerMiddleware,
@@ -363,6 +412,59 @@ router.post(
   userController.updateAvatar
 );
 
+/**
+ * @swagger
+ * /users/{id}/record:
+ *   post:
+ *     tags:
+ *       - Users
+ *       - Records
+ *     security:
+ *       - BearerJWT: []
+ *     summary: Upload a user record
+ *     description: Uploading an audio file corresponding to a new recording of a translation by a user.
+ *     parameters:
+ *     - in: path
+ *       $ref: "#/components/parameters/UserPk"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               record:
+ *                 type: string
+ *                 format: binary
+ *                 description: The audio file to upload.
+ *               translation_id:
+ *                 $ref: "#/components/schemas/TranslationPk"
+ *             required:
+ *               - record
+ *               - translation_id
+ *           encoding:
+ *             record:
+ *               contentType: audio/mp3, audio/mpeg
+ *     responses:
+ *       "200":
+ *         description: Success. An object containing the url to the newly upladed profile picture.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     avatarUrl:
+ *                      $ref: "#/components/schemas/URL"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ *       "404":
+ *         $ref: "#/components/responses/UserNotFound"
+ */
 router.post(
   "/:id(\\d+)/record",
   ownerMiddleware,
@@ -371,6 +473,32 @@ router.post(
   userController.addRecord
 );
 
+/**
+ * @swagger
+ * /users/{id}/record/{recordId}:
+ *   delete:
+ *     tags:
+ *       - Users
+ *       - Records
+ *     security:
+ *       - BearerJWT: []
+ *     summary: Delete a user record
+ *     description: User record deletion. Removal of one of the user records.
+ *     parameters:
+ *     - in: path
+ *       $ref: "#/components/parameters/UserPk"
+ *     - in: path
+ *       $ref: "#/components/parameters/RecordPk"
+ *     responses:
+ *       "204":
+ *         $ref: "#/components/responses/NoContent"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ *       "404":
+ *         $ref: "#/components/responses/RecordNotFound"
+ */
 router.delete("/:id/record/:recordId", ownerMiddleware, userController.removeRecord);
 
 module.exports = router;

@@ -49,9 +49,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 
     return (
         <Layout>
-            
              {  !userSlugInfos.slug  && <Redirect to={`/user/${currentUser.slug}`} /> }
-            
             <div className="user-profil">
                 <Segment className="user-profil_header">
                     <div className="container_left">
@@ -82,11 +80,10 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                 <div className="flags">
                                     { taughtLanguages && taughtLanguages.map(language => (
                                         <Image key={language.id} src={`https://www.countryflags.io/${language.code}/flat/32.png`} className="flag_image"/>
-                                    ))}
+                                    )) }
                                 </div>
                             </div>
                             <div className="second-row_ilearn">
-                                 
                                 <div className="title">iLearn</div> 
                                 <div className="flags">
                                     { learnedLanguages && learnedLanguages.map((language, i) => (

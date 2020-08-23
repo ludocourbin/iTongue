@@ -319,6 +319,37 @@ router.post("/:id(\\d+)/slug", ownerMiddleware, validator(userSchema), userContr
  */
 router.post("/:id(\\d+)/language", ownerMiddleware, userController.addLanguage);
 
+/**
+ * @swagger
+ * /users/{id}/languagage/{languageId}/{role}:
+ *   delete:
+ *     tags:
+ *       - Users
+ *       - Languages
+ *     security:
+ *       - BearerJWT: []
+ *     summary: User language deletion
+ *     description: User language deletion. Removal of one of the user learned or taught languages.
+ *     parameters:
+ *     - in: path
+ *       $ref: "#/components/parameters/UserPk"
+ *     - in: path
+ *       $ref: "#/components/parameters/LanguagePk"
+ *     - in: path
+ *       name: role
+ *       schema:
+ *         type: string
+ *         enum: [learner, teacher]
+ *       required: true
+ *       description: Indicates which type of language to remove, a learned or a taught one.
+ *     responses:
+ *       "204":
+ *         $ref: "#/components/responses/NoContent"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ */
 router.delete(
   "/:id(\\d+)/language/:languageId(\\d+)/:role",
   ownerMiddleware,

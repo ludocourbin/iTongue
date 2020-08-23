@@ -220,6 +220,13 @@ components:
       required: true
       description: Primary key of the user.
 
+    LanguagePk:
+      name: language_id
+      schema:
+        $ref: "#components/schemas/PrimaryKey"
+      required: true
+      description: Primary key of the language.
+
   responses:
     BadRequest:
       description: Bad request. Missing parameter(s) or invalid value(s).

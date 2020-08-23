@@ -122,6 +122,18 @@ components:
           example: en
           pattern: "[a-z]{2,4}"
 
+    UserLanguage:
+      type: object
+      properties:
+        language_id:
+          $ref: "#components/schemas/PrimaryKey"
+        role:
+          type: string
+          enum: [learner, teacher]
+      required:
+        - language_id
+        - role
+
     Translation:
       type: object
       properties:
@@ -200,16 +212,24 @@ components:
           type: string
           example: An error has occured
 
+  parameters:
+    UserPk:
+      name: id
+      schema:
+        $ref: "#components/schemas/PrimaryKey"
+      required: true
+      description: Primary key of the user.
+
   responses:
     BadRequest:
-      description: Bad request. Missing parameter(s) or invalid value(s)
+      description: Bad request. Missing parameter(s) or invalid value(s).
       content:
         application/json:
           schema:
             $ref: "#components/schemas/Errors"
 
     Conflict:
-      description: Conflict. Field(s) already set in database
+      description: Conflict. Same field(s) already set in database.
       content:
         application/json:
           schema:
@@ -228,6 +248,28 @@ components:
         application/json:
           schema:
             $ref: "#components/schemas/Errors"
+
+    Created:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  id:
+                    $ref: "#/components/schemas/PrimaryKey"
+
+    CreatedUser:
+      allOf:
+        - $ref: "#components/responses/Created"
+        - description: Success. Id of the newly created user.
+
+    CreatedLanguage:
+      allOf:
+        - $ref: "#components/responses/Created"
+        - description: Success. Id of the newly created language.
 
     NoContent:
       description: Success. An empty object.

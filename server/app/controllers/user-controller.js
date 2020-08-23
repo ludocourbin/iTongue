@@ -102,7 +102,7 @@ module.exports = {
 
     try {
       const result = await userDatamapper.addLanguage(userLanguage);
-      res.json({ data: result });
+      res.status(201).json({ data: result });
     } catch (err) {
       next(err);
     }

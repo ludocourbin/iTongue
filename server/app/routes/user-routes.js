@@ -49,17 +49,7 @@ const router = express.Router();
  *             $ref: "#/components/schemas/NewUser"
  *     responses:
  *       "201":
- *         description: Success. Id of the newly created user
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       $ref: "#/components/schemas/PrimaryKey"
+ *         $ref: "#components/responses/CreatedUser"
  *       "400":
  *         $ref: "#/components/responses/BadRequest"
  *       "409":
@@ -117,12 +107,8 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *     summary: User profile
  *     description: Information about a user, his records and languages.
  *     parameters:
- *      - in: path
- *        name: id
- *        schema:
- *          $ref: "#/components/schemas/PrimaryKey"
- *        required: true
- *        description: Primary key of the user to get.
+ *     - in: path
+ *       $ref: "#/components/parameters/UserPk"
  *     responses:
  *       "200":
  *         description: Success. An object containing the detail of the user activity.
@@ -148,12 +134,8 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *     summary: User profile edition
  *     description: Profile edit form submission. Modification possiblities include the learned and taught languages, password, name, custom slug, and bio.
  *     parameters:
- *      - in: path
- *        name: id
- *        schema:
- *          $ref: "#/components/schemas/PrimaryKey"
- *        required: true
- *        description: Primary key of the user to get.
+ *     - in: path
+ *       $ref: "#/components/parameters/UserPk"
  *     requestBody:
  *       content:
  *         application/json:
@@ -191,12 +173,8 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *     summary: User account deletion
  *     description: User account deletion. This operation requires administrator rights.
  *     parameters:
- *      - in: path
- *        name: id
- *        schema:
- *          $ref: "#/components/schemas/PrimaryKey"
- *        required: true
- *        description: Primary key of the user to get.
+ *     - in: path
+ *       $ref: "#/components/parameters/UserPk"
  *     responses:
  *       "204":
  *         $ref: "#/components/responses/NoContent"
@@ -259,12 +237,8 @@ router.get("/:slug([a-z\\d]+(?:-[a-z\\d]+)*)", userController.showOne);
  *     summary: User custom slug edition
  *     description: User slug edit form submission. Updates the slug if there is no conflict in database, suggests an available one otherwise.
  *     parameters:
- *      - in: path
- *        name: id
- *        schema:
- *          $ref: "#/components/schemas/PrimaryKey"
- *        required: true
- *        description: Primary key of the user to get.
+ *     - in: path
+ *       $ref: "#/components/parameters/UserPk"
  *     requestBody:
  *       required: true
  *       content:
@@ -308,6 +282,41 @@ router.get("/:slug([a-z\\d]+(?:-[a-z\\d]+)*)", userController.showOne);
  */
 router.post("/:id(\\d+)/slug", ownerMiddleware, validator(userSchema), userController.updateSlug);
 
+/**
+ * @swagger
+ * /users/{id}/language:
+ *   post:
+ *     tags:
+ *       - Users
+ *       - Languages
+ *     security:
+ *       - BearerJWT: []
+ *     summary: Add a language to a user
+ *     description: Adds a new language to a user. It can be a learned language or a tauthgt one.
+ *     parameters:
+ *     - in: path
+ *       $ref: "#/components/parameters/UserPk"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/UserLanguage"
+ *         application/x-www-form-urlencoded:
+ *           schema:
+ *             $ref: "#/components/schemas/UserLanguage"
+ *     responses:
+ *       "201":
+ *         $ref: "#/components/responses/CreatedLanguage"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ *       "404":
+ *         $ref: "#/components/responses/UserNotFound"
+ *       "409":
+ *         $ref: "#/components/responses/Conflict"
+ */
 router.post("/:id(\\d+)/language", ownerMiddleware, userController.addLanguage);
 
 router.delete(

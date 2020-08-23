@@ -131,4 +131,3 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 };
 
 export default UserProfil;
-

@@ -46,9 +46,10 @@ export const usersMiddleware = (store) => (next) => (action) => {
         case EDIT_PROFIL : {
 
             /* On récupere les data editées depuis le store*/
+            /* On retires celles que l'on utilise pas avec cette méthode : */
             const { 
                 id, 
-                avatarUrl: avatar_url, // a test
+                avatarUrl, // a test
                 createdAt, 
                 records, 
                 isAdmin, 
@@ -56,15 +57,18 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 taughtLanguages,
                 modifyTaughtLanguages,
                 modifylearnedLanguages,
+                password,
+                confirm,
                 ...editProfilData 
             } = store.getState().user.editProfilData;
+
+
+            const { allLanguagesList } = store.getState().languagesReducer;
 
             /*  Avec cette liste de languages, 
                 on va chercher l'id dans notre allLanguagesList 
                 pour renvoyer toutes les infos concernant cet ID 
             */
-            const { allLanguagesList } = store.getState().languagesReducer;
-
             const mapper = (role) => {
                 return role.map(learnLanguageId => {
                     return allLanguagesList.find(language => {
@@ -72,17 +76,28 @@ export const usersMiddleware = (store) => (next) => (action) => {
                             return language;
                         }
                     });
-                }) 
+                });
             };
 
+            /* On check si le param est un objet */
             var checkIsObject = (array) => array.some(  
                 value => { return typeof value == "object" } ); 
 
-            const finalData = {
+            /* On renvoie editprofildata, et on modifie deux propriétées avec certaines conditions */
+            let finalData = {
                 ...editProfilData,
                 learnedLanguages: checkIsObject(learnedLanguages) ? learnedLanguages : mapper(learnedLanguages),
                 taughtLanguages: checkIsObject(taughtLanguages) ? taughtLanguages : mapper(taughtLanguages),
             };
+
+            /* On check si le form comporte une modification de mot de passe */
+            if (password !== "" && confirm !== "") {
+                finalData= {
+                    ...finalData,
+                    password,
+                    confirm,
+                }
+            }
 
             axios({
                 method: 'POST',

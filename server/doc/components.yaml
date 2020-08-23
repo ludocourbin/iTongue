@@ -17,9 +17,7 @@ components:
           example: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla turpis venenatis, ultrices felis quis, consectetur purus cras amet.
           maxLength: 140
         slug:
-          type: string
-          example: michael-rapaport24
-          pattern: '[a-z\d]+(-[a-z\d])*'
+          $ref: "#components/schemas/Slug"
         avatarUrl:
           $ref: "#components/schemas/URL"
         isAdmin:
@@ -39,6 +37,33 @@ components:
           items:
             $ref: "#components/schemas/Language"
 
+    UpdatedUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        firstname:
+          $ref: "#components/schemas/Firstname"
+        lastname:
+          $ref: "#components/schemas/Lastname"
+        password:
+          $ref: "#components/schemas/Password"
+        confirm:
+          $ref: "#components/schemas/Password"
+        bio:
+          type: string
+          example: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla turpis venenatis, ultrices felis quis, consectetur purus cras amet.
+          maxLength: 140
+        learnedLanguages:
+          type: array
+          items:
+            $ref: "#components/schemas/Language"
+        taughtLanguages:
+          type: array
+          items:
+            $ref: "#components/schemas/Language"
+
     NewUser:
       type: object
       properties:
@@ -46,11 +71,9 @@ components:
           type: string
           format: email
         password:
-          type: string
-          example: mySecuredPa$$word
+          $ref: "#components/schemas/Password"
         confirm:
-          type: string
-          example: mySecuredPa$$word
+          $ref: "#components/schemas/Password"
         firstname:
           $ref: "#components/schemas/Firstname"
         lastname:
@@ -67,8 +90,7 @@ components:
           type: string
           format: email
         password:
-          type: string
-          example: mySecuredPa$$word
+          $ref: "#components/schemas/Password"
       required:
         - email
         - password
@@ -148,10 +170,25 @@ components:
       type: string
       example: Rapaport
 
+    Password:
+      type: string
+      example: mySecuredPa$$word
+      format: password
+
+    Slug:
+      type: string
+      example: michael-rapaport24
+      pattern: '[a-z\d]+(-[a-z\d])*'
+
+    JWT:
+      type: string
+      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+      format: JWT
+
     Error:
       type: object
       properties:
-        data:
+        errors:
           type: array
           items:
             type: object
@@ -177,6 +214,13 @@ components:
 
     Unauthorized:
       description: Unauthorized. The authentication process failed.
+      content:
+        application/json:
+          schema:
+            $ref: "#components/schemas/Error"
+
+    NotFound:
+      description: Not Found. The requested resource can't be found.
       content:
         application/json:
           schema:

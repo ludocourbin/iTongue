@@ -16,29 +16,23 @@ const router = express.Router();
 /**
  * @swagger
  * /users:
- *  get:
- *      tags:
- *        - Users
- *      summary: Returns a list of users
- *      description: List of **users** with detail about their activity on the app
- *      responses:
- *          "200":
- *              description: A JSON array of user objects with their records and languages nested in it
- *              content:
- *                application/json:
- *                  schema:
- *                    type: object
- *                    properties:
- *                      data:
- *                        type: array
- *                        items:
- *                          $ref: "#/components/schemas/User"
- */
-router.get("/", userController.showAll);
-
-/**
- * @swagger
- * /users:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Returns a list of users
+ *     description: List of **users** with detail about their activity on the app
+ *     responses:
+ *       "200":
+ *         description: A JSON array of user objects with their records and languages nested in it
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/User"
  *   post:
  *     tags:
  *       - Users
@@ -70,9 +64,8 @@ router.get("/", userController.showAll);
  *         $ref: "#/components/responses/BadRequest"
  *       "409":
  *         $ref: "#/components/responses/Conflict"
- *
  */
-router.post("/", validator(userSchema), userController.create);
+router.route("/").get(userController.showAll).post(validator(userSchema), userController.create);
 
 /**
  * @swagger
@@ -93,7 +86,7 @@ router.post("/", validator(userSchema), userController.create);
  *             $ref: "#/components/schemas/LoginForm"
  *     responses:
  *       "200":
- *         description: Success. The access token, the refresh token and the logged user.
+ *         description: Success. An object containing the access token, the refresh token and the logged user.
  *         content:
  *           application/json:
  *             schema:
@@ -102,8 +95,10 @@ router.post("/", validator(userSchema), userController.create);
  *                 data:
  *                   type: object
  *                   properties:
- *                     accessToke:
+ *                     accessToken:
+ *                       $ref: "#/components/schemas/JWT"
  *                     refreshToken:
+ *                       $ref: "#/components/schemas/JWT"
  *                     user:
  *                      $ref: "#/components/schemas/User"
  *       "400":
@@ -113,9 +108,82 @@ router.post("/", validator(userSchema), userController.create);
  */
 router.post("/login", validator(loginFormSchema), userController.login);
 
-router.get("/:id(\\d+)", userController.showOne);
-
-router.post("/:id(\\d+)", ownerMiddleware, validator(userSchema), userController.editProfile);
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: User profile
+ *     description: Information about a user, his records and languages
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          $ref: "#/components/schemas/PrimaryKey"
+ *        required: true
+ *        description: Primary key of the user to get.
+ *     responses:
+ *       "200":
+ *         description: Success. An object containing the detail of the user activity.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     user:
+ *                      $ref: "#/components/schemas/User"
+ *       "404":
+ *         $ref: "#/components/responses/NotFound"
+ *   post:
+ *     tags:
+ *       - Users
+ *     security:
+ *       - BearerJWT: []
+ *     summary: User profile edition
+ *     description: Profile edit form submission. Modification possiblities include the learned and taught languages, password, name, custom slug, and bio
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          $ref: "#/components/schemas/PrimaryKey"
+ *        required: true
+ *        description: Primary key of the user to get.
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/UpdatedUser"
+ *         application/x-www-form-urlencoded:
+ *           schema:
+ *             $ref: "#/components/schemas/UpdatedUser"
+ *     responses:
+ *       "204":
+ *         description: Success. An object containing the new access token and refresh token taking into account the amendments.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     accessToken:
+ *                       $ref: "#/components/schemas/JWT"
+ *                     refreshToken:
+ *                       $ref: "#/components/schemas/JWT"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ */
+router
+  .route("/:id(\\d+)")
+  .get(userController.showOne)
+  .post(ownerMiddleware, validator(userSchema), userController.editProfile);
 
 router.get("/:slug([a-z\\d]+(?:-[a-z\\d]+)*)", userController.showOne);
 

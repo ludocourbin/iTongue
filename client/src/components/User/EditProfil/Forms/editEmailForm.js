@@ -12,11 +12,10 @@ const EditEmailForm = (props) => {
 
     return (
         <div className="edit-profil_email">
-            <h3 className="edit-profil_title">Modification de l'email</h3>
             <Form onSubmit={handdleSubmit}>
                 <Form.Group widths="equal">
                     <Form.Field>
-                        <span>Ancien email</span>
+                        <span className="edit-profil_label">Email actuel</span>
                         <Input 
                         name="old_email"
                         type="email"
@@ -25,7 +24,7 @@ const EditEmailForm = (props) => {
                         />
                     </Form.Field>
                     <Form.Field>
-                        <span>Nouveau email</span>
+                        <span className="edit-profil_label">Nouveau email</span>
                         <Input 
                         name="email"
                         type="email"
@@ -38,6 +37,7 @@ const EditEmailForm = (props) => {
                     type="submit"
                     content="Enregistrer l'email"
                     className="edit-profil_formbtn"
+                    size="small"
                 />
             </Form>
         </div>

@@ -28,7 +28,6 @@ const EditProfilForm = (props) => {
 
     return (
         <div className="edit-profil_profil">
-            <h3 className="edit-profil_title">Modification du profil</h3>
             <div className="edit-profil_container">
                 <UpdateAvatar
                     avatarUrl={profilData.avatarUrl} 
@@ -37,7 +36,7 @@ const EditProfilForm = (props) => {
                 />
                 <div className="edit-profil_container__toggle">
                     <div className="toggle_container">
-                        <span>Profil Privé</span>
+                        <span className="edit-profil_label">Profil Privé</span>
                         <Checkbox 
                         toggle 
                         name="toggle_privateprofil" 
@@ -45,7 +44,7 @@ const EditProfilForm = (props) => {
                         />
                     </div>
                     <div className="toggle_container">
-                        <span>Notifications</span>
+                        <span className="edit-profil_label">Notifications</span>
                         <Checkbox 
                         toggle 
                         name="toggle_notifications" 
@@ -54,18 +53,21 @@ const EditProfilForm = (props) => {
                     </div>
                 </div>
             </div>
+            
             <Form onSubmit={handdleSubmit}>
                 <Form.Field>
-                    <span>Bio</span>
+                    <span className="edit-profil_label">Bio</span>
                     <TextArea 
                     name="bio"
                     value={profilData.bio}
                     onChange={handdleInputChange}
+                    placeholder={"Une petite introduction pour ton profil.."}
+                    maxLength="140"
                     />
                 </Form.Field>
                 <Form.Group widths="equal">
                     <Form.Field>
-                        <span>Prénom</span>
+                        <span className="edit-profil_label">Prénom</span>
                         <Input 
                         name="firstname"
                         value={profilData.firstname}
@@ -73,7 +75,7 @@ const EditProfilForm = (props) => {
                         />
                     </Form.Field>
                     <Form.Field>
-                        <span>Nom</span>
+                        <span className="edit-profil_label">Nom</span>
                         <Input 
                         name="lastname"
                         value={profilData.lastname}
@@ -83,7 +85,7 @@ const EditProfilForm = (props) => {
                 </Form.Group>
                 <Form.Group widths="equal">
                     <Form.Field>
-                        <span>iTeach</span>
+                        <span className="edit-profil_label">iTeach</span>
                         <Dropdown 
                         multiple 
                         selection 
@@ -95,7 +97,7 @@ const EditProfilForm = (props) => {
                         />
                     </Form.Field>
                     <Form.Field>
-                        <span>iLearn</span>
+                        <span className="edit-profil_label">iLearn</span>
                         <Dropdown 
                         multiple 
                         selection 
@@ -111,6 +113,7 @@ const EditProfilForm = (props) => {
                 type="submit"
                 content="Enregistrer le profil"
                 className="edit-profil_formbtn"
+                size="small"
                 />
             </Form>
         </div>

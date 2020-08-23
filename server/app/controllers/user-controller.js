@@ -67,7 +67,7 @@ module.exports = {
         slug: userSlug
       });
 
-      res.json({ data: result });
+      res.status(201).json({ data: result });
     } catch (err) {
       next(err);
     }

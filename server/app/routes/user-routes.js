@@ -26,10 +26,51 @@ const router = express.Router();
  *              content:
  *                application/json:
  *                  schema:
- *                    $ref: '#/components/schemas/User'
+ *                    type: object
+ *                    properties:
+ *                      data:
+ *                        type: array
+ *                        items:
+ *                          $ref: '#/components/schemas/User'
  */
-
 router.get("/", userController.showAll);
+
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     tags:
+ *       - Users
+ *     summary: Register a new user
+ *     description: Registration form submission. Returns the primary key of the newly created user if no error occurs.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/NewUser"
+ *         application/x-www-form-urlencoded:
+ *           schema:
+ *             $ref: "#/components/schemas/NewUser"
+ *     responses:
+ *       "201":
+ *         description: Success. Id of the newly created user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       $ref: "#/components/schemas/PrimaryKey"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "409":
+ *         $ref: "#/components/responses/Conflict"
+ *
+ */
 
 router.post("/", validator(userSchema), userController.create);
 

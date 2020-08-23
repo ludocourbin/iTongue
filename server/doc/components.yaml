@@ -4,16 +4,14 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          $ref: "#components/schemas/PrimaryKey"
         email:
           type: string
           format: email
         firstname:
-          type: string
-          example: Michael
+          $ref: "#components/schemas/Firstname"
         lastname:
-          type: string
-          example: Rapaport
+          $ref: "#components/schemas/Lastname"
         bio:
           type: string
           example: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla turpis venenatis, ultrices felis quis, consectetur purus cras amet.
@@ -41,11 +39,32 @@ components:
           items:
             $ref: "#components/schemas/Language"
 
+    NewUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          example: mySecuredPa$$word
+        confirm:
+          type: string
+          example: mySecuredPa$$word
+        firstname:
+          $ref: "#components/schemas/Firstname"
+        lastname:
+          $ref: "#components/schemas/Lastname"
+      required:
+        - email
+        - password
+        - confirm
+
     Record:
       type: object
       properties:
         id:
-          type: integer
+          $ref: "#components/schemas/PrimaryKey"
         url:
           $ref: "#components/schemas/URL"
         createdAt:
@@ -59,7 +78,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          $ref: "#components/schemas/PrimaryKey"
         name:
           type: string
           example: english
@@ -72,7 +91,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          $ref: "#components/schemas/PrimaryKey"
         text:
           type: string
           example: How are you ?
@@ -87,7 +106,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          $ref: "#components/schemas/PrimaryKey"
         label:
           type: string
           example: "greetings"
@@ -102,3 +121,43 @@ components:
     DateTZ:
       type: string
       format: date-time
+
+    PrimaryKey:
+      type: integer
+      minimum: 1
+      example: 24
+
+    Firstname:
+      type: string
+      example: Michael
+
+    Lastname:
+      type: string
+      example: Rapaport
+
+    Error:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              msg:
+                type: string
+                example: An error has occured
+
+  responses:
+    BadRequest:
+      description: Bad request. Missing field(s) or invalid value(s)
+      content:
+        application/json:
+          schema:
+            $ref: "#components/schemas/Error"
+
+    Conflict:
+      description: Conflict. Field(s) already set in database
+      content:
+        application/json:
+          schema:
+            $ref: "#components/schemas/Error"

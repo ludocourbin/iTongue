@@ -1,0 +1,64 @@
+section {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.accordion {
+    &-item {
+        background-color:orange;
+        border-radius: .4rem;
+        margin-bottom:1rem;
+        padding: 1rem;
+        box-shadow : .5rem 2px .5rem rgba(0,0,0,.1);
+    }
+    &-link {
+        font-size : 1.6rem;
+        color:rgba(255,255,255, .8);
+        background-color: blue;
+        text-decoration:none;
+        width:100%;
+        display:flex;
+        align-items:center;
+        justify-content: space-between;
+        padding:1rem 0;
+        &-icon{
+            color:red;
+            padding:.5rem;
+            &-show{
+
+            }
+            &-hide{
+                display:none !important;
+            }
+        }
+    } 
+}
+
+.answer{
+    max-height:0 ;
+    overflow:hidden;
+    position:relative;
+    background-color:red;
+    
+}
+
+.answer::before{
+    content:"";
+    position: absolute;
+    width:.6rem;
+    height:90%;
+    background-color: green;
+    top:50%;
+    left:0;
+    transform: translateY(-50%);
+}
+
+.answer p {
+    font-size: 1.4rem;
+    color:white;
+    padding:2rem;
+}
+
+.accordion-item:target .answer {
+    max-height: 20rem ;
+}

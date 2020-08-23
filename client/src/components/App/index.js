@@ -8,6 +8,7 @@ import Search from "../Search";
 import Login from "../../containers/Login";
 import IrecordsPage from "../IrecordsPage";
 import IusersPage from "../IusersPage";
+import Contact from "../Contact";
 import Home from "../Home";
 
 /* Styles */
@@ -36,6 +37,7 @@ const App = ({ user, isLogged }) => {
                 <Route path="/irecords" component={IrecordsPage} />
                 <Route path="/users" component={IusersPage} />
                 <Route path="/admin" component={Admin} />
+                <Route path="/contact" component={Contact} />
                 <Route>
                     <h1>La page n'existe pas</h1>
                 </Route>

@@ -1,3 +1,7 @@
+
+/*  */
+truncate "record" RESTART IDENTITY CASCADE;
+
 /* UPDATE "user" SET "is_admin" = true WHERE id = 5; */
 
 

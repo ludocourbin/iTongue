@@ -14,8 +14,8 @@ import { languagesMiddleware } from "./middlewares/languagesMiddleware";
 // Configuration object for redux-persist
 const persistConfig = {
     key: "root",
+    whitelist: ["user"],
     storage, // define which storage to use
-    blacklist: ["expressionsReducer", "irecords"]
 };
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -27,7 +27,7 @@ const enhancers = composeEnhancers(
         loginAdminMiddleware,
         irecordsMiddleware,
         usersMiddleware,
-        languagesMiddleware,
+        languagesMiddleware
     )
 );
 

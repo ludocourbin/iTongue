@@ -27,13 +27,11 @@ export const sendIrecordsRecorded = (payload) => ({
     type: SEND_IRECORDS_RECORDED,
     payload,
 });
-export const sendIrecordsSuccess = (payload) => ({
+export const sendIrecordsSuccess = () => ({
     type: SEND_IRECORDS_SUCCESS,
-    payload,
 });
-export const sendIrecordsError = (payload) => ({
+export const sendIrecordsError = () => ({
     type: SEND_IRECORDS_ERROR,
-    payload,
 });
 /* Fetch all records for iRecordsPage */
 
@@ -63,11 +61,11 @@ export const fetchAllExpressions = () => ({
     type: FETCH_EXPRESSIONS,
 });
 export const fetchAllExpressionsSuccess = (payload) => ({
-    type: FETCH_EXPRESSIONS_ERROR,
+    type: FETCH_EXPRESSIONS_SUCCESS,
     payload,
 });
 
 export const fetchAllExpressionsError = (payload) => ({
-    type: FETCH_EXPRESSIONS_SUCCESS,
+    type: FETCH_ALL_RECORDS_ERROR,
     payload,
 });

@@ -19,6 +19,7 @@ const Recording = ({
     const [expressionSelected, setExpressionSelected] = useState(null);
     const [translationsSelected, setTranslationsSelected] = useState(null);
     const [translationSelected, seTranslationSelected] = useState(null);
+    const [micLoading, setMicLoading] = useState(true);
 
     useEffect(() => {
         fetchAllExpressions();
@@ -26,6 +27,9 @@ const Recording = ({
 
     const startRecording = () => {
         setRecording(true);
+        setTimeout(() => {
+            setMicLoading(false);
+        }, 1000);
     };
 
     const stopRecording = () => {
@@ -161,13 +165,14 @@ const Recording = ({
                         {!recordedSound && !recording && <p>Aucun audio</p>}
 
                         <div className="recording-microphone">
-                            {recording ? (
+                            {recording && (
                                 <Icon
                                     onClick={stopRecording}
-                                    name="stop circle"
+                                    name={micLoading ? "wait" : "stop circle"}
                                     size="big"
                                 />
-                            ) : (
+                            )}
+                            {!recording && (
                                 <Icon
                                     onClick={startRecording}
                                     name="microphone"

@@ -42,10 +42,9 @@ const NavigationBottom = ({
             </NavLink>
             <div onClick={handleClick}>
                 <Icon
-                    className="header-icon navigationBottom-items"
+                    className="header-icon active-navbottom navigationBottom-items"
                     name="microphone"
                     size="big"
-                    disabled
                 />
             </div>
             <NavLink to="/messages" activeClassName="active-navbottom">

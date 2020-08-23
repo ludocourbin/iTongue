@@ -43,11 +43,11 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
             })
                 .then((res) => {
                     console.log(res);
-                    // store.dispatch(sendIrecordsSuccess(res));
+                    store.dispatch(sendIrecordsSuccess());
                 })
                 .catch((err) => {
                     console.log(err);
-                    // store.dispatch(sendIrecordsError(err));
+                    store.dispatch(sendIrecordsError());
                 });
         case FETCH_ALL_RECORDS: {
             axios({

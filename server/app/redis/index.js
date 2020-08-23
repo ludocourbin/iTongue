@@ -1,11 +1,8 @@
-const { 
-  setInCache, 
-  getFromCache, 
-  clearFromCache 
-} = require("./actions");
+const redis = require("redis");
+
+const client = redis.createClient({ url: process.env.REDIS_URL });
 
 module.exports = {
-  setInCache,
-  getFromCache,
-  clearFromCache
-}
+  client,
+  prefix: "itongue_"
+};

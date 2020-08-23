@@ -1,7 +1,6 @@
-const redisClient = require("./client");
+const { client } = require("./index");
 
 module.exports = {
-
   /**
    * Checks if request exists in cache by query name as value
    * @param {String} key - Redis key to find
@@ -9,7 +8,7 @@ module.exports = {
    */
   getFromCache(key) {
     return new Promise((resolve, reject) => {
-      redisClient.get(key, (err, data) => {
+      client.get(key, (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -29,7 +28,7 @@ module.exports = {
   setInCache(key, results, expirationTime) {
     if (!expirationTime) {
       return new Promise((resolve, reject) => {
-        redisClient.set(key, JSON.stringify(results), (err, data) => {
+        client.set(key, JSON.stringify(results), (err, data) => {
           if (err) {
             reject(err);
             return;
@@ -40,7 +39,7 @@ module.exports = {
     }
 
     return new Promise((resolve, reject) => {
-      redisClient.setex(key, expirationTime, JSON.stringify(results), (err, data) => {
+      client.setex(key, expirationTime, JSON.stringify(results), (err, data) => {
         if (err) {
           reject(err);
           return;

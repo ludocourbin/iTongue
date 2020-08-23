@@ -1,5 +1,5 @@
 const client = require("../db/index");
-const { getFromCache, setInCache, clearFromCache } = require("./");
+const { getFromCache, setInCache, clearFromCache } = require("./actions");
 const { regex, expirationTimes, generateKey } = require("../utils/redis-utils");
 
 /**

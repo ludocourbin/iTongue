@@ -1,5 +1,4 @@
 const translationDatamapper = require("../db/translation-datamapper");
-const errorMiddleware = require("../middlewares/error-middleware");
 
 module.exports = {
   create: async (req, res, next) => {
@@ -8,7 +7,7 @@ module.exports = {
       const newTranslation = await translationDatamapper.create(body);
       res.status(201).json({ data: newTranslation });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
@@ -19,16 +18,16 @@ module.exports = {
       const newTranslation = await translationDatamapper.updateOne(id, body);
       res.json({ data: newTranslation });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
   getAll: async (_, res, next) => {
-    try {  
+    try {
       const translations = await translationDatamapper.findAll();
       res.status(200).json({ data: translations });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
@@ -36,25 +35,25 @@ module.exports = {
     try {
       const id = parseInt(req.params.id, 10);
       const result = await translationDatamapper.findOneById(id);
-      
-      if(!result) return next();
-      res.status(200).json({ data: result }); 
+
+      if (!result) return next();
+      res.status(200).json({ data: result });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
-    } 
+      next(err);
+    }
   },
 
   deleteOne: async (req, res, next) => {
     try {
       const id = parseInt(req.params.id, 10);
       const result = await translationDatamapper.deleteOne(id);
-      res.status(200).json({ data: result })
+      res.status(200).json({ data: result });
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
 
   todo: async (_, res) => {
-    res.status(200).json({ data: 'todo' })
+    res.status(200).json({ data: "todo" });
   }
-}
+};

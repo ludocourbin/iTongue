@@ -9,6 +9,9 @@ import { logout } from "../store/actions/userActions";
 import {
     toggleRecording,
     sendIrecordsRecorded,
+    selectIrecordToRecord,
+    setTranslationId,
+    fetchAllExpressions,
 } from "../store/actions/irecordsActions";
 
 const mapStateToProps = (state) => ({
@@ -18,6 +21,7 @@ const mapStateToProps = (state) => ({
     isRecording: state.irecords.isRecording,
     loading: state.irecords.loading,
     isLogged: state.user.isLogged,
+    allExpressions: state.irecords.allExpressions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -32,6 +36,15 @@ const mapDispatchToProps = (dispatch) => ({
     },
     sendIrecordsRecorded: (blob) => {
         dispatch(sendIrecordsRecorded(blob));
+    },
+    selectIrecordToRecord: (irecord) => {
+        dispatch(selectIrecordToRecord(irecord));
+    },
+    setTranslationId: (id) => {
+        dispatch(setTranslationId(id));
+    },
+    fetchAllExpressions: () => {
+        dispatch(fetchAllExpressions());
     },
 });
 

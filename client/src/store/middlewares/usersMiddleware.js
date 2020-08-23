@@ -1,6 +1,6 @@
-import { 
-    FETCH_ALL_USERS, 
-    fetchAllUsersSuccess, 
+import {
+    FETCH_ALL_USERS,
+    fetchAllUsersSuccess,
     fetchAllUsersError,
     CHECK_USER_SLUG,
     checkUserSlugSuccess,
@@ -8,43 +8,46 @@ import {
     checkUserSlug,
 } from "../actions/userActions";
 
-import { 
-    EDIT_PROFIL, 
-    editProfilSuccess, 
-    editProfilError, 
-    EDIT_PROFIL_AVATAR, 
-    editProfilAvatarSuccess 
+import {
+    EDIT_PROFIL,
+    editProfilSuccess,
+    editProfilError,
+    EDIT_PROFIL_AVATAR,
+    editProfilAvatarSuccess,
 } from "../actions/editProfilActions";
 
-import axios from 'axios';
+import axios from "axios";
 
 export const usersMiddleware = (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
         case FETCH_ALL_USERS: {
             axios({
-                method: 'GET',
-                url: 'https://itongue.herokuapp.com/users',
+                method: "GET",
+                url: "https://itongue.herokuapp.com/users",
             })
-            .then(res => {
-                const users = res.data.data; 
-                const usersWithType = users.map(user => {
-                    return {
-                        ...user,
-                        type: 'member',
-                    };
+                .then((res) => {
+                    const users = res.data.data;
+                    const usersWithType = users.map((user) => {
+                        return {
+                            ...user,
+                            type: "member",
+                        };
+                    });
+                    store.dispatch(fetchAllUsersSuccess(usersWithType));
+                })
+                .catch((err) => {
+                    store.dispatch(
+                        fetchAllUsersError(
+                            "Un problème est survenue lors du chargement de la liste des Utilisateurs"
+                        )
+                    );
+                    console.error(err);
                 });
-                store.dispatch(fetchAllUsersSuccess(usersWithType));
-            })
-            .catch(err => {
-                store.dispatch(fetchAllUsersError("Un problème est survenue lors du chargement de la liste des Utilisateurs"));
-                console.error(err);
-            })
             break;
-        };
+        }
 
-        case EDIT_PROFIL : {
-
+        case EDIT_PROFIL: {
             /* On récupere les data editées depuis le store*/
             /* On retires celles que l'on utilise pas avec cette méthode : */
             const { 
@@ -62,7 +65,6 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 ...editProfilData 
             } = store.getState().user.editProfilData;
 
-
             const { allLanguagesList } = store.getState().languagesReducer;
 
             /*  Avec cette liste de languages, 
@@ -70,8 +72,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 pour renvoyer toutes les infos concernant cet ID 
             */
             const mapper = (role) => {
-                return role.map(learnLanguageId => {
-                    return allLanguagesList.find(language => {
+                return role.map((learnLanguageId) => {
+                    return allLanguagesList.find((language) => {
                         if (language.id === learnLanguageId) {
                             return language;
                         }
@@ -100,29 +102,30 @@ export const usersMiddleware = (store) => (next) => (action) => {
             }
 
             axios({
-                method: 'POST',
+                method: "POST",
                 url: `${process.env.REACT_APP_API_URL}/users/${id}`,
                 data: finalData,
                 headers: {
-                    "Authorization": `Bearer ${store.getState().user.accessToken}`
-                }
+                    Authorization: `Bearer ${
+                        store.getState().user.accessToken
+                    }`,
+                },
             })
-            .then(res => {
-                console.log(res);
-                store.dispatch(editProfilSuccess(finalData));
-            })
-            .catch(err => {
-                console.error(err);
-                store.dispatch(editProfilError(/* Todo */));
-            })  
+                .then((res) => {
+                    console.log(res);
+                    store.dispatch(editProfilSuccess(finalData));
+                })
+                .catch((err) => {
+                    console.error(err);
+                    store.dispatch(editProfilError(/* Todo */));
+                });
             break;
-        };
-        
-        case EDIT_PROFIL_AVATAR : {
+        }
 
+        case EDIT_PROFIL_AVATAR: {
             const { currentUser, accessToken } = store.getState().user;
             const formData = new FormData();
-            formData.append('avatar', action.payload); 
+            formData.append("avatar", action.payload);
 
             axios({
                 method: "POST",
@@ -130,7 +133,7 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 data: formData,
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    "Authorization": `Bearer ${accessToken}`,
+                    Authorization: `Bearer ${accessToken}`,
                 },
             })
             .then(res => {
@@ -142,8 +145,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 console.error(err);
             })
             break;
-        };
-        
+        }
+
         case CHECK_USER_SLUG: {
 
             const selectedLanguages = (role) => {
@@ -154,7 +157,7 @@ export const usersMiddleware = (store) => (next) => (action) => {
             };
 
             axios({
-                method: 'GET',
+                method: "GET",
                 url: `${process.env.REACT_APP_API_URL}/users/${action.payload}`,
             })
             .then(res => {
@@ -173,8 +176,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 console.error(err);
             })
             break;
-        };
+        }
         default:
             break;
-    };
+    }
 };

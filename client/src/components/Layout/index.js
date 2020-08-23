@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Menu, Segment, Sidebar } from "semantic-ui-react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 
 import Header from "./menu";
 import NavigationBottom from "./navigationBottom";
@@ -17,14 +17,22 @@ const LayoutHeader = ({
     loading,
     sendIrecordsRecorded,
     isLogged,
+    selectIrecordToRecord,
+    setTranslationId,
+    allExpressions,
+    fetchAllExpressions,
     ...props
 }) => {
     const [visible, setVisible] = useState(false);
+    const { pathname } = useLocation();
 
     const handleLogout = () => {
         setVisible(!visible);
         logout();
     };
+    const classMain = "main-content";
+    const classUser = isLogged ? " user" : "";
+    const classRecording = isRecording ? " modalRecording" : "";
 
     return (
         <div className="main-header">
@@ -111,23 +119,33 @@ const LayoutHeader = ({
                 </Sidebar>
                 <Sidebar.Pusher className="main" dimmed={visible}>
                     <Header
+                        pathname={pathname}
                         visible={visible}
                         setVisible={() => setVisible(!visible)}
                     />
-                    <div
-                        className={user ? "main-content user" : "main-content"}
-                    >
+                    <div className={classMain + classRecording + classUser}>
                         {props.children}
                     </div>
                     {isRecording ? (
                         <Recording
+                            selectIrecordToRecord={selectIrecordToRecord}
                             toggleRecording={toggleRecording}
                             audio={recording}
+                            setTranslationId={setTranslationId}
                             sendIrecordsRecorded={sendIrecordsRecorded}
                             loading={loading}
+                            allExpressions={allExpressions}
+                            fetchAllExpressions={fetchAllExpressions}
                         />
                     ) : null}
-                    {isLogged ? <NavigationBottom user={user} /> : null}
+                    {isLogged ? (
+                        <NavigationBottom
+                            toggleRecording={toggleRecording}
+                            selectIrecordToRecord={selectIrecordToRecord}
+                            user={user}
+                            isRecording={isRecording}
+                        />
+                    ) : null}
                 </Sidebar.Pusher>
             </Sidebar.Pushable>
         </div>

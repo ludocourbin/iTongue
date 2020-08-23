@@ -103,6 +103,45 @@ const dataMapper = {
     return result.rows[0];
   },
 
+  syncLanguages: async languages => {
+    if (!languages.length) return 0;
+
+    const fields = Object.keys(languages[0]);
+    const userId = languages[0].user_id;
+
+    const values = [];
+    const deleteQuery = 'DELETE FROM "language_user" WHERE "user_id" = $1';
+    const insertQuery = languages.reduce((query, language, i) => {
+      query += i === 0 ? " " : ", ";
+      Object.values(language).forEach((value, j) => {
+        query += j === 0 ? "(" : ", ";
+        query += `$${i * fields.length + j + 1}`;
+        if (j === fields.length - 1) {
+          query += ")";
+        }
+        values.push(value);
+      });
+      return query;
+    }, `INSERT INTO "language_user" ("${fields.join('", "')}") VALUES`);
+
+    const transactionClient = await client.connect();
+    try {
+      await transactionClient.query("BEGIN");
+
+      await transactionClient.query(deleteQuery, [userId]);
+      const result = await transactionClient.query(insertQuery, values);
+
+      await transactionClient.query("COMMIT");
+
+      return result.rowCount;
+    } catch (err) {
+      await transactionClient.query("ROLLBACK");
+      throw err;
+    } finally {
+      transactionClient.release();
+    }
+  },
+
   deleteLanguage: async userLanguage => {
     const query = {
       text:

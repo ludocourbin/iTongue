@@ -1,56 +1,55 @@
+import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { Container, Input, Tab, Button } from "semantic-ui-react";
+import { orderCreateByDateWithMoment } from "../../utils.js";
 
 /* Component */
 import Layout from "../../containers/Layout";
 import Irecords from "../../containers/Irecords";
 import MembersCard from "../MembersCard";
+import Placeholder from "../Placeholder";
 
 /* Style */
 import "./search.scss";
 
 const Search = (props) => {
-
-    const { 
-        allRecordsList, 
-        fetchAllRecords, 
+    const {
+        allRecordsList,
+        fetchAllRecords,
         fetchAllUsers,
-        allUsersList, 
-        isLoadingallUsers, 
-        usersListError 
+        allUsersList,
+        isLoadingallUsers,
+        user,
     } = props;
 
     useEffect(() => {
         fetchAllRecords();
         fetchAllUsers();
-    }, [])
-    
-    const fakeUser = {
-        id: '100',
-        slug: 'ludo-dodo',
-        avatarUrl: 'https://ca.slack-edge.com/TUZFANP45-U010EV73MG8-fb8c0bdc3d1e-512',
-        firstname: 'Ludovic',
-        lastname: 'Dodo',
-    };
+    }, []);
 
     const [isFocus, setIsFocus] = useState(false);
     const [keyword, setKeyword] = useState("");
 
     const tabRecordsUsers = [...allRecordsList, ...allUsersList];
-    const orderCreateByDate = tabRecordsUsers.sort((a, b) => a.createdAt - b.createdAt);
 
-    const usersAndRecords = orderCreateByDate.filter(
+    const usersAndRecordsOrderedByDate = orderCreateByDateWithMoment(
+        tabRecordsUsers
+    );
+
+    const usersAndRecords = usersAndRecordsOrderedByDate.filter(
         (el) =>
             (el.type === "member" &&
                 el.firstname.toLowerCase().includes(keyword)) ||
-            (el.type === "audio" && el.englishTranslation.text.toLowerCase().includes(keyword))
+            (el.type === "audio" &&
+                el.englishTranslation.text.toLowerCase().includes(keyword)) ||
+            (el.type === "audio" &&
+                el.user.firstname.toLowerCase().includes(keyword))
     );
 
-    const members = allUsersList.filter(
-        (el) =>
-            el.firstname.toLowerCase().includes(keyword)
+    const members = allUsersList.filter((el) =>
+        el.firstname.toLowerCase().includes(keyword)
     );
-    
+
     const audiosFiltered = allRecordsList.filter(
         (el) =>
             el.englishTranslation.text.toLowerCase().includes(keyword) ||
@@ -62,15 +61,21 @@ const Search = (props) => {
             menuItem: "All",
             render: () => (
                 <Tab.Pane>
-                    {usersAndRecords && usersAndRecords.map((element, index) => (
-                        <div key={index}>
-                            {element.type === "member" ? (
-                                <MembersCard user={element} />
-                            ) : (
-                                <Irecords record={element} key={element.id} user={fakeUser}/>
-                            )}
-                        </div>
-                    ))}
+                    {usersAndRecords &&
+                        usersAndRecords.map((record, index) => (
+                            <div key={index}>
+                                {record.type === "member" ? (
+                                    <MembersCard user={record} />
+                                ) : (
+                                    <Irecords
+                                        record={record}
+                                        key={record.id}
+                                        user={record.user}
+                                        isUserRecord={record.user.id}
+                                    />
+                                )}
+                            </div>
+                        ))}
                 </Tab.Pane>
             ),
         },
@@ -78,9 +83,10 @@ const Search = (props) => {
             menuItem: "Members",
             render: () => (
                 <Tab.Pane>
-                    {members && members.map((element) => (
-                        <MembersCard user={element} key={element.id} />
-                    ))}
+                    {members &&
+                        members.map((member) => (
+                            <MembersCard user={member} key={member.id} />
+                        ))}
                 </Tab.Pane>
             ),
         },
@@ -88,9 +94,15 @@ const Search = (props) => {
             menuItem: "Audios",
             render: () => (
                 <Tab.Pane>
-                    {audiosFiltered && audiosFiltered.map((audio) => (
-                        <Irecords key={audio.id} record={audio} user={fakeUser} />
-                    ))}
+                    {audiosFiltered &&
+                        audiosFiltered.map((record) => (
+                            <Irecords
+                                key={record.id}
+                                record={record}
+                                user={record.user}
+                                isUserRecord={record.user.id}
+                            />
+                        ))}
                 </Tab.Pane>
             ),
         },
@@ -120,16 +132,21 @@ const Search = (props) => {
                 </div>
 
                 <Container>
-                    {!isFocus && (
+                    {!isFocus && isLoadingallUsers && <Placeholder />}
+                    {!isFocus && !isLoadingallUsers && (
                         <div className="search-content--items">
                             <h1>Nos derniers iRecords</h1>
-                            {allRecordsList.map((audio) => {
+                            {allRecordsList.map((record) => {
                                 return (
                                     <div
                                         style={{ width: "100%" }}
-                                        key={audio.id}
+                                        key={record.id}
                                     >
-                                        <Irecords record={audio} user={fakeUser} />
+                                        <Irecords
+                                            record={record}
+                                            user={record.user}
+                                            isUserRecord={record.user.id}
+                                        />
                                     </div>
                                 );
                             })}

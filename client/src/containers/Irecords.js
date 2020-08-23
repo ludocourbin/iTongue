@@ -6,17 +6,22 @@ import {
     setIrecordSelectedId,
     toggleRecording,
     selectIrecordToRecord,
+    setTranslationId,
 } from "../store/actions/irecordsActions";
 
 const mapStateToProps = (state) => ({
     irecordSelectedId: state.irecords.irecordSelectedId,
     isRecording: state.irecords.isRecording,
-    //user: state.user.currentUser,
+    isLogged: state.user.isLogged,
+    currentUser: state.user.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     setIrecordSelectedId: (id) => {
         dispatch(setIrecordSelectedId(id));
+    },
+    setTranslationId: (id) => {
+        dispatch(setTranslationId(id));
     },
     toggleRecording: (bool) => {
         dispatch(toggleRecording(bool));

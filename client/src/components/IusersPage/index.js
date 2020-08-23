@@ -1,20 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Header } from "semantic-ui-react";
 
 import MembersCard from "../MembersCard";
 import Layout from "../../containers/Layout";
-import data from "../Search/data";
+import Placeholder from "../Placeholder";
+
+import "./iusersPage.scss";
 
 const IusersPage = (props) => {
+    const {
+        allUsersList,
+        isLoadingallUsers,
+        usersListError,
+        fetchAllUsers,
+    } = props;
 
-    const { allUsersList, isLoadingallUsers, usersListError} = props;
-
+    useEffect(() => {
+        fetchAllUsers();
+    }, []);
     return (
         <Layout>
-            <Header as="h1">Tout nos utilisateurs</Header>
-                {allUsersList.map((element) => (
-                    <MembersCard user={element} key={element.id} />
-                ))}
+            <div className="usersPage">
+                <h1>Tout nos utilisateurs</h1>
+                {isLoadingallUsers && <Placeholder />}
+                {!isLoadingallUsers &&
+                    allUsersList.map((element) => (
+                        <MembersCard user={element} key={element.id} />
+                    ))}
+            </div>
         </Layout>
     );
 };

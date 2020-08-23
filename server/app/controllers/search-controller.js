@@ -1,5 +1,4 @@
 const searchDatamapper = require("../db/search-datamapper");
-const errorMiddleware = require("../middlewares/error-middleware");
 
 module.exports = {
   /**
@@ -11,7 +10,7 @@ module.exports = {
 
       let results;
 
-      switch(type) {
+      switch (type) {
         case "all":
           results = await searchDatamapper.findAll(query);
           break;
@@ -24,13 +23,12 @@ module.exports = {
       }
 
       res.json({ data: results });
-
     } catch (err) {
-      errorMiddleware.handleError(err, res, next);
+      next(err);
     }
   },
-  
+
   todo: async (_, res) => {
-    res.status(200).json({ data: 'todo' })
+    res.status(200).json({ data: "todo" });
   }
-}
+};

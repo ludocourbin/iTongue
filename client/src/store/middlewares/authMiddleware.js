@@ -1,8 +1,12 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SIGNUP, signupSuccess, signupError } from "../actions/userActions";
-import { LOGIN, loginSubmitSuccess, loginSubmitError } from "../actions/loginActions";
-export default store => next => action => {
+import {
+    LOGIN,
+    loginSubmitSuccess,
+    loginSubmitError,
+} from "../actions/loginActions";
+export default (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
         // réagir au signup
@@ -13,36 +17,40 @@ export default store => next => action => {
                 url: "https://itongue.herokuapp.com/users",
                 data: {
                     ...data,
-                    avatarUrl: "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
-                }
+                    // avatarUrl: "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                },
             })
-                .then(res => {
+                .then((res) => {
                     const data = {
                         email: store.getState().user.signupData.email,
-                        password: store.getState().user.signupData.password
+                        password: store.getState().user.signupData.password,
                     };
                     if (res.data.data.id) {
                         axios({
                             method: "post",
                             url: "https://itongue.herokuapp.com/users/login",
-                            data
+                            data,
                         })
-                            .then(res => {
+                            .then((res) => {
                                 const currentUser = res.data.data;
                                 store.dispatch(signupSuccess(currentUser));
-                                toast.success(`Bienvenue ${currentUser.firstname}`);
+                                toast.success(
+                                    `Bienvenue ${currentUser.firstname}`
+                                );
                             })
-                            .catch(err => {
+                            .catch((err) => {
                                 console.log(err);
                             });
                     }
                 })
-                .catch(error => {
+                .catch((error) => {
                     if (error.response) {
                         // The request was made and the server responded with a status code
                         // that falls out of the range of 2xx
                         // console.log(error.response.data.errors[0].msg);
-                        store.dispatch(signupError(error.response.data.errors[0].msg));
+                        store.dispatch(
+                            signupError(error.response.data.errors[0].msg)
+                        );
                     }
                 });
             return;
@@ -51,15 +59,17 @@ export default store => next => action => {
             axios({
                 method: "post",
                 url: "https://itongue.herokuapp.com/users/login",
-                data: dataLogin
+                data: dataLogin,
             })
-                .then(res => {
+                .then((res) => {
                     const currentUser = res.data.data;
                     store.dispatch(loginSubmitSuccess(currentUser));
                 })
-                .catch(err => {
+                .catch((err) => {
                     toast.warning("Sorry");
-                    store.dispatch(loginSubmitError("Désolé cet utilisateur n'existe pas"));
+                    store.dispatch(
+                        loginSubmitError("Désolé cet utilisateur n'existe pas")
+                    );
                 });
         default:
             return;

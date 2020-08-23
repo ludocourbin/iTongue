@@ -8,17 +8,18 @@ const { PUBLIC_DIR } = require("../constants/index");
 const router = express.Router();
 
 router.use(async (req, res, next) => {
-    if (req.method !== "GET") return next();
+  if (req.method !== "GET") return next();
 
-    const reqFile = path.join(PUBLIC_DIR, req.baseUrl, req.path);
+  const reqFile = path.join(PUBLIC_DIR, req.baseUrl, req.path);
 
-    try {
-        const files = await fileUtils.getSameFileNames(reqFile);
-        if (files.length === 1) return res.sendFile(files[0]);
-        next();
-    } catch (err) {
-        next(err);
-    }
+  try {
+    const files = await fileUtils.getSameFileNames(reqFile);
+    if (files.length === 1) return res.set("Cache-Control", "no-store").sendFile(files[0]);
+
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;

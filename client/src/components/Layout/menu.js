@@ -2,11 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "semantic-ui-react";
 
-const Header = ({ setVisible, ...props }) => {
+const Header = ({ setVisible, pathname, ...props }) => {
     return (
         <div className="header-nav">
             <Link to="/search">
-                <Icon className="header-nav__icon" name="search" size="big" />
+                <Icon
+                    disabled={pathname === "/search" ? true : false}
+                    className={
+                        pathname === "/search"
+                            ? "invisible"
+                            : "header-nav__icon"
+                    }
+                    name="search"
+                    size="big"
+                />
             </Link>
             <h1 className="header-nav__title">iTongue</h1>
             <div onClick={() => setVisible()}>

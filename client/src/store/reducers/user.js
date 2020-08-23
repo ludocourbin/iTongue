@@ -30,7 +30,7 @@ import {
     EDIT_PROFIL_AVATAR,
     EDIT_PROFIL_AVATAR_SUCCESS,
     EDIT_PROFIL_AVATAR_ERROR,
-} from '../actions/editProfilActions';
+} from "../actions/editProfilActions";
 
 const initialState = {
     currentUser: {},
@@ -46,10 +46,11 @@ const initialState = {
         confirm: "",
     },
     loginData: {
-        email: "gautier.colasse@gmail.com",
-        password: "123456",
+        email: "",
+        password: "",
         stayConnected: true,
     },
+    loginErrorMessage: "",
     showPassword: false,
     errorMessagePassword: "",
     errorMessageEmail: "",
@@ -126,7 +127,7 @@ export default (state = initialState, action = {}) => {
                 refreshToken: action.payload.refreshToken,
                 editProfilData: {
                     ...state.editProfilData,
-                    ...action.payload.user
+                    ...action.payload.user,
                 },
             };
         case SIGNUP_ERROR:
@@ -165,7 +166,7 @@ export default (state = initialState, action = {}) => {
                 },
                 editProfilData: {
                     ...state.editProfilData,
-                    ...action.payload.user
+                    ...action.payload.user,
                 },
                 isLogged: true,
             };
@@ -207,19 +208,20 @@ export default (state = initialState, action = {}) => {
                 errorMailUsed: "",
                 errorMessageEmail: "",
                 allUsersList: [],
+                loginErrorMessage: "",
             };
-        case FETCH_ALL_USERS: 
+        case FETCH_ALL_USERS:
             return {
                 ...state,
                 isLoadingallUsers: true,
             };
-        case FETCH_ALL_USERS_SUCCESS: 
+        case FETCH_ALL_USERS_SUCCESS:
             return {
                 ...state,
                 allUsersList: [...action.payload],
                 isLoadingallUsers: false,
             };
-        case FETCH_ALL_USERS_ERROR: 
+        case FETCH_ALL_USERS_ERROR:
             return {
                 ...state,
                 isLoadingallUsers: false,
@@ -245,7 +247,7 @@ export default (state = initialState, action = {}) => {
                     ...action.payload,
                     password: "",
                     confirm: "",
-                }
+                },
             };
         case EDIT_PROFIL_ERROR:
             return {
@@ -257,7 +259,7 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 editProfilData: {
                     ...state.editProfilData,
-                    ...action.payload
+                    ...action.payload,
                 },
                 userSlugInfos: {
                     ...state.userSlugInfos,
@@ -317,4 +319,3 @@ export default (state = initialState, action = {}) => {
             return state;
     }
 };
-

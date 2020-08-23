@@ -17,10 +17,11 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 
     const [ isUserAccount , setIsUserAccount ] = useState(false);
 
+
     let slug = useParams();
 
     const checkUser = () => {
-        if(currentUser.slug === slug.slug) {
+        if (currentUser.slug === slug.slug) {
             setIsUserAccount(true);
         } else {
             setIsUserAccount(false);
@@ -34,6 +35,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
     useEffect(() => {
         checkUser();
     }, [isUserAccount, slug]);
+
     
     const { 
         id, 
@@ -73,10 +75,9 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                             </Link>
                             }
                         </div>
-
                         <div className="container_right__second-row">
                             <div className="second-row_iteach">
-                                <div className="title">iTeach</div> 
+                                <div className="title">iTeach</div>
                                 <div className="flags">
                                     { taughtLanguages && taughtLanguages.map(language => (
                                         <Image key={language.id} src={`https://www.countryflags.io/${language.code}/flat/32.png`} className="flag_image"/>
@@ -92,13 +93,13 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div className="container_right__third-row">
-                            <Statistics 
-                            totalRecords={records ? records.length : 0}
-                            totalFollow={547}
-                            totalFollower={645}
-                            /> 
+                            <Statistics
+                                totalRecords={records ? records.length : 0}
+                                totalFollow={547}
+                                totalFollower={645}
+                            />
                         </div>
                     </div>
                 </Segment>
@@ -106,23 +107,33 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                 <div className="container_bio">
                     { bio &&  <p><strong>«</strong> {bio} <strong>»</strong></p> }
                 </div>
+
                 <div className="user-profil_feed">
-                    { records && records.length ? 
-                        records.map(audio => (
-                            <Irecords record={audio} user={userSlugInfos} key={audio.id} isUserRecord={id} />
-                        )) 
-                    :
-                    <>
-                    <div className="user-profil_feed__norecords">
-                        <Icon name="microphone slash" size="big" circular/>
-                        <div className="norecords-informations">
-                            Aucun iRecord.
-                        </div>
-                    </div>
-                    </>
-                    }
+                    {records && records.length ? (
+                        records.map((audio) => (
+                            <Irecords
+                                record={audio}
+                                user={userSlugInfos}
+                                key={audio.id}
+                                isUserRecord={id}
+                            />
+                        ))
+                    ) : (
+                        <>
+                            <div className="user-profil_feed__norecords">
+                                <Icon
+                                    name="microphone slash"
+                                    size="big"
+                                    circular
+                                />
+                                <div className="norecords-informations">
+                                    Aucun iRecord.
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
-            </div> 
+            </div>
         </Layout>
     );
 };

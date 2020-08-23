@@ -8,6 +8,7 @@ module.exports = {
     "image/jpeg": ".jpg",
     "image/png": ".png",
     "audio/mpeg": ".mp3",
+    "audio/mp3": ".mp3",
     "audio/ogg": ".oga"
   },
   DB_ERR_MAP: {
@@ -31,6 +32,9 @@ module.exports = {
     "slug",
     "bio",
     "avatar_url",
-    "is_admin"
-  ]
+    "is_admin",
+    "learnedLanguages",
+    "taughtLanguages"
+  ],
+  USER_LANGUAGE_FIELDS: ["id", "name", "code"]
 };

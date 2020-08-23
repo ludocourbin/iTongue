@@ -30,6 +30,9 @@ const LayoutHeader = ({
         setVisible(!visible);
         logout();
     };
+    const classMain = "main-content";
+    const classUser = isLogged ? " user" : "";
+    const classRecording = isRecording ? " modalRecording" : "";
 
     return (
         <div className="main-header">
@@ -120,11 +123,7 @@ const LayoutHeader = ({
                         visible={visible}
                         setVisible={() => setVisible(!visible)}
                     />
-                    <div
-                        className={
-                            isLogged ? "main-content user" : "main-content"
-                        }
-                    >
+                    <div className={classMain + classRecording + classUser}>
                         {props.children}
                     </div>
                     {isRecording ? (

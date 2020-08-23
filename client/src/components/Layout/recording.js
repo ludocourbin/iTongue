@@ -56,6 +56,17 @@ const Recording = ({
         toggleRecording(false);
         selectIrecordToRecord(null);
     };
+
+    const handleReset = () => {
+        // toggleRecording(false);
+        setRecordedSound(null);
+        selectIrecordToRecord(null);
+        if (expressionSelected || translationSelected) {
+            setExpressionSelected(null);
+            seTranslationSelected(null);
+        }
+    };
+
     const optionsText = allExpressions.map((option) => {
         return {
             key: option.id,
@@ -98,50 +109,58 @@ const Recording = ({
 
     return (
         <div className="recording">
-            <Card style={{ width: "60%" }} className="">
+            <Card className="recording-widget">
+                <Card.Meta>
+                    <Icon
+                        className="closeIcon"
+                        onClick={handleCancel}
+                        name="close"
+                        color="red"
+                        corner="top right"
+                    />
+                </Card.Meta>
                 {audio ? (
                     <div>
-                        <Card.Content>
+                        <Card.Content className="text-selected">
                             <Flag
                                 name={audio.englishTranslation.language.code}
                             />
                             {audio.englishTranslation.text}
                         </Card.Content>
-                        <Card.Content>
+                        <Card.Content className="text-selected">
                             <Flag name={audio.translation.language.code} />
                             {audio.translation.text}
                         </Card.Content>
                     </div>
                 ) : (
-                    <div>
-                        <Card.Content>
+                    <div className="container-dropdown">
+                        <Card.Content fluid>
                             <Dropdown
+                                style={{ width: "100%" }}
                                 selection
-                                placeholder="Choose an expression"
+                                placeholder="Sélectionner une expression"
                                 name="expressions"
                                 options={optionsText}
                                 value={expressionSelected}
                                 onChange={handleChangeExpression}
                             />
                         </Card.Content>
-                        {expressionSelected && (
-                            <Card.Content>
-                                <Dropdown
-                                    selection
-                                    placeholder="Choose a translation"
-                                    name="expressions"
-                                    options={
-                                        translationsSelected &&
-                                        translationsSelected
-                                    }
-                                    value={
-                                        translationSelected &&
-                                        translationSelected
-                                    }
-                                    onChange={handleChangeTranslation}
-                                />
-                            </Card.Content>
-                        )}
+
+                        <Card.Content fluid>
+                            <Dropdown
+                                style={{ width: "100%" }}
+                                selection
+                                placeholder="Sélectionner une traduction"
+                                name="expressions"
+                                options={
+                                    translationsSelected && translationsSelected
+                                }
+                                value={
+                                    translationSelected && translationSelected
+                                }
+                                onChange={handleChangeTranslation}
+                            />
+                        </Card.Content>
                     </div>
                 )}
                 <Card.Content>
@@ -185,8 +204,8 @@ const Recording = ({
 
                 <Card.Content extra>
                     <div className="ui two buttons">
-                        <Button onClick={handleCancel} basic color="red">
-                            Annuler
+                        <Button onClick={handleReset} basic color="red">
+                            <Icon name="refresh" />
                         </Button>
                         <Button
                             disabled={recordedSound ? false : true}
@@ -205,3 +224,7 @@ const Recording = ({
 };
 
 export default Recording;
+
+// <Button onClick={handleCancel} basic color="red">
+//                             Annuler
+//                         </Button>

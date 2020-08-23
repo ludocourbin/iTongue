@@ -20,6 +20,10 @@
     height: calc(100vh - 108px);
 }
 
+.main-content.modalRecording.user {
+    height: calc(100vh - 428px);
+}
+
 .header-nav {
     @include flex-alignCenter;
     padding: 2em 0.8em;
@@ -110,7 +114,8 @@
     position: fixed;
     width: 100%;
     bottom: 0;
-    border-top: 1px solid #f9ecec;
+    margin-top: 100px !important;
+    // border-top: 1px solid #f9ecec;
 
     &-items {
         margin-left: 10px !important;
@@ -129,9 +134,27 @@
 
 .recording {
     position: relative;
-    top: -300px;
-    right: -30px;
-    width: 100vw !important;
+    top: -25px;
+    height: 389px !important;
+    min-height: 398px !important;
+
+    &-widget {
+        width: 370px !important;
+        width: 100vw !important;
+        position: re;
+    }
+
+    .text-selected {
+        padding: 20px !important;
+        text-align: center;
+    }
+
+    .closeIcon {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        font-size: 1.5em !important;
+    }
 
     &-microphone {
         // background-color: black;
@@ -148,4 +171,8 @@
     .sound-wave {
         width: 100%;
     }
+}
+
+.container-dropdown {
+    padding-top: 30px !important;
 }

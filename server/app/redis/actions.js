@@ -1,10 +1,11 @@
 const redisClient = require("./client");
 
 module.exports = {
+
   /**
-   * Checks if request exists in cache by name
-   * @param {string} key - Redis key to find
-   * @returns {Promise<Array>} Results from Redis or Postgres
+   * Checks if request exists in cache by query name as value
+   * @param {String} key - Redis key to find
+   * @returns {Promise<Array>} Results from Redis
    */
   getFromCache(key) {
     return new Promise((resolve, reject) => {
@@ -19,15 +20,27 @@ module.exports = {
   },
 
   /**
-   * Store requests results in Redis
-   * @param {string} key - Redis key to write
-   * @param {Array<Object>} result - Results from Postgres request
+   * Store Postgres request results in Redis
+   * @param {String} key - Redis key to write
+   * @param {Array<Object>} results - Results from Postgres request to store
+   * @param {Number} [expirationTime] - After this time expressed in seconds, entry will be destroyed
    * @returns {Promise<string>}
    */
-  setInCache(key, result) {
-    const expirationTime = 60 * 60;
+  setInCache(key, results, expirationTime) {
+    if (!expirationTime) {
+      return new Promise((resolve, reject) => {
+        redisClient.set(key, JSON.stringify(results), (err, data) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(data);
+        });
+      });
+    }
+
     return new Promise((resolve, reject) => {
-      redisClient.setex(key, expirationTime, JSON.stringify(result), (err, data) => {
+      redisClient.setex(key, expirationTime, JSON.stringify(results), (err, data) => {
         if (err) {
           reject(err);
           return;
@@ -39,7 +52,7 @@ module.exports = {
 
   /**
    * Clear Redis entry by KEY
-   * @param {string} key - Redis key to write
+   * @param {String} key - Redis key to write
    * @returns {Promise<string>}
    */
   clearFromCache(key) {
@@ -51,5 +64,5 @@ module.exports = {
         resolve(data);
       });
     });
-  },
-}
+  }
+};

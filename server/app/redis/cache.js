@@ -1,78 +1,108 @@
 const client = require("../db/index");
-const { getFromCache, setInCache } = require("./");
+const { getFromCache, setInCache, clearFromCache } = require("./");
+const { regex, expirationTimes, generateKey } = require("../utils/redis-utils");
+
+/**
+ * Query type definition
+ * @typedef {Object} Query
+ * @property {string} Query.name Name of the query used for genreate Redis key
+ * @property {string} Query.text SQL query text to be passed to PG client
+ * @property {Array} [values] SQL query values if any
+ */
 
 module.exports = {
-  prefix: "itongue_",
 
   /**
-   * Intercepts requests to cache results in Redis
+   * Manage redis cache
    * 
-   * @param {Object} params Request
-   * Name of the query must follow this pattern:
+   * @param {Query} params
+   * SQL request object. Must provide a name property (string value) wich must follow this pattern:
    * 
-   * \<SQL_VERB>-\<SQL_RELATION>-[\<QUERY_MODE>]
+   * \<( CREATE | READ | UPDATE | DELETE )>-\<ENTITY>-[ {ID} | {SLUG} ]
    * 
-   * Example: update-expression-byId
-   * @property {String} name : Name of the request used for genreate Redis key
-   * @property {String} text : SQL query to be passed to PG client
+   * @example
+   * // create-language
+   * // read-translations
+   * // update-user-jhon-doe
+   * // delete-expression-345
+   * 
    * @returns {Promise<Array>} Results from Redis or Postgres
    */
-  async query(...params) {
-    // console.log("SQL query", params)
-    console.log("******************************");
+  async query(queryParams) {
 
-    const { name, values } = params[0];
-    const key = this.generateKey(name, values);
-    console.log("KEY:", key);
-    
-    const selectRegex = /^select.*$/m;
-    if (selectRegex.test(name)) {
-      const chachedResults = await getFromCache(key);
-      if (chachedResults) {
-        chachedResults ? console.log("FROM REDIS:", true) : console.log("FROM REDIS:", true);
-        return chachedResults;
-      }
-      
-      const freshResults = await client.query(params[0]);
-      freshResults ? console.log("FROM POSTGRES:", true) : console.log("FROM POSTGRES:", true);
-      if (freshResults.rows.length === 0) return [];
-      
-      const stored = await setInCache(key, freshResults.rows);
-      stored === "OK" ? console.log("STORED:", true) : console.log("STORED:", false); 
-      return freshResults.rows;
+    const key = generateKey(queryParams.name);
+    const { isCreate, isRead, isMutation } = regex;
+
+    if (isCreate.test(queryParams.name)) {
+      const results = await client.query(queryParams);
+      return results.rows[0];
+    }
+
+    if (isRead.test(queryParams.name)) {
+      return this.getSet(queryParams, key);
     }
     
-    const updateMutation = /^update.*$/m;
-    if (updateMutation.test(name)) {
-      console.log("UPDATE KEY", key)
-      // const isExist = await getFromCache(key);
-      // if (!isExist) return;
-      // clearFromCache(key);
-      return;
+    if (isMutation.test(queryParams.name)) {
+      return this.mutate(queryParams);
     }
-    
-    const deleteMutation = /^delete.*$/m;
-    if (deleteMutation.test(name)) {
-      console.log("DELETE KEY", key)
-      const newKey = key.replace(/^delete/, "select");
-      console.log("NEW KEY", newKey)
-      // const isExist = await getFromCache(key);
-      // if (!isExist) return;
-      // clearFromCache(key);
-      return;
-    }
+
   },
 
   /**
-   * Generates the KEY for redis
-   * @param {string} name - Name of the request
-   * @param {Array} values - Values of the request
-   * @returns {string} Generated Key with PREFIX
+   * Get/Set from/in cache
+   * @param {Query} query Query object
+   * @param {String} key Generated Redis key 
    */
-  generateKey(name, values) {
-    if (values) {
-      return this.prefix + name + "-" + values.join("-");
+  async getSet(query, key) {
+
+    // Check if query provides any value
+    if(!query.values) {
+      // If not, we do not get/set in cache
+      const results = await client.query(query);
+      return results.rows;
     }
-    return this.prefix + name;
-  }
+    
+    // Serve results from Redis if any
+    const chachedResults = await getFromCache(key);
+    console.log("chachedResults", chachedResults)
+    if (chachedResults) return chachedResults[0];
+    
+    // Serve results Postgres if any
+    const freshResults = await client.query(query);
+    if (!freshResults.rowCount) return null;
+    
+    // Save results in Redis if any with optional expiration time
+    setInCache(key, freshResults.rows, expirationTimes.day);
+
+    return freshResults.rows[0];
+  },
+
+  /**
+   * Cleans cache entries based mutation
+   * @param {Query} query Query object
+   */
+  async mutate(query) {
+
+    const mutation = await client.query(query);
+    if (!mutation.rowCount) throw Error(query.name + ": unable to mutate");
+    
+    // Clear user's slug cached key if exist
+    const { isUserMutation } = regex;
+    if(isUserMutation.test(query.name)) {
+      const userId = parseInt(query.name.replace( /^\D+/g, ''), 10);
+      const userSlug = await client.query('SELECT "slug" FROM "user" WHERE "id" = $1', [userId]);
+      if (userSlug.rowCount) {
+        const slugName = "select-user-" + userSlug.rows[0].slug;
+        const slugKey = generateKey(slugName);
+        clearFromCache(slugKey);
+      }
+    }
+
+    // Clear cache entry relatives to the mutation
+    const selectName = query.name.replace(/^(\w+)/, "select");
+    const selectKey = generateKey(selectName);
+    clearFromCache(selectKey);
+    
+    return mutation.rows[0];
+  },
 };

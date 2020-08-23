@@ -60,6 +60,19 @@ components:
         - password
         - confirm
 
+    LoginForm:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          example: mySecuredPa$$word
+      required:
+        - email
+        - password
+
     Record:
       type: object
       properties:
@@ -161,3 +174,16 @@ components:
         application/json:
           schema:
             $ref: "#components/schemas/Error"
+
+    Unauthorized:
+      description: Unauthorized. The authentication process failed.
+      content:
+        application/json:
+          schema:
+            $ref: "#components/schemas/Error"
+
+  securitySchemes:
+    BearerJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

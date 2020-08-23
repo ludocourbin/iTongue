@@ -5,6 +5,7 @@ const ownerMiddleware = require("../middlewares/owner-middleware");
 const validator = require("../middlewares/validator");
 const fileUploadMiddleware = require("../middlewares/file-upload-middleware");
 const userSchema = require("../schemas/user-schema");
+const loginFormSchema = require("../schemas/login-form-schema");
 const recordSchema = require("../schemas/record-schema");
 const userController = require("../controllers/user-controller");
 
@@ -21,7 +22,7 @@ const router = express.Router();
  *      summary: Returns a list of users
  *      description: List of **users** with detail about their activity on the app
  *      responses:
- *          '200':
+ *          "200":
  *              description: A JSON array of user objects with their records and languages nested in it
  *              content:
  *                application/json:
@@ -31,7 +32,7 @@ const router = express.Router();
  *                      data:
  *                        type: array
  *                        items:
- *                          $ref: '#/components/schemas/User'
+ *                          $ref: "#/components/schemas/User"
  */
 router.get("/", userController.showAll);
 
@@ -71,10 +72,46 @@ router.get("/", userController.showAll);
  *         $ref: "#/components/responses/Conflict"
  *
  */
-
 router.post("/", validator(userSchema), userController.create);
 
-router.post("/login", userController.login);
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     tags:
+ *       - Users
+ *     summary: User authentication
+ *     description: Login form submission. Returns the logged user if the authentication process succeeds.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/LoginForm"
+ *         application/x-www-form-urlencoded:
+ *           schema:
+ *             $ref: "#/components/schemas/LoginForm"
+ *     responses:
+ *       "200":
+ *         description: Success. The access token, the refresh token and the logged user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     accessToke:
+ *                     refreshToken:
+ *                     user:
+ *                      $ref: "#/components/schemas/User"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ */
+router.post("/login", validator(loginFormSchema), userController.login);
 
 router.get("/:id(\\d+)", userController.showOne);
 

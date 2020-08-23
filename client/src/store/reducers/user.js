@@ -12,6 +12,7 @@ import {
     FETCH_ALL_USERS_ERROR,
     CHECK_USER_SLUG,
     CHECK_USER_SLUG_SUCCESS,
+    CHECK_USER_SLUG_ERROR,
 } from "../actions/userActions";
 
 import {
@@ -238,6 +239,14 @@ export default (state = initialState, action = {}) => {
                 currentUser: {
                     ...state.currentUser,
                     ...action.payload,
+                    password: "",
+                    confirm: "",
+                },
+                editProfilData: {
+                    ...state.editProfilData,
+                    ...action.payload,
+                    password: "",
+                    confirm: "",
                 },
             };
         case EDIT_PROFIL_ERROR:
@@ -252,22 +261,33 @@ export default (state = initialState, action = {}) => {
                     ...state.editProfilData,
                     ...action.payload,
                 },
+                userSlugInfos: {
+                    ...state.userSlugInfos,
+                    ...action.payload,
+                },
             };
         case EDIT_PROFIL_AVATAR:
             return {
                 ...state,
+                userSlugInfos: {
+                    ...state.userSlugInfos,
+                },
             };
         case EDIT_PROFIL_AVATAR_SUCCESS:
             return {
                 ...state,
-                editProfilData: {
-                    ...state.editProfilData,
+                userSlugInfos: {
+                    ...state.userSlugInfos,
                     avatarUrl: action.payload,
                 },
                 currentUser: {
                     ...state.currentUser,
                     avatarUrl: action.payload,
                 },
+                editProfilData: {
+                    ...state.editProfilData,
+                    avatarUrl: action.payload,
+                }
             };
         case EDIT_PROFIL_AVATAR_ERROR:
             return {
@@ -281,8 +301,20 @@ export default (state = initialState, action = {}) => {
         case CHECK_USER_SLUG_SUCCESS:
             return {
                 ...state,
-                userSlugInfos: action.payload,
+                userSlugInfos: {
+                    ...state.userSlugInfos,
+                    ...action.payload,
+                },
+                editProfilData: {
+                    ...state.editProfilData,
+                    ...action.payload,
+                }
             };
+        case CHECK_USER_SLUG_ERROR:
+            return {
+                ...state,
+                userSlugInfos: {},
+            }
         default:
             return state;
     }

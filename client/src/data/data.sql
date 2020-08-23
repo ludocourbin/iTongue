@@ -12,8 +12,18 @@ SET "bio" = 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Earum sus
 WHERE "id" = 5;
 
 UPDATE "user"
-SET "avatar_url" = ''
+SET "password" = '$2b$10$9C/QPCDYCUIlYKFprCOfqe438k8HOrDbcBlzNyYCph6FjzRKDLR36'
 WHERE "id" = 5;
+
+$2b$10$3MGDWljaoj6UC8yeW5tdz.OFtCwrhiiU7JQtQmxEasdKOD5xQxCsi
+$2b$10$cIsQbeXyb4/tKD3a7fSFXuDCwpjJl3ycH41Kdtwb7D6k82Au4OiMO
+$2b$10$9C/QPCDYCUIlYKFprCOfqe438k8HOrDbcBlzNyYCph6FjzRKDLR36
+
+UPDATE "language"
+SET "code" = 'gb'
+WHERE "id" = 2;
+
+
 
 /* Add record */ 
 INSERT INTO "record" ("url", "user_id", "translation_id")

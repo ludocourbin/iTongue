@@ -39,22 +39,6 @@
                 width: 105px;
                 position: relative;
             }
-
-            .ui.bordered.image{
-                display: block;
-                max-width: 105px;
-            }
-            
-            .add_image_avatar {
-                position: absolute;
-                display: block;
-                left: 50%;
-                transform: translate(-50%,-50%);
-                background-color: $primary-color;
-                color: #ffffff;
-                box-shadow: none;
-                cursor: pointer;
-            }
         }
 
         .container_right {
@@ -74,6 +58,10 @@
                 width: 100%;
                 display: flex;
                 flex-direction: row;
+
+                .icon-settings {
+                    //margin-left: 1.5em;
+                }
             }
 
             &__second-row {
@@ -101,9 +89,13 @@
         text-align: center;
     }
 
+
     .container_bio > p {
         font-size: .9em;
         line-height: 1.8em;
+    }
+    .container_bio > strong {
+        font-size: 1.2em;
     }
 
     .user-profil_feed {

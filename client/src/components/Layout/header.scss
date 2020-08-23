@@ -114,8 +114,9 @@
     position: fixed;
     width: 100%;
     bottom: 0;
+    border-top: 1px solid #f9ecec;
+    z-index: 9999;
     margin-top: 100px !important;
-    // border-top: 1px solid #f9ecec;
 
     &-items {
         margin-left: 10px !important;

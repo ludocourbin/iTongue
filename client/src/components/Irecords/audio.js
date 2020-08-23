@@ -3,7 +3,6 @@ import { Card, Icon, Progress } from "semantic-ui-react";
 import getBlobDuration from "get-blob-duration";
 
 const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
-
     const { id, audioUrl, url, blobURL } = audio;
 
     const audioRef = useRef(null);
@@ -80,7 +79,11 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
                 id={id}
                 ref={audioRef}
                 type="audio/mp3"
-                src={url || blobURL || audioUrl}
+                src={
+                    "https://itongue.herokuapp.com/" + url ||
+                    blobURL ||
+                    audioUrl
+                }
                 onLoadedData={handleDuration}
                 onTimeUpdate={() => {
                     setCurrentTime(audioRef.current.currentTime);

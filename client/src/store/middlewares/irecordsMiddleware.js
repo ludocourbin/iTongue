@@ -15,17 +15,20 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
         case SEND_IRECORDS_RECORDED:
-            let blob = action.payload;
-
-            console.log(blob);
             const user = store.getState().user.currentUser;
             let translationId = store.getState().irecords.languageId;
-            translationId = parseInt(translationId, 10);
-            console.log(translationId);
-            const file = new File([blob.blob], "record");
+            translationId = translationId.toString();
+
+            const blob = action.payload.blob;
+
+            const file = new File([blob], "record.mp3", {
+                type: blob.type,
+            });
             const formData = new FormData();
             formData.append("record", file);
-            formData.append("translation_id", "2");
+            formData.append("translation_id", translationId);
+
+            console.log(translationId);
 
             axios({
                 method: "POST",

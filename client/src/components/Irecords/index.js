@@ -21,7 +21,8 @@ const Irecords = ({
     const handleCopyiRecord = () => {
         setSelectediRecordId(record.id);
         selectIrecordToRecord(record);
-        setTranslationId(record.translation.language.id);
+        console.log(record);
+        setTranslationId(record.translation.id);
         toggleRecording(true);
 
         if (isRecording && selectediRecordId === record.id) {
@@ -57,8 +58,7 @@ const Irecords = ({
                 )}
                 <Card.Content className="text">
                     <p>
-                        <Flag name={record.englishTranslation.language.code} />{" "}
-                        {/* englishTranslation -> en attente du back */}
+                        <Flag name={record.englishTranslation.language.code} />
                         {record.englishTranslation.text}
                     </p>
                 </Card.Content>

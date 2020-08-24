@@ -14,8 +14,9 @@ const MemberCard = ({ user }) => (
                     className="avatar"
                     avatar
                     src={
-                        `${process.env.REACT_APP_FILES_URL}/${user.avatarUrl}` ||
-                        "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                        user.avatarUrl == null
+                            ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                            : `${process.env.REACT_APP_FILES_URL}/${user.avatarUrl}`
                     }
                 />
                 <div>

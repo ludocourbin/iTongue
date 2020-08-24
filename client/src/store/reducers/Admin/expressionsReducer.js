@@ -30,6 +30,9 @@ import {
     ADD_LANGUAGE_SUBMIT_ERROR,
     LANGUAGE_INPUT_VALUE,
     ADD_LANGUAGE_SUBMIT,
+    DELETE_LANGUAGE,
+    DELETE_LANGUAGE_SUCCESS,
+    DELETE_LANGUAGE_ERROR,
 
  } from '../../actions/Admin/expressionsActions';
 
@@ -215,6 +218,19 @@ export default (state = initialState, action = {}) => {
                     ...state.languageValue,
                     ...action.payload
                 }
+            };
+        case DELETE_LANGUAGE: 
+            return {
+                ...state,
+            };
+        case DELETE_LANGUAGE_SUCCESS: 
+            return {
+                ...state,
+                languagesList: [...action.payload],
+            };
+        case DELETE_LANGUAGE_ERROR: 
+            return {
+                ...state,
             };
     default:
             return state;

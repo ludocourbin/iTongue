@@ -20,7 +20,7 @@ const EditProfilForm = (props) => {
             [name]: value,
         };
         editProfilInput(dataInput);
-        setCountCharBio(e.target.value.length)
+        setCountCharBio(e.target.value.length);
     };
 
     return (

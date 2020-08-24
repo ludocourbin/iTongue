@@ -8,7 +8,7 @@ import HeaderAdmin from "../../../containers/Admin/HeaderAdmin";
 import "./homeadmin.scss";
 
 const HomeAdmin = ({ userConnect }) => {
-    console.log("userConnect", userConnect);
+
     return (
         <HeaderAdmin>
             <div className="home-admin">

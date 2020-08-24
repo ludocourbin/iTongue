@@ -6,7 +6,6 @@ const languageRouter = require("./language-routes");
 const expressionRouter = require("./expression-routes");
 const translationRouter = require("./translation-routes");
 const adminRouter = require("./admin-routes");
-const uploadRouter = require("./upload-routes");
 const recordRouter = require("./record-routes");
 const searchRouter = require("./search-routes");
 
@@ -56,8 +55,6 @@ router.use("/languages", languageRouter);
 router.use("/expressions", expressionRouter);
 
 router.use("/translations", translationRouter);
-
-router.use("/uploads", uploadRouter);
 
 router.use("/records", recordRouter);
 

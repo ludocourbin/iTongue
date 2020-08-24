@@ -193,7 +193,7 @@ components:
         expressionId:
           $ref: "#components/schemas/PrimaryKey"
 
-    EXpression:
+    Expression:
       type: object
       properties:
         id:

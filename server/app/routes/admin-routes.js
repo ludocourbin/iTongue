@@ -10,7 +10,51 @@ const translationController = require("../controllers/translation-controller");
 const adminController = require("../controllers/admin-controller");
 
 const router = express.Router();
-
+/**
+ * @swagger
+ * /admin:
+ *   get:
+ *     tags:
+ *       - Users
+ *       - Records
+ *       - Languages
+ *       - Translations
+ *     security:
+ *       - BearerJWT: []
+ *     summary: Show information about app activity
+ *     description: Administration dashboard with general information about users, records, languages and translations.
+ *     responses:
+ *       "200":
+ *         description: A JSON array containing the total count of users, records, translations and languages, a list of the last registered users and the most recent records.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     userCount:
+ *                       type: integer
+ *                       example: 54887
+ *                     recordCount:
+ *                       type: integer
+ *                       example: 122462
+ *                     languageCount:
+ *                       type: integer
+ *                       example: 18
+ *                     translationCount:
+ *                       type: integer
+ *                       example: 22342
+ *                     recentUsers:
+ *                       type: array
+ *                       items:
+ *                         $ref: "#/components/schemas/DashboardUser"
+ *                     recentRecords:
+ *                       type: array
+ *                       items:
+ *                         $ref: "#/components/schemas/DashboardRecord"
+ */
 router.get("/", adminController.getDashboard);
 
 /**

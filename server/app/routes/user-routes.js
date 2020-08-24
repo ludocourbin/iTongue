@@ -457,7 +457,7 @@ router.post(
  *                   type: object
  *                   properties:
  *                     record:
- *                      $ref: "#/components/schemas/Record"
+ *                      $ref: "#/components/schemas/UserRecord"
  *       "400":
  *         $ref: "#/components/responses/BadRequest"
  *       "401":

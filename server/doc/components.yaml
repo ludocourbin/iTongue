@@ -27,7 +27,7 @@ components:
         records:
           type: array
           items:
-            $ref: "#components/schemas/Record"
+            $ref: "#components/schemas/UserRecord"
         learnedLanguages:
           $ref: "#components/schemas/Languages"
         taughtLanguages:
@@ -75,6 +75,20 @@ components:
         - password
         - confirm
 
+    RecordUser:
+      type: object
+      properties:
+        id:
+          $ref: "#components/schemas/PrimaryKey"
+        firstname:
+          $ref: "#components/schemas/Firstname"
+        lastname:
+          $ref: "#components/schemas/Lastname"
+        slug:
+          $ref: "#components/schemas/Slug"
+        avatarUrl:
+          $ref: "#components/schemas/URL"
+
     DashboardUser:
       type: object
       properties:
@@ -104,6 +118,20 @@ components:
         - email
         - password
 
+    UserRecord:
+      type: object
+      properties:
+        id:
+          $ref: "#components/schemas/PrimaryKey"
+        url:
+          $ref: "#components/schemas/URL"
+        createdAt:
+          $ref: "#components/schemas/DateTZ"
+        englishTranslation:
+          $ref: "#components/schemas/Translation"
+        translation:
+          $ref: "#components/schemas/Translation"
+
     Record:
       type: object
       properties:
@@ -113,6 +141,8 @@ components:
           $ref: "#components/schemas/URL"
         createdAt:
           $ref: "#components/schemas/DateTZ"
+        user:
+          $ref: "#components/schemas/RecordUser"
         englishTranslation:
           $ref: "#components/schemas/Translation"
         translation:

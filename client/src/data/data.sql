@@ -19,6 +19,10 @@ UPDATE "user"
 SET "password" = '$2b$10$9C/QPCDYCUIlYKFprCOfqe438k8HOrDbcBlzNyYCph6FjzRKDLR36'
 WHERE "id" = 5;
 
+UPDATE "user"
+SET "is_admin" = 'true'
+WHERE "id" = 5;
+
 $2b$10$3MGDWljaoj6UC8yeW5tdz.OFtCwrhiiU7JQtQmxEasdKOD5xQxCsi
 $2b$10$cIsQbeXyb4/tKD3a7fSFXuDCwpjJl3ycH41Kdtwb7D6k82Au4OiMO
 $2b$10$9C/QPCDYCUIlYKFprCOfqe438k8HOrDbcBlzNyYCph6FjzRKDLR36

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import UpdateAvatar from '../../UpdateAvatar';
 import { Checkbox, Form, Input, TextArea } from 'semantic-ui-react';
 
@@ -9,7 +9,19 @@ const EditProfilForm = (props) => {
         handdleSubmit, 
         profilData, 
         editProfilAvatar, 
+        editProfilInput,
     } = props;
+
+    const [ countCharBio, setCountCharBio ] = useState(profilData.bio.length);
+
+    const handdleInputChangeBio = (e) => {
+        const { name, value } = e.target; 
+        const dataInput =  {
+            [name]: value,
+        };
+        editProfilInput(dataInput);
+        setCountCharBio(e.target.value.length)
+    };
 
     return (
         <div className="edit-profil_profil">
@@ -41,11 +53,15 @@ const EditProfilForm = (props) => {
             
             <Form onSubmit={handdleSubmit}>
                 <Form.Field>
-                    <span className="edit-profil_label">Bio</span>
+                    <div className="edit-profil_label">Bio 
+                    (<span className={countCharBio > 130 ? "biolength-hight" : ""}>
+                        { `${countCharBio} / 140` }
+                        </span>)
+                    </div>
                     <TextArea 
                     name="bio"
                     value={profilData.bio}
-                    onChange={handdleInputChange}
+                    onChange={handdleInputChangeBio}
                     placeholder={"Une petite introduction pour ton profil.."}
                     maxLength="140"
                     />

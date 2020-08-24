@@ -13,7 +13,7 @@ const EditLangsForm = (props) => {
 
     useEffect(() => {
         fetchAllLanguages();
-    }, []);
+    }, [fetchAllLanguages]);
 
     const optionsLanguages = allLanguagesList.map(language => {
         return {

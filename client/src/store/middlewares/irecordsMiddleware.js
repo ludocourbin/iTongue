@@ -40,15 +40,15 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
                         store.getState().user.accessToken
                     }`,
                 },
-            })
-                .then((res) => {
-                    console.log(res);
-                    store.dispatch(sendIrecordsSuccess());
                 })
-                .catch((err) => {
-                    console.log(err);
-                    store.dispatch(sendIrecordsError());
-                });
+            .then((res) => {
+                console.log(res);
+                store.dispatch(sendIrecordsSuccess());
+            })
+            .catch((err) => {
+                console.log(err);
+                store.dispatch(sendIrecordsError());
+            });
         case FETCH_ALL_RECORDS: {
             axios({
                 method: "GET",
@@ -74,7 +74,7 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
                 });
             break;
         }
-        case FETCH_EXPRESSIONS:
+        case FETCH_EXPRESSIONS: { 
             axios({
                 method: "GET",
                 url: `${process.env.REACT_APP_API_URL}/expressions`,
@@ -91,6 +91,8 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
                     );
                     console.error(err);
                 });
+            break;
+        }
         default:
             return;
     }

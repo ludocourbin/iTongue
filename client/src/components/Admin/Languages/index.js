@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 /* Components */
-import { Form, Segment, Table, Icon, Flag } from 'semantic-ui-react';
+import { Form, Segment, Table, Flag } from 'semantic-ui-react';
 import HeaderAdmin from "../../../containers/Admin/HeaderAdmin";
 
 /* Style */
@@ -9,7 +9,6 @@ import './languages.scss'
 
 /* All Country Local Data */
 import { allCountry } from '../../../data/allCountry';
-
 
 const Languages = (props) => {
 
@@ -31,9 +30,7 @@ const Languages = (props) => {
     };
 
     const handdleInputChange = (e, data) => {
-
         const { name, value} = e.target.value ? e.target : data;
-
         languageInputValue({
             [name] : value,
         });

@@ -38,10 +38,10 @@ const EditProfil = (props) => {
     const handdleInputChange = (e, data) => {
         // Pour les languages cela me retourne un tableau de language_id
         const { name, value } = e.target.value ? e.target : data; 
-        const test =  {
+        const dataInput =  {
             [name]: value,
         };
-        editProfilInput(test);
+        editProfilInput(dataInput);
     };
 
     const handdleSubmit = (e) => {
@@ -80,6 +80,7 @@ const EditProfil = (props) => {
                         handdleInputChange={handdleInputChange} 
                         handdleSubmit={handdleSubmit} 
                         profilData={profilData}
+                        editProfilInput={editProfilInput}
                         />
                     </Accordion.Content>
 

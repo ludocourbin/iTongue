@@ -32,7 +32,7 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
 
             axios({
                 method: "POST",
-                url: `https://itongue.herokuapp.com/users/${user.id}/record`,
+                url: `${process.env.REACT_APP_API_URL}/users/${user.id}/record`,
                 data: formData,
                 headers: {
                     "Content-Type": `multipart/form-data`,
@@ -52,7 +52,7 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
         case FETCH_ALL_RECORDS: {
             axios({
                 method: "GET",
-                url: "https://itongue.herokuapp.com/records",
+                url: `${process.env.REACT_APP_API_URL}/records`,
             })
                 .then((res) => {
                     const records = res.data.data;
@@ -77,7 +77,7 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
         case FETCH_EXPRESSIONS:
             axios({
                 method: "GET",
-                url: "https://itongue.herokuapp.com/expressions",
+                url: `${process.env.REACT_APP_API_URL}/expressions`,
             })
                 .then((res) => {
                     const expressions = res.data.data;

@@ -24,7 +24,7 @@ export const usersMiddleware = (store) => (next) => (action) => {
         case FETCH_ALL_USERS: {
             axios({
                 method: "GET",
-                url: "https://itongue.herokuapp.com/users",
+                url: `${process.env.REACT_APP_API_URL}/users`,
             })
                 .then((res) => {
                     const users = res.data.data;

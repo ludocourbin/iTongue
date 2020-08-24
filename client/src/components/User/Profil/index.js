@@ -112,11 +112,11 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 
                 <div className="user-profil_feed">
                     {records && records.length ? (
-                        records.map((audio) => (
+                        records.map((audio, key) => (
                             <Irecords
+                                key={key}
                                 record={audio}
                                 user={userSlugInfos}
-                                key={audio.id}
                                 isUserRecord={id}
                             />
                         ))

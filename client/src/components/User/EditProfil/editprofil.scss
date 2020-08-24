@@ -17,6 +17,10 @@
         background-color: $background-items;
     }
 
+   &_langs {
+        padding: 1em;
+   }
+
     &_password {
         padding: 1em;
     }
@@ -62,7 +66,7 @@
     }
 
     .ui.button {
-        margin: 0 auto;
+        margin: 1em auto 0 auto;
         @include button;
         text-align: center;
     }
@@ -76,7 +80,6 @@
 
         &__avatar {
             max-width: 120px!important;
-            // border-radius: 50%!important;
         }
     
         &__toggle {
@@ -84,7 +87,6 @@
             flex-direction: column;
             width: 150px;
             
-
             .toggle_container {
                 display: flex;
                 justify-content: space-between;

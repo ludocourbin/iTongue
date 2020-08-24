@@ -57,7 +57,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             // OK
             axios({
                 method: "GET",
-                url: "https://itongue.herokuapp.com/expressions",
+                url: `${process.env.REACT_APP_API_URL}/expressions`,
             })
                 .then((res) => {
                     store.dispatch(fetchExpressionSuccess(res.data.data));
@@ -72,7 +72,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
         case FETCH_LANGUAGES: {
             axios({
                 method: "GET",
-                url: "https://itongue.herokuapp.com/languages/",
+                url: `${process.env.REACT_APP_API_URL}/languages`,
             })
                 .then((res) => {
                     store.dispatch(fetchLanguagesSuccess(res.data.data));
@@ -111,8 +111,11 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 
             axios({
                 method: "POST",
-                url: "https://itongue.herokuapp.com/admin/expressions",
+                url: `${process.env.REACT_APP_API_URL}/admin/expressions`,
                 data: { ...objData },
+                headers: {
+                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                },
             })
                 .then((res) => {
                     store.dispatch(
@@ -138,7 +141,10 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 
             axios({
                 method: "DELETE",
-                url: `https://itongue.herokuapp.com/admin/expressions/${action.payload}`,
+                url: `${process.env.REACT_APP_API_URL}/admin/expressions/${action.payload}` ,
+                headers: {
+                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                },
             })
                 .then((res) => {
                     const expressionsFilter = expressionsList.filter(
@@ -189,8 +195,11 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 
             axios({
                 method: "POST",
-                url: "https://itongue.herokuapp.com/admin/translations/",
+                url: `${process.env.REACT_APP_API_URL}/admin/translations`,
                 data: { ...dataObj },
+                headers: {
+                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                },
             })
                 .then((res) => {
                     const data = res.data.data;
@@ -247,8 +256,11 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 
             axios({
                 method: "POST",
-                url: `https://itongue.herokuapp.com/admin/translations/${traductionSelect.id}`,
+                url: `${process.env.REACT_APP_API_URL}/admin/translations/${traductionSelect.id}`,
                 data: { ...objData },
+                headers: {
+                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                },
             })
                 .then((res) => {
                     const findExpression = expressionsList.find(
@@ -300,7 +312,10 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 
             axios({
                 method: "DELETE",
-                url: `https://itongue.herokuapp.com/admin/translations/${action.payload}`,
+                url: `${process.env.REACT_APP_API_URL}/admin/translations/${action.payload}`,
+                headers: {
+                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                },
             })
                 .then((res) => {
                     const findExpression = expressionsList.find(
@@ -348,8 +363,11 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 
             axios({
                 method: "POST",
-                url: "https://itongue.herokuapp.com/admin/languages/",
+                url: `${process.env.REACT_APP_API_URL}/admin/languages`,
                 data: languageValue,
+                headers: {
+                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                },
             })
                 .then((res) => {
                     store.dispatch(addLanguageSubmitSuccess(languageValue));

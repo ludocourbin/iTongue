@@ -77,8 +77,8 @@ const Languages = (props) => {
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        { languagesList && languagesList.map(language => (
-                            <Table.Row textAlign="center" key={language.id}>
+                        { languagesList && languagesList.map((language, key) => (
+                            <Table.Row textAlign="center" key={key}>
                                 <Table.Cell>{ language.id }</Table.Cell>
                                 <Table.Cell>
                                     <Flag name={language.code} />

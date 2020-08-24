@@ -89,7 +89,7 @@ const EditProfil = (props) => {
                     index={1}
                     >
                         <h3 className={`edit-profil_title ${activeIndex === 1 ? " activeAccordion" : ""}`} >
-                            <Icon name="user"/> Modification des langues
+                            <Icon name="flag"/> Modification des langues
                             { activeIndex === 1 ? 
                             <Icon className="edit-profil_title__arrow active" name="chevron circle down"/>
                             :

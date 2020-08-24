@@ -9,7 +9,7 @@ export const loginAdminMiddleware = (store) => (next) => (action) => {
 
             axios({
                 method: 'POST',
-                url: 'https://itongue.herokuapp.com/users/login',
+                url: `${process.env.REACT_APP_API_URL}/users/login`,
                 data: { ...store.getState().loginAdminReducer.loginData },
             })
             .then((res) => {

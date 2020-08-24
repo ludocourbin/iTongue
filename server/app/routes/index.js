@@ -43,11 +43,6 @@ router.get("/private", require("../middlewares/auth-middleware"), (_, res) => {
   res.json({ data: { msg: "Authorized" } });
 });
 
-// Route de test pour admin-middleware
-router.get("/admin", require("../middlewares/admin-middleware"), (_, res) => {
-  res.json({ data: { msg: "Authorized" } });
-});
-
 router.use("/search", searchRouter);
 
 router.use("/admin", adminRouter);

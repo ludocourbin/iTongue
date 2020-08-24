@@ -132,7 +132,7 @@ router.post("/login", validator(loginFormSchema), userController.login);
  *     security:
  *       - BearerJWT: []
  *     summary: Update a user profile
- *     description: Profile edit form submission. Modification possiblities include the learned and taught languages, password, name, custom slug, and bio.
+ *     description: Profile edit form submission. Modification possiblities include the learned and taught languages, password, name, and bio.
  *     parameters:
  *     - in: path
  *       $ref: "#/components/parameters/UserPk"

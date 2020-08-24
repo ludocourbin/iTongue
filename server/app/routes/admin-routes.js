@@ -7,14 +7,17 @@ const translationSchema = require("../schemas/translation-schema");
 const languageController = require("../controllers/language-controller");
 const expressionController = require("../controllers/expression-controller");
 const translationController = require("../controllers/translation-controller");
+const adminController = require("../controllers/admin-controller");
 
 const router = express.Router();
+
+router.get("/", adminController.getDashboard);
 
 /**
  * @swagger
  * /admin/languages:
  *  post:
- *      tags: 
+ *      tags:
  *        - Languages
  *      summary: Add one language
  *      description: This routes in made for creating new languages
@@ -63,7 +66,7 @@ router.post("/languages", validator(languageSchema), languageController.create);
  * @swagger
  * /admin/expressions:
  *  post:
- *      tags: 
+ *      tags:
  *        - Expressions
  *      summary: Add one expression
  *      description: This routes in made for creating new expressions
@@ -103,7 +106,7 @@ router.post("/expressions", validator(expressionSchema), expressionController.cr
  * @swagger
  * /admin/expressions/{id}:
  *  post:
- *      tags: 
+ *      tags:
  *        - Expressions
  *      summary: Update one expression
  *      description: This routes in made for updating one expression
@@ -154,7 +157,7 @@ router.post("/expressions/:id([0-9]+)", validator(expressionSchema), expressionC
  * @swagger
  * /admin/expressions/{id}:
  *  delete:
- *      tags: 
+ *      tags:
  *        - Expressions
  *      summary: Delete one expression
  *      description: This routes in made for deleting one expression
@@ -179,7 +182,7 @@ router.delete("/expressions/:id([0-9]+)", expressionController.deleteOne);
  * @swagger
  * /admin/translations:
  *  post:
- *      tags: 
+ *      tags:
  *        - Translations
  *      summary: Add one translation
  *      description: This routes in made for creating new translations
@@ -244,7 +247,7 @@ router.post("/translations", validator(translationSchema), translationController
  * @swagger
  * /admin/translations/{id}:
  *  post:
- *      tags: 
+ *      tags:
  *        - Translations
  *      summary: Update one translation
  *      description: This routes in made for updating one translation
@@ -314,7 +317,7 @@ router.post("/translations/:id(\\d+)", validator(translationSchema), translation
  * @swagger
  * /admin/translations/{id}:
  *  delete:
- *      tags: 
+ *      tags:
  *        - Translations
  *      summary: Delete one translation
  *      description: This routes in made for deleting one translation

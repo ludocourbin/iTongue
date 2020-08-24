@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 /* Components */
-import { Form, Segment, Table } from 'semantic-ui-react';
+import { Form, Segment, Table, Icon, Flag } from 'semantic-ui-react';
 import HeaderAdmin from "../../../containers/Admin/HeaderAdmin";
 
 /* Style */
@@ -71,6 +71,7 @@ const Languages = (props) => {
                     <Table.Header>
                         <Table.Row textAlign="center">
                             <Table.HeaderCell>ID</Table.HeaderCell>
+                            <Table.HeaderCell>Flag</Table.HeaderCell>
                             <Table.HeaderCell>Name</Table.HeaderCell>
                             <Table.HeaderCell>Code</Table.HeaderCell>
                         </Table.Row>
@@ -79,6 +80,9 @@ const Languages = (props) => {
                         { languagesList && languagesList.map(language => (
                             <Table.Row textAlign="center" key={language.id}>
                                 <Table.Cell>{ language.id }</Table.Cell>
+                                <Table.Cell>
+                                    <Flag name={language.code} />
+                                </Table.Cell>
                                 <Table.Cell>{ language.name }</Table.Cell>
                                 <Table.Cell>{ language.code }</Table.Cell>
                             </Table.Row>

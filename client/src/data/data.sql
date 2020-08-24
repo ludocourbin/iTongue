@@ -62,6 +62,13 @@ INSERT INTO "language_user" ("language_id", "user_id", "role")
      ('3', '5', 'learner'),
      ('4', '5', 'learner');
 
+DELETE FROM "language"
+WHERE id = 6;
+
+UPDATE "language"
+SET "name" = 'Français'
+WHERE "id" = 1;
+
    /*         
 Pour le back :
 

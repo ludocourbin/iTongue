@@ -1,12 +1,10 @@
 import { combineReducers } from "redux";
 
-/* Reducers */
-
 // Admin
 import expressionsReducer from "./Admin/expressionsReducer";
 import loginAdminReducer from "./Admin/loginAdminReducer";
 
-// App
+/* Reducers */
 import settings from "./settings";
 import user from "./user";
 import irecords from "./irecords";

@@ -1,12 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef } from "react";
 
-/* Components */ 
-import { Image, Icon } from 'semantic-ui-react';
+/* Components */
 
-import './updateavatar.scss';
+import { Image, Icon } from "semantic-ui-react";
+
+import "./updateavatar.scss";
 
 const UpdateAvatar = ({ avatarUrl, isUserAccount, editProfilAvatar }) => {
-
     const addAvatarRef = useRef(null);
 
     const handdleClickAvatar = (e) => {
@@ -14,7 +14,7 @@ const UpdateAvatar = ({ avatarUrl, isUserAccount, editProfilAvatar }) => {
     };
 
     const handdleAvatarChange = (e) => {
-        if(e.target.files) {
+        if (e.target.files) {
             editProfilAvatar(e.target.files[0]);
         }
     };
@@ -22,19 +22,30 @@ const UpdateAvatar = ({ avatarUrl, isUserAccount, editProfilAvatar }) => {
     return (
         <div className="container_avatar">
             <div className="container_avatar__wrapper">
-                <Image 
-                avatar 
-                size="small"
-                src={`${process.env.REACT_APP_API_URL}/${avatarUrl}` || 'https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg'}
-                bordered
-               
+                <Image
+                    avatar
+                    size="small"
+                    // REACT_APP_API_URL
+                    // REACT_APP_FILES_URL
+                    src={
+                        `${process.env.REACT_APP_FILES_URL}/${avatarUrl}` ||
+                        "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                    }
+                    bordered
                 />
-                { isUserAccount && <Icon name="add" className="add_image_avatar" circular onClick={handdleClickAvatar}/> }
-                <input 
-                type="file" 
-                ref={addAvatarRef} 
-                style={{ visibility: "hidden" }}
-                onChange={handdleAvatarChange}
+                {isUserAccount && (
+                    <Icon
+                        name="add"
+                        className="add_image_avatar"
+                        circular
+                        onClick={handdleClickAvatar}
+                    />
+                )}
+                <input
+                    type="file"
+                    ref={addAvatarRef}
+                    style={{ visibility: "hidden" }}
+                    onChange={handdleAvatarChange}
                 />
             </div>
         </div>
@@ -42,4 +53,3 @@ const UpdateAvatar = ({ avatarUrl, isUserAccount, editProfilAvatar }) => {
 };
 
 export default UpdateAvatar;
-

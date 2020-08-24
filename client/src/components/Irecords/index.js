@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Card, Flag, Icon, Image } from "semantic-ui-react";
+import { Card, Flag, Icon, Image, Confirm } from "semantic-ui-react";
 import AudioPlayer from "../../containers/Audio";
 
 import "./irecords.scss";
@@ -18,6 +18,7 @@ const Irecords = ({
     deleteIrecord,
 }) => {
     const [selectediRecordId, setSelectediRecordId] = useState(null);
+    const [open, setOpen] = useState(false);
 
     const handleCopyiRecord = () => {
         setSelectediRecordId(record.id);
@@ -32,9 +33,29 @@ const Irecords = ({
         }
     };
 
+    const handleCancel = () => {
+        setOpen(false);
+        console.log("handleCancel");
+    };
+
+    const handleConfirm = () => {
+        setOpen(false);
+        console.log("handleConfirm");
+        deleteIrecord(record.id);
+    };
+
     return (
         <div className="irecords">
             <Card className="irecords-container" key={record.id}>
+                <Confirm
+                    className="delete-irecords"
+                    open={open}
+                    onCancel={handleCancel}
+                    onConfirm={handleConfirm}
+                    cancelButton="Annuler"
+                    confirmButton="Supprimer"
+                    content="Vous êtes sûr de vouloir supprimer ce iRecord ?"
+                />
                 {isLogged && currentUser.id !== isUserRecord && (
                     <Card.Content className="flex author">
                         <Link to={`user/${user.slug}`} className="flex author">
@@ -59,7 +80,7 @@ const Irecords = ({
                 {isLogged && currentUser.id === isUserRecord && (
                     <Card.Content className="flex author">
                         <Icon
-                            onClick={() => deleteIrecord(record.id)}
+                            onClick={() => setOpen(true)}
                             className="irecords-copy"
                             name="delete"
                         />

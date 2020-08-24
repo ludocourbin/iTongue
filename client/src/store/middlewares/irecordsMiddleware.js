@@ -109,15 +109,10 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
                 },
             })
                 .then(() => {
+                    /* update state of the records of the user slug infos */
                     const recordsUserProfile = store.getState().user
                         .userSlugInfos.records;
                     const recordsUserProfileUpdatedPostDelete = recordsUserProfile.filter(
-                        (record) => record.id !== action.payload
-                    );
-
-                    const recordIrecordsPage = store.getState().irecords
-                        .allRecordsList;
-                    const recordsIrecordsPageUpdatedPostDelete = recordIrecordsPage.filter(
                         (record) => record.id !== action.payload
                     );
 
@@ -126,6 +121,15 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
                             recordsUserProfileUpdatedPostDelete
                         )
                     );
+
+                    /* Update state of all iRecords */
+
+                    const recordIrecordsPage = store.getState().irecords
+                        .allRecordsList;
+                    const recordsIrecordsPageUpdatedPostDelete = recordIrecordsPage.filter(
+                        (record) => record.id !== action.payload
+                    );
+
                     store.dispatch(
                         deleteIrecordSuccessIrecordsPage(
                             recordsIrecordsPageUpdatedPostDelete

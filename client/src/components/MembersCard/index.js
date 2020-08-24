@@ -29,9 +29,11 @@ const MemberCard = ({ user }) => (
             </div>
 
             <div className="member-card_right">
-                {user.taughtLanguages.map((language) => (
-                    <Flag key={language.id} name={language.code} />
-                ))}
+                {user.taughtLanguages.map((language, index) => {
+                    if (index < 4) {
+                        return <Flag key={language.id} name={language.code} />;
+                    }
+                })}
             </div>
         </div>
     </Link>

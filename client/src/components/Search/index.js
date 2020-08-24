@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Input, Tab, Button, Header } from "semantic-ui-react";
+import { Container, Input, Tab, Button, Header, Icon } from "semantic-ui-react";
 import { orderCreateByDateWithMoment } from "../../utils.js";
 
 /* Component */
@@ -51,12 +51,13 @@ const Search = (props) => {
     const audiosFiltered = allRecordsList.filter(
         (el) =>
             el.englishTranslation.text.toLowerCase().includes(keyword) ||
-            el.translation.text.toLowerCase().includes(keyword)
+            el.translation.text.toLowerCase().includes(keyword) ||
+            el.user.firstname.toLowerCase().includes(keyword)
     );
 
     const panes = [
         {
-            menuItem: "All",
+            menuItem: { key: "All", icon: "th", content: "All" },
             render: () => (
                 <Tab.Pane>
                     {usersAndRecords &&
@@ -78,7 +79,7 @@ const Search = (props) => {
             ),
         },
         {
-            menuItem: "Members",
+            menuItem: { key: "Members", icon: "users", content: "Members" },
             render: () => (
                 <Tab.Pane>
                     {members &&
@@ -89,7 +90,7 @@ const Search = (props) => {
             ),
         },
         {
-            menuItem: "Audios",
+            menuItem: { key: "Audios", icon: "sound", content: "Audios" },
             render: () => (
                 <Tab.Pane>
                     {audiosFiltered &&
@@ -154,7 +155,7 @@ const Search = (props) => {
                             })}
                         </div>
                     )}
-                    {isFocus && <Tab panes={panes} />}
+                    {isFocus && <Tab className="search-tabs" panes={panes} />}
                 </Container>
             </Container>
         </Layout>

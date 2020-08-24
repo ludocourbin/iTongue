@@ -32,6 +32,7 @@ const initialState = {
     irecordDeletedMessage: "",
     irecordDeletedError: "",
 };
+
 export default (state = initialState, action = {}) => {
     switch (action.type) {
         case SET_IRECORD_SELECTED_ID:

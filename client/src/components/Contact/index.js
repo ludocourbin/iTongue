@@ -1,18 +1,61 @@
-import React from 'react';
+import React, {useState} from 'react';
 import emailjs from 'emailjs-com';
 import Layout from "../../containers/Layout";
 import FAQ from './FAQ';
-import { Form, Input, TextArea, Button } from 'semantic-ui-react';
-import { ToastContainer } from "react-toastify";
+import { Form, Input, TextArea, Button, Message } from 'semantic-ui-react';
+// import { ToastContainer } from "react-toastify";
+import validator from "validator";
 import "./style.scss";
 
 const Contact = () => {
     
+    const [firstname, setFirstName] = useState("Ludovic");
+    const [lastname, setLastName] = useState("Courbin");
+    const [message, setMessage] = useState("Je suis l'homme le plus beau de la promo Galactica");
+    const [email, setEmail] = useState("ludo@gmail.com");
+    // const [errorEmail, setErrorEmail] = useState(false);
+
     const handleSubmit = (evt) => {
         evt.preventDefault();
         console.log("onSubmit");
         sendEmail(evt);
-        //contact();
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if(name==="firstName") {
+            setFirstName(value);
+        }
+        else if (name==="lastName") {
+            setLastName(value);
+        }
+        else if (name==="message") {
+            setMessage(value);
+        }
+        else if (name==="email") {
+            setEmail(value);
+        }
+    };
+    const checkMinimumInput = (data1, data2, data3) => {
+        return data1.length < 2 || data2.length < 2 || data3.length < 10;
+    };
+
+
+    const checkMail = (mail) => {
+        if (mail === "") {
+            return true;
+        }
+        if (!validator.isEmail(mail)) {
+            console.log("not ok");
+            // setErrorEmail(true);
+            return true;
+        } 
+        else {
+            console.log("ok");
+            // setErrorEmail(false);
+            return false;
+        }
+        
     };
 
     const sendEmail = (e) => {
@@ -27,7 +70,7 @@ const Contact = () => {
 
         e.target.reset();
       }
-    
+    console.log(checkMail(email));
     return (
         <Layout>
             <FAQ />
@@ -38,42 +81,60 @@ const Contact = () => {
                         id='form-input-control-first-name'
                         control={Input}
                         name="firstName"
-                        label='First name'
-                        placeholder='First name'
+                        label='Prénom'
+                        value={firstname}
+                        placeholder='Prénom'
+                        onChange={handleChange}
                     />
                     <Form.Field
                         id='form-input-control-last-name'
                         control={Input}
                         name="lastName"
-                        label='Last name'
-                        placeholder='Last name'
+                        value={lastname}
+                        label='Nom'
+                        placeholder='Nom'
+                        onChange={handleChange}
                     />
                     </Form.Group>
                     <Form.Field
                     id='form-textarea-control-opinion'
                     control={TextArea}
                     name="message"
-                    label='Opinion'
-                    placeholder='Opinion'
+                    label='Message'
+                    value={message}
+                    placeholder='Message'
+                    onChange={handleChange}
                     />
                     <Form.Field
                     id='form-input-control-error-email'
                     control={Input}
                     name="email"
-                    label='Email'
+                    value={email}
+                    label='E-mail'
                     placeholder='joe@schmoe.com'
+                    onChange={handleChange}
                     // error={{
                     //     content: 'Please enter a valid email address',
                     //     pointing: 'below',
                     // }}
                     />
-                    <Form.Field
-                    className="contactForm-button"
-                    id='form-button-control-public'
-                    control={Button}
-                    type="submit"
-                    content='Envoyez votre message'
-                    />
+                    { checkMail && (
+                        <Message negative content={"Email incorrect"} />
+                    )}
+                    <div className="centerButton">
+                        <Form.Field
+                        className="contactForm-button"
+                        id='form-button-control-public'
+                        control={Button}
+                        disabled={
+                            checkMinimumInput(firstname, lastname, message) ||
+                            checkMail(email)
+                        }
+                        type="submit"
+                        content='Envoyez votre message'
+                        />
+                    </div>
+                    
                 </Form>
             </div> 
         </Layout>

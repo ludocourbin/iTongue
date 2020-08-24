@@ -331,6 +331,10 @@ export default (state = initialState, action = {}) => {
         case SEND_IRECORD_SUCCESS_USER_PROFIL:
             return {
                 ...state,
+                userSlugInfos: {
+                    ...state.userSlugInfos,
+                    records: [...state.userSlugInfos.records, action.payload],
+                },
             };
         default:
             return state;

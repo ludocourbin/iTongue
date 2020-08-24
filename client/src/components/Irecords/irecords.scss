@@ -96,6 +96,9 @@
 }
 
 .delete-irecords {
+    button {
+        font-size: 0.9em !important;
+    }
     .ui.primary.button,
     .ui.primary.buttons .button {
         @include button;

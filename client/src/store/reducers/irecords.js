@@ -64,6 +64,7 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
                 loading: false,
+                allRecordsList: [...state.allRecordsList, action.payload],
             };
         case SEND_IRECORDS_ERROR:
             return {

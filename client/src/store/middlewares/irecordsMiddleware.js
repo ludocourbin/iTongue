@@ -44,8 +44,11 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
                 },
             })
                 .then((res) => {
-                    store.dispatch(sendIrecordSuccessUserProfile());
-                    store.dispatch(sendIrecordSuccessIrecordsPage());
+                    const { record } = res.data.data;
+                    record.user = user;
+
+                    store.dispatch(sendIrecordSuccessUserProfile(record));
+                    store.dispatch(sendIrecordSuccessIrecordsPage(record));
                 })
                 .catch((err) => {
                     console.log(err);

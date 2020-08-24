@@ -387,7 +387,7 @@ router.delete(
  *               contentType: image/png, image/jpeg
  *     responses:
  *       "200":
- *         description: Success. An object containing the url to the newly upladed profile picture.
+ *         description: Success. An object containing the url to the newly uploaded profile picture.
  *         content:
  *           application/json:
  *             schema:
@@ -447,7 +447,7 @@ router.post(
  *               contentType: audio/mp3, audio/mpeg
  *     responses:
  *       "200":
- *         description: Success. An object containing the url to the newly upladed profile picture.
+ *         description: Success. An object containing the detail of the newly uploaded record.
  *         content:
  *           application/json:
  *             schema:
@@ -456,8 +456,8 @@ router.post(
  *                 data:
  *                   type: object
  *                   properties:
- *                     avatarUrl:
- *                      $ref: "#/components/schemas/URL"
+ *                     record:
+ *                      $ref: "#/components/schemas/Record"
  *       "400":
  *         $ref: "#/components/responses/BadRequest"
  *       "401":

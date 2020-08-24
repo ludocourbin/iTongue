@@ -221,15 +221,21 @@ module.exports = {
       uploaded = await fileUtils.upload(tempPath, req.file.mimetype, recordUrl);
 
       res.statusCode = 201;
-      if (oldRecord) return res.json({ data: { recordId: oldRecord.id, recordUrl } });
 
-      const result = await recordDatamapper.insertOne({
-        userId,
-        translationId,
-        url: recordUrl
-      });
+      let record;
+      if (oldRecord) {
+        record = await recordDatamapper.showOne(oldRecord.id);
+      } else {
+        const result = await recordDatamapper.insertOne({
+          userId,
+          translationId,
+          url: recordUrl
+        });
+        record = await recordDatamapper.showOne(result.id);
+      }
 
-      res.json({ data: { recordId: result.id, recordUrl } });
+      delete record.user;
+      res.json({ data: { record } });
     } catch (err) {
       if (uploaded) {
         try {

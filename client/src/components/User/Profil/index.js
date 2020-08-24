@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link, Redirect } from 'react-router-dom';
 
 /* Containers */ 
@@ -8,10 +8,11 @@ import Irecords from "../../../containers/Irecords";
 /* Components */ 
 import { Segment, Image, Icon } from 'semantic-ui-react';
 import Statistics from '../Statistics';
+import UpdateAvatar from '../UpdateAvatar';
 
 /* Style */
 import './userprofil.scss';
-import UpdateAvatar from '../UpdateAvatar';
+
 
 const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfos }) => {
 
@@ -35,7 +36,6 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
         checkUser();
     }, [isUserAccount, slug]);
 
-    
     const { 
         id, 
         avatarUrl, 
@@ -50,7 +50,10 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 
     return (
         <Layout>
-             {  !userSlugInfos.slug  && <Redirect to={`/user/${currentUser.slug}`} /> }
+
+        { currentUser.slug && !userSlugInfos.slug &&  <Redirect to={`/user/${currentUser.slug}`} /> }
+        { !currentUser && !userSlugInfos.slug &&  <Redirect to={`/`} /> }
+            
             <div className="user-profil">
                 <Segment className="user-profil_header">
                     <div className="container_left">
@@ -65,7 +68,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                     <div className="container_right">
                         <div className="container_right__first-row">
                             <span className="user-title">
-                                {firstname} {lastname}
+                                {firstname || "Utilisateur"} {lastname || "Inconnu"}
                             </span> 
                             { isAdmin && <Icon name="check circle" /> }
                             { isUserAccount && 

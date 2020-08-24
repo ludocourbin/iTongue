@@ -25,9 +25,8 @@ const UpdateAvatar = ({ avatarUrl, isUserAccount, editProfilAvatar }) => {
                 <Image 
                 avatar 
                 size="small"
-                src={`${process.env.REACT_APP_API_URL}/${avatarUrl}` || 'https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg'}
+                src={`${process.env.REACT_APP_FILES_URL}/${avatarUrl}`}
                 bordered
-               
                 />
                 { isUserAccount && <Icon name="add" className="add_image_avatar" circular onClick={handdleClickAvatar}/> }
                 <input 

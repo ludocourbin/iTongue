@@ -4,17 +4,11 @@ import { connect } from "react-redux";
 import EditProfilForm from "../../../components/User/EditProfil/Forms/editProfilForm";
 
 /* Actions */
-import { fetchAllLanguages } from '../../../store/actions/languagesAction';
 import { editProfilAvatar } from '../../../store/actions/editProfilActions';
 
-const mapStateToProps = (state) => ({
-    allLanguagesList: state.languagesReducer.allLanguagesList,
-});
+const mapStateToProps = null;
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchAllLanguages: () => {
-        dispatch(fetchAllLanguages());
-    },
     editProfilAvatar: (avatarFile) => {
         dispatch(editProfilAvatar(avatarFile));
     }

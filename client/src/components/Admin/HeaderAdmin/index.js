@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 /* Styles */
 import "./headeradmin.scss";
 
-const HeaderAdmin = ( { logout, currentUser, ...props } ) => {
+const HeaderAdmin = ( { logout, userConnect, ...props } ) => {
     
     const handdleLogout = () => {
         logout();
@@ -19,7 +19,11 @@ const HeaderAdmin = ( { logout, currentUser, ...props } ) => {
     
     const trigger = (
         <Image
-            src="https://ca.slack-edge.com/TUZFANP45-U0102DYQRUL-b7d05e08f84a-512"
+            src={userConnect.avatarUrl == null ?
+                "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg" 
+                :
+                `${process.env.REACT_APP_FILES_URL}/${userConnect.avatarUrl}`
+            }
             avatar
             size="mini"
             spaced="left"
@@ -59,7 +63,7 @@ const HeaderAdmin = ( { logout, currentUser, ...props } ) => {
                     </NavLink>
                 </Menu.Item>
                 <Menu.Item>
-                    <span><b>Gautier Colasse</b></span>
+                    <span><b>{userConnect.firstname} {userConnect.lastname}</b></span>
                     <Dropdown
                     trigger={trigger}
                     options={options}

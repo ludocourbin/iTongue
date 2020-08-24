@@ -25,13 +25,13 @@ const MemberCard = ({ user }) => (
                         {user.firstname} {user.lastname}
                     </h3>
                     <p className="records">
-                        {user.records.length || 0} iRecords
+                        {user.records ? user.records.length : 0} iRecords
                     </p>
                 </div>
             </div>
 
             <div className="member-card_right">
-                {user.taughtLanguages.map((language) => (
+                {user.taughtLanguages && user.taughtLanguages.map((language) => (
                     <Flag key={language.id} name={language.code} />
                 ))}
             </div>

@@ -10,6 +10,7 @@ import { irecordsMiddleware } from "./middlewares/irecordsMiddleware";
 import { loginAdminMiddleware } from "./middlewares/Admin/loginAdminMiddleware";
 import { usersMiddleware } from "./middlewares/usersMiddleware";
 import { languagesMiddleware } from "./middlewares/languagesMiddleware";
+import { statsMiddleware } from "./middlewares/Admin/statsMiddleware";
 
 // Configuration object for redux-persist
 const persistConfig = {
@@ -27,7 +28,8 @@ const enhancers = composeEnhancers(
         loginAdminMiddleware,
         irecordsMiddleware,
         usersMiddleware,
-        languagesMiddleware
+        languagesMiddleware,
+        statsMiddleware,
     )
 );
 

@@ -5,11 +5,12 @@ import { useParams, Redirect, Link } from 'react-router-dom';
 import { Accordion, Icon, Header } from 'semantic-ui-react';
 import NewPasswordForm from './Forms/newPasswordForm';
 import EditEmailForm from './Forms/editEmailForm';
-import EditSlugForm from './Forms/editSlugForm';
+
 
 /* Containers */
 import EditProfilForm from '../../../containers/User/Forms/EditProfilForm';
 import EditLangsForm from '../../../containers/User/Forms/EditLangsForm';
+import EditSlugForm from '../../../containers/User/Forms/EditSlugForm';
 import Layout from '../../../containers/Layout';
 
 /* Style */ 

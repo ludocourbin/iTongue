@@ -25,7 +25,7 @@ const UpdateAvatar = ({ avatarUrl, isUserAccount, editProfilAvatar }) => {
                 <Image 
                 avatar 
                 size="small"
-                src={ avatarUrl.slice(0, 4) == "null" ?
+                src={ avatarUrl && avatarUrl.slice(0, 4) == "null" ?
                     "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg" 
                     :
                     `${process.env.REACT_APP_FILES_URL}/${avatarUrl}`

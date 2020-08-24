@@ -56,7 +56,9 @@
     }
 
     &_label {
+        display: block;
         font-weight: 600;
+        margin-bottom: .5em;
     }
 
     &_accordion {
@@ -67,6 +69,10 @@
         .activeAccordion {
             color: $primary-color;
         }
+    }
+
+    .ui.pointing.label:before {
+        left: 85%!important;
     }
 
     .ui.button {

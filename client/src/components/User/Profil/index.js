@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, Redirect } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
 
 /* Containers */ 
 import Layout from "../../../containers/Layout";
@@ -50,7 +51,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 
     return (
         <Layout>
-
+        <ToastContainer autoClose={2000} />
         { currentUser.slug && !userSlugInfos.slug &&  <Redirect to={`/user/${currentUser.slug}`} /> }
         { !currentUser && !userSlugInfos.slug &&  <Redirect to={`/`} /> }
             

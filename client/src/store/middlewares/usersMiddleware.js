@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 import {
     FETCH_ALL_USERS,
     fetchAllUsersSuccess,
@@ -14,6 +16,10 @@ import {
     editProfilError,
     EDIT_PROFIL_AVATAR,
     editProfilAvatarSuccess,
+    EDIT_PROFIL_SLUG,
+    editProfilSlugSuccess,
+    editProfilSlugError,
+    editProfilSlugInput,
 } from "../actions/editProfilActions";
 
 import axios from "axios";
@@ -176,7 +182,43 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 console.error(err);
             })
             break;
-        }
+        };
+
+        case EDIT_PROFIL_SLUG: {
+
+            const { id, slug } = store.getState().user.editProfilData;
+            
+            axios({
+                method: "POST",
+                url: `${process.env.REACT_APP_API_URL}/users/${id}/slug`,
+                data: { slug },
+                headers: {
+                    "Authorization": `Bearer ${store.getState().user.accessToken}`,
+                },
+            })
+            .then(res => {
+                console.log("res", res);
+                store.dispatch(editProfilSlugSuccess(slug));
+                setTimeout(() => {
+                    toast.info("Votre slug a bien été modifié");
+                }, 300);
+            })
+            .catch(err => {
+                console.error(err);
+                const errStatus = err.response.status;
+                const errResponse = err.response.data.data;
+                if(errStatus === 409) {
+                    // Proposition d'un autre slug
+                    store.dispatch(editProfilSlugError("Ce slug est déjà pris, voici un slug disponible")); 
+                    // Mise à jour de l'input pour envoyé le slug proposé
+                    store.dispatch(editProfilSlugInput(errResponse));
+                } else {
+                    store.dispatch(editProfilSlugError("Une erreur est survenue"));
+                }
+            })
+            break;
+        };
+
         default:
             break;
     }

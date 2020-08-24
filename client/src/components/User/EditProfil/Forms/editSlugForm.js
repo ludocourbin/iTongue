@@ -1,25 +1,45 @@
 import React from 'react';
-import { Form, Input } from 'semantic-ui-react';
+import { Form, Input, Message, Label } from 'semantic-ui-react';
 
 const EditSlugForm = (props) => {
 
     const { 
-        handdleInputChange, 
-        handdleSubmit, 
-        profilData, 
+        editProfilSlug,
+        editProfilSlugInput,
+        editProfilData,
+        editProfilSlugMsg,
     } = props;
+    
+
+    const handdleSubmit = (e) => {
+        e.preventDefault();
+        editProfilSlug();
+    }
+
+    const handdleInputChange = (e) => {
+        editProfilSlugInput(e.target.value);
+    }
+    console.log("editProfilSlugMsg", editProfilSlugMsg);
+    console.log(editProfilSlugMsg === "");
 
     return (
         <div className="edit-profil_slug">
-            <Form>
+            <Form onSubmit={handdleSubmit}>
                 <Form.Group widths="equal">
                     <Form.Field>
                         <span className="edit-profil_label">Adresse de votre profil</span>
                         <Input 
+                        label='https://itongue.io/user/'
                         name="slug"
-                        type="email"
-                        value={profilData.slug}
+                        type="text"
+                        value={editProfilData.slug}
+                        onChange={handdleInputChange}
                         />
+                        { (editProfilSlugMsg !== "") && 
+                            <Label basic color='red' pointing>
+                                {editProfilSlugMsg}
+                            </Label>
+                        }
                     </Form.Field>
                     <Form.Button 
                     type="submit"

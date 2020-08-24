@@ -40,3 +40,28 @@ export const editProfilAvatarError = (payload) => ({
     type: EDIT_PROFIL_AVATAR_ERROR,
     payload
 });
+
+export const EDIT_PROFIL_SLUG = "EDIT_PROFIL_SLUG";
+export const EDIT_PROFIL_SLUG_SUCCESS = "EDIT_PROFIL_SLUG_SUCCESS";
+export const EDIT_PROFIL_SLUG_ERROR = "EDIT_PROFIL_SLUG_ERROR";
+export const EDIT_PROFIL_SLUG_INPUT = "EDIT_PROFIL_SLUG_INPUT";
+
+
+export const editProfilSlug = () => ({
+    type: EDIT_PROFIL_SLUG,
+});
+
+export const editProfilSlugSuccess = (payload) => ({
+    type: EDIT_PROFIL_SLUG_SUCCESS,
+    payload ,
+});
+
+export const editProfilSlugError = (payload) => ({
+    type: EDIT_PROFIL_SLUG_ERROR,
+    payload ,
+});
+
+export const editProfilSlugInput = (payload) => ({
+    type: EDIT_PROFIL_SLUG_INPUT,
+    payload ,
+});

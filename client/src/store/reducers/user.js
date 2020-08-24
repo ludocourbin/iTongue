@@ -30,6 +30,10 @@ import {
     EDIT_PROFIL_AVATAR,
     EDIT_PROFIL_AVATAR_SUCCESS,
     EDIT_PROFIL_AVATAR_ERROR,
+    EDIT_PROFIL_SLUG,
+    EDIT_PROFIL_SLUG_SUCCESS,
+    EDIT_PROFIL_SLUG_ERROR,
+    EDIT_PROFIL_SLUG_INPUT,
 } from "../actions/editProfilActions";
 
 const initialState = {
@@ -56,11 +60,11 @@ const initialState = {
     errorMessageEmail: "",
     errorMailUsed: "",
 
+    /* EDIT PROFIL */
     allUsersList: [],
     userSlugInfos: {},
     isLoadingallUsers: false,
     usersListError: "",
-
     editProfilData: {
         id: 0,
         email: "",
@@ -72,6 +76,9 @@ const initialState = {
         learnedLanguages: [],
         taughtLanguages: [],
     },
+    editProfilSlugInputValue: "",
+    editProfilSlugMsg: "",
+    /* END EDIT PROFIL */
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
@@ -314,7 +321,42 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
                 userSlugInfos: {},
-            }
+            };
+        case EDIT_PROFIL_SLUG:
+            return {
+                ...state,
+            };
+        case EDIT_PROFIL_SLUG_SUCCESS:
+            return {
+                ...state,
+                userSlugInfos: {
+                    ...state.userSlugInfos,
+                    slug: action.payload,
+                },
+                currentUser: {
+                    ...state.currentUser,
+                    slug: action.payload,
+                },
+                editProfilData: {
+                    ...state.editProfilData,
+                    slug: action.payload,
+                },
+                editProfilSlugMsg: "",
+            };
+        case EDIT_PROFIL_SLUG_ERROR:
+            return {
+                ...state,
+                editProfilSlugMsg: action.payload,
+            };
+        case EDIT_PROFIL_SLUG_INPUT:
+            return {
+                ...state,
+                editProfilSlugInputValue: action.payload,
+                editProfilData: {
+                    ...state.editProfilData,
+                    slug: action.payload,
+                },
+            };
         default:
             return state;
     }

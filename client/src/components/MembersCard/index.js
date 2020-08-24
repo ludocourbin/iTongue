@@ -1,13 +1,12 @@
 import React from "react";
-import { Card, Image, Flag } from "semantic-ui-react";
+import { Image, Flag } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import "./memberCard.scss";
 
 const MemberCard = ({ user }) => (
     <Link to={`user/${user.slug}`}>
-        {console.log(user)}
-        <div className="member-card" fluid>
+        <div className="member-card">
             <div className="member-card_left">
                 <Image
                     floated="left"

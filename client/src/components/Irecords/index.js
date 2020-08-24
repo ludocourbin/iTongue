@@ -15,13 +15,13 @@ const Irecords = ({
     setTranslationId,
     isLogged,
     currentUser,
+    deleteIrecord,
 }) => {
     const [selectediRecordId, setSelectediRecordId] = useState(null);
 
     const handleCopyiRecord = () => {
         setSelectediRecordId(record.id);
         selectIrecordToRecord(record);
-        console.log(record);
         setTranslationId(record.translation.id);
         toggleRecording(true);
 
@@ -54,6 +54,32 @@ const Irecords = ({
                             className="irecords-copy"
                             name="copy"
                         />
+                    </Card.Content>
+                )}
+                {isLogged && currentUser.id === isUserRecord && (
+                    <Card.Content className="flex author">
+                        <Icon
+                            onClick={() => deleteIrecord(record.id)}
+                            className="irecords-copy"
+                            name="delete"
+                        />
+                    </Card.Content>
+                )}
+
+                {!isLogged && (
+                    <Card.Content className="flex author">
+                        <Link to={`user/${user.slug}`} className="flex author">
+                            <Image
+                                avatar
+                                floated="left"
+                                size="large"
+                                src={
+                                    "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg" ||
+                                    `${process.env.REACT_APP_API_URL}/${user.avatarUrl}`
+                                }
+                            />
+                            {`${user.firstname} ${user.lastname}`}
+                        </Link>
                     </Card.Content>
                 )}
                 <Card.Content className="text">

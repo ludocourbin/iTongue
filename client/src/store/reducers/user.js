@@ -32,6 +32,11 @@ import {
     EDIT_PROFIL_AVATAR_ERROR,
 } from "../actions/editProfilActions";
 
+import {
+    DELETE_IRECORD_SUCCESS_USER_PROFIL,
+    SEND_IRECORD_SUCCESS_USER_PROFIL,
+} from "../actions/irecordsActions.js";
+
 const initialState = {
     currentUser: {},
     isLogged: false,
@@ -287,7 +292,7 @@ export default (state = initialState, action = {}) => {
                 editProfilData: {
                     ...state.editProfilData,
                     avatarUrl: action.payload,
-                }
+                },
             };
         case EDIT_PROFIL_AVATAR_ERROR:
             return {
@@ -308,13 +313,25 @@ export default (state = initialState, action = {}) => {
                 editProfilData: {
                     ...state.editProfilData,
                     ...action.payload,
-                }
+                },
             };
         case CHECK_USER_SLUG_ERROR:
             return {
                 ...state,
                 userSlugInfos: {},
-            }
+            };
+        case DELETE_IRECORD_SUCCESS_USER_PROFIL:
+            return {
+                ...state,
+                userSlugInfos: {
+                    ...state.userSlugInfos,
+                    records: [...action.payload],
+                },
+            };
+        case SEND_IRECORD_SUCCESS_USER_PROFIL:
+            return {
+                ...state,
+            };
         default:
             return state;
     }

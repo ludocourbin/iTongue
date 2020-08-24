@@ -2,13 +2,18 @@ import axios from "axios";
 import {
     SEND_IRECORDS_RECORDED,
     FETCH_ALL_RECORDS,
-    sendIrecordsSuccess,
+    sendIrecordSuccessIrecordsPage,
+    sendIrecordSuccessUserProfile,
     sendIrecordsError,
     fetchAllRecordsSuccess,
     fetchAllRecordsError,
     FETCH_EXPRESSIONS,
     fetchAllExpressionsSuccess,
     fetchAllExpressionsError,
+    DELETE_IRECORD,
+    deleteIrecordSuccessIrecordsPage,
+    deleteIrecordSuccessUserProfile,
+    deleteIrecordError,
 } from "../actions/irecordsActions";
 
 export const irecordsMiddleware = (store) => (next) => (action) => {
@@ -18,7 +23,6 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
             const user = store.getState().user.currentUser;
             let translationId = store.getState().irecords.languageId;
             translationId = translationId.toString();
-
             const blob = action.payload.blob;
 
             const file = new File([blob], "record.mp3", {
@@ -27,8 +31,6 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
             const formData = new FormData();
             formData.append("record", file);
             formData.append("translation_id", translationId);
-
-            console.log(translationId);
 
             axios({
                 method: "POST",
@@ -42,13 +44,14 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
                 },
             })
                 .then((res) => {
-                    console.log(res);
-                    store.dispatch(sendIrecordsSuccess());
+                    store.dispatch(sendIrecordSuccessUserProfile());
+                    store.dispatch(sendIrecordSuccessIrecordsPage());
                 })
                 .catch((err) => {
                     console.log(err);
                     store.dispatch(sendIrecordsError());
                 });
+            break;
         case FETCH_ALL_RECORDS: {
             axios({
                 method: "GET",
@@ -91,6 +94,48 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
                     );
                     console.error(err);
                 });
+            break;
+
+        case DELETE_IRECORD:
+            const { id } = store.getState().user.currentUser;
+
+            axios({
+                method: "DELETE",
+                url: `https://itongue.herokuapp.com/users/${id}/record/${action.payload}`,
+                headers: {
+                    Authorization: `Bearer ${
+                        store.getState().user.accessToken
+                    }`,
+                },
+            })
+                .then(() => {
+                    const recordsUserProfile = store.getState().user
+                        .userSlugInfos.records;
+                    const recordsUserProfileUpdatedPostDelete = recordsUserProfile.filter(
+                        (record) => record.id !== action.payload
+                    );
+
+                    const recordIrecordsPage = store.getState().irecords
+                        .allRecordsList;
+                    const recordsIrecordsPageUpdatedPostDelete = recordIrecordsPage.filter(
+                        (record) => record.id !== action.payload
+                    );
+
+                    store.dispatch(
+                        deleteIrecordSuccessUserProfile(
+                            recordsUserProfileUpdatedPostDelete
+                        )
+                    );
+                    store.dispatch(
+                        deleteIrecordSuccessIrecordsPage(
+                            recordsIrecordsPageUpdatedPostDelete
+                        )
+                    );
+                })
+                .catch(() => {
+                    store.dispatch(deleteIrecordError());
+                });
+            break;
         default:
             return;
     }

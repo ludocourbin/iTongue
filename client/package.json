@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "ffmpeg": "^0.0.4",
+    "framer-motion": "^2.4.3-beta.2",
     "get-blob-duration": "^1.1.2",
     "mic-recorder-to-mp3": "^2.2.2",
     "moment": "^2.27.0",

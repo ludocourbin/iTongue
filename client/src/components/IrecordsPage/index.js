@@ -11,19 +11,20 @@ import Irecords from "../../containers/Irecords";
 import "./irecordsPage.scss";
 
 const IrecordsPage = (props) => {
-    const {
-        allRecordsList,
-        fetchAllRecords,
-    } = props;
+    const { allRecordsList, fetchAllRecords } = props;
 
     useEffect(() => {
         fetchAllRecords();
-    }, []);
+    }, [fetchAllRecords]);
 
     return (
         <Layout>
             <div className="irecordsPage">
-                <Header size="small" content="Les derniers iRecords" className="title"/>
+                <Header
+                    size="small"
+                    content="Les derniers iRecords"
+                    className="title"
+                />
                 <div className="irecords-list">
                     {allRecordsList &&
                         allRecordsList.map((recordUser) => {

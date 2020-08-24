@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import IusersPage from "../components/IusersPage";
-import { fetchAllUsers } from '../store/actions/userActions';
+import { fetchAllUsers } from "../store/actions/userActions";
 
 const mapStateToProps = (state) => ({
     allUsersList: state.user.allUsersList,

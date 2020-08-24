@@ -1,4 +1,3 @@
-import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { Container, Input, Tab, Button, Header } from "semantic-ui-react";
 import { orderCreateByDateWithMoment } from "../../utils.js";
@@ -19,13 +18,12 @@ const Search = (props) => {
         fetchAllUsers,
         allUsersList,
         isLoadingallUsers,
-        user,
     } = props;
 
     useEffect(() => {
         fetchAllRecords();
         fetchAllUsers();
-    }, []);
+    }, [fetchAllRecords, fetchAllUsers]);
 
     const [isFocus, setIsFocus] = useState(false);
     const [keyword, setKeyword] = useState("");
@@ -135,7 +133,11 @@ const Search = (props) => {
                     {!isFocus && isLoadingallUsers && <Placeholder />}
                     {!isFocus && !isLoadingallUsers && (
                         <div className="search-content--items">
-                            <Header size="small" content="Les derniers iRecords" className="title"/>
+                            <Header
+                                size="small"
+                                content="Les derniers iRecords"
+                                className="title"
+                            />
                             {allRecordsList.map((record) => {
                                 return (
                                     <div

@@ -38,7 +38,6 @@ const NavigationBottom = ({
                     className="header-icon navigationBottom-items"
                     name="globe"
                     size="big"
-                    disabled
                 />
             </NavLink>
             <div onClick={handleClick}>

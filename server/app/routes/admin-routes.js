@@ -63,6 +63,8 @@ router.get("/", adminController.getDashboard);
  *  post:
  *      tags:
  *        - Languages
+ *      security:
+ *       - BearerJWT: []
  *      summary: Add one language
  *      description: This routes in made for creating new languages
  *      requestBody:
@@ -89,6 +91,8 @@ router.post("/languages", validator(languageSchema), languageController.create);
  *  post:
  *      tags: 
  *        - Languages
+ *      security:
+ *       - BearerJWT: []
  *      summary: Update one language
  *      description: This route updates one language
  *      parameters:
@@ -115,6 +119,8 @@ router.post("/languages/:id([0-9]+)", validator(languageSchema), languageControl
  *  delete:
  *      tags: 
  *        - Languages
+ *      security:
+ *       - BearerJWT: []
  *      summary: Delete one language
  *      description: This route deletes one language
  *      parameters:
@@ -135,6 +141,8 @@ router.delete("/languages/:id([0-9]+)", languageController.delete);
  *  post:
  *      tags:
  *        - Expressions
+ *      security:
+ *       - BearerJWT: []
  *      summary: Add one expression
  *      description: This routes in made for creating new expressions
  *      requestBody:
@@ -161,6 +169,8 @@ router.post("/expressions", validator(expressionSchema), expressionController.cr
  *  post:
  *      tags:
  *        - Expressions
+ *      security:
+ *       - BearerJWT: []
  *      summary: Update one expression
  *      description: This routes in made for updating one expression
  *      parameters:
@@ -200,6 +210,8 @@ router.post("/expressions/:id([0-9]+)", validator(expressionSchema), expressionC
  *  delete:
  *      tags:
  *        - Expressions
+ *      security:
+ *       - BearerJWT: []
  *      summary: Delete one expression
  *      description: This routes in made for deleting one expression
  *      parameters:
@@ -218,6 +230,8 @@ router.delete("/expressions/:id([0-9]+)", expressionController.deleteOne);
  *  post:
  *      tags:
  *        - Translations
+ *      security:
+ *       - BearerJWT: []
  *      summary: Add one translation
  *      description: This routes in made for creating new translations
  *      requestBody:
@@ -283,6 +297,8 @@ router.post("/translations", validator(translationSchema), translationController
  *  post:
  *      tags:
  *        - Translations
+ *      security:
+ *       - BearerJWT: []
  *      summary: Update one translation
  *      description: This routes in made for updating one translation
  *      parameters:
@@ -330,17 +346,13 @@ router.post("/translations", validator(translationSchema), translationController
 router.post("/translations/:id(\\d+)", validator(translationSchema), translationController.update);
 
 /**
- * Deletes an existing translation
- * @route /admin/translations/:id
- * @method DELETE
- * @returns {Boolean} - True if success
- */
-/**
  * @swagger
  * /admin/translations/{id}:
  *  delete:
  *      tags:
  *        - Translations
+ *      security:
+ *       - BearerJWT: []
  *      summary: Delete one translation
  *      description: This routes in made for deleting one translation
  *      parameters:

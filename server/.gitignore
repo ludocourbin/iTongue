@@ -7,3 +7,4 @@ data/create-db.sql
 
 temp/
 public/uploads/
+logs/access.log

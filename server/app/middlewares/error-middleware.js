@@ -16,6 +16,7 @@ module.exports = (err, _, res, __) => {
     msg = err.displayMsg || err.toString();
   }
 
+  res.errorMsg = msg;
   res.status(code || 500).json({ errors: [{ msg }] });
 
   console.log({ msg, err });

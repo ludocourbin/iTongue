@@ -1,3 +1,4 @@
 module.exports = (_, res) => {
-  res.status(404).json({ errors: [{ msg: "Resource not found" }] });
+  res.errorMsg = "Resource not found";
+  res.status(404).json({ errors: [{ msg: res.errorMsg }] });
 };

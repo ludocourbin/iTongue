@@ -2,12 +2,6 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 /* Components */
-import Signup from "../../containers/Signup";
-import Search from "../Search";
-import Login from "../../containers/Login";
-import IrecordsPage from "../IrecordsPage";
-import IusersPage from "../IusersPage";
-import Contact from "../Contact";
 import Home from "../Home";
 
 /* Styles */
@@ -26,7 +20,6 @@ import IusersPage from "../../containers/IusersPage";
 import Search from "../../containers/Search";
 
 const App = ({ user, isLogged }) => {
-
     return (
         <div className="App">
             <Switch>
@@ -43,9 +36,14 @@ const App = ({ user, isLogged }) => {
                 <Route path="/irecords" component={IrecordsPage} />
                 <Route path="/users" component={IusersPage} />
                 <Route exact path="/user/:slug" component={Profil} />
-                <Route exact path="/user/:slug/edit" render={() => (isLogged ? <EditProfil /> : <Redirect to="/login" />)} />
+                <Route
+                    exact
+                    path="/user/:slug/edit"
+                    render={() =>
+                        isLogged ? <EditProfil /> : <Redirect to="/login" />
+                    }
+                />
                 <Route path="/admin" component={Admin} />
-                <Route path="/contact" component={Contact} />
                 <Route>
                     <h1>La page n'existe pas</h1>
                 </Route>
@@ -53,5 +51,4 @@ const App = ({ user, isLogged }) => {
         </div>
     );
 };
-
 export default App;

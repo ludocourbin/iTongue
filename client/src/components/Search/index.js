@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { useState, useEffect } from "react";
-import { Container, Input, Tab, Button } from "semantic-ui-react";
+import { Container, Input, Tab, Button, Header } from "semantic-ui-react";
 import { orderCreateByDateWithMoment } from "../../utils.js";
 
 /* Component */
@@ -135,7 +135,7 @@ const Search = (props) => {
                     {!isFocus && isLoadingallUsers && <Placeholder />}
                     {!isFocus && !isLoadingallUsers && (
                         <div className="search-content--items">
-                            <h1>Nos derniers iRecords</h1>
+                            <Header size="small" content="Les derniers iRecords" className="title"/>
                             {allRecordsList.map((record) => {
                                 return (
                                     <div

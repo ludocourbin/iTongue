@@ -7,14 +7,61 @@ const translationSchema = require("../schemas/translation-schema");
 const languageController = require("../controllers/language-controller");
 const expressionController = require("../controllers/expression-controller");
 const translationController = require("../controllers/translation-controller");
+const adminController = require("../controllers/admin-controller");
 
 const router = express.Router();
+/**
+ * @swagger
+ * /admin:
+ *   get:
+ *     tags:
+ *       - Users
+ *       - Records
+ *       - Languages
+ *       - Translations
+ *     security:
+ *       - BearerJWT: []
+ *     summary: Show information about app activity
+ *     description: Administration dashboard with general information about users, records, languages and translations.
+ *     responses:
+ *       "200":
+ *         description: A JSON array containing the total count of users, records, translations and languages, a list of the last registered users and the most recent records.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     userCount:
+ *                       type: integer
+ *                       example: 54887
+ *                     recordCount:
+ *                       type: integer
+ *                       example: 122462
+ *                     languageCount:
+ *                       type: integer
+ *                       example: 18
+ *                     translationCount:
+ *                       type: integer
+ *                       example: 22342
+ *                     recentUsers:
+ *                       type: array
+ *                       items:
+ *                         $ref: "#/components/schemas/DashboardUser"
+ *                     recentRecords:
+ *                       type: array
+ *                       items:
+ *                         $ref: "#/components/schemas/DashboardRecord"
+ */
+router.get("/", adminController.getDashboard);
 
 /**
  * @swagger
  * /admin/languages:
  *  post:
- *      tags: 
+ *      tags:
  *        - Languages
  *      summary: Add one language
  *      description: This routes in made for creating new languages
@@ -86,7 +133,7 @@ router.delete("/languages/:id([0-9]+)", languageController.delete);
  * @swagger
  * /admin/expressions:
  *  post:
- *      tags: 
+ *      tags:
  *        - Expressions
  *      summary: Add one expression
  *      description: This routes in made for creating new expressions
@@ -112,7 +159,7 @@ router.post("/expressions", validator(expressionSchema), expressionController.cr
  * @swagger
  * /admin/expressions/{id}:
  *  post:
- *      tags: 
+ *      tags:
  *        - Expressions
  *      summary: Update one expression
  *      description: This routes in made for updating one expression
@@ -151,7 +198,7 @@ router.post("/expressions/:id([0-9]+)", validator(expressionSchema), expressionC
  * @swagger
  * /admin/expressions/{id}:
  *  delete:
- *      tags: 
+ *      tags:
  *        - Expressions
  *      summary: Delete one expression
  *      description: This routes in made for deleting one expression
@@ -169,7 +216,7 @@ router.delete("/expressions/:id([0-9]+)", expressionController.deleteOne);
  * @swagger
  * /admin/translations:
  *  post:
- *      tags: 
+ *      tags:
  *        - Translations
  *      summary: Add one translation
  *      description: This routes in made for creating new translations
@@ -234,7 +281,7 @@ router.post("/translations", validator(translationSchema), translationController
  * @swagger
  * /admin/translations/{id}:
  *  post:
- *      tags: 
+ *      tags:
  *        - Translations
  *      summary: Update one translation
  *      description: This routes in made for updating one translation
@@ -292,7 +339,7 @@ router.post("/translations/:id(\\d+)", validator(translationSchema), translation
  * @swagger
  * /admin/translations/{id}:
  *  delete:
- *      tags: 
+ *      tags:
  *        - Translations
  *      summary: Delete one translation
  *      description: This routes in made for deleting one translation

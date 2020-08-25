@@ -14,7 +14,7 @@ import { languagesMiddleware } from "./middlewares/languagesMiddleware";
 // Configuration object for redux-persist
 const persistConfig = {
     key: "root",
-    whitelist: ["user"],
+    whitelist: ["user", "loginAdminReducer"],
     storage, // define which storage to use
 };
 

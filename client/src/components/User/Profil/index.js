@@ -17,7 +17,6 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 
     const [ isUserAccount , setIsUserAccount ] = useState(false);
 
-
     let slug = useParams();
 
     const checkUser = () => {

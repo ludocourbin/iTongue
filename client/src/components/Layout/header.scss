@@ -50,8 +50,8 @@
     &__title {
         margin: 0;
         // font-family: "Righteous", cursive;
-        // font-family: "Pacifico", cursive;
-        font-family: "Gloria Hallelujah", cursive;
+         font-family: "Pacifico", cursive;
+        // font-family: "Gloria Hallelujah", cursive;
         // font-family: "Acme", sans-serif;
         // font-family: "Capriola", sans-serif;
         letter-spacing: 0.12em;
@@ -62,6 +62,10 @@
 .main-header {
     max-height: 100vh;
     height: 100vh;
+
+    .pushable>.pusher:after {
+        z-index: 9999;
+    }
 }
 
 .main-header-links {

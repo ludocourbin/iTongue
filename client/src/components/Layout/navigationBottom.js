@@ -1,5 +1,4 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 import { Icon } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 
@@ -9,7 +8,8 @@ const NavigationBottom = ({
     isRecording,
     selectIrecordToRecord,
 }) => {
-    let slug = useParams();
+
+    const classNameRecordIcon = isRecording ? "active-navbottom" : " " + " " + "header-icon navigationBottom-items";
 
     const handleClick = () => {
         if (isRecording) {
@@ -41,8 +41,8 @@ const NavigationBottom = ({
                 />
             </NavLink>
             <div onClick={handleClick}>
-                <Icon
-                    className="header-icon active-navbottom navigationBottom-items"
+                <Icon modalRecordIsActive
+                    className={classNameRecordIcon}
                     name="microphone"
                     size="big"
                 />

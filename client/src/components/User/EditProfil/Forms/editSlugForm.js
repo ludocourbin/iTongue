@@ -11,11 +11,10 @@ const EditSlugForm = (props) => {
 
     return (
         <div className="edit-profil_slug">
-            <h3 className="edit-profil_title">Modification du slug</h3>
             <Form>
                 <Form.Group widths="equal">
                     <Form.Field>
-                        <span>Adresse de votre profil</span>
+                        <span className="edit-profil_label">Adresse de votre profil</span>
                         <Input 
                         name="slug"
                         type="email"
@@ -26,6 +25,7 @@ const EditSlugForm = (props) => {
                     type="submit"
                     content="Enregistrer le slug"
                     className="edit-profil_formbtn"
+                    size="small"
                     />
                 </Form.Group>
             </Form>

@@ -2,28 +2,66 @@
 @import '../../../styles/vars';
 
 .edit-profil {
-    padding: 1em 2em;
+    //padding: 1em 1em;
+    overflow-x: hidden;
+
+    &_back {
+        padding: 1em .5em!important;
+        margin: 0!important;
+        background-color: $shape-color;
+        margin-bottom: 1.5em!important;
+    }
 
     &_profil {
-        padding: 2em 0;
+        padding: 1em;
+        background-color: $background-items;
     }
 
     &_password {
-        padding: 2em 0;
+        padding: 1em;
     }
 
     &_email {
-        padding: 2em 0;
+        padding: 1em;
     }
 
     &_slug {
-        padding: 2em 0;
+        padding: 1em;
     }
-
 
     &_title {
         font-size: 1.1em;
+        position: relative;
+        line-height: 2em;
+        margin: 1em;
+
+
+        &__arrow {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        &__arrow.active {
+            color: $primary-color;
+        }
     }
+
+    &_label {
+        font-weight: 600;
+    }
+
+    &_accordion {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        
+        .activeAccordion {
+            color: $primary-color;
+        }
+    }
+
+
 
     .ui.button {
         margin: 0 auto;

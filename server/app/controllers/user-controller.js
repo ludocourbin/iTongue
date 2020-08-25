@@ -10,14 +10,7 @@ const fileUtils = require("../utils/file-utils");
 
 const fsPromises = fs.promises;
 
-const {
-  SALT_ROUNDS,
-  USER_ROLES,
-  MIME_EXTENSION_MAP,
-  PUBLIC_DIR,
-  AVATARS_DIR,
-  RECORDS_DIR
-} = require("../constants");
+const { SALT_ROUNDS, USER_ROLES, PUBLIC_DIR, AVATARS_DIR, RECORDS_DIR } = require("../constants");
 
 module.exports = {
   showAll: async (_, res, next) => {
@@ -150,37 +143,23 @@ module.exports = {
 
     const fileName = req.file.filename;
     const tempPath = path.resolve(req.file.path);
-    const extension = MIME_EXTENSION_MAP[req.file.mimetype];
+
+    let avatarUrl, uploaded;
 
     try {
       const user = await userDatamapper.findByPk(userId);
       if (!user) return next();
 
-      let avatarUrl, destPath;
       if (user.avatar_url) {
         avatarUrl = user.avatar_url;
-        const filename = path.join(PUBLIC_DIR, avatarUrl);
-        destPath = filename + extension;
-
-        const sameFileNames = await fileUtils.getSameFileNames(filename);
-        if (sameFileNames.length) {
-          for (const file of sameFileNames) {
-            await fsPromises.unlink(file);
-          }
-        }
       } else {
         const destSubDir = fileName.split("").slice(0, 4).join("/");
         const destBaseName = fileName.substring(4);
-        const destFileName = destBaseName + extension;
 
         avatarUrl = `${AVATARS_DIR}/${destSubDir}/${destBaseName}`;
-        destPath = path.join(PUBLIC_DIR, AVATARS_DIR, destSubDir, destFileName);
       }
 
-      const parentDir = path.dirname(destPath);
-      if (!fs.existsSync(parentDir)) await fsPromises.mkdir(parentDir, { recursive: true });
-
-      await fsPromises.rename(tempPath, destPath);
+      uploaded = await fileUtils.upload(tempPath, req.file.mimetype, avatarUrl);
 
       if (!user.avatar_url) {
         await userDatamapper.setAvatarUrl(avatarUrl, user.id);
@@ -188,13 +167,21 @@ module.exports = {
 
       res.json({ data: { avatarUrl } });
     } catch (err) {
-      try {
-        if (fs.existsSync(tempPath)) await fsPromises.unlink(tempPath);
-      } catch (unlinkErr) {
-        next(unlinkErr);
+      if (uploaded) {
+        try {
+          await fileUtils.deleteOne(avatarUrl);
+        } catch (fileErr) {
+          return next({ msg: err.toString() + ", " + fileErr.toString() });
+        }
       }
 
       next(err);
+    } finally {
+      try {
+        if (fs.existsSync(tempPath)) await fsPromises.unlink(tempPath);
+      } catch (err) {
+        console.log(err);
+      }
     }
   },
 
@@ -213,60 +200,58 @@ module.exports = {
 
     const fileName = req.file.filename;
     const tempPath = path.resolve(req.file.path);
-    const extension = MIME_EXTENSION_MAP[req.file.mimetype];
 
-    const oldRecord = await recordDatamapper.findOne({
-      user_id: { operator: "=", value: userId },
-      translation_id: { operator: "=", value: translationId }
-    });
-
-    let recordUrl, destPath;
-    if (oldRecord) {
-      recordUrl = oldRecord.url;
-      const filename = path.join(PUBLIC_DIR, recordUrl);
-      destPath = filename + extension;
-
-      const sameFileNames = await fileUtils.getSameFileNames(filename);
-      if (sameFileNames.length) {
-        for (const file of sameFileNames) {
-          await fsPromises.unlink(file);
-        }
-      }
-    } else {
-      const destSubDir = fileName.split("").slice(0, 4).join("/");
-      const destBaseName = fileName.substring(4);
-      const destFileName = destBaseName + extension;
-
-      recordUrl = `${RECORDS_DIR}/${destSubDir}/${destBaseName}`;
-      destPath = path.join(PUBLIC_DIR, RECORDS_DIR, destSubDir, destFileName);
-    }
+    let recordUrl, uploaded;
 
     try {
-      const parentDir = path.dirname(destPath);
-      if (!fs.existsSync(parentDir)) await fsPromises.mkdir(parentDir, { recursive: true });
+      const oldRecord = await recordDatamapper.findOne({
+        user_id: { operator: "=", value: userId },
+        translation_id: { operator: "=", value: translationId }
+      });
 
-      await fsPromises.rename(tempPath, destPath);
+      if (oldRecord) {
+        recordUrl = oldRecord.url;
+      } else {
+        const destSubDir = fileName.split("").slice(0, 4).join("/");
+        const destBaseName = fileName.substring(4);
+
+        recordUrl = `${RECORDS_DIR}/${destSubDir}/${destBaseName}`;
+      }
+
+      uploaded = await fileUtils.upload(tempPath, req.file.mimetype, recordUrl);
 
       res.statusCode = 201;
 
-      if (oldRecord) return res.json({ data: { recordId: oldRecord.id, recordUrl } });
+      let record;
+      if (oldRecord) {
+        record = await recordDatamapper.showOne(oldRecord.id);
+      } else {
+        const result = await recordDatamapper.insertOne({
+          userId,
+          translationId,
+          url: recordUrl
+        });
+        record = await recordDatamapper.showOne(result.id);
+      }
 
-      const result = await recordDatamapper.insertOne({
-        userId,
-        translationId,
-        url: recordUrl
-      });
-
-      res.json({ data: { recordId: result.id, recordUrl } });
+      delete record.user;
+      res.json({ data: { record } });
     } catch (err) {
-      try {
-        if (fs.existsSync(tempPath)) await fsPromises.unlink(tempPath);
-        if (fs.existsSync(destPath)) await fsPromises.unlink(destPath);
-      } catch (unlinkErr) {
-        return next(unlinkErr);
+      if (uploaded) {
+        try {
+          await fileUtils.deleteOne(recordUrl);
+        } catch (fileErr) {
+          return next([{ msg: err.toString + ", " + fileErr.toString() }]);
+        }
       }
 
       next(err);
+    } finally {
+      try {
+        if (fs.existsSync(tempPath)) await fsPromises.unlink(tempPath);
+      } catch (err) {
+        console.log(err);
+      }
     }
   },
 
@@ -277,13 +262,9 @@ module.exports = {
       const record = await recordDatamapper.findByPk(recordId);
       if (!record) return next();
 
-      const filename = path.join(PUBLIC_DIR, record.url);
-
-      const sameFileNames = await fileUtils.getSameFileNames(filename);
+      const sameFileNames = await fileUtils.getSameFileNames(record.url);
       if (sameFileNames.length) {
-        for (const file of sameFileNames) {
-          await fsPromises.unlink(file);
-        }
+        await fileUtils.deleteMany(sameFileNames.map(({ Key }) => ({ Key })));
       }
 
       await recordDatamapper.deleteOne(recordId);

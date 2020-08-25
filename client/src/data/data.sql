@@ -1,3 +1,7 @@
+
+/*  */
+truncate "record" RESTART IDENTITY CASCADE;
+
 /* UPDATE "user" SET "is_admin" = true WHERE id = 5; */
 
 
@@ -57,6 +61,13 @@ INSERT INTO "language_user" ("language_id", "user_id", "role")
      ('2', '5', 'teacher'),
      ('3', '5', 'learner'),
      ('4', '5', 'learner');
+
+DELETE FROM "language"
+WHERE id = 6;
+
+UPDATE "language"
+SET "name" = 'Français'
+WHERE "id" = 1;
 
    /*         
 Pour le back :

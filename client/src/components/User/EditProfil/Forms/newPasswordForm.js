@@ -5,11 +5,10 @@ const NewPasswordForm = ({ handdleInputChange, handdleSubmit }) => {
 
     return (
         <div className="edit-profil_password">
-            <h3 className="edit-profil_title">Modification du mot de passe</h3>
             <Form onSubmit={handdleSubmit}>
                 <Form.Group widths="equal">
                     <Form.Field>
-                        <span>Nouveau mot de passe</span>
+                        <span className="edit-profil_label">Nouveau mot de passe</span>
                         <Input 
                         name="password"
                         type="password"
@@ -18,7 +17,7 @@ const NewPasswordForm = ({ handdleInputChange, handdleSubmit }) => {
                     </Form.Field>
                 </Form.Group>
                 <Form.Field>
-                    <span>Confirmation du nouveau mot de passe</span>
+                    <span className="edit-profil_label">Confirmation du nouveau mot de passe</span>
                     <Input 
                     name="confirm"
                     type="password"
@@ -29,6 +28,7 @@ const NewPasswordForm = ({ handdleInputChange, handdleSubmit }) => {
                 type="submit"
                 content="Enregistrer le mot de passe"
                 className="edit-profil_formbtn"
+                size="small"
                 />
             </Form>
         </div>

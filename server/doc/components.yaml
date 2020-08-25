@@ -27,7 +27,7 @@ components:
         records:
           type: array
           items:
-            $ref: "#components/schemas/Record"
+            $ref: "#components/schemas/UserRecord"
         learnedLanguages:
           $ref: "#components/schemas/Languages"
         taughtLanguages:
@@ -75,6 +75,37 @@ components:
         - password
         - confirm
 
+    RecordUser:
+      type: object
+      properties:
+        id:
+          $ref: "#components/schemas/PrimaryKey"
+        firstname:
+          $ref: "#components/schemas/Firstname"
+        lastname:
+          $ref: "#components/schemas/Lastname"
+        slug:
+          $ref: "#components/schemas/Slug"
+        avatarUrl:
+          $ref: "#components/schemas/URL"
+
+    DashboardUser:
+      type: object
+      properties:
+        id:
+          $ref: "#components/schemas/PrimaryKey"
+        email:
+          type: string
+          format: email
+        firstname:
+          $ref: "#components/schemas/Firstname"
+        lastname:
+          $ref: "#components/schemas/Lastname"
+        slug:
+          $ref: "#components/schemas/Slug"
+        createdAt:
+          $ref: "#components/schemas/DateTZ"
+
     LoginForm:
       type: object
       properties:
@@ -87,7 +118,7 @@ components:
         - email
         - password
 
-    Record:
+    UserRecord:
       type: object
       properties:
         id:
@@ -100,6 +131,36 @@ components:
           $ref: "#components/schemas/Translation"
         translation:
           $ref: "#components/schemas/Translation"
+
+    Record:
+      type: object
+      properties:
+        id:
+          $ref: "#components/schemas/PrimaryKey"
+        url:
+          $ref: "#components/schemas/URL"
+        createdAt:
+          $ref: "#components/schemas/DateTZ"
+        user:
+          $ref: "#components/schemas/RecordUser"
+        englishTranslation:
+          $ref: "#components/schemas/Translation"
+        translation:
+          $ref: "#components/schemas/Translation"
+
+    DashboardRecord:
+      type: object
+      properties:
+        id:
+          $ref: "#components/schemas/PrimaryKey"
+        url:
+          $ref: "#components/schemas/URL"
+        createdAt:
+          $ref: "#components/schemas/DateTZ"
+        user:
+          $ref: "#components/schemas/DashboardUser"
+        translation:
+          $ref: "#components/schemas/DashboardTranslation"
 
     Languages:
       type: array
@@ -116,9 +177,7 @@ components:
           type: string
           example: english
         code:
-          type: string
-          example: en
-          pattern: "[a-z]{2,4}"
+          $ref: "#components/schemas/CountryCode"
 
     NewLanguage:
       type: object
@@ -168,6 +227,22 @@ components:
           $ref: "#components/schemas/Expression"
         language:
           $ref: "#components/schemas/Language"
+
+    DashboardTranslation:
+      type: object
+      properties:
+        id:
+          $ref: "#components/schemas/TranslationPk"
+        text:
+          type: string
+          example: How are you ?
+        languageName:
+          type: string
+          example: english
+        languageCode:
+          $ref: "#components/schemas/CountryCode"
+        expressionId:
+          $ref: "#components/schemas/PrimaryKey"
 
     Expression:
       type: object
@@ -226,6 +301,11 @@ components:
       type: string
       example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
       format: JWT
+
+    CountryCode:
+      type: string
+      example: en
+      pattern: "[a-z]{2,4}"
 
     Errors:
       type: object

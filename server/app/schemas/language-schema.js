@@ -6,7 +6,7 @@ module.exports = {
   },
   code: {
     matches: {
-      options: /(^\w{2}$)|(^\w{2}_\w{2}$)/ ,
+      options: /(^[a-z]{2}$)|(^[a-z]{2}_[A-Z]{2}$)/ ,
       errorMessage: "Le code de la langue doit être du format [en] ou [en_US]"
     }
   }

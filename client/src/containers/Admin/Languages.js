@@ -5,7 +5,6 @@ import Languages from '../../components/Admin/Languages';
 
 const mapStateToProps = (state) => ({
     languageValue: state.expressionsReducer.languageValue,
-    languagesList: state.expressionsReducer.languagesList,
     newLanguageLoading : state.expressionsReducer.newLanguageLoading,
     languagesList: state.expressionsReducer.languagesList,
 });

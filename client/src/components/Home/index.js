@@ -96,7 +96,7 @@ const Home = () => {
                 {users.map((user, index) => (
                     <div key={user.id} className="users">
                         <p>{index}</p>
-                        <img className="users-avatar" src={user.avatar} />
+                        <img className="users-avatar" src={user.avatar} alt="avatar itongue"/>
                         <p>{user.name}</p>
                         <p className="users-country">{user.country}</p>
                         <p className="users-records">{user.iRecord} iRecords</p>

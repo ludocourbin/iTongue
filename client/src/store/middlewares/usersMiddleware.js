@@ -7,7 +7,6 @@ import {
   CHECK_USER_SLUG,
   checkUserSlugSuccess,
   checkUserSlugError,
-  checkUserSlug
 } from "../actions/userActions";
 
 import {
@@ -80,9 +79,7 @@ export const usersMiddleware = store => next => action => {
       const mapper = role => {
         return role.map(learnLanguageId => {
           return allLanguagesList.find(language => {
-            if (language.id === learnLanguageId) {
-              return language;
-            }
+            return language.id === learnLanguageId && language;
           });
         });
       };

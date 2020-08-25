@@ -326,31 +326,27 @@ export default (state = initialState, action = {}) => {
         ...state,
         userSlugInfos: {}
       };
-    case EDIT_PROFIL_SLUG:
-      return {
-        ...state
-      };
-    case DELETE_IRECORD_SUCCESS_USER_PROFIL:
-      return {
-        ...state,
-        userSlugInfos: {
-          ...state.userSlugInfos,
-          records: [...action.payload]
-        }
-      };
-    case EDIT_PROFIL_SLUG_SUCCESS:
-      return {
-        slug: action.payload,
-        currentUser: {
-          ...state.currentUser,
-          slug: action.payload
-        },
-        editProfilData: {
-          ...state.editProfilData,
-          slug: action.payload
-        },
-        editProfilSlugMsg: ""
-      };
+      case EDIT_PROFIL_SLUG:
+        return {
+          ...state
+        };
+      case EDIT_PROFIL_SLUG_SUCCESS:
+        return {
+            ...state,
+            userSlugInfos: {
+                ...state.userSlugInfos,
+                slug: action.payload,
+            },
+            currentUser: {
+                ...state.currentUser,
+                slug: action.payload,
+            },
+            editProfilData: {
+                ...state.editProfilData,
+                slug: action.payload,
+            },
+            editProfilSlugMsg: "",
+        };
     case EDIT_PROFIL_SLUG_ERROR:
       return {
         ...state,
@@ -363,6 +359,14 @@ export default (state = initialState, action = {}) => {
         editProfilData: {
           ...state.editProfilData,
           slug: action.payload
+        }
+      };
+    case DELETE_IRECORD_SUCCESS_USER_PROFIL:
+      return {
+        ...state,
+        userSlugInfos: {
+          ...state.userSlugInfos,
+          records: [...action.payload]
         }
       };
     case SEND_IRECORD_SUCCESS_USER_PROFIL:

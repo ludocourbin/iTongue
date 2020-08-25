@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Input, Tab, Button, Header, Icon } from "semantic-ui-react";
+import { Container, Input, Tab, Button, Header } from "semantic-ui-react";
 import { orderCreateByDateWithMoment } from "../../utils.js";
 
 /* Component */

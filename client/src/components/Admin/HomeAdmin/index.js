@@ -10,7 +10,7 @@ import MemberCard from "../../MembersCard";
 
 const HomeAdmin = ({ fetchStats, stats }) => {
 
-    const { userCount, recordCount, languageCount, translationCount, recentUsers, recentRecords } = stats;
+    const { userCount, recordCount, languageCount, translationCount, recentUsers,  /* recentRecords */ } = stats;
 
     useEffect(() => {
         fetchStats();

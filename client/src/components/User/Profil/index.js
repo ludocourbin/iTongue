@@ -18,21 +18,20 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 
   let slug = useParams();
 
-  const checkUser = () => {
-    if (currentUser.slug === slug.slug) {
-      setIsUserAccount(true);
-    } else {
-      setIsUserAccount(false);
-    }
-  };
-
   useEffect(() => {
     checkUserSlug(slug.slug);
-  }, [slug.slug]);
+  }, [slug.slug, checkUserSlug]);
 
   useEffect(() => {
+    const checkUser = () => {
+      if (currentUser.slug === slug.slug) {
+        setIsUserAccount(true);
+      } else {
+        setIsUserAccount(false);
+      }
+    };
     checkUser();
-  }, [isUserAccount, slug]);
+  }, [slug.slug, currentUser.slug]);
 
   const {
     id,

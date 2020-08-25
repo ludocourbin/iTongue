@@ -5,8 +5,7 @@ export const loginAdminMiddleware = (store) => (next) => (action) => {
 
     next(action);
     switch (action.type) {
-        case LOGIN_SUBMIT: {
-
+        case LOGIN_SUBMIT: 
             axios({
                 method: 'POST',
                 url: `${process.env.REACT_APP_API_URL}/users/login`,
@@ -31,13 +30,9 @@ export const loginAdminMiddleware = (store) => (next) => (action) => {
                 store.dispatch(loginSubmitError("Connexion refusée"));
             });
             break;
-        };
-        case LOGOUT : {
-            
+        case LOGOUT : 
             break;
-        };
-        default: {
+        default:
             break;
-        };
     };
 };

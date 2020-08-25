@@ -30,7 +30,7 @@ const ExpressionsResult = ( props ) => {
 
     useEffect(() => {
         fetchLanguages();
-    }, []);
+    }, [fetchLanguages]);
 
     /* Remise en forme des datas pour le dropDown des langues */
     const dropDownOptions = languagesList.map(language => {

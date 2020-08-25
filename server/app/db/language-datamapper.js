@@ -15,13 +15,6 @@ const client = require("../redis/cache");
  */
 
 /**
-* @typedef {Object} UpdateFilter
-* @property {String} text New text of the language
-* @property {Number} expression_id ID of the expression related to the language
-* @property {Number} language_id ID of the language related to the language
-*/
-
-/**
 * @typedef {Object} Updated
 * @property {Boolean} updated True if succes
 */
@@ -74,6 +67,22 @@ module.exports = {
   },
 
   /**
+   * Update one language by ID
+   * @param {Number} id ID of the language to update
+   * @param {String} name Name of the language
+   * @param {String} code Code of the language
+   * @returns {Updated} True if success language
+   */
+  updateOne: async (id, name, code) => {
+    const query = {
+      name: `update-language-${id}`,
+      text: 'SELECT update_language($1, $2, $3) AS "updated"',
+      values: [id, name, code]
+    };
+    return await client.query(query);
+  },
+
+  /**
    * Find one languge by name
    * @param {String} name Name of the language
    * @returns {Language} Queried language
@@ -97,6 +106,20 @@ module.exports = {
       name: `read-language-${code}`,
       text: 'SELECT * FROM "language" WHERE "code" = $1',
       values: [code]
+    };
+    return await client.query(query);
+  },
+
+  /**
+   * Find one languges by code
+   * @param {Number} id ID of the language to delete
+   * @returns {Deleted} True if success
+   */
+  deleteOne: async id => {
+    const query = {
+      name: `delete-language-${id}`,
+      text: 'SELECT delete_row_from_relation($1, $2) AS "deleted"',
+      values: ["language", id]
     };
     return await client.query(query);
   }

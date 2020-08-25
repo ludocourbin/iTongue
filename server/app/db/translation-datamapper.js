@@ -47,7 +47,7 @@ module.exports = {
   },
 
   /**
-   * Update one translation
+   * Update one translation by ID
    * @param {Number} id ID of the translation to update
    * @param {String} text New text of the translation
    * @param {Number} expression_id ID of the expression related to the translation
@@ -97,8 +97,8 @@ module.exports = {
   deleteOne: async id => {
     const query = {
       name: `delete-translation-${id}`,
-      text: 'DELETE FROM "translation" WHERE "id" = $1 RETURNING TRUE AS "deleted"',
-      values: [id]
+      text: 'SELECT delete_row_from_relation($1, $2) AS "deleted"',
+      values: ["translation", id]
     };
     return await client.query(query);
   }

@@ -3,22 +3,54 @@ import emailjs from 'emailjs-com';
 import Layout from "../../containers/Layout";
 import FAQ from './FAQ';
 import { Form, Input, TextArea, Button, Message } from 'semantic-ui-react';
-// import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import validator from "validator";
 import "./style.scss";
 
+toast.configure();
 const Contact = () => {
     
-    const [firstname, setFirstName] = useState("Ludovic");
-    const [lastname, setLastName] = useState("Courbin");
-    const [message, setMessage] = useState("Je suis l'homme le plus beau de la promo Galactica");
-    const [email, setEmail] = useState("ludo@gmail.com");
-    // const [errorEmail, setErrorEmail] = useState(false);
+    const [firstname, setFirstName] = useState("");
+    const [lastname, setLastName] = useState("");
+    const [message, setMessage] = useState("");
+    const [email, setEmail] = useState("");
+
+    const checkMinimumInput = (data1, data2, data3) => {
+        return data1.length < 2 || data2.length < 2 || data3.length < 10;
+    };
+
+
+    const checkMail = (mail) => {
+        if (mail === "") {
+            return true;
+        }
+        if (!validator.isEmail(mail)) {
+            console.log("mail not ok");
+            return true;
+        } 
+        else {
+            console.log("mail ok");
+            return false;
+        }
+        
+    };
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
         console.log("onSubmit");
-        sendEmail(evt);
+        if (!checkMail(email) && !checkMinimumInput(firstname, lastname, message)) {
+            console.log('email sent');
+            sendEmail(evt);
+            toast.success('Nous vous répondons au plus vite.', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
+        }
     };
 
     const handleChange = (e) => {
@@ -36,28 +68,6 @@ const Contact = () => {
             setEmail(value);
         }
     };
-    const checkMinimumInput = (data1, data2, data3) => {
-        return data1.length < 2 || data2.length < 2 || data3.length < 10;
-    };
-
-
-    const checkMail = (mail) => {
-        if (mail === "") {
-            return true;
-        }
-        if (!validator.isEmail(mail)) {
-            console.log("not ok");
-            // setErrorEmail(true);
-            return true;
-        } 
-        else {
-            console.log("ok");
-            // setErrorEmail(false);
-            return false;
-        }
-        
-    };
-
     const sendEmail = (e) => {
         e.preventDefault();
     
@@ -70,7 +80,7 @@ const Contact = () => {
 
         e.target.reset();
       }
-    console.log(checkMail(email));
+
     return (
         <Layout>
             <FAQ />
@@ -118,7 +128,7 @@ const Contact = () => {
                     //     pointing: 'below',
                     // }}
                     />
-                    { checkMail && (
+                    { checkMail(email) && (
                         <Message negative content={"Email incorrect"} />
                     )}
                     <div className="centerButton">

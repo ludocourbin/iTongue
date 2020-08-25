@@ -7,6 +7,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
+    "emailjs-com": "^2.6.3",
     "ffmpeg": "^0.0.4",
     "framer-motion": "^2.4.3-beta.2",
     "get-blob-duration": "^1.1.2",

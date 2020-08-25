@@ -8,6 +8,7 @@ const userSchema = require("../schemas/user-schema");
 const loginFormSchema = require("../schemas/login-form-schema");
 const recordSchema = require("../schemas/record-schema");
 const userController = require("../controllers/user-controller");
+const authController = require("../controllers/auth-controller");
 
 const router = express.Router();
 
@@ -63,6 +64,7 @@ router.route("/").get(userController.showAll).post(validator(userSchema), userCo
  *   post:
  *     tags:
  *       - Users
+ *       - Auth
  *     summary: Authenticate a user
  *     description: Login form submission. Returns the logged user if the authentication process succeeds.
  *     requestBody:
@@ -97,6 +99,27 @@ router.route("/").get(userController.showAll).post(validator(userSchema), userCo
  *         $ref: "#/components/responses/Unauthorized"
  */
 router.post("/login", validator(loginFormSchema), userController.login);
+
+/**
+ * @swagger
+ * /users/logout:
+ *   post:
+ *     tags:
+ *       - Users
+ *       - Auth
+ *     security:
+ *       - BearerJWT: []
+ *     summary: Logout a user
+ *     description: User tokens invalidation.
+ *     responses:
+ *       "204":
+ *         $ref: "#/components/responses/NoContent"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
+ */
+router.post("/logout", authController.logout);
 
 /**
  * @swagger

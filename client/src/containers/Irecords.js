@@ -7,6 +7,7 @@ import {
     toggleRecording,
     selectIrecordToRecord,
     setTranslationId,
+    deleteIrecord,
 } from "../store/actions/irecordsActions";
 
 const mapStateToProps = (state) => ({
@@ -28,6 +29,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     selectIrecordToRecord: (irecord) => {
         dispatch(selectIrecordToRecord(irecord));
+    },
+    deleteIrecord: (id) => {
+        dispatch(deleteIrecord(id));
     },
 });
 

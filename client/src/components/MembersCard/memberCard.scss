@@ -12,8 +12,10 @@
     }
 
     &_right {
-        width: 30%;
-        margin-left: 15px;
+        width: 200px;
+        // margin-left: 15px;
+        display: flex;
+        flex-wrap: wrap;
     }
     .fullname {
         margin-bottom: 0;
@@ -26,6 +28,7 @@
     .records {
         font-weight: 300;
         font-size: 0.9em;
+        color: hsl(180, 29%, 50%);
     }
 
     .ui.floated.image {

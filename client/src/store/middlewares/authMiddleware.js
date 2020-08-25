@@ -78,6 +78,7 @@ export default (store) => (next) => (action) => {
                         loginSubmitError("Désolé cet utilisateur n'existe pas")
                     );
                 });
+            return;
         default:
             return;
     }

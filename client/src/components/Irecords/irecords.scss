@@ -1,10 +1,16 @@
 @import "../../styles/vars";
+@import "../../styles/mixin";
 .irecords,
 .recording {
     margin-bottom: 20px !important;
     width: 100% !important;
     &-container {
         width: 100vw !important;
+    }
+
+    div.ui.card > .content,
+    .ui.cards > .card > .content {
+        border-top: 0;
     }
 
     box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
@@ -86,5 +92,15 @@
         top: 20px;
         left: 45px;
         font-size: 0.9rem;
+    }
+}
+
+.delete-irecords {
+    button {
+        font-size: 0.9em !important;
+    }
+    .ui.primary.button,
+    .ui.primary.buttons .button {
+        @include button;
     }
 }

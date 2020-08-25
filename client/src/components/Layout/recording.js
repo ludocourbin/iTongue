@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, Flag, Button, Icon, Dropdown } from "semantic-ui-react";
 import { ReactMic } from "react-mic";
+import { motion } from "framer-motion";
 
 import AudioPlayer from "../../containers/Audio";
 
@@ -23,7 +24,7 @@ const Recording = ({
 
     useEffect(() => {
         fetchAllExpressions();
-    }, []);
+    }, [fetchAllExpressions]);
 
     const startRecording = () => {
         setRecording(true);
@@ -105,17 +106,27 @@ const Recording = ({
 
             setTranslationsSelected(options);
         }
-    }, [expressionSelected]);
+    }, [expressionSelected, allExpressions]);
+
+    const variants = {
+        visible: { opacity: 1, y: 0 },
+        hidden: { opacity: 0, y: 100 },
+    };
 
     return (
-        <div className="recording">
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={variants}
+            className="recording"
+        >
             <Card className="recording-widget">
                 <Card.Meta>
                     <Icon
                         className="closeIcon"
                         onClick={handleCancel}
                         name="close"
-                        color="red"
+                        color="black"
                         corner="top right"
                     />
                 </Card.Meta>
@@ -134,7 +145,7 @@ const Recording = ({
                     </div>
                 ) : (
                     <div className="container-dropdown">
-                        <Card.Content fluid>
+                        <Card.Content>
                             <Dropdown
                                 style={{ width: "100%" }}
                                 selection
@@ -146,7 +157,7 @@ const Recording = ({
                             />
                         </Card.Content>
 
-                        <Card.Content fluid>
+                        <Card.Content>
                             <Dropdown
                                 style={{ width: "100%" }}
                                 selection
@@ -219,7 +230,7 @@ const Recording = ({
                     </div>
                 </Card.Content>
             </Card>
-        </div>
+        </motion.div>
     );
 };
 

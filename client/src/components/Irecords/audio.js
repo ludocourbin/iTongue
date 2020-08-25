@@ -95,7 +95,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
                 id={id}
                 ref={audioRef}
                 type="audio/mp3"
-                src={blobURL || "https://itongue.herokuapp.com/" + url}
+                src={blobURL || `${process.env.REACT_APP_FILES_URL}/${url}`}
                 onLoadedData={handleDuration}
                 onTimeUpdate={() => {
                     setCurrentTime(audioRef.current.currentTime);

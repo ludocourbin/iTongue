@@ -3,7 +3,7 @@ import {
     SELECTED_IRECORDS_TO_RECORD,
     TOGGLE_RECORDING,
     SEND_IRECORDS_RECORDED,
-    SEND_IRECORDS_SUCCESS,
+    SEND_IRECORD_SUCCESS_IRECORDS_PAGE,
     SEND_IRECORDS_ERROR,
     FETCH_ALL_RECORDS,
     FETCH_ALL_RECORDS_SUCCESS,
@@ -12,6 +12,9 @@ import {
     FETCH_EXPRESSIONS,
     FETCH_EXPRESSIONS_ERROR,
     FETCH_EXPRESSIONS_SUCCESS,
+    DELETE_IRECORD,
+    DELETE_IRECORD_SUCCESS_IRECORDS_PAGE,
+    DELETE_IRECORD_ERROR,
 } from "../actions/irecordsActions";
 
 const initialState = {
@@ -26,7 +29,10 @@ const initialState = {
     allExpressions: [],
     isLoadingExpressions: false,
     errorFetchingExpressions: null,
+    irecordDeletedMessage: "",
+    irecordDeletedError: "",
 };
+
 export default (state = initialState, action = {}) => {
     switch (action.type) {
         case SET_IRECORD_SELECTED_ID:
@@ -54,10 +60,11 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 loading: true,
             };
-        case SEND_IRECORDS_SUCCESS:
+        case SEND_IRECORD_SUCCESS_IRECORDS_PAGE:
             return {
                 ...state,
                 loading: false,
+                allRecordsList: [...state.allRecordsList, action.payload],
             };
         case SEND_IRECORDS_ERROR:
             return {
@@ -102,6 +109,27 @@ export default (state = initialState, action = {}) => {
                 allExpressions: [],
                 errorFetchingExpressions: action.payload,
                 isLoadingExpressions: false,
+            };
+        case DELETE_IRECORD:
+            return {
+                ...state,
+                loading: true,
+                irecordDeletedMessage: "",
+            };
+        case DELETE_IRECORD_SUCCESS_IRECORDS_PAGE:
+            return {
+                ...state,
+                loading: false,
+                irecordDeletedMessage: "iRecords supprimer",
+                irecordDeletedError: "",
+                allRecordsList: [...action.payload],
+            };
+        case DELETE_IRECORD_ERROR:
+            return {
+                ...state,
+                loading: false,
+                irecordDeletedMessage: "",
+                irecordDeletedError: "Problème lors de la suppression",
             };
         default:
             return state;

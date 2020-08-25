@@ -12,20 +12,20 @@ import Layout from "../../containers/Layout";
 import "./iusersPage.scss";
 
 const IusersPage = (props) => {
-    const {
-        allUsersList,
-        isLoadingallUsers,
-        fetchAllUsers,
-    } = props;
+    const { allUsersList, isLoadingallUsers, fetchAllUsers } = props;
 
     useEffect(() => {
         fetchAllUsers();
-    }, []);
+    }, [fetchAllUsers]);
 
     return (
         <Layout>
             <div className="usersPage">
-                <Header size="small" content="Les dernier utilisateurs" className="title"/>
+                <Header
+                    size="small"
+                    content="Les dernier utilisateurs"
+                    className="title"
+                />
                 <div className="users-list">
                     {isLoadingallUsers && <Placeholder />}
                     {!isLoadingallUsers &&

@@ -1,6 +1,21 @@
 .homePage {
+    padding: 10px;
+    margin-top: 14px;
+    font-weight: 700;
+
+    img {
+        width: 100%;
+    }
     p {
         margin: 0;
+        font-weight: 300;
+    }
+
+    &-header {
+        padding-bottom: 2px !important;
+        border-bottom: 1px solid black !important;
+        width: fit-content;
+        margin-bottom: 20px !important;
     }
     .users {
         display: flex;
@@ -11,7 +26,7 @@
 
         &-avatar {
             width: 40px;
-            margin: 0 13px;
+            margin: 0 10px 0 10px !important;
         }
 
         &-country {

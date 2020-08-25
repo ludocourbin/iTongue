@@ -56,7 +56,7 @@ module.exports = {
    */
   clearFromCache(key) {
     return new Promise((resolve, reject) => {
-      redisClient.del(key, (err, data) => {
+      client.del(key, (err, data) => {
         if (err) {
           reject(err);
         }

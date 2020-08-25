@@ -106,7 +106,6 @@ export const usersMiddleware = (store) => (next) => (action) => {
                     confirm,
                 }
             }
-
             axios({
                 method: "POST",
                 url: `${process.env.REACT_APP_API_URL}/users/${id}`,
@@ -120,9 +119,16 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 .then((res) => {
                     console.log(res);
                     store.dispatch(editProfilSuccess(finalData));
+
+                    if (res.status === 200) {
+                        if (finalData.password && finalData.confirm) {
+                            toast.info("Votre mot de passe a bien été modifié");
+                        }
+                    }
                 })
                 .catch((err) => {
                     console.error(err);
+                    console.error(err.response);
                     store.dispatch(editProfilError(/* Todo */));
                 });
             break;

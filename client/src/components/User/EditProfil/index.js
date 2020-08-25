@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Redirect, Link } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
 
 /* Components */ 
 import { Accordion, Icon, Header } from 'semantic-ui-react';
@@ -53,6 +54,7 @@ const EditProfil = (props) => {
     return (
         <Layout>
             { (currentUser.slug !== slug.slug) && <Redirect to={`/user/${currentUser.slug}`} /> }
+            <ToastContainer autoClose={2000} />
             <div className="edit-profil">
                 
                 <Header size='tiny' className="edit-profil_back">
@@ -124,7 +126,8 @@ const EditProfil = (props) => {
                     <Accordion.Content active={activeIndex === 2}>
                         <NewPasswordForm
                         handdleInputChange={handdleInputChange} 
-                        handdleSubmit={handdleSubmit} 
+                        handdleSubmit={handdleSubmit}
+                        profilData={profilData}
                         />
                     </Accordion.Content>
 

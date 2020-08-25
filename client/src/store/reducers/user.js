@@ -300,7 +300,6 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
             };
-
         case CHECK_USER_SLUG:
             return {
                 ...state,

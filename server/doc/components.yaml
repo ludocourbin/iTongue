@@ -120,6 +120,27 @@ components:
           example: en
           pattern: "[a-z]{2,4}"
 
+    NewLanguage:
+      type: object
+      properties:
+        name:
+          type: string
+          example: english
+        code:
+          type: string
+          example: en_US
+          pattern: "(^[a-z]{2}$)|(^[a-z]{2}_[A-Z]{2}$)"
+          description: Must be [en] or [en_US] format
+
+    NewExpression:
+      type: object
+      properties:
+        label:
+          type: string
+          example: bjr
+      required:
+        - label
+
     UserLanguage:
       type: object
       properties:
@@ -148,7 +169,7 @@ components:
         language:
           $ref: "#components/schemas/Language"
 
-    EXpression:
+    Expression:
       type: object
       properties:
         id:
@@ -221,7 +242,44 @@ components:
           type: string
           example: An error has occured
 
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 24
+
+    Updated:
+      type: object
+      properties:
+        updated:
+            type: boolean
+            example: true
+
+    Deleted:
+      type: object
+      properties:
+        deleted:
+            type: boolean
+            example: true
+
   parameters:
+    ExpressionID:
+      in: path
+      name: id
+      schema:
+        $ref: "#components/schemas/PrimaryKey"
+      required: true
+      description: Primary key of the expression.
+
+    TranslationID:
+      in: path
+      name: id
+      schema:
+        $ref: "#components/schemas/PrimaryKey"
+      required: true
+      description: Primary key of the translation.
+
     UserPk:
       name: id
       schema:
@@ -233,6 +291,14 @@ components:
       name: language_id
       schema:
         $ref: "#components/schemas/LanguagePk"
+      required: true
+      description: Primary key of the language.
+    
+    LanguageID:
+      in: path
+      name: id
+      schema:
+        $ref: "#components/schemas/PrimaryKey"
       required: true
       description: Primary key of the language.
 

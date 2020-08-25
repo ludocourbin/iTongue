@@ -64,7 +64,6 @@ module.exports = {
     
     // Serve results from Redis if any
     const chachedResults = await getFromCache(key);
-    console.log("chachedResults", chachedResults)
     if (chachedResults) return chachedResults[0];
     
     // Serve results Postgres if any
@@ -83,8 +82,12 @@ module.exports = {
    */
   async mutate(query) {
 
-    const mutation = await client.query(query);
-    if (!mutation.rowCount) throw Error(query.name + ": unable to mutate");
+    const results = await client.query(query);
+    // console.log("results", results)
+    const mutation = results.rows[0];
+    console.log("mutation", mutation)
+    if (mutation.updated === null) throw Error("Unable to " + query.name);
+    if (mutation.deleted === false) throw Error("Unable to " + query.name);
     
     // Clear user's slug cached key if exist
     const { isUserMutation } = regex;
@@ -103,6 +106,6 @@ module.exports = {
     const selectKey = generateKey(selectName);
     clearFromCache(selectKey);
     
-    return mutation.rows[0];
+    return mutation;
   },
 };

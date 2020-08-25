@@ -86,8 +86,8 @@ module.exports = {
   deleteOne: async id => {
     const query = {
       name: `delete-expression-${id}`,
-      text: 'DELETE FROM "expression" WHERE "id" = $1 RETURNING TRUE AS "deleted"',
-      values: [id]
+      text: 'SELECT delete_row_from_relation($1, $2) AS "deleted"',
+      values: ["expression", id]
     };
     return await client.query(query);
   }

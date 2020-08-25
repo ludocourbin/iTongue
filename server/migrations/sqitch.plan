@@ -7,4 +7,5 @@
 201-views-expressions 2020-08-18T12:06:49Z sacha-smz <sacha.zacaropoulos@gmail.com> # Display of expressions with translations
 202-function-search 2020-08-19T15:29:10Z Quentin Lemogodeuc <quentin@MacBook.local> # Create function to query in many relations
 203-functions-translation 2020-08-21T08:21:06Z Quentin Lemogodeuc <quentin@MacBook.local> # Migration for translation datamapper
+204-function-language 2020-08-24T08:22:50Z Quentin Lemogodeuc <quentin@MacBook.local> # Function to update one language
 300-view-dashboard 2020-08-24T10:30:00Z sacha-smz <sacha.zacaropoulos@gmail.com> # Admin dashboard view

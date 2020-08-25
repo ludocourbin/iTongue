@@ -70,41 +70,64 @@ router.get("/", adminController.getDashboard);
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                name:
- *                  type: string
- *                code:
- *                 type: string
- *                 pattern: '(^\w{2}$)|(^\w{2}_\w{2}$)'
- *              required:
- *                - name
- *                - code
- *            examples:
- *              french:
- *                value:
- *                  name: french
- *                  code: fr
- *              spanish:
- *                value:
- *                  name: spanish
- *                  code: es_ES
+ *              $ref: "#/components/schemas/NewLanguage"
  *      responses:
  *          '201':
- *              description: Created language object
+ *              description: ID of created language
  *              content:
  *                application/json:
  *                  schema:
- *                    type: object
- *                    properties:
- *                      id:
- *                        type: integer
- *                    example:
- *                       id: 1
+ *                    $ref: "#/components/schemas/ID"
  *          '401':
  *              description: Unauthorized
  */
 router.post("/languages", validator(languageSchema), languageController.create);
+
+/**
+ * @swagger
+ * /admin/languages/{id}:
+ *  post:
+ *      tags: 
+ *        - Languages
+ *      summary: Update one language
+ *      description: This route updates one language
+ *      parameters:
+ *        - $ref: "#/components/parameters/LanguageID"
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: "#/components/schemas/Language"
+ *      responses:
+ *          '200':
+ *              description: OK
+ *              content:
+ *                application/json:
+ *                  schema:
+ *                    $ref: "#/components/schemas/Updated"
+ */
+router.post("/languages/:id([0-9]+)", validator(languageSchema), languageController.update);
+
+/**
+ * @swagger
+ * /admin/languages/{id}:
+ *  delete:
+ *      tags: 
+ *        - Languages
+ *      summary: Delete one language
+ *      description: This route deletes one language
+ *      parameters:
+ *        - $ref: "#/components/parameters/LanguageID"
+ *      responses:
+ *          '200':
+ *              description: OK
+ *              content:
+ *                application/json:
+ *                  schema:
+ *                    $ref: "#/components/schemas/Deleted"
+ */
+router.delete("/languages/:id([0-9]+)", languageController.delete);
 
 /**
  * @swagger
@@ -119,28 +142,14 @@ router.post("/languages", validator(languageSchema), languageController.create);
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                label:
- *                  type: string
- *              required:
- *                - label
- *            examples:
- *              bjr:
- *                value:
- *                  label: bjr
+ *              $ref: "#/components/schemas/NewExpression"
  *      responses:
  *          '201':
- *              description: Created expression object
+ *              description: Id of created expression
  *              content:
  *                application/json:
  *                  schema:
- *                    type: object
- *                    properties:
- *                      id:
- *                        type: integer
- *                    example:
- *                       id: 1
+ *                    $ref: "#/components/schemas/ID"
  *          '401':
  *              description: Unauthorized
  */
@@ -155,14 +164,7 @@ router.post("/expressions", validator(expressionSchema), expressionController.cr
  *      summary: Update one expression
  *      description: This routes in made for updating one expression
  *      parameters:
- *        - in: path
- *          name: id
- *          required: true
- *          schema:
- *            type: integer
- *            minimum: 1
- *            maximim: 1
- *          description: id of the expression
+ *        - $ref: "#/components/parameters/ExpressionID"
  *      requestBody:
  *        required: true
  *        content:
@@ -184,12 +186,7 @@ router.post("/expressions", validator(expressionSchema), expressionController.cr
  *              content:
  *                application/json:
  *                  schema:
- *                    type: object
- *                    properties:
- *                      updated:
- *                        type: boolean
- *                    example:
- *                      updated: true
+ *                    $ref: "#/components/schemas/Updated"
  *          '401':
  *              description: Unauthorized
  *          '409':
@@ -206,14 +203,7 @@ router.post("/expressions/:id([0-9]+)", validator(expressionSchema), expressionC
  *      summary: Delete one expression
  *      description: This routes in made for deleting one expression
  *      parameters:
- *        - in: path
- *          name: id
- *          required: true
- *          schema:
- *            type: integer
- *            minimum: 1
- *            maximim: 1
- *          description: id of the expression
+ *        - $ref: "#/components/parameters/ExpressionID"
  *      responses:
  *          '204':
  *              description: Expression deleted successfully
@@ -296,14 +286,7 @@ router.post("/translations", validator(translationSchema), translationController
  *      summary: Update one translation
  *      description: This routes in made for updating one translation
  *      parameters:
- *        - in: path
- *          name: id
- *          required: true
- *          schema:
- *            type: integer
- *            minimum: 1
- *            maximim: 1
- *          description: id of the translation
+ *        - $ref: "#/components/parameters/TranslationID"
  *      requestBody:
  *        required: true
  *        content:
@@ -338,12 +321,7 @@ router.post("/translations", validator(translationSchema), translationController
  *              content:
  *                application/json:
  *                  schema:
- *                    type: object
- *                    properties:
- *                      updated:
- *                        type: boolean
- *                    example:
- *                      updated: true
+ *                    $ref: "#/components/schemas/Updated"
  *          '401':
  *              description: Unauthorized
  *          '409':
@@ -366,14 +344,7 @@ router.post("/translations/:id(\\d+)", validator(translationSchema), translation
  *      summary: Delete one translation
  *      description: This routes in made for deleting one translation
  *      parameters:
- *        - in: path
- *          name: id
- *          required: true
- *          schema:
- *            type: integer
- *            minimum: 1
- *            maximim: 1
- *          description: id of the translation
+ *        - $ref: "#/components/parameters/TranslationID"
  *      responses:
  *          '204':
  *              description: Translation deleted successfully

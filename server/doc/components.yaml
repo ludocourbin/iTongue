@@ -343,6 +343,76 @@ components:
             type: boolean
             example: true
 
+    BestUsers:
+      type: array
+      items:
+        $ref: "#/components/schemas/BestUser"
+    
+    BestUser:
+      type: object
+      properties:
+        userId:
+          type: integer
+          example: 3
+        slug:
+          type: string
+          example: /jhon-doe
+        firstname:
+          type: string
+          example: Jhon
+        lastname:
+          type: string
+          example: Doe
+        avatarUrl:
+          type: string
+          example: /thumnails/jhon-doe.jpg
+        iRecords:
+          type: integer
+          example: 33
+          description: number of iRecords for this user
+      example:
+        userId: 1,
+        slug: "jhon-doe"
+        firstname: "Jhon"
+        lastname: "Doe"
+        avatarUrl: "/thumnails/jhon-doe.jpg"
+        iRecords: 33
+
+    BestTranslations:
+      type: array
+      items:
+        $ref: "#/components/schemas/BestTranslation"
+    
+    BestTranslation:
+      type: object
+      properties:
+        translationId:
+          type: integer
+          example: 3
+        text:
+          type: string
+          example: Hellow world
+        language:
+          type: string
+          example: en_EN
+        expression:
+          type: string
+          example: hello
+        expressionId:
+          type: integer
+          example: 47
+        iRecords:
+          type: integer
+          example: 357
+          description: number of iRecords for this user
+      example:
+        translationId: 3
+        text: Hellow world
+        language: en_EN
+        expression: hello
+        expressionId: 47
+        iRecord: 357
+
   parameters:
     ExpressionID:
       in: path

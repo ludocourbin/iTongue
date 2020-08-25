@@ -1,0 +1,14 @@
+@import "../../styles/vars";
+
+.usersPage {
+    margin: 1em;
+    .title {
+        margin: 20px 0 !important;
+        font-weight: 700;
+        font-size: 2rem;
+    }
+
+    .users-list {
+        border-bottom: $border-color 1px solid;
+    }
+}

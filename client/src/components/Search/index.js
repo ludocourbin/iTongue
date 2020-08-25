@@ -1,73 +1,107 @@
-import React, { useState } from "react";
-import { Container, Input, Tab, Button } from "semantic-ui-react";
-
-import "./search.scss";
+import React, { useState, useEffect } from "react";
+import { Container, Input, Tab, Button, Header, Icon } from "semantic-ui-react";
+import { orderCreateByDateWithMoment } from "../../utils.js";
 
 /* Component */
 import Layout from "../../containers/Layout";
 import Irecords from "../../containers/Irecords";
 import MembersCard from "../MembersCard";
+import Placeholder from "../Placeholder";
 
-import data from "./data";
+/* Style */
+import "./search.scss";
 
-const Search = () => {
+const Search = (props) => {
+    const {
+        allRecordsList,
+        fetchAllRecords,
+        fetchAllUsers,
+        allUsersList,
+        isLoadingallUsers,
+    } = props;
+
+    useEffect(() => {
+        fetchAllRecords();
+        fetchAllUsers();
+    }, [fetchAllRecords, fetchAllUsers]);
+
     const [isFocus, setIsFocus] = useState(false);
     const [keyword, setKeyword] = useState("");
 
-    const filteredData = data.items.filter(
+    const tabRecordsUsers = [...allRecordsList, ...allUsersList];
+
+    const usersAndRecordsOrderedByDate = orderCreateByDateWithMoment(
+        tabRecordsUsers
+    );
+
+    const usersAndRecords = usersAndRecordsOrderedByDate.filter(
         (el) =>
             (el.type === "member" &&
-                el.pseudo.toLowerCase().includes(keyword)) ||
-            (el.type === "audio" && el.label.toLowerCase().includes(keyword))
+                el.firstname.toLowerCase().includes(keyword)) ||
+            (el.type === "audio" &&
+                el.englishTranslation.text.toLowerCase().includes(keyword)) ||
+            (el.type === "audio" &&
+                el.user.firstname.toLowerCase().includes(keyword))
     );
 
-    const members = data.items.filter(
-        (el) =>
-            el.type === "member" && el.pseudo.toLowerCase().includes(keyword)
+    const members = allUsersList.filter((el) =>
+        el.firstname.toLowerCase().includes(keyword)
     );
-    const audios = data.items.filter((el) => el.type === "audio");
 
-    const audiosFiltered = audios.filter(
+    const audiosFiltered = allRecordsList.filter(
         (el) =>
-            el.label.toLowerCase().includes(keyword) ||
-            el.traduction.toLowerCase().includes(keyword) ||
-            el.author.toLowerCase().includes(keyword)
+            el.englishTranslation.text.toLowerCase().includes(keyword) ||
+            el.translation.text.toLowerCase().includes(keyword) ||
+            el.user.firstname.toLowerCase().includes(keyword)
     );
 
     const panes = [
         {
-            menuItem: "All",
+            menuItem: { key: "All", icon: "th", content: "All" },
             render: () => (
                 <Tab.Pane>
-                    {filteredData.map((element) => (
-                        <div key={element.id}>
-                            {element.type === "member" ? (
-                                <MembersCard user={element} />
-                            ) : (
-                                <Irecords audio={element} />
-                            )}
-                        </div>
-                    ))}
+                    {usersAndRecords &&
+                        usersAndRecords.map((record, index) => (
+                            <div key={index}>
+                                {record.type === "member" ? (
+                                    <MembersCard user={record} />
+                                ) : (
+                                    <Irecords
+                                        record={record}
+                                        key={record.id}
+                                        user={record.user}
+                                        isUserRecord={record.user.id}
+                                    />
+                                )}
+                            </div>
+                        ))}
                 </Tab.Pane>
             ),
         },
         {
-            menuItem: "Members",
+            menuItem: { key: "Members", icon: "users", content: "Members" },
             render: () => (
                 <Tab.Pane>
-                    {members.map((element) => (
-                        <MembersCard user={element} key={element.id} />
-                    ))}
+                    {members &&
+                        members.map((member) => (
+                            <MembersCard user={member} key={member.id} />
+                        ))}
                 </Tab.Pane>
             ),
         },
         {
-            menuItem: "Audios",
+            menuItem: { key: "Audios", icon: "sound", content: "Audios" },
             render: () => (
                 <Tab.Pane>
-                    {audiosFiltered.map((audio) => (
-                        <Irecords key={audio.id} audio={audio} />
-                    ))}
+                    {audiosFiltered &&
+                        audiosFiltered.map((record) => (
+                            <Irecords
+                                key={record.id}
+                                record={record}
+                                user={record.user}
+                                isUserRecord={record.user.id}
+                            />
+                        ))}
                 </Tab.Pane>
             ),
         },
@@ -97,22 +131,31 @@ const Search = () => {
                 </div>
 
                 <Container>
-                    {!isFocus && (
+                    {!isFocus && isLoadingallUsers && <Placeholder />}
+                    {!isFocus && !isLoadingallUsers && (
                         <div className="search-content--items">
-                            <h1>Nos derniers iRecords</h1>
-                            {audiosFiltered.map((audio) => {
+                            <Header
+                                size="small"
+                                content="Les derniers iRecords"
+                                className="title"
+                            />
+                            {allRecordsList.map((record) => {
                                 return (
                                     <div
                                         style={{ width: "100%" }}
-                                        key={audio.id}
+                                        key={record.id}
                                     >
-                                        <Irecords audio={audio} />
+                                        <Irecords
+                                            record={record}
+                                            user={record.user}
+                                            isUserRecord={record.user.id}
+                                        />
                                     </div>
                                 );
                             })}
                         </div>
                     )}
-                    {isFocus && <Tab panes={panes} />}
+                    {isFocus && <Tab className="search-tabs" panes={panes} />}
                 </Container>
             </Container>
         </Layout>

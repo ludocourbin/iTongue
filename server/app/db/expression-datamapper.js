@@ -1,123 +1,94 @@
-const client = require("./index");
+const client = require("../redis/cache");
+
+ /**
+ * @typedef {Object} Expression
+ * @property {Number} id ID of the expression
+ * @property {String} label Label of the expression
+ * @property {String} created_at Date of creation
+ */
+
+/**
+ * @typedef {Object} Created
+ * @property {Number} id ID of created expression
+ */
+
+/**
+* @typedef {Object} Updated
+* @property {Boolean} updated True if succes
+*/
+
+ /**
+ * @typedef {Object} Deleted
+ * @property {Boolean} deleted True if succes
+ */
 
 module.exports = {
-    /**
-     * Creates a new expression
-     * @param {String} label - Label of the expression
-     * @returns {Object} - Object containing relative datas for the new expression
-     * @returns {Error} - If label already exists
-     */
-    create: async label => {
-        try {
-            const query = {
-                name: "create-expression",
-                text: `
-          INSERT INTO "expression"("label")
-               VALUES($1)
-            RETURNING *
-          `,
-                values: [label]
-            };
-
-            const result = await client.query(query);
-            return result.rows[0];
-        } catch (error) {
-            console.log(error);
-            if (error.code === "23505") {
-                return { error: error.detail };
-            }
-        }
-    },
-
-    /**
-     * Updates an expression
-     * @param {Number} id - Label of the expression
-     * @param {String} label - Label of the expression
-     * @returns {Object} - Object containing relative datas for the new expression
-     * @returns {Error} - If label already exists
-     */
-    updateOne: async expression => {
-        const query = {
-            name: "update-expression",
-            text: `
-          UPDATE "expression"
-             SET "label" = $1
-           WHERE "id" = $2
-        `,
-            values: [expression.label, expression.id]
-        };
-
-        const result = await client.query(query);
-        return result.rowCount;
-    },
-
-    /**
-     * This method returns all languages in database
-     * @returns {Array.Object} - Set of objects representing available languages
-     */
-    findAll: async () => {
-        try {
-            const result = await client.query('SELECT * FROM "expression_with_relations"');
-            return result.rows;
-        } catch (err) {
-            // next(err);
-        }
-    },
-
-    /**
-     * This method returns asked expression
-     * @param {Number} id - Name of the expression
-     * @returns {Object} - Object representing the expression
-     */
-    findOneById: async id => {
-        try {
-            const query = {
-                name: "get-expression-by-id",
-                text: `
-          SELECT * 
-            FROM "expression" 
-           WHERE "id" = $1
-          `,
-                values: [id]
-            };
-
-            const result = await client.query(query);
-
-            if (!result.rows) {
-                throw new Error(`Unexpected issue: unable to get language : ${name}`);
-            }
-
-            if (result.rows.length === 0) {
-                return {};
-            }
-
-            return result.rows[0];
-        } catch (error) {
-            console.log(error);
-        }
-    },
-
-    /**
-     * Deletes one expression
-     * @param {Number} id - id of the expression
-     * @returns {Boolean} - True if success
-     */
-    deleteOne: async id => {
-        try {
-            const query = {
-                name: "delete-one-expression-by-id",
-                text: `
-          DELETE 
-            FROM "expression" 
-           WHERE "id" = $1
-          `,
-                values: [id]
-            };
-
-            await client.query(query);
-            return true;
-        } catch (error) {
-            console.log(error);
-        }
+  /**
+   * Create a new expression
+   * @param {String} label Label of the expression
+   * @returns {Created} ID the new expression
+   */
+  create: async label => {
+    const query = {
+      name: `create-expression-${label}`,
+      text: 'INSERT INTO "expression"("label") VALUES($1) RETURNING "id"',
+      values: [label]
     }
+    return await client.query(query);
+  },
+
+  /**
+   * Update one expression by ID
+   * @param {Number} id ID of the expression
+   * @param {String} label New label of the expression
+   * @returns {Updated} True if updated successfully
+   */
+  updateOne: async (id, label) => {
+    const query = {
+      name: `update-expression-${id}`,
+      text: 'UPDATE "expression" SET "label" = $1 WHERE "id" = $2 RETURNING TRUE AS "updated"',
+      values: [label, id]
+    }
+    return await client.query(query);
+  },
+
+  /**
+   * Find all expressions
+   * @returns {Expression[]} Available expressions
+   */
+  findAll: async () => {
+    const query = {
+      name: "read-expressions",
+      text: 'SELECT * FROM "expression_with_relations"'
+    }
+    return await client.query(query);
+  },
+
+  /**
+   * Find one expression by ID
+   * @param {Number} id ID of the expression
+   * @returns {Expression} Queried expression
+   */
+  findOneById: async id => {
+    const query = {
+      name: `read-expression-${id}`,
+      text: 'SELECT * FROM "expression" WHERE "id" = $1',
+      values: [id]
+    };
+    return await client.query(query);
+  },
+
+  /**
+   * Delete one expression by ID
+   * @param {Number} id ID of the expression
+   * @returns {Deleted} True if success
+   */
+  deleteOne: async id => {
+    const query = {
+      name: `delete-expression-${id}`,
+      text: 'SELECT delete_row_from_relation($1, $2) AS "deleted"',
+      values: ["expression", id]
+    };
+    return await client.query(query);
+  }
 };

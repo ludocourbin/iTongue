@@ -33,7 +33,7 @@ const LoginAdmin = (props) => {
     return (
         <div className="login-admin">
             <Segment className="login-admin_container" loading={loading} >
-                <Header size="large" content="Dashboard"/>
+                <Header size="large" content="Dashboard admin"/>
                 <Form onSubmit={handdleSubmit}>
                     <Form.Input 
                     placeholder="example@email.com"

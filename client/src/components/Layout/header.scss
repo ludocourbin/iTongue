@@ -1,5 +1,10 @@
 @import "../../styles/vars";
 @import "../../styles/mixin";
+@import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Capriola&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Acme&display=swap");
 
 .main {
     background-color: $background-color !important;
@@ -15,26 +20,52 @@
     height: calc(100vh - 108px);
 }
 
-.header {
+.main-content.modalRecording.user {
+    height: calc(100vh - 428px);
+}
+
+.header-nav {
     @include flex-alignCenter;
-    padding: $padding-big;
+    padding: 2em 0.8em;
     height: 54px;
     z-index: 1000;
-    border-bottom: 1px solid $border-color;
+    border-bottom: 1px solid #f9ecec;
+    background-color: #ffffff !important;
 
-    &-icon {
+    &__icon {
         cursor: pointer;
+        color: #cac7c7;
+        font-size: 1.4em !important;
+    }
+
+    .invisible {
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+
+    &__icon:hover {
         color: $primary-color;
     }
 
-    &-title {
+    &__title {
         margin: 0;
+        // font-family: "Righteous", cursive;
+         font-family: "Pacifico", cursive;
+        // font-family: "Gloria Hallelujah", cursive;
+        // font-family: "Acme", sans-serif;
+        // font-family: "Capriola", sans-serif;
+        letter-spacing: 0.12em;
+        font-size: 1.8em;
     }
 }
 
 .main-header {
     max-height: 100vh;
     height: 100vh;
+
+    .pushable>.pusher:after {
+        z-index: 9999;
+    }
 }
 
 .main-header-links {
@@ -80,14 +111,73 @@
 
 .navigationBottom {
     padding: $padding;
-    height: 54px;
-    @include flex-spaceEvenly;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     position: fixed;
     width: 100%;
     bottom: 0;
-    border-top: 1px solid $border-color;
+    border-top: 1px solid #f9ecec;
+    z-index: 9999;
+    margin-top: 100px !important;
 
     &-items {
         margin-left: 10px !important;
+        font-size: 1.4em !important;
     }
+}
+
+.active-navbottom {
+    color: $primary-color !important;
+    cursor: pointer;
+
+    .i.big.icon {
+        color: $primary-color !important;
+    }
+}
+
+.recording {
+    position: relative;
+    top: -25px;
+    height: 389px !important;
+    min-height: 398px !important;
+
+    &-widget {
+        width: 370px !important;
+        width: 100vw !important;
+        position: re;
+    }
+
+    .text-selected {
+        padding: 20px !important;
+        text-align: center;
+    }
+
+    .closeIcon {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        font-size: 1.5em !important;
+    }
+
+    &-microphone {
+        // background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & i {
+            margin-bottom: 10px !important;
+            // width: ;
+        }
+    }
+
+    .sound-wave {
+        width: 100%;
+    }
+}
+
+.container-dropdown {
+    padding-top: 30px !important;
 }

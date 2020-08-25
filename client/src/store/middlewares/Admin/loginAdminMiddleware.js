@@ -1,4 +1,4 @@
-import { LOGIN_SUBMIT, loginSubmitSuccess, loginSubmitError } from "../../actions/Admin/loginAdminActions";
+import { LOGIN_SUBMIT, loginSubmitSuccess, loginSubmitError, LOGOUT } from "../../actions/Admin/loginAdminActions";
 import axios from 'axios';
 
 export const loginAdminMiddleware = (store) => (next) => (action) => {
@@ -9,12 +9,10 @@ export const loginAdminMiddleware = (store) => (next) => (action) => {
 
             axios({
                 method: 'POST',
-                url: 'https://itongue.herokuapp.com/users/login',
+                url: `${process.env.REACT_APP_API_URL}/users/login`,
                 data: { ...store.getState().loginAdminReducer.loginData },
-                //withCredentials: true,
             })
             .then((res) => {
-                console.log(res.data.data);
 
                 const data = res.data.data;
 
@@ -32,6 +30,10 @@ export const loginAdminMiddleware = (store) => (next) => (action) => {
                 console.error(err);
                 store.dispatch(loginSubmitError("Connexion refusée"));
             });
+            break;
+        };
+        case LOGOUT : {
+            
             break;
         };
         default: {

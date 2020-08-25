@@ -7,14 +7,61 @@ const translationSchema = require("../schemas/translation-schema");
 const languageController = require("../controllers/language-controller");
 const expressionController = require("../controllers/expression-controller");
 const translationController = require("../controllers/translation-controller");
+const adminController = require("../controllers/admin-controller");
 
 const router = express.Router();
+/**
+ * @swagger
+ * /admin:
+ *   get:
+ *     tags:
+ *       - Users
+ *       - Records
+ *       - Languages
+ *       - Translations
+ *     security:
+ *       - BearerJWT: []
+ *     summary: Show information about app activity
+ *     description: Administration dashboard with general information about users, records, languages and translations.
+ *     responses:
+ *       "200":
+ *         description: A JSON array containing the total count of users, records, translations and languages, a list of the last registered users and the most recent records.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     userCount:
+ *                       type: integer
+ *                       example: 54887
+ *                     recordCount:
+ *                       type: integer
+ *                       example: 122462
+ *                     languageCount:
+ *                       type: integer
+ *                       example: 18
+ *                     translationCount:
+ *                       type: integer
+ *                       example: 22342
+ *                     recentUsers:
+ *                       type: array
+ *                       items:
+ *                         $ref: "#/components/schemas/DashboardUser"
+ *                     recentRecords:
+ *                       type: array
+ *                       items:
+ *                         $ref: "#/components/schemas/DashboardRecord"
+ */
+router.get("/", adminController.getDashboard);
 
 /**
  * @swagger
  * /admin/languages:
  *  post:
- *      tags: 
+ *      tags:
  *        - Languages
  *      summary: Add one language
  *      description: This routes in made for creating new languages
@@ -23,44 +70,14 @@ const router = express.Router();
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                name:
- *                  type: string
- *                code:
- *                 type: string
- *                 pattern: '(^\w{2}$)|(^\w{2}_\w{2}$)'
- *              required:
- *                - name
- *                - code
- *            examples:
- *              french:
- *                value:
- *                  name: french
- *                  code: fr
- *              spanish:
- *                value:
- *                  name: spanish
- *                  code: es_ES
+ *              $ref: "#/components/schemas/NewLanguage"
  *      responses:
- *          '200':
- *              description: Created language object
+ *          '201':
+ *              description: ID of created language
  *              content:
  *                application/json:
  *                  schema:
- *                    type: object
- *                    properties:
- *                      id:
- *                        type: integer
- *                        readOnly: true
- *                      name:
- *                        type: string
- *                      code:
- *                        type: string
- *                    example:
- *                       id: 1
- *                       name: french
- *                       code: fr_FR
+ *                    $ref: "#/components/schemas/ID"
  *          '401':
  *              description: Unauthorized
  */
@@ -68,9 +85,55 @@ router.post("/languages", validator(languageSchema), languageController.create);
 
 /**
  * @swagger
- * /admin/expressions:
+ * /admin/languages/{id}:
  *  post:
  *      tags: 
+ *        - Languages
+ *      summary: Update one language
+ *      description: This route updates one language
+ *      parameters:
+ *        - $ref: "#/components/parameters/LanguageID"
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: "#/components/schemas/Language"
+ *      responses:
+ *          '200':
+ *              description: OK
+ *              content:
+ *                application/json:
+ *                  schema:
+ *                    $ref: "#/components/schemas/Updated"
+ */
+router.post("/languages/:id([0-9]+)", validator(languageSchema), languageController.update);
+
+/**
+ * @swagger
+ * /admin/languages/{id}:
+ *  delete:
+ *      tags: 
+ *        - Languages
+ *      summary: Delete one language
+ *      description: This route deletes one language
+ *      parameters:
+ *        - $ref: "#/components/parameters/LanguageID"
+ *      responses:
+ *          '200':
+ *              description: OK
+ *              content:
+ *                application/json:
+ *                  schema:
+ *                    $ref: "#/components/schemas/Deleted"
+ */
+router.delete("/languages/:id([0-9]+)", languageController.delete);
+
+/**
+ * @swagger
+ * /admin/expressions:
+ *  post:
+ *      tags:
  *        - Expressions
  *      summary: Add one expression
  *      description: This routes in made for creating new expressions
@@ -79,35 +142,14 @@ router.post("/languages", validator(languageSchema), languageController.create);
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                label:
- *                  type: string
- *              required:
- *                - label
- *            examples:
- *              bjr:
- *                value:
- *                  label: bjr
+ *              $ref: "#/components/schemas/NewExpression"
  *      responses:
  *          '201':
- *              description: Created expression object
+ *              description: Id of created expression
  *              content:
  *                application/json:
  *                  schema:
- *                    type: object
- *                    properties:
- *                      id:
- *                        type: integer
- *                        readOnly: true
- *                      label:
- *                        type: string
- *                      createdAt:
- *                        type: string
- *                    example:
- *                       id: 1
- *                       label: bjr
- *                       createdAt: 2020-08-19T11:44:20.590Z
+ *                    $ref: "#/components/schemas/ID"
  *          '401':
  *              description: Unauthorized
  */
@@ -117,19 +159,12 @@ router.post("/expressions", validator(expressionSchema), expressionController.cr
  * @swagger
  * /admin/expressions/{id}:
  *  post:
- *      tags: 
+ *      tags:
  *        - Expressions
  *      summary: Update one expression
  *      description: This routes in made for updating one expression
  *      parameters:
- *        - in: path
- *          name: id
- *          required: true
- *          schema:
- *            type: integer
- *            minimum: 1
- *            maximim: 1
- *          description: id of the expression
+ *        - $ref: "#/components/parameters/ExpressionID"
  *      requestBody:
  *        required: true
  *        content:
@@ -146,8 +181,12 @@ router.post("/expressions", validator(expressionSchema), expressionController.cr
  *                value:
  *                  label: bjr
  *      responses:
- *          '204':
+ *          '200':
  *              description: Expression updated successfully
+ *              content:
+ *                application/json:
+ *                  schema:
+ *                    $ref: "#/components/schemas/Updated"
  *          '401':
  *              description: Unauthorized
  *          '409':
@@ -159,19 +198,12 @@ router.post("/expressions/:id([0-9]+)", validator(expressionSchema), expressionC
  * @swagger
  * /admin/expressions/{id}:
  *  delete:
- *      tags: 
+ *      tags:
  *        - Expressions
  *      summary: Delete one expression
  *      description: This routes in made for deleting one expression
  *      parameters:
- *        - in: path
- *          name: id
- *          required: true
- *          schema:
- *            type: integer
- *            minimum: 1
- *            maximim: 1
- *          description: id of the expression
+ *        - $ref: "#/components/parameters/ExpressionID"
  *      responses:
  *          '204':
  *              description: Expression deleted successfully
@@ -184,7 +216,7 @@ router.delete("/expressions/:id([0-9]+)", expressionController.deleteOne);
  * @swagger
  * /admin/translations:
  *  post:
- *      tags: 
+ *      tags:
  *        - Translations
  *      summary: Add one translation
  *      description: This routes in made for creating new translations
@@ -249,19 +281,12 @@ router.post("/translations", validator(translationSchema), translationController
  * @swagger
  * /admin/translations/{id}:
  *  post:
- *      tags: 
+ *      tags:
  *        - Translations
  *      summary: Update one translation
  *      description: This routes in made for updating one translation
  *      parameters:
- *        - in: path
- *          name: id
- *          required: true
- *          schema:
- *            type: integer
- *            minimum: 1
- *            maximim: 1
- *          description: id of the translation
+ *        - $ref: "#/components/parameters/TranslationID"
  *      requestBody:
  *        required: true
  *        content:
@@ -291,8 +316,12 @@ router.post("/translations", validator(translationSchema), translationController
  *                  expression_id: 2
  *                  language_id: 2
  *      responses:
- *          '204':
+ *          '200':
  *              description: Translation updated successfully
+ *              content:
+ *                application/json:
+ *                  schema:
+ *                    $ref: "#/components/schemas/Updated"
  *          '401':
  *              description: Unauthorized
  *          '409':
@@ -310,19 +339,12 @@ router.post("/translations/:id(\\d+)", validator(translationSchema), translation
  * @swagger
  * /admin/translations/{id}:
  *  delete:
- *      tags: 
+ *      tags:
  *        - Translations
  *      summary: Delete one translation
  *      description: This routes in made for deleting one translation
  *      parameters:
- *        - in: path
- *          name: id
- *          required: true
- *          schema:
- *            type: integer
- *            minimum: 1
- *            maximim: 1
- *          description: id of the translation
+ *        - $ref: "#/components/parameters/TranslationID"
  *      responses:
  *          '204':
  *              description: Translation deleted successfully

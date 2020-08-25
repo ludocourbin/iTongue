@@ -1,142 +1,105 @@
-const client = require("./index");
+const client = require("../redis/cache");
+
+ /**
+ * @typedef {Object} Translation
+ * @property {Number} id ID of the translation
+ * @property {String} text Text of the translation
+ * @property {Number} expression_id ID of the relative expression
+ * @property {Number} language_id ID of the relative language
+ * @property {String} created_at Date of creation
+ */
+
+/**
+ * @typedef {Object} TranslationValues
+ * @property {String} text Text of the translation
+ * @property {Number} expression_id ID of the relative expression
+ * @property {Number} language_id ID of the relative language
+ */
+
+/**
+ * @typedef {Object} Created
+ * @property {Number} id ID of created translation
+ */
+
+/**
+* @typedef {Object} Updated
+* @property {Boolean} updated True if succes
+*/
+
+ /**
+ * @typedef {Object} Deleted
+ * @property {Boolean} deleted True if succes
+ */
 
 module.exports = {
   /**
-   * Creates a new translation
-   * @returns {Boolean} - True if success
+   * Create a new translation
+   * @param {TranslationValues} translationValues Text, expression_id and language_id
+   * @returns {Created} New translation ID
    */
-  create: async ({ text, expression_id, language_id }) => {
-    try {
-      const query = {
-        name: "create-translation",
-        text: `
-          INSERT INTO "translation"("text", "expression_id", "language_id")
-               VALUES($1, $2, $3)
-            RETURNING *
-          `,
-        values: [text, expression_id, language_id],
-      };
-
-      const result = await client.query(query);
-
-      return result.rows[0];
-
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  
-  /**
-   * Updates an existing translation
-   * @returns {Object} - Updated datas
-   */
-  updateOne: async (translation_id, { text, expression_id, language_id }) => {
-    try {
-      const query = {
-        name: "update-translation",
-        text: `
-          UPDATE "translation"
-             SET "text" = $1, 
-                 "expression_id" = $2, 
-                 "language_id" = $3
-           WHERE "id" = $4
-       RETURNING *
-          `,
-        values: [text, expression_id, language_id, translation_id],
-      };
-
-      const result = await client.query(query);
-
-      return result.rows[0];
-
-    } catch (error) {
-      console.log(error);
-    }
+  create: async translationValues => {
+    const query = {
+      name: `create-translation-${translationValues.text}`,
+      text: 'SELECT "insert_translation"($1) AS "id"',
+      values: [translationValues]
+    };
+    return await client.query(query);
   },
 
   /**
-   * This method returns all languages in database
-   * @returns {Array.Object} - Set of objects representing available languages
+   * Update one translation by ID
+   * @param {Number} id ID of the translation to update
+   * @param {String} text New text of the translation
+   * @param {Number} expression_id ID of the expression related to the translation
+   * @param {Number} language_id ID of the language related to the translation
+   * @returns {Updated} True if success
+   */
+  updateOne: async (id, text, expression_id, language_id) => {
+    const query = {
+      name: `update-translation-${id}`,
+      text: 'SELECT update_translation($1, $2, $3, $4) AS "updated"',
+      values: [id, text, expression_id, language_id]
+    };
+    return await client.query(query);
+  },
+
+  /**
+   * Find all translations
+   * @returns {Translation[]} Available translations
    */
   findAll: async () => {
-    try {
-      const query = {
-        name: "get-translations",
-        text: `
-          SELECT "t".*
-            FROM "translation" "t"
-        `,
-        values: [],
-      };
-
-      const result = await client.query(query);
-
-      if (!result.rows) {
-        throw new Error("Unexpected issue: unable to get translations");
-      }
-
-      return result.rows;
-    } catch (error) {
-      console.log("Error", error);
-    }
+    const query = {
+      name: "read-all-translations",
+      text: 'SELECT * FROM "translation"'
+    };
+    return await client.query(query);
   },
 
   /**
-   * This method returns asked translation
-   * @property {String} id - Name of the translation
-   * @returns {Object} - Object representing the translation
+   * Find translation by ID
+   * @param {Number} id ID of the translation to find by
+   * @returns {Translation} Queried translation
    */
-  findOneById: async (id) => {
-    try {
-      const query = {
-        name: "get-translation-by-id",
-        text: `
-          SELECT * 
-            FROM "translation" 
-           WHERE "id" = $1
-          `,
-        values: [id],
-      };
-
-      const result = await client.query(query);
-
-      if (!result.rows) {
-        throw new Error(`Unexpected issue: unable to get translation : ${id}`);
-      }
-
-      if (result.rows.length === 0) {
-        return {};
-      }
-
-      return result.rows[0];
-    } catch (error) {
-      console.log(error);
-    }
+  findOneById: async id => {
+    const query = {
+      name: `read-translation-${id}`,
+      text: 'SELECT * FROM "translation" WHERE "id" = $1',
+      values: [id]
+    };
+    return await client.query(query);
   },
-  
+
   /**
-  * Deletes one translation
-  * @param {Number} id - id of the translation
-  * @returns {Boolean} - True if success
-  */
- deleteOne: async id => {
-   try {
-     const query = {
-       name: "delete-one-translation-by-id",
-       text: `
-         DELETE 
-           FROM "translation" 
-          WHERE "id" = $1
-         `,
-       values: [id],
-     };
-
-     await client.query(query);
-     return true;
-
-   } catch (error) {
-     console.log(error);
-   }
- },
-
+   * Delete one translation by ID
+   * @param {Number} id ID of the translation to delete
+   * @returns {Deleted} True if success
+   */
+  deleteOne: async id => {
+    const query = {
+      name: `delete-translation-${id}`,
+      text: 'SELECT delete_row_from_relation($1, $2) AS "deleted"',
+      values: ["translation", id]
+    };
+    return await client.query(query);
+  }
 };

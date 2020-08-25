@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 /* Components */ 
 import Expressions from './Expressions';
-import HomeAdmin from './HomeAdmin';
+import HomeAdmin from '../../containers/Admin/HomeAdmin';
 import LoginAdmin from '../../containers/Admin/LoginAdmin';
 import Languages from '../../containers/Admin/Languages';
 

@@ -2,7 +2,7 @@
 
 /* Libs */
 import { toast } from "react-toastify";
-import axios from 'axios';
+import axios from "axios";
 
 /* Actions */
 import {
@@ -10,7 +10,6 @@ import {
     FETCH_EXPRESSIONS,
     fetchExpressionSuccess,
     fetchExpressionError,
-
     FETCH_LANGUAGES,
     fetchLanguagesSuccess,
     fetchLanguagesError,
@@ -49,107 +48,127 @@ import {
     ADD_LANGUAGE_SUBMIT,
     addLanguageSubmitSuccess,
     addLanguageSubmitError,
-
 } from "../../actions/Admin/expressionsActions";
 
 const expressionsMiddleware = (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
-        case FETCH_EXPRESSIONS: { // OK
+        case FETCH_EXPRESSIONS: {
+            // OK
             axios({
-                method: 'GET',
-                url: 'https://itongue.herokuapp.com/expressions',
+                method: "GET",
+                url: `${process.env.REACT_APP_API_URL}/expressions`,
             })
-            .then(res => {
-                store.dispatch(fetchExpressionSuccess(res.data.data));
-            })
-            .catch(err => {
-                store.dispatch(fetchExpressionError(/* Todo */));
-                toast.error("Problème lors du chargement des expressions");
-                console.error("FETCH_EXPRESSIONS", err);
-            });
+                .then((res) => {
+                    store.dispatch(fetchExpressionSuccess(res.data.data));
+                })
+                .catch((err) => {
+                    store.dispatch(fetchExpressionError(/* Todo */));
+                    toast.error("Problème lors du chargement des expressions");
+                    console.error("FETCH_EXPRESSIONS", err);
+                });
             break;
-        };
+        }
         case FETCH_LANGUAGES: {
             axios({
-                method: 'GET',
-                url: 'https://itongue.herokuapp.com/languages/',
+                method: "GET",
+                url: `${process.env.REACT_APP_API_URL}/languages`,
             })
-            .then(res => {
-                store.dispatch(fetchLanguagesSuccess(res.data.data));
-            })
-            .catch(err => {
-                store.dispatch(fetchLanguagesError(/* Todo */));
-                toast.error("Problème lors du chargement des languages");
-                console.error("FETCH_LANGUAGES", err);
-            });
+                .then((res) => {
+                    store.dispatch(fetchLanguagesSuccess(res.data.data));
+                })
+                .catch((err) => {
+                    store.dispatch(fetchLanguagesError(/* Todo */));
+                    toast.error("Problème lors du chargement des languages");
+                    console.error("FETCH_LANGUAGES", err);
+                });
             break;
-        };
-        case SET_TRADUCTIONS_BY_EXPRESSION: { // OK
+        }
+        case SET_TRADUCTIONS_BY_EXPRESSION: {
+            // OK
             const {
                 expressionsList,
                 expressionId,
             } = store.getState().expressionsReducer;
 
-            const findTradByExpr = expressionsList.find(
-                (expression) => {
-                    if (expression.id === expressionId) {
-                        return expression.translations;
-                    }
-                },
-            );
+            const findTradByExpr = expressionsList.find((expression) => {
+                if (expression.id === expressionId) {
+                    return expression.translations;
+                }
+            });
 
             store.dispatch(
-                setTraductionsByExpressionSuccess(
-                    findTradByExpr.translations
-                )
+                setTraductionsByExpressionSuccess(findTradByExpr.translations)
             );
             break;
-        };
-        case ADD_EXPRESSION_SUBMIT: { // OK
+        }
+        case ADD_EXPRESSION_SUBMIT: {
+            // OK
             const objData = {
-                label: store.getState().expressionsReducer.newExpressionInputValue,
+                label: store.getState().expressionsReducer
+                    .newExpressionInputValue,
             };
 
             axios({
-                method: 'POST',
-                url: 'https://itongue.herokuapp.com/admin/expressions',
-                data: {...objData}
+                method: "POST",
+                url: `${process.env.REACT_APP_API_URL}/admin/expressions`,
+                data: { ...objData },
+                headers: {
+                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                },
             })
-            .then(res => {
-                store.dispatch(addExpressionSubmitSuccess({...res.data.data, translations: [] }));
-                toast.info("Nouvelle expression enregistrée avec succès");
-            })
-            .catch(err => {
-                store.dispatch(addExpressionSubmitError(/* Todo */));
-                toast.error("Une erreur est survenue lors de l'ajout de votre expression");
-                console.error("ADD_EXPRESSION_SUBMIT", err);
-            });
+                .then((res) => {
+                    store.dispatch(
+                        addExpressionSubmitSuccess({
+                            ...res.data.data,
+                            translations: [],
+                        })
+                    );
+                    toast.info("Nouvelle expression enregistrée avec succès");
+                })
+                .catch((err) => {
+                    store.dispatch(addExpressionSubmitError(/* Todo */));
+                    toast.error(
+                        "Une erreur est survenue lors de l'ajout de votre expression"
+                    );
+                    console.error("ADD_EXPRESSION_SUBMIT", err);
+                });
             break;
-        };
-        case DELETE_EXPRESSION: { // OK
+        }
+        case DELETE_EXPRESSION: {
+            // OK
             const { expressionsList } = store.getState().expressionsReducer;
 
             axios({
-                method: 'DELETE',
-                url: `https://itongue.herokuapp.com/admin/expressions/${action.payload}`
+                method: "DELETE",
+                url: `${process.env.REACT_APP_API_URL}/admin/expressions/${action.payload}` ,
+                headers: {
+                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                },
             })
-            .then(res => {
-                const expressionsFilter = expressionsList.filter((expression) => {
-                    return expression.id === action.payload ? false : true;
+                .then((res) => {
+                    const expressionsFilter = expressionsList.filter(
+                        (expression) => {
+                            return expression.id === action.payload
+                                ? false
+                                : true;
+                        }
+                    );
+
+                    store.dispatch(deleteExpressionSuccess(expressionsFilter));
+                    toast.info("L'expression a bien été supprimée");
+                })
+                .catch((err) => {
+                    store.dispatch(deleteExpressionError(/* Todo */));
+                    toast.error(
+                        "Une erreur est survenue lors de la suppression de cette expression"
+                    );
+                    console.error("DELETE_EXPRESSION", err);
                 });
-    
-                store.dispatch(deleteExpressionSuccess(expressionsFilter));
-                toast.info("L'expression a bien été supprimée");
-            })
-            .catch(err => {
-                store.dispatch(deleteExpressionError(/* Todo */))
-                toast.error("Une erreur est survenue lors de la suppression de cette expression");
-                console.error("DELETE_EXPRESSION", err);
-            });
             break;
-        };
-        case ADD_TRADUCTION_SUBMIT: { // OK
+        }
+        case ADD_TRADUCTION_SUBMIT: {
+            // OK
             const {
                 expressionsList,
                 expressionId,
@@ -158,16 +177,16 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             } = store.getState().expressionsReducer;
 
             /* Retourne le code pour le flag par rapport à l'ID */
-            const findCodeById = languagesList.find(language => {
+            const findCodeById = languagesList.find((language) => {
                 if (language.id === newTraductionInputValue.language_id) {
-                    return language
+                    return language;
                 }
             });
 
             const dataObj = {
-                text: newTraductionInputValue.text, 
-                expression_id: expressionId, 
-                language_id : newTraductionInputValue.language_id,
+                text: newTraductionInputValue.text,
+                expression_id: expressionId,
+                language_id: newTraductionInputValue.language_id,
                 language: {
                     id: newTraductionInputValue.language_id,
                     code: findCodeById.code,
@@ -176,95 +195,115 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 
             axios({
                 method: "POST",
-                url: 'https://itongue.herokuapp.com/admin/translations/',
-                data: {...dataObj},
+                url: `${process.env.REACT_APP_API_URL}/admin/translations`,
+                data: { ...dataObj },
+                headers: {
+                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                },
             })
-            .then(res => {
+                .then((res) => {
+                    const data = res.data.data;
 
-                const data = res.data.data;
-
-                const expressionListWithNewTrad = expressionsList.map(
-                    (expression) => {
-                        if (expression.id === expressionId) {
-                            return {
-                                ...expression,
-                                translations: [
-                                    ...expression.translations,
-                                    {
-                                        ...dataObj,
-                                        id: data.id,
-                                    },
-                                ],
-                            };
+                    const expressionListWithNewTrad = expressionsList.map(
+                        (expression) => {
+                            if (expression.id === expressionId) {
+                                return {
+                                    ...expression,
+                                    translations: [
+                                        ...expression.translations,
+                                        {
+                                            ...dataObj,
+                                            id: data.id,
+                                        },
+                                    ],
+                                };
+                            }
+                            return expression;
                         }
-                        return expression;
-                    }
-                );
-    
-                store.dispatch(addTraductionSubmitSuccess(expressionListWithNewTrad));
-                store.dispatch(setTraductionsByExpression());
-                toast.info("Nouvelle traduction enregistrée avec succès");
+                    );
 
-            })
-            .catch(err => {
-                store.dispatch(addTraductionSubmitError(/* Todo */));
-                toast.error("Une erreur est survenue lors de l'ajout de votre traduction");
-                console.error("ADD_TRADUCTION_SUBMIT", err);
-            });
+                    store.dispatch(
+                        addTraductionSubmitSuccess(expressionListWithNewTrad)
+                    );
+                    store.dispatch(setTraductionsByExpression());
+                    toast.info("Nouvelle traduction enregistrée avec succès");
+                })
+                .catch((err) => {
+                    store.dispatch(addTraductionSubmitError(/* Todo */));
+                    toast.error(
+                        "Une erreur est survenue lors de l'ajout de votre traduction"
+                    );
+                    console.error("ADD_TRADUCTION_SUBMIT", err);
+                });
             break;
-        };   
-        case EDIT_TRADUCTION_SUBMIT: { // OK
+        }
+        case EDIT_TRADUCTION_SUBMIT: {
+            // OK
 
-            const { 
-                expressionsList, 
-                expressionId, 
-                editTraductionValue: traductionSelect 
+            const {
+                expressionsList,
+                expressionId,
+                editTraductionValue: traductionSelect,
             } = store.getState().expressionsReducer;
 
             const objData = {
                 text: traductionSelect.text, // si on change rien, erreur (a voir)
                 expression_id: expressionId,
-                language_id: traductionSelect.language_id ? traductionSelect.language_id : traductionSelect.language.id //,
+                language_id: traductionSelect.language_id
+                    ? traductionSelect.language_id
+                    : traductionSelect.language.id, //,
             };
 
             axios({
-                method: 'POST',
-                url: `https://itongue.herokuapp.com/admin/translations/${traductionSelect.id}`,
-                data: {...objData}
+                method: "POST",
+                url: `${process.env.REACT_APP_API_URL}/admin/translations/${traductionSelect.id}`,
+                data: { ...objData },
+                headers: {
+                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                },
             })
-            .then(res => {
+                .then((res) => {
+                    const findExpression = expressionsList.find(
+                        (expression) => expression.id === expressionId
+                    );
 
-                const findExpression = expressionsList.find(expression => expression.id === expressionId);
-
-                const editTraduction = findExpression.translations.map(translation => {
-                    if (translation.id === traductionSelect.id) 
-                        {
-                            return traductionSelect;
+                    const editTraduction = findExpression.translations.map(
+                        (translation) => {
+                            if (translation.id === traductionSelect.id) {
+                                return traductionSelect;
+                            }
+                            return translation;
                         }
-                    return translation;
-                });
+                    );
 
-                const newExpressionList = expressionsList.map(expression => {
-                    if( expression.id === expressionId ) {
-                        return {
-                            ...expression,
-                            translations : [...editTraduction] 
-                        };
-                    }
-                    return expression;
+                    const newExpressionList = expressionsList.map(
+                        (expression) => {
+                            if (expression.id === expressionId) {
+                                return {
+                                    ...expression,
+                                    translations: [...editTraduction],
+                                };
+                            }
+                            return expression;
+                        }
+                    );
+                    store.dispatch(
+                        editTraductionSubmitSuccess(newExpressionList)
+                    );
+                    store.dispatch(setTraductionsByExpression());
+                    toast.info("La traduction a bien été modifiée");
+                })
+                .catch((err) => {
+                    store.dispatch(editTraductionSubmitError(/* Todo */));
+                    toast.error(
+                        "Une erreur est survenue lors de la modification de la traduction"
+                    );
+                    console.error("EDIT_TRADUCTION_SUBMIT", err);
                 });
-                store.dispatch(editTraductionSubmitSuccess(newExpressionList));
-                store.dispatch(setTraductionsByExpression());
-                toast.info('La traduction a bien été modifiée');
-            })
-            .catch(err => {
-                store.dispatch(editTraductionSubmitError(/* Todo */));
-                toast.error('Une erreur est survenue lors de la modification de la traduction');
-                console.error("EDIT_TRADUCTION_SUBMIT", err);
-            });
             break;
-        };
-        case DELETE_TRADUCTION: { // OK
+        }
+        case DELETE_TRADUCTION: {
+            // OK
 
             const {
                 expressionsList,
@@ -272,63 +311,81 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             } = store.getState().expressionsReducer;
 
             axios({
-                method: 'DELETE',
-                url: `https://itongue.herokuapp.com/admin/translations/${action.payload}`
+                method: "DELETE",
+                url: `${process.env.REACT_APP_API_URL}/admin/translations/${action.payload}`,
+                headers: {
+                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                },
             })
-            .then(res => {
-                const findExpression = expressionsList.find(
-                    (expression) => expression.id === expressionId
-                );
-    
-                const removeTranslation = findExpression.translations.filter(
-                    (translation) => {
-                        return translation.id === action.payload ? false : true;
-                    }
-                );
-    
-                const newExpressionList = expressionsList.map(expression => {
-                    if( expression.id === expressionId ) {
-                        return {
-                            ...expression,
-                            translations: [...removeTranslation],
-                        };
-                    }
-                    return expression;
-                });
-    
-                store.dispatch(deleteTraductionSuccess(newExpressionList));
-                store.dispatch(setTraductionsByExpression());
-                toast.info("La traduction a bien été supprimée");
-            })
-            .catch(err => {
-                store.dispatch(deleteTraductionError(/* Todo */));
-                toast.error("Une erreur est survenue lors de la suppression de cette traduction");
-                console.error("DELETE_TRADUCTION", err);
-            });
-            break;
-        };
-        case ADD_LANGUAGE_SUBMIT : { // OK
+                .then((res) => {
+                    const findExpression = expressionsList.find(
+                        (expression) => expression.id === expressionId
+                    );
 
-            const languageValue = store.getState().expressionsReducer.languageValue;
+                    const removeTranslation = findExpression.translations.filter(
+                        (translation) => {
+                            return translation.id === action.payload
+                                ? false
+                                : true;
+                        }
+                    );
+
+                    const newExpressionList = expressionsList.map(
+                        (expression) => {
+                            if (expression.id === expressionId) {
+                                return {
+                                    ...expression,
+                                    translations: [...removeTranslation],
+                                };
+                            }
+                            return expression;
+                        }
+                    );
+
+                    store.dispatch(deleteTraductionSuccess(newExpressionList));
+                    store.dispatch(setTraductionsByExpression());
+                    toast.info("La traduction a bien été supprimée");
+                })
+                .catch((err) => {
+                    store.dispatch(deleteTraductionError(/* Todo */));
+                    toast.error(
+                        "Une erreur est survenue lors de la suppression de cette traduction"
+                    );
+                    console.error("DELETE_TRADUCTION", err);
+                });
+            break;
+        }
+        case ADD_LANGUAGE_SUBMIT: {
+            // OK
+
+            const languageValue = store.getState().expressionsReducer
+                .languageValue;
 
             axios({
-                method: 'POST',
-                url: 'https://itongue.herokuapp.com/admin/languages/',
+                method: "POST",
+                url: `${process.env.REACT_APP_API_URL}/admin/languages`,
                 data: languageValue,
+                headers: {
+                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                },
             })
-            .then(res => {
-                store.dispatch(addLanguageSubmitSuccess(languageValue));
-                toast.info("La langue a bien été ajoutée");
-            })
-            .catch(err => {
-                store.dispatch(addLanguageSubmitError(/* Todo */));
-                toast.error("Une erreur est survenue lors de l'ajout de cette langue");
-            });
+                .then((res) => {
+                    store.dispatch(addLanguageSubmitSuccess(languageValue));
+                    toast.info("La langue a bien été ajoutée");
+                    console.log(res.data.data);
+                })
+                .catch((err) => {
+                    store.dispatch(addLanguageSubmitError(/* Todo */));
+                    toast.error(
+                        "Une erreur est survenue lors de l'ajout de cette langue"
+                    );
+                    console.error(err);
+                });
             break;
-        };
+        }
         default:
             break;
-    };
+    }
 };
 
 export default expressionsMiddleware;

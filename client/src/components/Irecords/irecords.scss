@@ -1,9 +1,16 @@
 @import "../../styles/vars";
-.irecords {
+@import "../../styles/mixin";
+.irecords,
+.recording {
     margin-bottom: 20px !important;
     width: 100% !important;
     &-container {
         width: 100vw !important;
+    }
+
+    div.ui.card > .content,
+    .ui.cards > .card > .content {
+        border-top: 0;
     }
 
     box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
@@ -18,6 +25,12 @@
 
     .text {
         padding: 7px !important;
+    }
+
+    &-copy {
+        position: absolute !important;
+        right: 10px;
+        padding: 10px;
     }
 
     .flex {
@@ -66,6 +79,28 @@
     }
 }
 
-// .controlBar[size="hidden"] {
-//     display: none;
-// }
+.recording {
+    .total {
+        position: absolute;
+        right: 0px;
+        top: 20px;
+        font-size: 0.9rem;
+    }
+
+    .played {
+        position: absolute;
+        top: 20px;
+        left: 45px;
+        font-size: 0.9rem;
+    }
+}
+
+.delete-irecords {
+    button {
+        font-size: 0.9em !important;
+    }
+    .ui.primary.button,
+    .ui.primary.buttons .button {
+        @include button;
+    }
+}

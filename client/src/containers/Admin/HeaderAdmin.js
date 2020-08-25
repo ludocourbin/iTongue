@@ -4,7 +4,7 @@ import { logout } from '../../store/actions/Admin/loginAdminActions';
 import HeaderAdmin from '../../components/Admin/HeaderAdmin';
 
 const mapStateToProps = (state) => ({
-    currentUser: state.loginAdminReducer.currentUser,
+    userConnect: state.loginAdminReducer.userConnect,
 });
 
 const mapDispatchToProps = (dispatch) => ({

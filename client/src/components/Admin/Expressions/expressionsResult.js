@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 /* Components */
-import { Icon, Form, Table, Flag, Segment, Header, Confirm, Button } from 'semantic-ui-react'
+import { Icon, Form, Table, Flag, Segment, Header, Confirm } from 'semantic-ui-react'
 
 /* Fake Data */
-import { countryOptions } from '../../../data/countryCode';
 import InputTraduction from './InputTraduction';
 
 const ExpressionsResult = ( props ) => {
@@ -55,6 +54,7 @@ const ExpressionsResult = ( props ) => {
     const handdleAddTraductionSubmit = (e) => {
         e.preventDefault();
         addTraductionSubmit();
+        fetchLanguages();
     };
 
     const handdleDeleteTraductionConfirm = (exprId) => {

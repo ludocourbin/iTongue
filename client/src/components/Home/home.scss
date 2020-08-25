@@ -1,0 +1,22 @@
+.homePage {
+    p {
+        margin: 0;
+    }
+    .users {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        height: 70px;
+        margin-bottom: 10px;
+
+        &-avatar {
+            width: 40px;
+            margin: 0 13px;
+        }
+
+        &-country {
+            margin-left: auto;
+            margin-right: 20px;
+        }
+    }
+}

@@ -1,42 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 /* Components */
-import { Segment, Statistic, Icon } from "semantic-ui-react";
+import { Segment, Statistic, Icon, Header } from "semantic-ui-react";
 import HeaderAdmin from "../../../containers/Admin/HeaderAdmin";
 
 /* Style */
 import "./homeadmin.scss";
+import MemberCard from "../../MembersCard";
 
-const HomeAdmin = ({ userConnect }) => {
-    console.log("userConnect", userConnect);
+const HomeAdmin = ({ fetchStats, stats }) => {
+
+    const { userCount, recordCount, languageCount, translationCount, recentUsers, recentRecords } = stats;
+
+    useEffect(() => {
+        fetchStats();
+    }, [fetchStats]);
+
     return (
         <HeaderAdmin>
             <div className="home-admin">
                 <Segment>
                     <Statistic.Group widths="four">
                         <Statistic>
-                            <Statistic.Value>200</Statistic.Value>
+                            <Statistic.Value>{userCount}</Statistic.Value>
                             <Statistic.Label>
                                 <Icon name="user" />
                                 Utilisateurs
                             </Statistic.Label>
                         </Statistic>
                         <Statistic>
-                            <Statistic.Value>1548</Statistic.Value>
+                            <Statistic.Value>{recordCount}</Statistic.Value>
                             <Statistic.Label>
                                 <Icon name="microphone" />
                                 iRecords
                             </Statistic.Label>
                         </Statistic>
                         <Statistic>
-                            <Statistic.Value>5</Statistic.Value>
+                            <Statistic.Value>{languageCount}</Statistic.Value>
                             <Statistic.Label>
                                 <Icon name="flag" />
                                 Langues
                             </Statistic.Label>
                         </Statistic>
                         <Statistic>
-                            <Statistic.Value>4704</Statistic.Value>
+                            <Statistic.Value>{translationCount}</Statistic.Value>
                             <Statistic.Label>
                                 <Icon name="book" />
                                 Traductions
@@ -46,13 +53,16 @@ const HomeAdmin = ({ userConnect }) => {
                 </Segment>
 
                 <div className="home-admin_container">
-                    <Segment
-                        className="home-admin_container stats-left"
-                    ></Segment>
+                    <Segment className="home-admin_container stats-left">
+                    <Header size="medium" content="Derniers utilisateurs inscrits"/>
+                        { recentUsers && recentUsers.map(user => (
+                            <MemberCard user={user}/>
+                        ))}
+                    </Segment>
 
-                    <Segment
-                        className="home-admin_container stats-right"
-                    ></Segment>
+                    <Segment className="home-admin_container stats-right">
+                        
+                    </Segment>
                 </div>
             </div>
         </HeaderAdmin>

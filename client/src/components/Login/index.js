@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import {
     Container,
     Button,
@@ -6,6 +6,7 @@ import {
     Form,
     Checkbox,
     Icon,
+    Message,
 } from "semantic-ui-react";
 import Layout from "../../containers/Layout";
 import { ToastContainer } from "react-toastify";
@@ -16,6 +17,7 @@ const Login = ({
     loginData,
     loading,
     showPassword,
+    loginErrorMessage,
     // Fonctions qui dispatchent
     onInputChange,
     togglePassword,
@@ -25,7 +27,6 @@ const Login = ({
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        console.log("onSubmit");
         login();
     };
 
@@ -35,25 +36,17 @@ const Login = ({
         Si c'est le champ email ou password, la propriété est name:value
         Si c'est la checkbox, c'est id : data.checked
         */
-       
-       
-           if(name){
-            console.log(name);
+
+        if (name) {
             onInputChange({
-                [name] : value || ""
+                [name]: value || "",
             });
-           }
-           if (id) {
-            console.log(id);
+        }
+        if (id) {
             onInputChange({
-                 [id]: data.checked || false
+                [id]: data.checked || false,
             });
-           } 
-       
-        // onInputChange({
-        //     [name || id]: value || data.checked || "" || false,
-        // });
-        
+        }
     };
 
     return (
@@ -97,7 +90,15 @@ const Login = ({
                             id="stayConnected"
                         />
                     </Form.Field>
-                    <Button className="login-button" type="submit">
+                    {loginErrorMessage && (
+                        <Message content={loginErrorMessage} />
+                    )}
+
+                    <Button
+                        loading={loading}
+                        className="login-button"
+                        type="submit"
+                    >
                         Connectez-vous
                     </Button>
                 </Form>

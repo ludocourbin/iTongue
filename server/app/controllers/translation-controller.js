@@ -1,91 +1,59 @@
 const translationDatamapper = require("../db/translation-datamapper");
 
 module.exports = {
-  create: async (req, res) => {
+  create: async (req, res, next) => {
     try {
       const { body } = req;
       const newTranslation = await translationDatamapper.create(body);
-
-      if(newTranslation.error) {
-        return res.status(409).json({
-          errors: [{ msg: newTranslation.error }]
-        });
-      }
-      
-      res.json({ data: newTranslation });
-
-    } catch (error) {
-      console.log(error)
+      res.status(201).json({ data: newTranslation });
+    } catch (err) {
+      next(err);
     }
   },
 
-  update: async (req, res) => {
+  update: async (req, res, next) => {
     try {
-      const { body } = req;
       const id = parseInt(req.params.id, 10);
-      const newTranslation = await translationDatamapper.updateOne(id, body);
-
-      if(newTranslation.error) {
-        return res.status(409).json({
-          errors: [{ msg: newTranslation.error }]
-        });
-      }
-      
+      const { text, expression_id, language_id } = req.body;
+      const newTranslation = await translationDatamapper.updateOne(id, text, expression_id, language_id);
       res.json({ data: newTranslation });
-
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      next(err);
     }
   },
 
-  getAll: async (_, res) => {
-    try {  
+  getAll: async (_, res, next) => {
+    try {
       const translations = await translationDatamapper.findAll();
-
-      if (!translations) {
-        res.status(404).json({
-          data: "Unexpected error, no expression found"
-        });
-        return
-      }
-
       res.status(200).json({ data: translations });
-
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      next(err);
     }
   },
 
-  getOneById: async (req, res) => {
+  getOneById: async (req, res, next) => {
     try {
       const id = parseInt(req.params.id, 10);
-
       const result = await translationDatamapper.findOneById(id);
 
-      res.status(200).json({
-        data: result
-      })
-
-    } catch (error) {
-      console.log(error)
+      if (!result) return next();
+      res.status(200).json({ data: result });
+    } catch (err) {
+      next(err);
     }
-      
   },
 
-  deleteOne: async (req, res) => {
+  deleteOne: async (req, res, next) => {
     try {
-      
       const id = parseInt(req.params.id, 10);
       const result = await translationDatamapper.deleteOne(id);
-
-      res.status(200).json({ data: result })
-
-    } catch (error) {
-      console.log(error)
+      res.status(200).json({ data: result });
+    } catch (err) {
+      next(err);
     }
   },
 
   todo: async (_, res) => {
-    res.status(200).json({ data: 'todo' })
+    res.status(200).json({ data: "todo" });
   }
-}
+};

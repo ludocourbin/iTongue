@@ -28,6 +28,7 @@ export default (state = initialState, action = {}) => {
                     ...state.loginData,
                     ...action.payload,
                 },
+                message:"",
             };
         case LOGIN_SUBMIT:
             return {
@@ -41,6 +42,7 @@ export default (state = initialState, action = {}) => {
                 isLogged: true,
                 accessToken: action.payload.accessToken,
                 userConnect: action.payload.user,
+                message:"",
             };
         case LOGIN_SUBMIT_ERROR:
             return {

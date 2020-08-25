@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 /* Components */
-import { Form, Segment, Table } from 'semantic-ui-react';
+import { Form, Segment, Table, Flag, Icon } from 'semantic-ui-react';
 import HeaderAdmin from "../../../containers/Admin/HeaderAdmin";
 
 /* Style */
@@ -10,7 +10,6 @@ import './languages.scss'
 /* All Country Local Data */
 import { allCountry } from '../../../data/allCountry';
 
-
 const Languages = (props) => {
 
     const { 
@@ -18,21 +17,20 @@ const Languages = (props) => {
         languagesList, 
         languageInputValue, 
         languageValue, 
-        fetchLanguages 
+        fetchLanguages,
+        newLanguageLoading,
     } = props;
 
     useEffect(() => {
         fetchLanguages();
-    }, []);
+    }, [newLanguageLoading]);
 
     const handdleSubmitLanguage = () => {
         addLanguageSubmit();
     };
 
     const handdleInputChange = (e, data) => {
-
         const { name, value} = e.target.value ? e.target : data;
-
         languageInputValue({
             [name] : value,
         });
@@ -62,6 +60,7 @@ const Languages = (props) => {
                         <Form.Button 
                         type="submit"
                         content="Ajouter la langue"
+                        loading={newLanguageLoading}
                         />
                     </Form.Group>
                 </Form>
@@ -69,16 +68,22 @@ const Languages = (props) => {
                     <Table.Header>
                         <Table.Row textAlign="center">
                             <Table.HeaderCell>ID</Table.HeaderCell>
+                            <Table.HeaderCell>Flag</Table.HeaderCell>
                             <Table.HeaderCell>Name</Table.HeaderCell>
                             <Table.HeaderCell>Code</Table.HeaderCell>
+                            <Table.HeaderCell>Delete</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        { languagesList && languagesList.map(language => (
-                            <Table.Row textAlign="center" key={language.id}>
+                        { languagesList && languagesList.map((language, key) => (
+                            <Table.Row textAlign="center" key={key}>
                                 <Table.Cell>{ language.id }</Table.Cell>
+                                <Table.Cell>
+                                    <Flag name={language.code} />
+                                </Table.Cell>
                                 <Table.Cell>{ language.name }</Table.Cell>
                                 <Table.Cell>{ language.code }</Table.Cell>
+                                <Table.Cell><Icon name="close" /></Table.Cell>
                             </Table.Row>
                         ))}
                     </Table.Body>

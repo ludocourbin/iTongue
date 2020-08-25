@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 /* Components */
 import Home from "../Home";
+import Terms from "../Terms";
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
@@ -44,6 +45,7 @@ const App = ({ user, isLogged }) => {
                     }
                 />
                 <Route path="/admin" component={Admin} />
+                <Route exact path ="/terms" component={Terms} />
                 <Route>
                     <h1>La page n'existe pas</h1>
                 </Route>

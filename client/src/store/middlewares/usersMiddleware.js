@@ -118,17 +118,17 @@ export const usersMiddleware = store => next => action => {
         .then(res => {
           console.log(res);
           store.dispatch(editProfilSuccess(finalData));
-
+          console.log("finalData", finalData);
+          
           if (res.status === 200) {
-            if (finalData.password && finalData.confirm) {
-              toast.info("Votre mot de passe a bien été modifié");
-            }
+              toast.info("Vos informations ont bien été enregistrées");
           }
         })
         .catch(err => {
           console.error(err);
           console.error(err.response);
           store.dispatch(editProfilError(/* Todo */));
+          toast.info("Une erreur est survenue lors de la sauvegarde de votre profil");
         });
       break;
     }

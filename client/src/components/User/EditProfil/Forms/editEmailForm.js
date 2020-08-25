@@ -1,5 +1,5 @@
-import React from 'react';
-import { Form, Input  } from 'semantic-ui-react';
+import React, { useState, useEffect } from 'react';
+import { Form, Input } from 'semantic-ui-react';
 
 const EditEmailForm = (props) => {
 
@@ -9,6 +9,19 @@ const EditEmailForm = (props) => {
         profilData, 
         currentUser,
     } = props;
+
+    const [ emailIsValid, setEmailIsValid] = useState(false);
+
+    useEffect(() => {
+        const checkEmailIsValid = (email) => {
+            if(email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+                setEmailIsValid(true);
+            } else {
+                setEmailIsValid(false);
+            }
+        };
+        checkEmailIsValid(profilData.email);
+    }, [emailIsValid, profilData.email]);
 
     return (
         <div className="edit-profil_email">
@@ -30,6 +43,7 @@ const EditEmailForm = (props) => {
                         type="email"
                         value={profilData.email}
                         onChange={handdleInputChange}
+                        icon={emailIsValid ? "check circle" : "dont"}
                         />
                     </Form.Field>
                 </Form.Group>
@@ -38,6 +52,7 @@ const EditEmailForm = (props) => {
                     content="Enregistrer l'email"
                     className="edit-profil_formbtn"
                     size="small"
+                    disabled={!emailIsValid}
                 />
             </Form>
         </div>

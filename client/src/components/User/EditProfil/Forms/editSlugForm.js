@@ -18,8 +18,6 @@ const EditSlugForm = (props) => {
     const handdleInputChange = (e) => {
         editProfilSlugInput(e.target.value);
     }
-    console.log("editProfilSlugMsg", editProfilSlugMsg);
-    console.log(editProfilSlugMsg === "");
 
     return (
         <div className="edit-profil_slug">

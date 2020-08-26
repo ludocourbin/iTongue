@@ -8,8 +8,12 @@ const languageController = require("../controllers/language-controller");
 const expressionController = require("../controllers/expression-controller");
 const translationController = require("../controllers/translation-controller");
 const adminController = require("../controllers/admin-controller");
+const adminMiddleware = require("../middlewares/admin-middleware");
 
 const router = express.Router();
+
+router.use(adminMiddleware);
+
 /**
  * @swagger
  * /admin:
@@ -89,7 +93,7 @@ router.post("/languages", validator(languageSchema), languageController.create);
  * @swagger
  * /admin/languages/{id}:
  *  post:
- *      tags: 
+ *      tags:
  *        - Languages
  *      security:
  *       - BearerJWT: []
@@ -117,7 +121,7 @@ router.post("/languages/:id([0-9]+)", validator(languageSchema), languageControl
  * @swagger
  * /admin/languages/{id}:
  *  delete:
- *      tags: 
+ *      tags:
  *        - Languages
  *      security:
  *       - BearerJWT: []

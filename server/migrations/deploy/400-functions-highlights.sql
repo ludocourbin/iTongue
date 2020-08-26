@@ -2,30 +2,29 @@
 
 BEGIN;
 
-CREATE TYPE "best_users" AS ("userId" INT,"slug" TEXT, "firstname" TEXT, "lastname" TEXT, "avatarUrl" TEXT, "language_most_taugth" JSONB, "iRecords" BIGINT);
+CREATE TYPE "best_users" AS ("userId" INT,"slug" TEXT, "firstname" TEXT, "lastname" TEXT, "avatarUrl" TEXT, "languageMostTaught" JSONB, "iRecords" BIGINT);
 
 CREATE TYPE "best_translations" AS ("translationId" INT, "text" TEXT, "language" TEXT, "expression" TEXT, "expressionId" INT, "iRecords" BIGINT);
 
-CREATE TYPE "most_used_language_by_user" AS ("user_id" INT, "language" TEXT, "code" TEXT, "language_count" BIGINT);
+CREATE TYPE "most_used_language_by_user" AS ("language" TEXT, "code" TEXT, "occurrences" BIGINT);
 
 
-CREATE OR REPLACE FUNCTION "iteacher_preferred_language"("user_id" INT)
+CREATE OR REPLACE FUNCTION "most_used_language_by_user"("user_id" INT)
 RETURNS setof "most_used_language_by_user"
 AS $$
 
 BEGIN
 
 		RETURN QUERY
-		SELECT DISTINCT $1 AS "user_id",
-										"l"."name" AS "language", 
+		SELECT DISTINCT "l"."name" AS "language", 
 										"l"."code" AS "code",
-										count(*) AS "language_count"
+										count(*) AS "occurrences"
 							 FROM "language" "l"
 							 JOIN "translation" "t" ON "l"."id" = "t"."language_id"
 							 JOIN "record" "r" ON "r"."translation_id" = "t"."id"
 							WHERE "r"."user_id" = $1
 					 GROUP BY "l"."name", "l"."code"
-					 ORDER BY "language_count" DESC
+					 ORDER BY "occurrences" DESC
 					 	  LIMIT 1;
 
 END
@@ -46,10 +45,10 @@ BEGIN
                     "u"."firstname",
                     "u"."lastname",
                     "u"."avatar_url",
-										to_jsonb("i"::"most_used_language_by_user") AS "language_most_taugth",
+										to_jsonb("i"::"most_used_language_by_user") AS "languageMostTaught",
                     count(*) AS "iRecords"
               FROM "record" "r" 
-			  CROSS JOIN LATERAL "iteacher_preferred_language"("r"."user_id") "i"
+			  CROSS JOIN LATERAL "most_used_language_by_user"("r"."user_id") "i"
               JOIN "user" "u" ON "u"."id" = "r"."user_id"
           GROUP BY "r"."user_id", 
                     "u"."slug",

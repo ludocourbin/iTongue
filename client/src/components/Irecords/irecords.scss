@@ -5,39 +5,61 @@
     margin-bottom: 10px;
     border-bottom: none !important;
 }
-.irecords,
-.recording {
+
+.irecords {
     border-bottom: none !important;
     margin-bottom: 20px !important;
     width: 100% !important;
-    &-container {
-        width: 100vw !important;
-        box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2);
-    }
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
 
+    /* Border between englishText et traductionText */
     div.ui.card > .content,
     .ui.cards > .card > .content {
         border-top: 0;
     }
 
-    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
-    .avatar {
-        margin-right: 10px !important;
-        margin-bottom: 0px !important;
+    &-container {
+        width: 100vw !important;
+        box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2);
     }
 
-    .author.flex {
-        padding-bottom: 10px !important;
+    .flag_image {
+        display: block;
+        padding: 0.3em;
+        background-color: #ffffff;
+        margin-right: 0.3em;
+        max-width: 30px;
+        max-height: 30px;
+        border-radius: 50%;
+    }
+
+    .header-irecords {
+        padding: 10px !important;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        // background-color: #ccc !important;
+
+        &__avatar {
+            margin: 0 !important;
+            margin-right: 10px !important;
+        }
+
+        &__fullname {
+            position: relative;
+            top: 5px;
+        }
+    }
+
+    .irecords-copy {
+        margin-left: auto;
+        position: relative;
+        right: -75px;
+        top: -3px !important;
     }
 
     .text {
         padding: 7px !important;
-    }
-
-    &-copy {
-        position: absolute !important;
-        right: 10px;
-        padding: 10px;
     }
 
     .flex {
@@ -102,6 +124,7 @@
     }
 }
 
+/* Modal confirmation suppression iRecords */
 .delete-irecords {
     button {
         font-size: 0.9em !important;

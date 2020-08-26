@@ -34,10 +34,10 @@ const Irecords = ({
                     height:
                         record.englishTranslation.language.code !==
                         record.translation.language.code
-                            ? "117px"
-                            : "87px",
+                            ? "140px"
+                            : "95px",
                     width: "100%",
-                    marginBottom: "20px",
+                    marginBottom: "33px",
                     boxShadow: "0 6px 6px rgba(0,0,0,0.2)",
                     borderRadius: "10px",
                 }}

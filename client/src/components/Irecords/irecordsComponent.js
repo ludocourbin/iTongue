@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Card, Flag, Icon, Image, Confirm } from "semantic-ui-react";
+import { Card, Flag, Icon, Confirm, Image } from "semantic-ui-react";
 import AudioPlayer from "../../containers/Audio";
+import HeaderIrecord from "./headerIrecord";
 
 const Irecord = ({
     record,
@@ -33,12 +33,10 @@ const Irecord = ({
 
     const handleCancel = () => {
         setOpen(false);
-        console.log("handleCancel");
     };
 
     const handleConfirm = () => {
         setOpen(false);
-        console.log("handleConfirm");
         deleteIrecord(record.id);
     };
     return (
@@ -53,47 +51,22 @@ const Irecord = ({
                     confirmButton="Supprimer"
                     content="Vous êtes sûr de vouloir supprimer ce iRecord ?"
                 />
+                {!isLogged && <HeaderIrecord user={user} />}
                 {isLogged && currentUser.id !== isUserRecord && (
-                    <Card.Content className="flex author">
-                        <Link to={`user/${user.slug}`} className="flex author">
-                            <Image
-                                avatar
-                                floated="left"
-                                size="large"
-                                src={
-                                    `${process.env.REACT_APP_FILES_URL}/${user.avatarUrl}` ||
-                                    "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
-                                }
-                            />
-                            {`${user.firstname} ${user.lastname}`}
-                        </Link>
+                    <HeaderIrecord user={user}>
                         <Icon
                             onClick={handleCopyiRecord}
                             className="irecords-copy"
                             name="copy"
                         />
-                    </Card.Content>
-                )}
-
-                {!isLogged && (
-                    <Card.Content className="flex author">
-                        <Link to={`user/${user.slug}`} className="flex author">
-                            <Image
-                                avatar
-                                floated="left"
-                                size="large"
-                                src={
-                                    "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg" ||
-                                    `${process.env.REACT_APP_API_URL}/${user.avatarUrl}`
-                                }
-                            />
-                            {`${user.firstname} ${user.lastname}`}
-                        </Link>
-                    </Card.Content>
+                    </HeaderIrecord>
                 )}
                 <Card.Content className="text">
                     <p>
-                        <Flag name={record.englishTranslation.language.code} />
+                        <Image
+                            src={`https://www.countryflags.io/${record.englishTranslation.language.code}/flat/32.png`}
+                            className="flag_image"
+                        />
                         {record.englishTranslation.text}
                     </p>
                 </Card.Content>
@@ -101,12 +74,14 @@ const Irecord = ({
                     record.translation.language.code && (
                     <Card.Content className="text">
                         <p>
-                            <Flag name={record.translation.language.code} />
+                            <Image
+                                src={`https://www.countryflags.io/${record.translation.language.code}/flat/32.png`}
+                                className="flag_image"
+                            />
                             {record.translation.text}
                         </p>
                     </Card.Content>
                 )}
-
                 <AudioPlayer audio={record} />
             </Card>
         </div>

@@ -114,12 +114,7 @@ const Recording = ({
     };
 
     return (
-        <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={variants}
-            className="recording"
-        >
+        <motion.div initial="hidden" animate="visible" variants={variants}>
             <Card className="recording-widget">
                 <Card.Meta>
                     <Icon
@@ -133,9 +128,7 @@ const Recording = ({
                 {audio ? (
                     <div>
                         <Card.Content className="text-selected">
-                            <Flag
-                                name={audio.englishTranslation.language.code}
-                            />
+                            <Flag name={audio.englishTranslation.language.code} />
                             {audio.englishTranslation.text}
                         </Card.Content>
                         <Card.Content className="text-selected">
@@ -163,12 +156,8 @@ const Recording = ({
                                 selection
                                 placeholder="Sélectionner une traduction"
                                 name="expressions"
-                                options={
-                                    translationsSelected && translationsSelected
-                                }
-                                value={
-                                    translationSelected && translationSelected
-                                }
+                                options={translationsSelected && translationsSelected}
+                                value={translationSelected && translationSelected}
                                 onChange={handleChangeTranslation}
                             />
                         </Card.Content>
@@ -189,9 +178,7 @@ const Recording = ({
                         {recordedSound && !recording && (
                             <AudioPlayer audio={recordedSound} />
                         )}
-                        {recordedSound && recording && (
-                            <p>réenregistrement en cours</p>
-                        )}
+                        {recordedSound && recording && <p>réenregistrement en cours</p>}
                         {!recordedSound && !recording && <p>Aucun audio</p>}
 
                         <div className="recording-microphone">

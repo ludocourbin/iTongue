@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Message } from "semantic-ui-react";
 
-const NewPasswordForm = ({ handdleInputChange, handdleSubmit, profilData }) => {
+const NewPasswordForm = ({ handdleInputChange, handdleSubmit, profilData, editProfilDataLoading }) => {
   const { password, confirm } = profilData;
 
   const [passwordIsValid, setPasswordIsValid] = useState(false);
@@ -67,6 +67,7 @@ const NewPasswordForm = ({ handdleInputChange, handdleSubmit, profilData }) => {
           className="edit-profil_formbtn"
           size="small"
           disabled={!passAndConfValid}
+          loading={editProfilDataLoading}
         />
       </Form>
     </div>

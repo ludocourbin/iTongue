@@ -68,6 +68,7 @@ const initialState = {
   /* EDIT PROFIL */
   allUsersList: [],
   userSlugInfos: {},
+  checkUserSlugLoading: false,
   isLoadingallUsers: false,
   usersListError: "",
   editProfilData: {
@@ -81,6 +82,8 @@ const initialState = {
     learnedLanguages: [],
     taughtLanguages: []
   },
+  editProfilDataLoading: false,
+  editProfilAvatarLoading: false,
   editProfilSlugInputValue: "",
   editProfilSlugMsg: ""
   /* END EDIT PROFIL */
@@ -242,12 +245,11 @@ export default (state = initialState, action = {}) => {
     case EDIT_PROFIL:
       return {
         ...state,
-        isLoading: true
+        editProfilDataLoading: true,
       };
     case EDIT_PROFIL_SUCCESS:
       return {
         ...state,
-        isLoading: false,
         currentUser: {
           ...state.currentUser,
           ...action.payload,
@@ -259,12 +261,13 @@ export default (state = initialState, action = {}) => {
           ...action.payload,
           password: "",
           confirm: ""
-        }
+        },
+        editProfilDataLoading: false,
       };
     case EDIT_PROFIL_ERROR:
       return {
         ...state,
-        isLoading: false
+        editProfilDataLoading: false,
       };
     case EDIT_PROFIL_INPUT:
       return {
@@ -282,8 +285,9 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         userSlugInfos: {
-          ...state.userSlugInfos
-        }
+          ...state.userSlugInfos,
+        },
+        editProfilAvatarLoading: true,
       };
     case EDIT_PROFIL_AVATAR_SUCCESS:
       return {
@@ -299,15 +303,18 @@ export default (state = initialState, action = {}) => {
         editProfilData: {
           ...state.editProfilData,
           avatarUrl: action.payload
-        }
+        },
+        editProfilAvatarLoading: false,
       };
     case EDIT_PROFIL_AVATAR_ERROR:
       return {
-        ...state
+        ...state,
+        editProfilAvatarLoading: false,
       };
     case CHECK_USER_SLUG:
       return {
-        ...state
+        ...state,
+        checkUserSlugLoading: true,
       };
     case CHECK_USER_SLUG_SUCCESS:
       return {
@@ -319,7 +326,8 @@ export default (state = initialState, action = {}) => {
         editProfilData: {
           ...state.editProfilData,
           ...action.payload
-        }
+        },
+        checkUserSlugLoading: false,
       };
     case CHECK_USER_SLUG_ERROR:
       return {
@@ -328,24 +336,25 @@ export default (state = initialState, action = {}) => {
       };
       case EDIT_PROFIL_SLUG:
         return {
-          ...state
+          ...state,
+          checkUserSlugLoading: false,
         };
       case EDIT_PROFIL_SLUG_SUCCESS:
         return {
-            ...state,
-            userSlugInfos: {
-                ...state.userSlugInfos,
-                slug: action.payload,
-            },
-            currentUser: {
-                ...state.currentUser,
-                slug: action.payload,
-            },
-            editProfilData: {
-                ...state.editProfilData,
-                slug: action.payload,
-            },
-            editProfilSlugMsg: "",
+          ...state,
+          userSlugInfos: {
+              ...state.userSlugInfos,
+              slug: action.payload,
+          },
+          currentUser: {
+              ...state.currentUser,
+              slug: action.payload,
+          },
+          editProfilData: {
+              ...state.editProfilData,
+              slug: action.payload,
+          },
+          editProfilSlugMsg: "",
         };
     case EDIT_PROFIL_SLUG_ERROR:
       return {

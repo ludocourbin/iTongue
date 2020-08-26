@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import UpdateAvatar from '../../UpdateAvatar';
+// import UpdateAvatar from '../../UpdateAvatar';
+import UpdateAvatar from '../../../../containers/User/UpdateAvatar'
 import { Checkbox, Form, Input, TextArea } from 'semantic-ui-react';
 
 const EditProfilForm = (props) => {
@@ -10,6 +11,7 @@ const EditProfilForm = (props) => {
         profilData, 
         editProfilAvatar, 
         editProfilInput,
+        editProfilDataLoading,
     } = props;
 
     const [ countCharBio, setCountCharBio ] = useState(profilData.bio.length);
@@ -89,6 +91,7 @@ const EditProfilForm = (props) => {
                 content="Enregistrer le profil"
                 className="edit-profil_formbtn"
                 size="small"
+                loading={editProfilDataLoading}
                 />
             </Form>
         </div>

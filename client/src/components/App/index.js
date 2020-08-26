@@ -21,6 +21,7 @@ import EditProfil from "../../containers/User/EditProfil";
 import IrecordsPage from "../../containers/IrecordsPage";
 import IusersPage from "../../containers/IusersPage";
 import Search from "../../containers/Search";
+import Feed from "../../containers/Feed";
 
 const App = ({ isLogged }) => {
     return (
@@ -47,6 +48,7 @@ const App = ({ isLogged }) => {
                         isLogged ? <EditProfil /> : <Redirect to="/login" />
                     }
                 />
+                <Route exact path="/feed" component={Feed} />
                 <Route path="/admin" component={Admin} />
                 <Route exact path ="/terms" component={Terms} />
                 <Route>

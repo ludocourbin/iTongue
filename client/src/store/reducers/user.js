@@ -7,12 +7,19 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_ERROR,
   LOGOUT,
+  LOGOUT_SUCCESS,
+  LOGOUT_ERROR,
+  
   FETCH_ALL_USERS,
   FETCH_ALL_USERS_SUCCESS,
   FETCH_ALL_USERS_ERROR,
   CHECK_USER_SLUG,
   CHECK_USER_SLUG_SUCCESS,
-  CHECK_USER_SLUG_ERROR
+  CHECK_USER_SLUG_ERROR,
+
+  UPDATE_TOKEN_EXP,
+  UPDATE_ACCESS_TOKEN,
+  
 } from "../actions/userActions";
 
 import {
@@ -47,6 +54,8 @@ const initialState = {
   loading: false,
   accessToken: null,
   refreshToken: null,
+  accessTokenExp: null,
+
   signupData: {
     firstname: "",
     lastname: "",
@@ -68,6 +77,7 @@ const initialState = {
   /* EDIT PROFIL */
   allUsersList: [],
   userSlugInfos: {},
+  checkUserSlugLoading: false,
   isLoadingallUsers: false,
   usersListError: "",
   editProfilData: {
@@ -81,6 +91,8 @@ const initialState = {
     learnedLanguages: [],
     taughtLanguages: []
   },
+  editProfilDataLoading: false,
+  editProfilAvatarLoading: false,
   editProfilSlugInputValue: "",
   editProfilSlugMsg: ""
   /* END EDIT PROFIL */
@@ -207,8 +219,13 @@ export default (state = initialState, action = {}) => {
     case LOGOUT:
       return {
         ...state,
+      };
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
         accessToken: null,
         refreshToken: null,
+        accessTokenExp: null,
         loginData: {
           email: state.currentUser.email,
           password: "",
@@ -222,6 +239,10 @@ export default (state = initialState, action = {}) => {
         allUsersList: [],
         loginErrorMessage: ""
       };
+    case LOGOUT_ERROR:
+      return {
+        ...state,
+      }
     case FETCH_ALL_USERS:
       return {
         ...state,
@@ -242,12 +263,11 @@ export default (state = initialState, action = {}) => {
     case EDIT_PROFIL:
       return {
         ...state,
-        isLoading: true
+        editProfilDataLoading: true,
       };
     case EDIT_PROFIL_SUCCESS:
       return {
         ...state,
-        isLoading: false,
         currentUser: {
           ...state.currentUser,
           ...action.payload,
@@ -259,12 +279,13 @@ export default (state = initialState, action = {}) => {
           ...action.payload,
           password: "",
           confirm: ""
-        }
+        },
+        editProfilDataLoading: false,
       };
     case EDIT_PROFIL_ERROR:
       return {
         ...state,
-        isLoading: false
+        editProfilDataLoading: false,
       };
     case EDIT_PROFIL_INPUT:
       return {
@@ -282,8 +303,9 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         userSlugInfos: {
-          ...state.userSlugInfos
-        }
+          ...state.userSlugInfos,
+        },
+        editProfilAvatarLoading: true,
       };
     case EDIT_PROFIL_AVATAR_SUCCESS:
       return {
@@ -299,15 +321,18 @@ export default (state = initialState, action = {}) => {
         editProfilData: {
           ...state.editProfilData,
           avatarUrl: action.payload
-        }
+        },
+        editProfilAvatarLoading: false,
       };
     case EDIT_PROFIL_AVATAR_ERROR:
       return {
-        ...state
+        ...state,
+        editProfilAvatarLoading: false,
       };
     case CHECK_USER_SLUG:
       return {
-        ...state
+        ...state,
+        checkUserSlugLoading: true,
       };
     case CHECK_USER_SLUG_SUCCESS:
       return {
@@ -319,38 +344,36 @@ export default (state = initialState, action = {}) => {
         editProfilData: {
           ...state.editProfilData,
           ...action.payload
-        }
+        },
+        checkUserSlugLoading: false,
       };
     case CHECK_USER_SLUG_ERROR:
       return {
         ...state,
         userSlugInfos: {}
       };
-    case EDIT_PROFIL_SLUG:
-      return {
-        ...state
-      };
-    case DELETE_IRECORD_SUCCESS_USER_PROFIL:
-      return {
-        ...state,
-        userSlugInfos: {
-          ...state.userSlugInfos,
-          records: [...action.payload]
-        }
-      };
-    case EDIT_PROFIL_SLUG_SUCCESS:
-      return {
-        slug: action.payload,
-        currentUser: {
-          ...state.currentUser,
-          slug: action.payload
-        },
-        editProfilData: {
-          ...state.editProfilData,
-          slug: action.payload
-        },
-        editProfilSlugMsg: ""
-      };
+      case EDIT_PROFIL_SLUG:
+        return {
+          ...state,
+          checkUserSlugLoading: false,
+        };
+      case EDIT_PROFIL_SLUG_SUCCESS:
+        return {
+          ...state,
+          userSlugInfos: {
+              ...state.userSlugInfos,
+              slug: action.payload,
+          },
+          currentUser: {
+              ...state.currentUser,
+              slug: action.payload,
+          },
+          editProfilData: {
+              ...state.editProfilData,
+              slug: action.payload,
+          },
+          editProfilSlugMsg: "",
+        };
     case EDIT_PROFIL_SLUG_ERROR:
       return {
         ...state,
@@ -365,6 +388,14 @@ export default (state = initialState, action = {}) => {
           slug: action.payload
         }
       };
+    case DELETE_IRECORD_SUCCESS_USER_PROFIL:
+      return {
+        ...state,
+        userSlugInfos: {
+          ...state.userSlugInfos,
+          records: [...action.payload]
+        }
+      };
     case SEND_IRECORD_SUCCESS_USER_PROFIL:
       return {
         ...state,
@@ -372,6 +403,16 @@ export default (state = initialState, action = {}) => {
           ...state.userSlugInfos,
           records: [...state.userSlugInfos.records, action.payload]
         }
+      };
+    case UPDATE_TOKEN_EXP:
+      return {
+        ...state,
+        accessTokenExp: Date.now() + 19 * 60 * 1000,
+      };
+    case UPDATE_ACCESS_TOKEN:
+      return {
+        ...state,
+        accessToken: action.payload,
       };
     default:
       return state;

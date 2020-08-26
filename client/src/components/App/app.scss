@@ -2,6 +2,7 @@
 
 body {
     color: $primary-text-color;
+    overflow-x: hidden !important;
     // background-color: $background-color;
 }
 
@@ -15,5 +16,5 @@ body {
 }
 
 a {
-    color: $primary-text-color!important;
+    color: $primary-text-color !important;
 }

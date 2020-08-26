@@ -8,7 +8,8 @@ const EditLangsForm = (props) => {
         handdleSubmit, 
         profilData, 
         allLanguagesList, 
-        fetchAllLanguages 
+        fetchAllLanguages ,
+        editProfilDataLoading,
     } = props;
 
     useEffect(() => {
@@ -59,6 +60,7 @@ const EditLangsForm = (props) => {
                     content="Enregistrer le profil"
                     className="edit-profil_formbtn"
                     size="small"
+                    loading={editProfilDataLoading}
                     />
                 </Form>
             </div>

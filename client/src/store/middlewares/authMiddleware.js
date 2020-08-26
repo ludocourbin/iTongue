@@ -1,10 +1,16 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { httpClient } from "../../utils";
 
 import { 
     SIGNUP, 
     signupSuccess, 
-    signupError } 
+    signupError,
+    updateTokenExp,
+    LOGOUT,
+    logoutSucess,
+    logoutError,
+ } 
 from "../actions/userActions";
 
 import {
@@ -13,12 +19,16 @@ import {
     loginSubmitError,
 } from "../actions/loginActions";
 
+
 export default (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
         // réagir au signup
         case SIGNUP:
             const data = store.getState().user.signupData;
+                        
+           // httpClient.post({ url: "/users", data }, true, store).then().catch();
+
             axios({
                 method: "post",
                 url: `${process.env.REACT_APP_API_URL}/users`,
@@ -41,6 +51,7 @@ export default (store) => (next) => (action) => {
                         .then((res) => {
                             const currentUser = res.data.data;
                             store.dispatch(signupSuccess(currentUser));
+                            store.dispatch(updateTokenExp());
                             toast.success(
                                 `Bienvenue ${currentUser.firstname}`
                             );
@@ -71,6 +82,7 @@ export default (store) => (next) => (action) => {
                 .then((res) => {
                     const currentUser = res.data.data;
                     store.dispatch(loginSubmitSuccess(currentUser));
+                    store.dispatch(updateTokenExp());
                 })
                 .catch((err) => {
                     toast.warning("Sorry");
@@ -78,6 +90,20 @@ export default (store) => (next) => (action) => {
                         loginSubmitError("Désolé cet utilisateur n'existe pas")
                     );
                 });
+            return;
+        case LOGOUT:
+            httpClient.post({
+                url: "/users/logout",
+            }, store)
+            .then(res => {
+                console.log(res);
+                store.dispatch(logoutSucess());
+            })
+            .catch(err => {
+                console.error(err);
+                store.dispatch(logoutError());
+            });
+
             return;
         default:
             return;

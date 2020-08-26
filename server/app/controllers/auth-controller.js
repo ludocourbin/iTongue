@@ -3,6 +3,29 @@ const jwt = require("jsonwebtoken");
 const authUtils = require("../utils/auth-utils");
 
 module.exports = {
+  logout: (req, res, next) => {
+    const accessToken = authUtils.getAccessToken(req);
+
+    if (!accessToken) return next({ statusCode: 401, displayMsg: "L'access token est manquant" });
+
+    jwt.verify(
+      accessToken,
+      process.env.ACCESS_TOKEN_SECRET,
+      { ignoreExpiration: true },
+      async (err, user) => {
+        if (err) return next({ statusCode: 403, displayMsg: "L'access token est invalide" });
+
+        try {
+          await authUtils.invalidateUserRefreshToken(user);
+          await authUtils.blacklistAccessToken(accessToken, user);
+          res.status(204).json({});
+        } catch (err) {
+          next(err);
+        }
+      }
+    );
+  },
+
   refresh: (req, res, next) => {
     const { refreshToken } = req.body;
 

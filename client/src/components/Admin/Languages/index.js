@@ -23,7 +23,7 @@ const Languages = (props) => {
 
     useEffect(() => {
         fetchLanguages();
-    }, [newLanguageLoading]);
+    }, [newLanguageLoading, fetchLanguages]);
 
     const handdleSubmitLanguage = () => {
         addLanguageSubmit();
@@ -76,7 +76,7 @@ const Languages = (props) => {
                     </Table.Header>
                     <Table.Body>
                         { languagesList && languagesList.map((language, key) => (
-                            <Table.Row textAlign="center" key={key}>
+                            <Table.Row textAlign="center" key={language.id}>
                                 <Table.Cell>{ language.id }</Table.Cell>
                                 <Table.Cell>
                                     <Flag name={language.code} />

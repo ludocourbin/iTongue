@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Message } from "semantic-ui-react";
 
-const NewPasswordForm = ({ handdleInputChange, handdleSubmit, profilData }) => {
+const NewPasswordForm = ({ handdleInputChange, handdleSubmit, profilData, editProfilDataLoading }) => {
   const { password, confirm } = profilData;
 
   const [passwordIsValid, setPasswordIsValid] = useState(false);
@@ -9,27 +9,29 @@ const NewPasswordForm = ({ handdleInputChange, handdleSubmit, profilData }) => {
   const [passAndConfValid, setPassAndConfValid] = useState(false);
   const [message, setMessage] = useState(null);
 
-  const checkPasswordAndConfirm = () => {
-    if (password && password.length >= 6) {
-      setPasswordIsValid(true);
-      if (password === confirm && password !== "") {
-        setMessage(null);
-        setConfirmIsValid(true);
-        setPassAndConfValid(true);
-      } else {
-        setMessage("Les mots de passes sont différents");
-        setPassAndConfValid(false);
-        setConfirmIsValid(false);
-      }
-    } else if (password && password.length > 4) {
-      setMessage("Le mot de passe doit faire au moins 6 caractères");
-      setPassAndConfValid(false);
-      setPasswordIsValid(false);
-    }
-  };
+
 
   useEffect(() => {
     setMessage(null);
+
+    const checkPasswordAndConfirm = () => {
+      if (password && password.length >= 6) {
+        setPasswordIsValid(true);
+        if (password === confirm && password !== "") {
+          setMessage(null);
+          setConfirmIsValid(true);
+          setPassAndConfValid(true);
+        } else {
+          setMessage("Les mots de passes sont différents");
+          setPassAndConfValid(false);
+          setConfirmIsValid(false);
+        }
+      } else if (password && password.length > 4) {
+        setMessage("Le mot de passe doit faire au moins 6 caractères");
+        setPassAndConfValid(false);
+        setPasswordIsValid(false);
+      }
+    };
     checkPasswordAndConfirm();
   }, [password, confirm]);
 
@@ -46,7 +48,6 @@ const NewPasswordForm = ({ handdleInputChange, handdleSubmit, profilData }) => {
               onChange={handdleInputChange}
               value={password}
               icon={passwordIsValid ? "check circle" : "dont"}
-              iconPosition="right"
             />
           </Form.Field>
         </Form.Group>
@@ -58,7 +59,6 @@ const NewPasswordForm = ({ handdleInputChange, handdleSubmit, profilData }) => {
             onChange={handdleInputChange}
             value={confirm}
             icon={confirmIsValid ? "check circle" : "dont"}
-            iconPosition="right"
           />
         </Form.Field>
         <Form.Button
@@ -67,6 +67,7 @@ const NewPasswordForm = ({ handdleInputChange, handdleSubmit, profilData }) => {
           className="edit-profil_formbtn"
           size="small"
           disabled={!passAndConfValid}
+          loading={editProfilDataLoading}
         />
       </Form>
     </div>

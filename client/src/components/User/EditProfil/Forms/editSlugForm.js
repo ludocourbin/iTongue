@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Message, Label } from 'semantic-ui-react';
+import { Form, Input, Label } from 'semantic-ui-react';
 
 const EditSlugForm = (props) => {
 
@@ -10,7 +10,6 @@ const EditSlugForm = (props) => {
         editProfilSlugMsg,
     } = props;
     
-
     const handdleSubmit = (e) => {
         e.preventDefault();
         editProfilSlug();
@@ -19,8 +18,6 @@ const EditSlugForm = (props) => {
     const handdleInputChange = (e) => {
         editProfilSlugInput(e.target.value);
     }
-    console.log("editProfilSlugMsg", editProfilSlugMsg);
-    console.log(editProfilSlugMsg === "");
 
     return (
         <div className="edit-profil_slug">

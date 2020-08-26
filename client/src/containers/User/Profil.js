@@ -9,6 +9,7 @@ const mapStateToProps = (state) => ({
     allUsersList: state.user.allUsersList,
     isLoadingallUsers: state.user.isLoadingallUsers,
     userSlugInfos: state.user.userSlugInfos,
+    checkUserSlugLoading: state.user.checkUserSlugLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({

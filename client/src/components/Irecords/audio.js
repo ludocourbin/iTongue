@@ -55,7 +55,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
             const percentAudio = (currentTime / duration) * 100;
             setPercent(percentAudio);
         }
-    }, [currentTime, percent, duration]);
+    }, [currentTime, percent, duration, displayCurrentime]);
 
     const padZero = (v) => {
         return v < 10 ? "0" + v : v;
@@ -66,13 +66,14 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
             padZero(parseInt((t / 60) % 60)) + ":" + padZero(parseInt(t % 60))
         );
     };
-
+    
+/* J'ai commenté car non utilisé -> Gautier
     const start = (start) => {
         if (start != null) {
             setDuration(audioRef.current.duration);
         }
     };
-
+*/
     const handleDuration = async () => {
         if (audio.blob) {
             const duration = await getBlobDuration(audio.blob);

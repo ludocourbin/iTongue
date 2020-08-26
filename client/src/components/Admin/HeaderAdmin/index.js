@@ -1,7 +1,7 @@
 import React from "react";
 
 /* Components */
-import { Header, Menu, Image, Icon, Dropdown } from "semantic-ui-react";
+import { Header, Menu, Image, Dropdown } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 
 /* Styles */

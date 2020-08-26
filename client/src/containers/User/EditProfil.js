@@ -5,6 +5,7 @@ import { editProfil, editProfilInput } from '../../store/actions/editProfilActio
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,
     editProfilData: state.user.editProfilData,
+    editProfilDataLoading: state.user.editProfilDataLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({

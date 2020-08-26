@@ -20,7 +20,7 @@ const ExpressionsList = ( props ) => {
 
     useEffect(() => {
         fetchExpression();
-    }, [newExpressionLoading]);
+    }, [newExpressionLoading, fetchExpression]);
     
     const [ confirm, setConfirm ] = useState(false); // true || false
     const [ expressionDeleteId, setExpressionDeleteId ] = useState(0);

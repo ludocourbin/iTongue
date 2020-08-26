@@ -30,9 +30,7 @@ const MemberCard = ({ user }) => (
       <div className="member-card_right">
         {user.taughtLanguages &&
           user.taughtLanguages.map((language, index) => {
-            if (index < 4) {
-              return <Flag key={language.id} name={language.code} />;
-            }
+              return index < 4 && <Flag key={language.id} name={language.code} />;
           })}
       </div>
     </div>

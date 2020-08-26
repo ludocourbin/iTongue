@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "semantic-ui-react";
+// import Logo from "../../assets/logo.png";
 
 const Header = ({ setVisible, pathname, ...props }) => {
     return (
@@ -26,3 +27,5 @@ const Header = ({ setVisible, pathname, ...props }) => {
 };
 
 export default Header;
+
+// <img src={Logo} className="header-nav__logo" alt="logo iTongue" />

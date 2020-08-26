@@ -222,7 +222,7 @@ components:
       type: object
       properties:
         id:
-          $ref: "#/components/schemas/TranslationPk"
+          $ref: "#components/schemas/PrimaryKey"
         text:
           type: string
           example: How are you ?
@@ -237,7 +237,7 @@ components:
       type: object
       properties:
         id:
-          $ref: "#/components/schemas/TranslationPk"
+          $ref: "#components/schemas/PrimaryKey"
         text:
           type: string
           example: How are you ?
@@ -338,15 +338,15 @@ components:
       type: object
       properties:
         updated:
-            type: boolean
-            example: true
+          type: boolean
+          example: true
 
     Deleted:
       type: object
       properties:
         deleted:
-            type: boolean
-            example: true
+          type: boolean
+          example: true
 
     BestUsers:
       type: array
@@ -464,7 +464,7 @@ components:
         $ref: "#/components/schemas/LanguagePk"
       required: true
       description: Primary key of the language.
-    
+
     LanguageID:
       in: path
       name: id
@@ -502,6 +502,13 @@ components:
           schema:
             $ref: "#/components/schemas/Errors"
 
+    Forbidden:
+      description: Access denied. The credentials do not give access to this resource.
+      content:
+        application/json:
+          schema:
+            $ref: "#components/schemas/Errors"
+
     UserNotFound:
       description: Not Found. No user corresponding to the specified parameter exists in our database.
       content:
@@ -526,7 +533,7 @@ components:
                 type: object
                 properties:
                   id:
-                    $ref: "#/components/schemas/PrimaryKey"
+                    $ref: "#components/schemas/PrimaryKey"
 
     CreatedUser:
       allOf:

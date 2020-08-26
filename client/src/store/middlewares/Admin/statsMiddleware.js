@@ -1,7 +1,6 @@
 /* Expressionsiddleware */
 
 /* Libs */
-import { toast } from "react-toastify";
 import axios from "axios";
 
 /* Actions */

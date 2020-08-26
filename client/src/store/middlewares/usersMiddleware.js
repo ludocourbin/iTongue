@@ -7,7 +7,6 @@ import {
   CHECK_USER_SLUG,
   checkUserSlugSuccess,
   checkUserSlugError,
-  checkUserSlug
 } from "../actions/userActions";
 
 import {
@@ -23,15 +22,15 @@ import {
 } from "../actions/editProfilActions";
 
 import axios from "axios";
+import { httpClient } from "../../utils";
 
 export const usersMiddleware = store => next => action => {
   next(action);
   switch (action.type) {
     case FETCH_ALL_USERS: {
-      axios({
-        method: "GET",
-        url: `${process.env.REACT_APP_API_URL}/users`
-      })
+      httpClient.get({
+        url: `/users`
+      }, false, store)
         .then(res => {
           const users = res.data.data;
           const usersWithType = users.map(user => {
@@ -80,9 +79,7 @@ export const usersMiddleware = store => next => action => {
       const mapper = role => {
         return role.map(learnLanguageId => {
           return allLanguagesList.find(language => {
-            if (language.id === learnLanguageId) {
-              return language;
-            }
+            return language.id === learnLanguageId && language;
           });
         });
       };
@@ -121,17 +118,17 @@ export const usersMiddleware = store => next => action => {
         .then(res => {
           console.log(res);
           store.dispatch(editProfilSuccess(finalData));
-
+          console.log("finalData", finalData);
+          
           if (res.status === 200) {
-            if (finalData.password && finalData.confirm) {
-              toast.info("Votre mot de passe a bien été modifié");
-            }
+              toast.info("Vos informations ont bien été enregistrées");
           }
         })
         .catch(err => {
           console.error(err);
           console.error(err.response);
           store.dispatch(editProfilError(/* Todo */));
+          toast.info("Une erreur est survenue lors de la sauvegarde de votre profil");
         });
       break;
     }
@@ -141,15 +138,13 @@ export const usersMiddleware = store => next => action => {
       const formData = new FormData();
       formData.append("avatar", action.payload);
 
-      axios({
-        method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/users/${currentUser.id}/avatar`,
+      httpClient.post({
+        url: `/users/${currentUser.id}/avatar`,
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${accessToken}`
         }
-      })
+      }, store)
         .then(res => {
           const responseAvatarUrl = `${res.data.data.avatarUrl}?v=${Date.now()}`;
           // const newAvatarUrl = `${process.env.REACT_APP_API_URL}/${responseAvatarUrl}`;

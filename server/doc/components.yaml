@@ -4,34 +4,34 @@ components:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/PrimaryKey"
+          $ref: "#/components/schemas/PrimaryKey"
         email:
           type: string
           format: email
         firstname:
-          $ref: "#components/schemas/Firstname"
+          $ref: "#/components/schemas/Firstname"
         lastname:
-          $ref: "#components/schemas/Lastname"
+          $ref: "#/components/schemas/Lastname"
         bio:
           type: string
           example: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla turpis venenatis, ultrices felis quis, consectetur purus cras amet.
           maxLength: 140
         slug:
-          $ref: "#components/schemas/Slug"
+          $ref: "#/components/schemas/Slug"
         avatarUrl:
-          $ref: "#components/schemas/URL"
+          $ref: "#/components/schemas/URL"
         isAdmin:
           type: boolean
         createdAt:
-          $ref: "#components/schemas/DateTZ"
+          $ref: "#/components/schemas/DateTZ"
         records:
           type: array
           items:
-            $ref: "#components/schemas/UserRecord"
+            $ref: "#/components/schemas/UserRecord"
         learnedLanguages:
-          $ref: "#components/schemas/Languages"
+          $ref: "#/components/schemas/Languages"
         taughtLanguages:
-          $ref: "#components/schemas/Languages"
+          $ref: "#/components/schemas/Languages"
 
     UpdatedUser:
       type: object
@@ -40,21 +40,21 @@ components:
           type: string
           format: email
         firstname:
-          $ref: "#components/schemas/Firstname"
+          $ref: "#/components/schemas/Firstname"
         lastname:
-          $ref: "#components/schemas/Lastname"
+          $ref: "#/components/schemas/Lastname"
         password:
-          $ref: "#components/schemas/Password"
+          $ref: "#/components/schemas/Password"
         confirm:
-          $ref: "#components/schemas/Password"
+          $ref: "#/components/schemas/Password"
         bio:
           type: string
           example: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla turpis venenatis, ultrices felis quis, consectetur purus cras amet.
           maxLength: 140
         learnedLanguages:
-          $ref: "#components/schemas/Languages"
+          $ref: "#/components/schemas/Languages"
         taughtLanguages:
-          $ref: "#components/schemas/Languages"
+          $ref: "#/components/schemas/Languages"
 
     NewUser:
       type: object
@@ -63,13 +63,13 @@ components:
           type: string
           format: email
         password:
-          $ref: "#components/schemas/Password"
+          $ref: "#/components/schemas/Password"
         confirm:
-          $ref: "#components/schemas/Password"
+          $ref: "#/components/schemas/Password"
         firstname:
-          $ref: "#components/schemas/Firstname"
+          $ref: "#/components/schemas/Firstname"
         lastname:
-          $ref: "#components/schemas/Lastname"
+          $ref: "#/components/schemas/Lastname"
       required:
         - email
         - password
@@ -79,32 +79,32 @@ components:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/PrimaryKey"
+          $ref: "#/components/schemas/PrimaryKey"
         firstname:
-          $ref: "#components/schemas/Firstname"
+          $ref: "#/components/schemas/Firstname"
         lastname:
-          $ref: "#components/schemas/Lastname"
+          $ref: "#/components/schemas/Lastname"
         slug:
-          $ref: "#components/schemas/Slug"
+          $ref: "#/components/schemas/Slug"
         avatarUrl:
-          $ref: "#components/schemas/URL"
+          $ref: "#/components/schemas/URL"
 
     DashboardUser:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/PrimaryKey"
+          $ref: "#/components/schemas/PrimaryKey"
         email:
           type: string
           format: email
         firstname:
-          $ref: "#components/schemas/Firstname"
+          $ref: "#/components/schemas/Firstname"
         lastname:
-          $ref: "#components/schemas/Lastname"
+          $ref: "#/components/schemas/Lastname"
         slug:
-          $ref: "#components/schemas/Slug"
+          $ref: "#/components/schemas/Slug"
         createdAt:
-          $ref: "#components/schemas/DateTZ"
+          $ref: "#/components/schemas/DateTZ"
 
     LoginForm:
       type: object
@@ -113,7 +113,7 @@ components:
           type: string
           format: email
         password:
-          $ref: "#components/schemas/Password"
+          $ref: "#/components/schemas/Password"
       required:
         - email
         - password
@@ -122,62 +122,67 @@ components:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/PrimaryKey"
+          $ref: "#/components/schemas/PrimaryKey"
         url:
-          $ref: "#components/schemas/URL"
+          $ref: "#/components/schemas/URL"
         createdAt:
-          $ref: "#components/schemas/DateTZ"
+          $ref: "#/components/schemas/DateTZ"
         englishTranslation:
-          $ref: "#components/schemas/Translation"
+          $ref: "#/components/schemas/Translation"
         translation:
-          $ref: "#components/schemas/Translation"
+          $ref: "#/components/schemas/Translation"
+
+    Records:
+      type: array
+      items:
+        $ref: "#/components/schemas/Record"
 
     Record:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/PrimaryKey"
+          $ref: "#/components/schemas/PrimaryKey"
         url:
-          $ref: "#components/schemas/URL"
+          $ref: "#/components/schemas/URL"
         createdAt:
-          $ref: "#components/schemas/DateTZ"
+          $ref: "#/components/schemas/DateTZ"
         user:
-          $ref: "#components/schemas/RecordUser"
+          $ref: "#/components/schemas/RecordUser"
         englishTranslation:
-          $ref: "#components/schemas/Translation"
+          $ref: "#/components/schemas/Translation"
         translation:
-          $ref: "#components/schemas/Translation"
+          $ref: "#/components/schemas/Translation"
 
     DashboardRecord:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/PrimaryKey"
+          $ref: "#/components/schemas/PrimaryKey"
         url:
-          $ref: "#components/schemas/URL"
+          $ref: "#/components/schemas/URL"
         createdAt:
-          $ref: "#components/schemas/DateTZ"
+          $ref: "#/components/schemas/DateTZ"
         user:
-          $ref: "#components/schemas/DashboardUser"
+          $ref: "#/components/schemas/DashboardUser"
         translation:
-          $ref: "#components/schemas/DashboardTranslation"
+          $ref: "#/components/schemas/DashboardTranslation"
 
     Languages:
       type: array
       items:
-        $ref: "#components/schemas/Language"
+        $ref: "#/components/schemas/Language"
       description: An array of languages.
 
     Language:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/PrimaryKey"
+          $ref: "#/components/schemas/PrimaryKey"
         name:
           type: string
           example: english
         code:
-          $ref: "#components/schemas/CountryCode"
+          $ref: "#/components/schemas/CountryCode"
 
     NewLanguage:
       type: object
@@ -204,7 +209,7 @@ components:
       type: object
       properties:
         language_id:
-          $ref: "#components/schemas/LanguagePk"
+          $ref: "#/components/schemas/LanguagePk"
         role:
           type: string
           enum: [learner, teacher]
@@ -217,22 +222,22 @@ components:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/TranslationPk"
+          $ref: "#/components/schemas/TranslationPk"
         text:
           type: string
           example: How are you ?
         createdAt:
-          $ref: "#components/schemas/DateTZ"
+          $ref: "#/components/schemas/DateTZ"
         expression:
-          $ref: "#components/schemas/Expression"
+          $ref: "#/components/schemas/Expression"
         language:
-          $ref: "#components/schemas/Language"
+          $ref: "#/components/schemas/Language"
 
     DashboardTranslation:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/TranslationPk"
+          $ref: "#/components/schemas/TranslationPk"
         text:
           type: string
           example: How are you ?
@@ -240,20 +245,20 @@ components:
           type: string
           example: english
         languageCode:
-          $ref: "#components/schemas/CountryCode"
+          $ref: "#/components/schemas/CountryCode"
         expressionId:
-          $ref: "#components/schemas/PrimaryKey"
+          $ref: "#/components/schemas/PrimaryKey"
 
     Expression:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/PrimaryKey"
+          $ref: "#/components/schemas/PrimaryKey"
         label:
           type: string
           example: "greetings"
         createdAt:
-          $ref: "#components/schemas/DateTZ"
+          $ref: "#/components/schemas/DateTZ"
 
     URL:
       type: string
@@ -271,12 +276,12 @@ components:
 
     TranslationPk:
       allOf:
-        - "#components/schemas/PrimaryKey"
+        - "#/components/schemas/PrimaryKey"
         - description: The primary key of the recorded translation.
 
     LanguagePk:
       allOf:
-        - "#components/schemas/PrimaryKey"
+        - "#/components/schemas/PrimaryKey"
         - description: The primary key of the language.
 
     Firstname:
@@ -313,7 +318,7 @@ components:
         errors:
           type: array
           items:
-            $ref: "#components/schemas/Error"
+            $ref: "#/components/schemas/Error"
 
     Error:
       type: object
@@ -366,6 +371,18 @@ components:
         avatarUrl:
           type: string
           example: /thumnails/jhon-doe.jpg
+        languageMostTaught:
+          type: object
+          properties: 
+            language:
+              type: string
+              example: french
+            code:
+              type: string
+              example: fr
+            occurrences:
+              type: integer
+              example: 8
         iRecords:
           type: integer
           example: 33
@@ -375,6 +392,10 @@ components:
         slug: "jhon-doe"
         firstname: "Jhon"
         lastname: "Doe"
+        languageMostTaught:
+          language: french
+          code: fr
+          occurrences: 6
         avatarUrl: "/thumnails/jhon-doe.jpg"
         iRecords: 33
 
@@ -418,7 +439,7 @@ components:
       in: path
       name: id
       schema:
-        $ref: "#components/schemas/PrimaryKey"
+        $ref: "#/components/schemas/PrimaryKey"
       required: true
       description: Primary key of the expression.
 
@@ -426,21 +447,21 @@ components:
       in: path
       name: id
       schema:
-        $ref: "#components/schemas/PrimaryKey"
+        $ref: "#/components/schemas/PrimaryKey"
       required: true
       description: Primary key of the translation.
 
     UserPk:
       name: id
       schema:
-        $ref: "#components/schemas/PrimaryKey"
+        $ref: "#/components/schemas/PrimaryKey"
       required: true
       description: Primary key of the user.
 
     LanguagePk:
       name: language_id
       schema:
-        $ref: "#components/schemas/LanguagePk"
+        $ref: "#/components/schemas/LanguagePk"
       required: true
       description: Primary key of the language.
     
@@ -448,14 +469,14 @@ components:
       in: path
       name: id
       schema:
-        $ref: "#components/schemas/PrimaryKey"
+        $ref: "#/components/schemas/PrimaryKey"
       required: true
       description: Primary key of the language.
 
     RecordPk:
       name: language_id
       schema:
-        $ref: "#components/schemas/PrimaryKey"
+        $ref: "#/components/schemas/PrimaryKey"
       required: true
       description: Primary key of the record.
 
@@ -465,35 +486,35 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#components/schemas/Errors"
+            $ref: "#/components/schemas/Errors"
 
     Conflict:
       description: Conflict. Same field(s) already set in database.
       content:
         application/json:
           schema:
-            $ref: "#components/schemas/Errors"
+            $ref: "#/components/schemas/Errors"
 
     Unauthorized:
       description: Unauthorized. The authentication process failed.
       content:
         application/json:
           schema:
-            $ref: "#components/schemas/Errors"
+            $ref: "#/components/schemas/Errors"
 
     UserNotFound:
       description: Not Found. No user corresponding to the specified parameter exists in our database.
       content:
         application/json:
           schema:
-            $ref: "#components/schemas/Errors"
+            $ref: "#/components/schemas/Errors"
 
     RecordNotFound:
       description: Not Found. No record corresponding to the specified parameter exists in our database.
       content:
         application/json:
           schema:
-            $ref: "#components/schemas/Errors"
+            $ref: "#/components/schemas/Errors"
 
     Created:
       content:
@@ -509,12 +530,12 @@ components:
 
     CreatedUser:
       allOf:
-        - $ref: "#components/responses/Created"
+        - $ref: "#/components/responses/Created"
         - description: Success. Id of the newly created user.
 
     CreatedLanguage:
       allOf:
-        - $ref: "#components/responses/Created"
+        - $ref: "#/components/responses/Created"
         - description: Success. Id of the newly created language.
 
     NoContent:

@@ -22,15 +22,15 @@ import {
 } from "../actions/editProfilActions";
 
 import axios from "axios";
+import { httpClient } from "../../utils";
 
 export const usersMiddleware = store => next => action => {
   next(action);
   switch (action.type) {
     case FETCH_ALL_USERS: {
-      axios({
-        method: "GET",
-        url: `${process.env.REACT_APP_API_URL}/users`
-      })
+      httpClient.get({
+        url: `/users`
+      }, false, store)
         .then(res => {
           const users = res.data.data;
           const usersWithType = users.map(user => {
@@ -138,15 +138,13 @@ export const usersMiddleware = store => next => action => {
       const formData = new FormData();
       formData.append("avatar", action.payload);
 
-      axios({
-        method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/users/${currentUser.id}/avatar`,
+      httpClient.post({
+        url: `/users/${currentUser.id}/avatar`,
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${accessToken}`
         }
-      })
+      }, store)
         .then(res => {
           const responseAvatarUrl = `${res.data.data.avatarUrl}?v=${Date.now()}`;
           // const newAvatarUrl = `${process.env.REACT_APP_API_URL}/${responseAvatarUrl}`;

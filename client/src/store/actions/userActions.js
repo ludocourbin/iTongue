@@ -5,7 +5,7 @@ export const SHOW_PASSWORD = "SHOW_PASSWORD";
 export const SIGNUP = "SIGNUP";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const SIGNUP_ERROR = "SIGNUP_ERROR";
-export const LOGOUT = "LOGOUT";
+
 
 export const signupInputChange = (payload) => ({
     type: SIGNUP_INPUT_CHANGE,
@@ -37,9 +37,6 @@ export const signupSuccess = (payload) => ({
 export const signupError = (payload) => ({
     type: SIGNUP_ERROR,
     payload,
-});
-export const logout = () => ({
-    type: LOGOUT,
 });
 
 export const FETCH_ALL_USERS = "FETCH_ALL_USERS";
@@ -77,4 +74,34 @@ export const checkUserSlugSuccess = (payload) => ({
 export const checkUserSlugError = (payload) => ({
     type: CHECK_USER_SLUG_ERROR,
     payload,
+});
+
+
+/* JWT Update token EXP */
+export const UPDATE_TOKEN_EXP = "UPDATE_TOKEN_EXP";
+export const UPDATE_ACCESS_TOKEN = "UPDATE_ACCESS_TOKEN";
+
+export const updateTokenExp = () => ({
+    type: UPDATE_TOKEN_EXP,
+});
+
+export const updateAccessToken = (payload) => ({
+    type: UPDATE_ACCESS_TOKEN,
+    payload,
+});
+
+export const LOGOUT = "LOGOUT";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const LOGOUT_ERROR = "LOGOUT_ERROR";
+
+export const logout = () => ({
+    type: LOGOUT,
+});
+
+export const logoutSucess = (payload) => ({
+    type: LOGOUT_SUCCESS,
+});
+
+export const logoutError = (payload) => ({
+    type: LOGOUT_ERROR,
 });

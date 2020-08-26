@@ -7,12 +7,19 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_ERROR,
   LOGOUT,
+  LOGOUT_SUCCESS,
+  LOGOUT_ERROR,
+  
   FETCH_ALL_USERS,
   FETCH_ALL_USERS_SUCCESS,
   FETCH_ALL_USERS_ERROR,
   CHECK_USER_SLUG,
   CHECK_USER_SLUG_SUCCESS,
-  CHECK_USER_SLUG_ERROR
+  CHECK_USER_SLUG_ERROR,
+
+  UPDATE_TOKEN_EXP,
+  UPDATE_ACCESS_TOKEN,
+  
 } from "../actions/userActions";
 
 import {
@@ -47,6 +54,8 @@ const initialState = {
   loading: false,
   accessToken: null,
   refreshToken: null,
+  accessTokenExp: null,
+
   signupData: {
     firstname: "",
     lastname: "",
@@ -210,8 +219,13 @@ export default (state = initialState, action = {}) => {
     case LOGOUT:
       return {
         ...state,
+      };
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
         accessToken: null,
         refreshToken: null,
+        accessTokenExp: null,
         loginData: {
           email: state.currentUser.email,
           password: "",
@@ -225,6 +239,10 @@ export default (state = initialState, action = {}) => {
         allUsersList: [],
         loginErrorMessage: ""
       };
+    case LOGOUT_ERROR:
+      return {
+        ...state,
+      }
     case FETCH_ALL_USERS:
       return {
         ...state,
@@ -385,6 +403,16 @@ export default (state = initialState, action = {}) => {
           ...state.userSlugInfos,
           records: [...state.userSlugInfos.records, action.payload]
         }
+      };
+    case UPDATE_TOKEN_EXP:
+      return {
+        ...state,
+        accessTokenExp: Date.now() + 19 * 60 * 1000,
+      };
+    case UPDATE_ACCESS_TOKEN:
+      return {
+        ...state,
+        accessToken: action.payload,
       };
     default:
       return state;

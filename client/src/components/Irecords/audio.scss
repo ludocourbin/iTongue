@@ -1,0 +1,44 @@
+@import "../../styles/vars";
+@import "../../styles/mixin";
+
+.audioRecorder {
+    display: flex;
+    align-items: center;
+    padding-bottom: 25px !important;
+    position: relative;
+
+    .icon {
+        position: relative;
+        top: -3px;
+    }
+
+    .progress {
+        height: 10px;
+        margin-left: 10px !important;
+        margin-bottom: 0px !important;
+        .bar {
+            height: 10px !important;
+        }
+        .orange.bar {
+            color: $primary-color;
+        }
+    }
+
+    .played {
+        position: absolute;
+        top: 30px;
+        left: 60px;
+        font-size: 0.9rem;
+    }
+
+    .total {
+        position: absolute;
+        right: 15px;
+        top: 30px;
+        font-size: 0.9rem;
+    }
+
+    .icon {
+        cursor: pointer;
+    }
+}

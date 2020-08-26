@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Card, Icon, Progress } from "semantic-ui-react";
 import getBlobDuration from "get-blob-duration";
+import "./audio.scss";
 
 const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
     const { id, url, blobURL } = audio;
@@ -62,12 +63,10 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
     };
 
     const sToTime = (t) => {
-        return (
-            padZero(parseInt((t / 60) % 60)) + ":" + padZero(parseInt(t % 60))
-        );
+        return padZero(parseInt((t / 60) % 60)) + ":" + padZero(parseInt(t % 60));
     };
-    
-/* J'ai commenté car non utilisé -> Gautier
+
+    /* J'ai commenté car non utilisé -> Gautier
     const start = (start) => {
         if (start != null) {
             setDuration(audioRef.current.duration);
@@ -91,7 +90,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
         }
     };
     return (
-        <Card.Content className="flex" textAlign="left">
+        <Card.Content className="audioRecorder" textAlign="left">
             <audio
                 id={id}
                 ref={audioRef}

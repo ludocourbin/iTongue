@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Card, Flag, Icon, Confirm, Image } from "semantic-ui-react";
+import { Card, Icon, Confirm, Image } from "semantic-ui-react";
+import { isMobile } from "react-device-detect";
 import AudioPlayer from "../../containers/Audio";
 import HeaderIrecord from "./headerIrecord";
 
@@ -52,16 +53,25 @@ const Irecord = ({
                     content="Vous êtes sûr de vouloir supprimer ce iRecord ?"
                 />
                 {!isLogged && <HeaderIrecord user={user} />}
+                {!isMobile && isLogged && currentUser.id === isUserRecord && (
+                    <HeaderIrecord user={user}>
+                        <Icon
+                            onClick={() => deleteIrecord(record.id)}
+                            className="header-irecords__copy-delete"
+                            name="trash alternate outline"
+                        />
+                    </HeaderIrecord>
+                )}
                 {isLogged && currentUser.id !== isUserRecord && (
                     <HeaderIrecord user={user}>
                         <Icon
                             onClick={handleCopyiRecord}
-                            className="irecords-copy"
+                            className="header-irecords__copy-delete"
                             name="copy"
                         />
                     </HeaderIrecord>
                 )}
-                <Card.Content className="text">
+                <Card.Content className="irecords__text">
                     <p>
                         <Image
                             src={`https://www.countryflags.io/${record.englishTranslation.language.code}/flat/32.png`}
@@ -72,7 +82,7 @@ const Irecord = ({
                 </Card.Content>
                 {record.englishTranslation.language.code !==
                     record.translation.language.code && (
-                    <Card.Content className="text">
+                    <Card.Content className="irecords__text">
                         <p>
                             <Image
                                 src={`https://www.countryflags.io/${record.translation.language.code}/flat/32.png`}

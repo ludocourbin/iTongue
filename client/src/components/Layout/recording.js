@@ -4,6 +4,7 @@ import { ReactMic } from "react-mic";
 import { motion } from "framer-motion";
 
 import AudioPlayer from "../../containers/Audio";
+import "./recording.scss";
 
 const Recording = ({
     audio,

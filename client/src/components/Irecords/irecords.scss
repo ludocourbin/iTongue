@@ -9,6 +9,7 @@
 .irecords {
     border-bottom: none !important;
     margin-bottom: 20px !important;
+    position: relative;
     width: 100% !important;
     box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
 
@@ -36,9 +37,6 @@
     .header-irecords {
         padding: 10px !important;
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        // background-color: #ccc !important;
 
         &__avatar {
             margin: 0 !important;
@@ -49,78 +47,17 @@
             position: relative;
             top: 5px;
         }
-    }
 
-    .irecords-copy {
-        margin-left: auto;
-        position: relative;
-        right: -75px;
-        top: -3px !important;
-    }
-
-    .text {
-        padding: 7px !important;
-    }
-
-    .flex {
-        display: flex;
-        align-items: center;
-        padding-bottom: 25px !important;
-        position: relative;
-
-        .icon {
-            position: relative;
-            top: -3px;
-        }
-
-        .progress {
-            flex: 1;
-            height: 10px;
-            // background-color: orange;
-            margin-left: 10px !important;
-            margin-bottom: 0px !important;
-            .bar {
-                height: 10px;
-            }
-
-            .orange.bar {
-                color: $primary-color;
-            }
+        &__copy-delete {
+            position: absolute;
+            right: 8px;
+            top: 15px !important;
         }
     }
 
-    .total {
-        position: absolute;
-        right: 15px;
-        top: 30px;
-        font-size: 0.9rem;
-    }
-
-    .played {
-        position: absolute;
-        top: 30px;
-        left: 60px;
-        font-size: 0.9rem;
-    }
-
-    .icon {
-        cursor: pointer;
-    }
-}
-
-.recording {
-    .total {
-        position: absolute;
-        right: 0px;
-        top: 20px;
-        font-size: 0.9rem;
-    }
-
-    .played {
-        position: absolute;
-        top: 20px;
-        left: 45px;
-        font-size: 0.9rem;
+    &__text {
+        position: relative;
+        left: -5px;
     }
 }
 

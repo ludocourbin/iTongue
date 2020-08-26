@@ -2,8 +2,40 @@
 
 BEGIN;
 
-CREATE OR REPLACE FUNCTION "users_with_more_records"("limit" INT)
-RETURNS TABLE("userId" INT,"slug" TEXT, "firstname" TEXT, "lastname" TEXT, "avatarUrl" TEXT, "iRecords" BIGINT)
+CREATE TYPE "best_users" AS ("userId" INT,"slug" TEXT, "firstname" TEXT, "lastname" TEXT, "avatarUrl" TEXT, "language_most_taugth" JSONB, "iRecords" BIGINT);
+
+CREATE TYPE "best_translations" AS ("translationId" INT, "text" TEXT, "language" TEXT, "expression" TEXT, "expressionId" INT, "iRecords" BIGINT);
+
+CREATE TYPE "most_used_language_by_user" AS ("user_id" INT, "language" TEXT, "code" TEXT, "language_count" BIGINT);
+
+
+CREATE OR REPLACE FUNCTION "iteacher_preferred_language"("user_id" INT)
+RETURNS setof "most_used_language_by_user"
+AS $$
+
+BEGIN
+
+		RETURN QUERY
+		SELECT DISTINCT $1 AS "user_id",
+										"l"."name" AS "language", 
+										"l"."code" AS "code",
+										count(*) AS "language_count"
+							 FROM "language" "l"
+							 JOIN "translation" "t" ON "l"."id" = "t"."language_id"
+							 JOIN "record" "r" ON "r"."translation_id" = "t"."id"
+							WHERE "r"."user_id" = $1
+					 GROUP BY "l"."name", "l"."code"
+					 ORDER BY "language_count" DESC
+					 	  LIMIT 1;
+
+END
+
+$$ LANGUAGE plpgsql STABLE;
+
+
+
+CREATE OR REPLACE FUNCTION "users_with_more_irecords"("limit" INT)
+RETURNS setof "best_users"
 AS $$
 
 BEGIN
@@ -14,14 +46,17 @@ BEGIN
                     "u"."firstname",
                     "u"."lastname",
                     "u"."avatar_url",
+										to_jsonb("i"::"most_used_language_by_user") AS "language_most_taugth",
                     count(*) AS "iRecords"
-              FROM "record" "r"
+              FROM "record" "r" 
+			  CROSS JOIN LATERAL "iteacher_preferred_language"("r"."user_id") "i"
               JOIN "user" "u" ON "u"."id" = "r"."user_id"
           GROUP BY "r"."user_id", 
                     "u"."slug",
                     "u"."firstname",
                     "u"."lastname",
-                    "u"."avatar_url"
+                    "u"."avatar_url",
+										"i".*
           ORDER BY "iRecords" DESC
              LIMIT $1;
 
@@ -29,8 +64,8 @@ END
 
 $$ LANGUAGE plpgsql STABLE;
 
-CREATE OR REPLACE FUNCTION "translations_with_more_records"("limit" INT)
-RETURNS TABLE("translationId" INT, "text" TEXT, "language" TEXT, "expression" TEXT, "expressionId" INT, "iRecords" BIGINT)
+CREATE OR REPLACE FUNCTION "translations_with_more_irecords"("limit" INT)
+RETURNS setof "best_translations"
 AS $$
 
 BEGIN
@@ -52,6 +87,21 @@ BEGIN
                   "e"."id",
                   "l"."code"
         ORDER BY "iRecords" DESC
+           LIMIT $1;
+
+END
+
+$$ LANGUAGE plpgsql STABLE;
+
+CREATE OR REPLACE FUNCTION "last_irecords"("limit" INT)
+RETURNS TABLE("id" INT, "url" TEXT, "createdAt" TIMESTAMPTZ, "user" JSON, "englishTranslation" JSON, "translation" JSON)
+AS $$
+
+BEGIN
+
+    RETURN QUERY
+   SELECT * FROM "record_display"
+        ORDER BY "createdAt" DESC
            LIMIT $1;
 
 END

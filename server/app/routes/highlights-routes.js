@@ -59,5 +59,6 @@ router.get("/users/:limit(\\d+)", highlightsController.getBestUsers);
  *              description: Not Found
  */
 router.get("/translations/:limit(\\d+)", highlightsController.getBestTranslations);
+router.get("/lastirecords/:limit(\\d+)", highlightsController.getLastiRecords);
 
 module.exports = router;

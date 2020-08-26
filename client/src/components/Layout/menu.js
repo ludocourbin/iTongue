@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "semantic-ui-react";
-import Logo from "../../assets/logo.png";
+// import Logo from "../../assets/logo.png";
 
 const Header = ({ setVisible, pathname, ...props }) => {
     return (
@@ -18,7 +18,7 @@ const Header = ({ setVisible, pathname, ...props }) => {
                     size="big"
                 />
             </Link>
-            <img src={Logo} className="header-nav__logo" alt="logo iTongue" />
+            <h1 className="header-nav__title">iTongue</h1>
             <div onClick={() => setVisible()}>
                 <Icon className="header-nav__icon" name="sidebar" size="big" />
             </div>
@@ -28,4 +28,4 @@ const Header = ({ setVisible, pathname, ...props }) => {
 
 export default Header;
 
-// <h1 className="header-nav__title">iTongue</h1>
+// <img src={Logo} className="header-nav__logo" alt="logo iTongue" />

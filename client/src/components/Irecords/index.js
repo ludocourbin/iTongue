@@ -50,7 +50,7 @@ const Irecords = ({
     if (isMobile && isLogged && currentUser.id === isUserRecord) {
         return (
             <Swipeout
-                left={[]}
+                // left={[]}
                 right={[
                     {
                         text: "Supprimer",
@@ -62,8 +62,10 @@ const Irecords = ({
                 autoClose
                 style={{
                     height: "117px",
-
+                    width: '100%',
                     marginBottom: "20px",
+                    boxShadow: '0 6px 6px rgba(0,0,0,0.2)',
+                    borderRadius: '10px',
                     // borderBottom: "1px solid black",
                 }}
             >

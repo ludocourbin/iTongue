@@ -59,6 +59,33 @@ router.get("/users/:limit(\\d+)", highlightsController.getBestUsers);
  *              description: Not Found
  */
 router.get("/translations/:limit(\\d+)", highlightsController.getBestTranslations);
+
+/**
+ * @swagger
+ * /best/lastirecords/{limit}:
+ *  get:
+ *      tags: 
+ *        - Highlights
+ *      summary: Last iRecords
+ *      description:
+ *        Get last iRecords, limiting results by passing INTEGER in path
+ *      parameters:
+ *        - name: limit
+ *          description: number of results
+ *          in: path
+ *          type: integer
+ *          required: true
+ *          example: 4
+ *      responses:
+ *          '200':
+ *              description: OK
+ *              content:
+ *                application/json:
+ *                  schema:
+ *                    $ref: "#/components/schemas/Records"
+ *          '404':
+ *              description: Not Found
+ */
 router.get("/lastirecords/:limit(\\d+)", highlightsController.getLastiRecords);
 
 module.exports = router;

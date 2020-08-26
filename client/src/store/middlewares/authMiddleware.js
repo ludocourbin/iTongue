@@ -2,16 +2,15 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { httpClient } from "../../utils";
 
-import { 
-    SIGNUP, 
-    signupSuccess, 
+import {
+    SIGNUP,
+    signupSuccess,
     signupError,
     updateTokenExp,
     LOGOUT,
     logoutSucess,
     logoutError,
- } 
-from "../actions/userActions";
+} from "../actions/userActions";
 
 import {
     LOGIN,
@@ -19,15 +18,14 @@ import {
     loginSubmitError,
 } from "../actions/loginActions";
 
-
 export default (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
         // réagir au signup
         case SIGNUP:
             const data = store.getState().user.signupData;
-                        
-           // httpClient.post({ url: "/users", data }, true, store).then().catch();
+
+            // httpClient.post({ url: "/users", data }, true, store).then().catch();
 
             axios({
                 method: "post",
@@ -48,17 +46,17 @@ export default (store) => (next) => (action) => {
                             url: `${process.env.REACT_APP_API_URL}/users/login`,
                             data,
                         })
-                        .then((res) => {
-                            const currentUser = res.data.data;
-                            store.dispatch(signupSuccess(currentUser));
-                            store.dispatch(updateTokenExp());
-                            toast.success(
-                                `Bienvenue ${currentUser.firstname}`
-                            );
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
+                            .then((res) => {
+                                const currentUser = res.data.data;
+                                store.dispatch(signupSuccess(currentUser));
+                                store.dispatch(updateTokenExp());
+                                toast.success(
+                                    `Bienvenue ${currentUser.firstname}`
+                                );
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
                     }
                 })
                 .catch((error) => {
@@ -92,17 +90,24 @@ export default (store) => (next) => (action) => {
                 });
             return;
         case LOGOUT:
-            httpClient.post({
-                url: "/users/logout",
-            }, store)
-            .then(res => {
-                console.log(res);
-                store.dispatch(logoutSucess());
-            })
-            .catch(err => {
-                console.error(err);
-                store.dispatch(logoutError());
-            });
+            httpClient
+                .post(
+                    {
+                        url: "/users/logout",
+                    },
+                    store
+                )
+                .then((res) => {
+                    console.log(res);
+                    store.dispatch(logoutSucess());
+                })
+                .catch((err) => {
+                    console.error(err);
+                    store.dispatch(logoutError());
+                })
+                .finally((res) => {
+                    store.dispatch(logoutSucess());
+                });
 
             return;
         default:

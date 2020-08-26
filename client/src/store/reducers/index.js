@@ -9,7 +9,8 @@ import statisticsRecuder from "./Admin/statisticsRecuder";
 import settings from "./settings";
 import user from "./user";
 import irecords from "./irecords";
-import languagesReducer from './languagesReducer';
+import languagesReducer from "./languagesReducer";
+import statisticsHomeReducer from "./statisticsHomeReducer";
 
 export default combineReducers({
     settings,
@@ -19,4 +20,5 @@ export default combineReducers({
     irecords,
     languagesReducer,
     statisticsRecuder,
+    statisticsHomeReducer,
 });

@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Input } from 'semantic-ui-react';
+import React, { useState, useEffect } from "react";
+import { Form, Input } from "semantic-ui-react";
 
 const EditEmailForm = (props) => {
-
-    const { 
-        handdleInputChange, 
-        handdleSubmit, 
-        profilData, 
+    const {
+        handdleInputChange,
+        handdleSubmit,
+        profilData,
         currentUser,
         editProfilDataLoading,
     } = props;
 
-    const [ emailIsValid, setEmailIsValid] = useState(false);
+    const [emailIsValid, setEmailIsValid] = useState(false);
 
     useEffect(() => {
         const checkEmailIsValid = (email) => {
-            if(email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+            if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
                 setEmailIsValid(true);
             } else {
                 setEmailIsValid(false);
@@ -30,25 +29,25 @@ const EditEmailForm = (props) => {
                 <Form.Group widths="equal">
                     <Form.Field>
                         <span className="edit-profil_label">Email actuel</span>
-                        <Input 
-                        name="old_email"
-                        type="email"
-                        disabled
-                        value={currentUser.email}
+                        <Input
+                            name="old_email"
+                            type="email"
+                            disabled
+                            value={currentUser.email}
                         />
                     </Form.Field>
                     <Form.Field>
                         <span className="edit-profil_label">Nouveau email</span>
-                        <Input 
-                        name="email"
-                        type="email"
-                        value={profilData.email}
-                        onChange={handdleInputChange}
-                        icon={emailIsValid ? "check circle" : "dont"}
+                        <Input
+                            name="email"
+                            type="email"
+                            value={profilData.email}
+                            onChange={handdleInputChange}
+                            icon={emailIsValid ? "check circle" : "dont"}
                         />
                     </Form.Field>
                 </Form.Group>
-                <Form.Button 
+                <Form.Button
                     type="submit"
                     content="Enregistrer l'email"
                     className="edit-profil_formbtn"

@@ -12,13 +12,13 @@
         box-shadow: none;
     }
 
-    .ui.mini.statistics .statistic>.value {
-        font-size: 1rem!important;
-        font-weight: 600!important;
+    .ui.mini.statistics .statistic > .value {
+        font-size: 1rem !important;
+        font-weight: 600 !important;
     }
 
-    .ui.statistic>.value~.label {
-        font-size: .6rem!important;
+    .ui.statistic > .value ~ .label {
+        font-size: 0.6rem !important;
     }
 
     &_header {
@@ -28,8 +28,8 @@
         align-content: center;
         width: 100%;
         overflow-x: hidden;
-        padding: 1em!important;
-        padding-top: 2em!important;
+        padding: 1em !important;
+        padding-top: 2em !important;
 
         .container_left {
             width: 35%;
@@ -48,9 +48,9 @@
             flex-direction: column;
             justify-content: space-between;
 
-            .user-title{
+            .user-title {
                 font-size: 1.4em;
-                padding-right: .5em;
+                padding-right: 0.5em;
                 font-weight: 600;
             }
 
@@ -75,7 +75,6 @@
 
             &__third-row {
                 width: 100%;
-                
             }
         }
     }
@@ -89,9 +88,8 @@
         text-align: center;
     }
 
-
     .container_bio > p {
-        font-size: .9em;
+        font-size: 0.9em;
         line-height: 1.8em;
         line-break: anywhere;
     }
@@ -100,7 +98,6 @@
     }
 
     .user-profil_feed {
-        
         padding: 1em;
         padding-top: 2em;
 
@@ -121,7 +118,8 @@
     }
 }
 
-.second-row_iteach, .second-row_ilearn {
+.second-row_iteach,
+.second-row_ilearn {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -144,14 +142,13 @@
             display: block;
             padding: 0.3em;
             background-color: #ffffff;
-            margin-right: .3em;
+            margin-right: 0.3em;
             max-width: 30px;
             max-height: 30px;
             border-radius: 50%;
         }
     }
 }
-
 
 .irecords {
     margin-bottom: 33px !important;

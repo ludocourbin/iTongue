@@ -26,17 +26,24 @@ export const httpClient = {
         // présence de store : requête qui nécessite authentification
         if (store) {
             const user = store.getState().user;
-            
+
             const { accessTokenExp, refreshToken } = user;
             let { accessToken } = user;
 
-            console.log({ exp: new Date(accessTokenExp), now: new Date(), IsStillValid: accessTokenExp > Date.now(), refreshToken, accessToken });
+            console.log({
+                exp: new Date(accessTokenExp),
+                now: new Date(),
+                IsStillValid: accessTokenExp > Date.now(),
+                refreshToken,
+                accessToken,
+            });
 
             // Need refresh
             if (refreshToken && (!accessToken || accessTokenExp < Date.now())) {
+                console.log("token refreshing");
                 const response = await httpClient.post({
                     url: "/auth/refresh",
-                    data: { refreshToken: refreshToken }
+                    data: { refreshToken: refreshToken },
                 });
 
                 accessToken = response.data.data.accessToken;
@@ -67,7 +74,7 @@ export const httpClient = {
 
     get: (options, store) => {
         return httpClient.fetch(options, store);
-    }
+    },
 };
 
 /*

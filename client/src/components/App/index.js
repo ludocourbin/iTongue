@@ -2,10 +2,9 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 /* Components */
-import Home from "../Home";
+
 import Contact from "../Contact";
 import Terms from "../Terms";
-
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
@@ -22,6 +21,7 @@ import IrecordsPage from "../../containers/IrecordsPage";
 import IusersPage from "../../containers/IusersPage";
 import Search from "../../containers/Search";
 import Feed from "../../containers/Feed";
+import Home from "../../containers/Home";
 
 const App = ({ isLogged }) => {
     return (
@@ -30,11 +30,11 @@ const App = ({ isLogged }) => {
                 <Route exact path="/" component={Home} />
                 <Route
                     path="/signup"
-                    render={() => (isLogged ? <Redirect to="/" /> : <Signup />)}
+                    render={() => (isLogged ? <Redirect to="/feed" /> : <Signup />)}
                 />
                 <Route
                     path="/login"
-                    render={() => (isLogged ? <Redirect to="/" /> : <Login />)}
+                    render={() => (isLogged ? <Redirect to="/feed" /> : <Login />)}
                 />
                 <Route path="/search" component={Search} />
                 <Route path="/irecords" component={IrecordsPage} />
@@ -44,13 +44,11 @@ const App = ({ isLogged }) => {
                 <Route
                     exact
                     path="/user/:slug/edit"
-                    render={() =>
-                        isLogged ? <EditProfil /> : <Redirect to="/login" />
-                    }
+                    render={() => (isLogged ? <EditProfil /> : <Redirect to="/login" />)}
                 />
                 <Route exact path="/feed" component={Feed} />
                 <Route path="/admin" component={Admin} />
-                <Route exact path ="/terms" component={Terms} />
+                <Route exact path="/terms" component={Terms} />
                 <Route>
                     <h1>La page n'existe pas</h1>
                 </Route>

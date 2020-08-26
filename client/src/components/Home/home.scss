@@ -1,7 +1,16 @@
+@import "../../styles/vars";
+
 .homePage {
     padding: 10px;
-    margin-top: 14px;
+
     font-weight: 700;
+    color: $primary-text-color;
+
+    &-carousel__dots {
+        position: relative;
+        top: -26px;
+        left: 130px;
+    }
 
     img {
         width: 100%;
@@ -32,6 +41,31 @@
         &-country {
             margin-left: auto;
             margin-right: 20px;
+        }
+    }
+
+    .home-translations {
+        display: flex;
+        background-color: $background-color;
+        margin-bottom: 10px;
+        padding: 10px;
+        text-transform: capitalize;
+        align-items: center;
+        .flag_image {
+            display: block;
+            padding: 0.3em;
+            background-color: #ffffff;
+            margin-right: 0.3em;
+            max-width: 30px;
+            max-height: 30px;
+            border-radius: 50%;
+        }
+
+        &__irecords {
+            font-size: 0.9em;
+            margin-left: auto;
+            // color: $border-color;
+            // color: $background-color;
         }
     }
 }

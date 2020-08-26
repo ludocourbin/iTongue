@@ -6,7 +6,9 @@ import EditProfilForm from "../../../components/User/EditProfil/Forms/editProfil
 /* Actions */
 import { editProfilAvatar } from '../../../store/actions/editProfilActions';
 
-const mapStateToProps = null;
+const mapStateToProps = (state) => ({
+    editProfilAvatarLoading: state.user.editProfilAvatarLoading,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     editProfilAvatar: (avatarFile) => {

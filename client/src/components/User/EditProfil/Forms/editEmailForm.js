@@ -8,6 +8,7 @@ const EditEmailForm = (props) => {
         handdleSubmit, 
         profilData, 
         currentUser,
+        editProfilDataLoading,
     } = props;
 
     const [ emailIsValid, setEmailIsValid] = useState(false);
@@ -53,6 +54,7 @@ const EditEmailForm = (props) => {
                     className="edit-profil_formbtn"
                     size="small"
                     disabled={!emailIsValid}
+                    loading={editProfilDataLoading}
                 />
             </Form>
         </div>

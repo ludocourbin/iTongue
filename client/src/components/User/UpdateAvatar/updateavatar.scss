@@ -6,13 +6,25 @@
 
     &__wrapper {
         width: 105px;
+        height: 105px;
         position: relative;
 
         .ui.bordered.image{
             display: block;
-            max-width: 105px;
+            width: 105px;
+            height: 105px;
         }
-        
+
+        .avatar-loading_container {
+            position: absolute;
+            display: block;
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            background-color: #ffffffa8;
+            top: 0;
+        }
+
         .add_image_avatar {
             position: absolute;
             display: block;

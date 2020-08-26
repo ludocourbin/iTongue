@@ -48,6 +48,7 @@ const UserProfil = ({
         records,
         learnedLanguages,
         taughtLanguages,
+        checkUserSlugLoading,
     } = userSlugInfos;
 
     return (
@@ -66,6 +67,7 @@ const UserProfil = ({
                                 avatarUrl={avatarUrl}
                                 isUserAccount={isUserAccount}
                                 editProfilAvatar={editProfilAvatar}
+                                checkUserSlugLoading={checkUserSlugLoading}
                             />
                         </div>
                     </div>
@@ -91,9 +93,10 @@ const UserProfil = ({
                                 <div className="title">iTeach</div>
                                 <div className="flags">
                                     {taughtLanguages &&
-                                        taughtLanguages.map((language) => (
+                                        taughtLanguages.map((language, index) => (
+                                            index < 4 &&
                                             <Image
-                                                key={language.id}
+                                                key={index}
                                                 src={`https://www.countryflags.io/${language.code}/flat/32.png`}
                                                 className="flag_image"
                                             />
@@ -104,9 +107,10 @@ const UserProfil = ({
                                 <div className="title">iLearn</div>
                                 <div className="flags">
                                     {learnedLanguages &&
-                                        learnedLanguages.map((language, i) => (
+                                        learnedLanguages.map((language, index) => (
+                                            index < 4 &&
                                             <Image
-                                                key={i}
+                                                key={index}
                                                 src={`https://www.countryflags.io/${language.code}/flat/32.png`}
                                                 className="flag_image"
                                             />

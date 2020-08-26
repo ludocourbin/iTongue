@@ -3,7 +3,6 @@ import { useParams, Redirect, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 /* Components */
-
 import { Accordion, Icon, Header } from "semantic-ui-react";
 import NewPasswordForm from "./Forms/newPasswordForm";
 import EditEmailForm from "./Forms/editEmailForm";
@@ -19,6 +18,7 @@ import Layout from "../../../containers/Layout";
 import "./editprofil.scss";
 
 const EditProfil = props => {
+
   const [activeIndex, setActiveIndex] = useState(null);
   let slug = useParams();
 
@@ -28,7 +28,7 @@ const EditProfil = props => {
     setActiveIndex(setNewIndex);
   };
 
-  const { currentUser, editProfil, editProfilInput, editProfilData } = props;
+  const { currentUser, editProfil, editProfilInput, editProfilData, editProfilDataLoading } = props;
 
   let profilData = { ...editProfilData };
 
@@ -75,6 +75,7 @@ const EditProfil = props => {
               handdleSubmit={handdleSubmit}
               profilData={profilData}
               editProfilInput={editProfilInput}
+              editProfilDataLoading={editProfilDataLoading}
             />
           </Accordion.Content>
 
@@ -93,6 +94,7 @@ const EditProfil = props => {
               handdleInputChange={handdleInputChange}
               handdleSubmit={handdleSubmit}
               profilData={profilData}
+              editProfilDataLoading={editProfilDataLoading}
             />
           </Accordion.Content>
 
@@ -111,6 +113,7 @@ const EditProfil = props => {
               handdleInputChange={handdleInputChange}
               handdleSubmit={handdleSubmit}
               profilData={profilData}
+              editProfilDataLoading={editProfilDataLoading}
             />
           </Accordion.Content>
 
@@ -130,6 +133,7 @@ const EditProfil = props => {
               handdleSubmit={handdleSubmit}
               profilData={profilData}
               currentUser={currentUser}
+              editProfilDataLoading={editProfilDataLoading}
             />
           </Accordion.Content>
 

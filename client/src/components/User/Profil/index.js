@@ -4,11 +4,12 @@ import { ToastContainer } from "react-toastify";
 
 import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
+import UpdateAvatar from "../../../containers/User/UpdateAvatar";
 
 /* Components */
 import { Segment, Image, Icon } from "semantic-ui-react";
 import Statistics from "../Statistics";
-import UpdateAvatar from "../UpdateAvatar";
+
 
 /* Style */
 import "./userprofil.scss";

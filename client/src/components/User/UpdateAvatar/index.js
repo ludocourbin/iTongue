@@ -40,7 +40,7 @@ const UpdateAvatar = ({ avatarUrl, isUserAccount, editProfilAvatar, editProfilAv
             onLoad={handdleLoadingChange}
             onError={handdleLoadingChange}
           />
-          { !imageIsLoaded || editProfilAvatarLoading && <div className="avatar-loading_container">
+          { (!imageIsLoaded || editProfilAvatarLoading) && <div className="avatar-loading_container">
               <Loader active />
             </div>}
         {isUserAccount && (

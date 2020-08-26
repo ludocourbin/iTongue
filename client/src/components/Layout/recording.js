@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Flag, Button, Icon, Dropdown } from "semantic-ui-react";
+import { Card, Image, Button, Icon, Dropdown } from "semantic-ui-react";
 import { ReactMic } from "react-mic";
 import { motion } from "framer-motion";
 
@@ -54,7 +54,7 @@ const Recording = ({
         toggleRecording(false);
     };
 
-    const handleCancel = () => {
+    const handleClose = () => {
         toggleRecording(false);
         selectIrecordToRecord(null);
     };
@@ -117,23 +117,28 @@ const Recording = ({
     return (
         <motion.div initial="hidden" animate="visible" variants={variants}>
             <Card className="recording-widget">
-                <Card.Meta>
+                <Card.Meta className="recording-widget__closeIcon">
                     <Icon
-                        className="closeIcon"
-                        onClick={handleCancel}
+                        onClick={handleClose}
+                        className="recording-widget__closeIcon_item"
                         name="close"
-                        color="black"
                         corner="top right"
                     />
                 </Card.Meta>
                 {audio ? (
                     <div>
-                        <Card.Content className="text-selected">
-                            <Flag name={audio.englishTranslation.language.code} />
+                        <Card.Content className="recording-widget__text-selected">
+                            <Image
+                                src={`https://www.countryflags.io/${audio.englishTranslation.language.code}/flat/32.png`}
+                                className="flag_image"
+                            />
                             {audio.englishTranslation.text}
                         </Card.Content>
-                        <Card.Content className="text-selected">
-                            <Flag name={audio.translation.language.code} />
+                        <Card.Content className="recording-widget__text-selected">
+                            <Image
+                                src={`https://www.countryflags.io/${audio.translation.language.code}/flat/32.png`}
+                                className="flag_image"
+                            />
                             {audio.translation.text}
                         </Card.Content>
                     </div>
@@ -223,7 +228,3 @@ const Recording = ({
 };
 
 export default Recording;
-
-// <Button onClick={handleCancel} basic color="red">
-//                             Annuler
-//                         </Button>

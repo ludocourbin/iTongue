@@ -1,15 +1,46 @@
-.recording {
-  .total {
-      position: absolute;
-      right: 0px;
-      top: 20px;
-      font-size: 0.9rem;
-  }
+@import "../../styles/vars";
 
-  .played {
-      position: absolute;
-      top: 20px;
-      left: 45px;
-      font-size: 0.9rem;
-  }
+.recording-widget {
+    background-color: #ccc !important;
+
+    &__closeIcon {
+        display: flex;
+        justify-content: center;
+
+        &_item {
+            position: relative;
+            top: -13px !important;
+            padding: 5px;
+            width: 30px !important;
+            height: 30px !important;
+            border-radius: 20px;
+            color: #fff !important;
+            background-color: $primary-color !important;
+            cursor: pointer;
+        }
+    }
+
+    .flag_image {
+        display: block;
+        padding: 0.3em;
+        background-color: #ffffff;
+        margin-right: 0.3em;
+        max-width: 30px;
+        max-height: 30px;
+        border-radius: 50%;
+    }
+
+    &__text-selected {
+        margin-left: 120px;
+        padding: 8px;
+        font-size: 1.1em;
+
+        &:first-letter {
+            text-transform: capitalize;
+        }
+    }
+}
+
+.recording-widget__text-selected::first-letter {
+    text-transform: capitalize;
 }

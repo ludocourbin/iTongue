@@ -17,7 +17,7 @@ module.exports = {
 
         try {
           await authUtils.invalidateUserRefreshToken(user);
-          await authUtils.invalidateAccessToken(accessToken);
+          await authUtils.blacklistAccessToken(accessToken, user);
           res.status(204).json({});
         } catch (err) {
           next(err);

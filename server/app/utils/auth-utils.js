@@ -46,16 +46,19 @@ const utils = {
 
   invalidateAccessToken: async token => {
     const payload = await verifyToken(token, "access");
+    return await utils.blackListAccessToken(token, payload);
+  },
 
+  blacklistAccessToken: async (token, payload) => {
     const redisKey = redis.prefix + "invalid_token_" + token;
 
     if (payload.exp) {
       const remainingMs = payload.exp * 1000 - Date.now();
       if (remainingMs <= 0) return "OK";
       return await storeWithExp(redisKey, Math.round(remainingMs / 1000), 1);
-    } else {
-      return await store(redisKey, 1);
     }
+
+    return await store(redisKey, 1);
   },
 
   invalidateRefreshToken: async token => {

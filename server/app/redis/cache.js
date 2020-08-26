@@ -95,14 +95,14 @@ module.exports = {
       const userId = parseInt(query.name.replace( /^\D+/g, ''), 10);
       const userSlug = await client.query('SELECT "slug" FROM "user" WHERE "id" = $1', [userId]);
       if (userSlug.rowCount) {
-        const slugName = "select-user-" + userSlug.rows[0].slug;
+        const slugName = "read-user-" + userSlug.rows[0].slug;
         const slugKey = generateKey(slugName);
         clearFromCache(slugKey);
       }
     }
 
     // Clear cache entry relatives to the mutation
-    const selectName = query.name.replace(/^(\w+)/, "select");
+    const selectName = query.name.replace(/^(\w+)/, "read");
     const selectKey = generateKey(selectName);
     clearFromCache(selectKey);
     

@@ -1,5 +1,6 @@
 const express = require("express");
 
+const highlightsRouter = require("./highlights-routes");
 const authRouter = require("./auth-routes");
 const userRouter = require("./user-routes");
 const languageRouter = require("./language-routes");
@@ -41,6 +42,8 @@ router.get("/", (_, res) => {
 router.get("/private", require("../middlewares/auth-middleware"), (_, res) => {
   res.json({ data: { msg: "Authorized" } });
 });
+
+router.use("/best", highlightsRouter);
 
 router.use("/search", searchRouter);
 

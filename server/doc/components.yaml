@@ -217,7 +217,7 @@ components:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/TranslationPk"
+          $ref: "#components/schemas/PrimaryKey"
         text:
           type: string
           example: How are you ?
@@ -232,7 +232,7 @@ components:
       type: object
       properties:
         id:
-          $ref: "#components/schemas/TranslationPk"
+          $ref: "#components/schemas/PrimaryKey"
         text:
           type: string
           example: How are you ?
@@ -333,15 +333,15 @@ components:
       type: object
       properties:
         updated:
-            type: boolean
-            example: true
+          type: boolean
+          example: true
 
     Deleted:
       type: object
       properties:
         deleted:
-            type: boolean
-            example: true
+          type: boolean
+          example: true
 
   parameters:
     ExpressionID:
@@ -373,7 +373,7 @@ components:
         $ref: "#components/schemas/LanguagePk"
       required: true
       description: Primary key of the language.
-    
+
     LanguageID:
       in: path
       name: id
@@ -435,7 +435,7 @@ components:
                 type: object
                 properties:
                   id:
-                    $ref: "#/components/schemas/PrimaryKey"
+                    $ref: "#components/schemas/PrimaryKey"
 
     CreatedUser:
       allOf:

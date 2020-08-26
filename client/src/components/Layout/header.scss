@@ -38,6 +38,10 @@
         font-size: 1.4em !important;
     }
 
+    &__logo {
+        width: 120px;
+    }
+
     .invisible {
         opacity: 0 !important;
         visibility: hidden !important;
@@ -50,7 +54,7 @@
     &__title {
         margin: 0;
         // font-family: "Righteous", cursive;
-         font-family: "Pacifico", cursive;
+        font-family: "Pacifico", cursive;
         // font-family: "Gloria Hallelujah", cursive;
         // font-family: "Acme", sans-serif;
         // font-family: "Capriola", sans-serif;
@@ -63,7 +67,7 @@
     max-height: 100vh;
     height: 100vh;
 
-    .pushable>.pusher:after {
+    .pushable > .pusher:after {
         z-index: 9999;
     }
 }

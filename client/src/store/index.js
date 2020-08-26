@@ -11,7 +11,6 @@ import { loginAdminMiddleware } from "./middlewares/Admin/loginAdminMiddleware";
 import { usersMiddleware } from "./middlewares/usersMiddleware";
 import { languagesMiddleware } from "./middlewares/languagesMiddleware";
 import { statsMiddleware } from "./middlewares/Admin/statsMiddleware";
-import { jwtMiddleware } from "./middlewares/jwtMiddleware";
 
 // Configuration object for redux-persist
 const persistConfig = {
@@ -30,7 +29,7 @@ const enhancers = composeEnhancers(
         irecordsMiddleware,
         usersMiddleware,
         languagesMiddleware,
-        statsMiddleware,
+        statsMiddleware
     )
 );
 

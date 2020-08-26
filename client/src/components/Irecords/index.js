@@ -61,12 +61,18 @@ const Irecords = ({
                 ]}
                 autoClose
                 style={{
-                    height: "117px",
-                    width: '100%',
+                    height:
+                        record.englishTranslation.language.code !==
+                        record.translation.language.code
+                            ? "117px"
+                            : "87px",
+                    //87px  117px
+                    width: "100%",
                     marginBottom: "20px",
-                    boxShadow: '0 6px 6px rgba(0,0,0,0.2)',
-                    borderRadius: '10px',
+                    boxShadow: "0 6px 6px rgba(0,0,0,0.2)",
+                    borderRadius: "10px",
                     // borderBottom: "1px solid black",
+                    // record.englishTranslation.language.code !==  record.translation.language.code?
                 }}
             >
                 <div className="irecords">

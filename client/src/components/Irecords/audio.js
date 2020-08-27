@@ -89,38 +89,42 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
     }
   };
   return (
-    <Card.Content className="audioRecorder" textAlign="left">
-      <audio
-        id={id}
-        ref={audioRef}
-        type="audio/mp3"
-        src={blobURL || `${process.env.REACT_APP_FILES_URL}/${url}`}
-        onLoadedData={handleDuration}
-        onTimeUpdate={() => {
-          setCurrentTime(audioRef.current.currentTime);
-        }}
-        preload="auto"
-      />
-      <Icon className="icon" onClick={handleStop} name="stop" />
-      <Icon className="icon" onClick={togglePlaying} name={playing ? "pause" : "play"} />
-      <div
-        style={{ cursor: "ew-resize", width: "100%" }}
-        ref={progress}
-        onClick={scrub}
-        onMouseMove={e => mouseDown && scrub(e)}
-        onMouseUp={() => setMouseDown(false)}
-        onMouseDown={() => setMouseDown(true)}
-      >
-        <Progress
-          percent={percent}
-          className={playing ? "orange" : null}
-          style={{
-            backgroundColor: "#00000"
+    <Card.Content className="audioRecorder" /*textAlign="left"*/>
+      <div className="audioRecorder-player">
+        <div className="audioRecorder-player_container">
+        <audio
+          id={id}
+          ref={audioRef}
+          type="audio/mp3"
+          src={blobURL || `${process.env.REACT_APP_FILES_URL}/${url}`}
+          onLoadedData={handleDuration}
+          onTimeUpdate={() => {
+            setCurrentTime(audioRef.current.currentTime);
           }}
-        ></Progress>
+          preload="auto"
+        />
+        <div className="audioRecorder-player_containerbtn">
+          <Icon circular className="audioRecorder-player_btn" onClick={handleStop} name="stop" />
+          <Icon circular className="audioRecorder-player_btn" onClick={togglePlaying} name={playing ? "pause" : "play"} />
+        </div>
+        <div
+          className="audioRecorder-player_progress"
+          style={{ cursor: "ew-resize", width: "100%" }}
+          ref={progress}
+          onClick={scrub}
+          onMouseMove={e => mouseDown && scrub(e)}
+          onMouseUp={() => setMouseDown(false)}
+          onMouseDown={() => setMouseDown(true)}
+        >
+          <Progress
+            percent={percent}
+            className={playing ? "orange" : null}
+          />
+        </div>
+        </div>
+        <p className="played">{sToTime(currentTime)}</p>
+        <p className="total">{sToTime(duration)}</p>
       </div>
-      <p className="played">{sToTime(currentTime)}</p>
-      <p className="total">{sToTime(duration)}</p>
     </Card.Content>
   );
 };

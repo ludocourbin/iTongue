@@ -2,40 +2,78 @@
 @import "../../styles/mixin";
 
 .audioRecorder {
-    display: flex;
-    align-items: center;
     padding-bottom: 25px !important;
     position: relative;
+
+    &-player {
+        display: flex;
+        padding: .8em;
+        background-color: #cecccc36!important;
+        box-shadow: 0 3px 3px rgba(0, 0, 0, 0.219);
+        width: 100%;
+        border-radius: 20px;
+
+        &_container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+
+        &_containerbtn {
+            display: flex;
+        }
+
+        &_btn {
+            background-color: #cac7c7;
+            color: $background-items;
+            border: 0!important;
+        }
+    }
 
     .icon {
         position: relative;
         top: -3px;
     }
 
+    i.circular.icon {
+        box-shadow: none;
+    }
+
+    .ui.progress .bar {
+        background-color: #88888852;
+    }
+
+    .ui.orange.progress .bar {
+        background-color: #aca6a6;
+    }
+
     .progress {
         height: 10px;
         margin-left: 10px !important;
-        margin-bottom: 0px !important;
+        margin-bottom: 10px !important;
         .bar {
             height: 10px !important;
-        }
-        .orange.bar {
-            color: $primary-color;
         }
     }
 
     .played {
         position: absolute;
-        top: 30px;
-        left: 60px;
-        font-size: 0.9rem;
+        top: 39px;
+        left: 97px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #6f6d6d;
     }
 
     .total {
         position: absolute;
-        right: 15px;
-        top: 30px;
-        font-size: 0.9rem;
+        top: 39px;
+        right: 26px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #6f6d6d;
     }
 
     .icon {

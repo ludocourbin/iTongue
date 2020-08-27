@@ -23,6 +23,10 @@
   .ui.cards > .card > .content {
     border-top: 0;
   }
+  .ui.card, .ui.cards>.card {
+    box-shadow: none;
+    border-radius: 10px !important;
+}
 
   &-container {
     width: 100vw !important;

@@ -102,7 +102,7 @@ export const irecordsMiddleware = store => next => action => {
 
       axios({
         method: "DELETE",
-        url: `https://itongue.herokuapp.com/users/${id}/record/${action.payload}`,
+        url: `${process.env.REACT_APP_API_URL}/users/${id}/record/${action.payload}`,
         headers: {
           Authorization: `Bearer ${store.getState().user.accessToken}`
         }

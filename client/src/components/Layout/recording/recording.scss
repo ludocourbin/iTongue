@@ -65,4 +65,8 @@
     button.ui.button.recording-widget__save-btn {
         @include button;
     }
+    button.ui.button.recording-widget__cancel-btn {
+        border: 1px solid $primary-color !important;
+        color: $primary-color !important;
+    }
 }

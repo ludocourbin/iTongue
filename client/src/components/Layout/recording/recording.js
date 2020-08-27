@@ -134,7 +134,11 @@ const Recording = ({
                 <Card.Content extra>
                     <div className="ui two buttons">
                         {recordedSound && (
-                            <Button onClick={handleReset} basic color="red">
+                            <Button
+                                onClick={handleReset}
+                                className="recording-widget__cancel-btn"
+                                basic
+                            >
                                 <Icon name="refresh" />
                             </Button>
                         )}

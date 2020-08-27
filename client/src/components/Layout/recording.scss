@@ -31,16 +31,19 @@
     }
 
     &__text-selected {
-        margin-left: 120px;
+        margin-left: 95px;
         padding: 8px;
         font-size: 1.1em;
 
-        &:first-letter {
-            text-transform: capitalize;
+        &-text {
+            display: inline-block;
+            &::first-letter {
+                text-transform: capitalize;
+            }
         }
     }
 }
 
-.recording-widget__text-selected::first-letter {
-    text-transform: capitalize;
-}
+// .recording-widget__text-selected::first-letter {
+//     text-transform: capitalize;
+// }

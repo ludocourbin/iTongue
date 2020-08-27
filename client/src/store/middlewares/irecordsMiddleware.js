@@ -1,4 +1,5 @@
 import axios from "axios";
+import { httpClient } from "../../utils";
 import {
   SEND_IRECORDS_RECORDED,
   FETCH_ALL_RECORDS,
@@ -23,35 +24,40 @@ export const irecordsMiddleware = store => next => action => {
       const user = store.getState().user.currentUser;
       let translationId = store.getState().irecords.languageId;
       translationId = translationId.toString();
-      const blob = action.payload.blob;
 
-      const file = new File([blob], "record.mp3", {
-        type: blob.type
-      });
-      const formData = new FormData();
-      formData.append("record", file);
-      formData.append("translation_id", translationId);
+      fetch(action.payload)
+        .then(audio => audio.blob())
+        .then(blob => {
+          console.log(blob);
+          const file = new File([blob], "record.mp3", {
+            type: blob.type
+          });
 
-      axios({
-        method: "POST",
-        url: `${process.env.REACT_APP_API_URL}/users/${user.id}/record`,
-        data: formData,
-        headers: {
-          "Content-Type": `multipart/form-data`,
-          Authorization: `Bearer ${store.getState().user.accessToken}`
-        }
-      })
-        .then(res => {
-          const { record } = res.data.data;
-          record.user = user;
+          const formData = new FormData();
+          formData.append("record", file);
+          formData.append("translation_id", translationId);
 
-          store.dispatch(sendIrecordSuccessUserProfile(record));
-          store.dispatch(sendIrecordSuccessIrecordsPage(record));
-        })
-        .catch(err => {
-          console.log(err);
-          store.dispatch(sendIrecordsError());
+          httpClient
+            .post(
+              {
+                url: `/users/${user.id}/record`,
+                data: formData,
+                headers: { "Content-Type": `multipart/form-data` }
+              },
+              store
+            )
+            .then(res => {
+              const { record } = res.data.data;
+              record.user = user;
+              store.dispatch(sendIrecordSuccessUserProfile(record));
+              store.dispatch(sendIrecordSuccessIrecordsPage(record));
+            })
+            .catch(err => {
+              console.log(err);
+              store.dispatch(sendIrecordsError());
+            });
         });
+
       break;
     case FETCH_ALL_RECORDS: {
       axios({
@@ -102,7 +108,7 @@ export const irecordsMiddleware = store => next => action => {
 
       axios({
         method: "DELETE",
-        url: `${process.env.REACT_APP_API_URL}/users/${id}/record/${action.payload}`,
+        url: `https://itongue.herokuapp.com/users/${id}/record/${action.payload}`,
         headers: {
           Authorization: `Bearer ${store.getState().user.accessToken}`
         }

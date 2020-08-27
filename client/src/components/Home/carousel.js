@@ -1,5 +1,5 @@
 import React from "react";
-import { CarouselProvider, Slider, Slide, Image, DotGroup } from "pure-react-carousel";
+import { CarouselProvider, Slider, Slide, Image } from "pure-react-carousel";
 
 import city1 from "../../assets/city-1.jpg";
 import city2 from "../../assets/city-2.jpg";
@@ -31,8 +31,9 @@ const Carousel = () => (
                 <Image src={city3} alt="" />
             </Slide>
         </Slider>
-        <DotGroup className="homePage-carousel__dots" />
     </CarouselProvider>
 );
+
+// <DotGroup className="homePage-carousel__dots" /> /* Todo */
 
 export default Carousel;

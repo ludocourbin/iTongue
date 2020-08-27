@@ -62,10 +62,9 @@ const expressionsMiddleware = (store) => (next) => (action) => {
     switch (action.type) {
         case FETCH_EXPRESSIONS: {
             // OK
-            axios({
-                method: "GET",
-                url: `${process.env.REACT_APP_API_URL}/expressions`,
-            })
+            httpClient.get({
+                url: `/expressions`
+            }, store)
                 .then((res) => {
                     store.dispatch(fetchExpressionSuccess(res.data.data));
                 })
@@ -77,18 +76,17 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             break;
         }
         case FETCH_LANGUAGES: {
-            axios({
-                method: "GET",
-                url: `${process.env.REACT_APP_API_URL}/languages`,
+            httpClient.get({
+                url: `/languages`
+            }, store)
+            .then((res) => {
+                store.dispatch(fetchLanguagesSuccess(res.data.data));
             })
-                .then((res) => {
-                    store.dispatch(fetchLanguagesSuccess(res.data.data));
-                })
-                .catch((err) => {
-                    store.dispatch(fetchLanguagesError(/* Todo */));
-                    toast.error("Problème lors du chargement des languages");
-                    console.error("FETCH_LANGUAGES", err);
-                });
+            .catch((err) => {
+                store.dispatch(fetchLanguagesError(/* Todo */));
+                toast.error("Problème lors du chargement des languages");
+                console.error("FETCH_LANGUAGES", err);
+            });
             break;
         }
         case SET_TRADUCTIONS_BY_EXPRESSION: {
@@ -110,10 +108,13 @@ const expressionsMiddleware = (store) => (next) => (action) => {
         case ADD_EXPRESSION_SUBMIT: {
             // OK
             const objData = {
-                label: store.getState().expressionsReducer
-                    .newExpressionInputValue,
+                label: store.getState().expressionsReducer.newExpressionInputValue,
             };
 
+            httpClient.post({
+                url: `/admin/expressions`,
+                data: { ...objData },
+            }, store)
             axios({
                 method: "POST",
                 url: `${process.env.REACT_APP_API_URL}/admin/expressions`,
@@ -144,13 +145,9 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             // OK
             const { expressionsList } = store.getState().expressionsReducer;
 
-            axios({
-                method: "DELETE",
-                url: `${process.env.REACT_APP_API_URL}/admin/expressions/${action.payload}` ,
-                headers: {
-                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
-                },
-            })
+            httpClient.delete({
+                url: `/admin/expressions/${action.payload}`
+            }, store)
                 .then((res) => {
                     const expressionsFilter = expressionsList.filter(
                         (expression) => {
@@ -196,14 +193,10 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 },
             };
 
-            axios({
-                method: "POST",
-                url: `${process.env.REACT_APP_API_URL}/admin/translations`,
+            httpClient.post({
+                url: `/admin/translations`,
                 data: { ...dataObj },
-                headers: {
-                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
-                },
-            })
+            }, store)
             .then((res) => {
                 const data = res.data.data;
 
@@ -257,14 +250,10 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                     : traductionSelect.language.id, //,
             };
 
-            axios({
-                method: "POST",
-                url: `${process.env.REACT_APP_API_URL}/admin/translations/${traductionSelect.id}`,
+            httpClient.post({
+                url: `/admin/translations/${traductionSelect.id}`,
                 data: { ...objData },
-                headers: {
-                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
-                },
-            })
+            }, store)
             .then((res) => {
                 const findExpression = expressionsList.find(
                     (expression) => expression.id === expressionId
@@ -313,13 +302,9 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 expressionId,
             } = store.getState().expressionsReducer;
 
-            axios({
-                method: "DELETE",
-                url: `${process.env.REACT_APP_API_URL}/admin/translations/${action.payload}`,
-                headers: {
-                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
-                },
-            })
+            httpClient.delete({
+                url: `/admin/translations/${action.payload}`,
+            }, store)
             .then((res) => {
                 const findExpression = expressionsList.find(
                     (expression) => expression.id === expressionId
@@ -363,14 +348,10 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             const languageValue = store.getState().expressionsReducer
                 .languageValue;
 
-            axios({
-                method: "POST",
-                url: `${process.env.REACT_APP_API_URL}/admin/languages`,
+            httpClient.post({
+                url: `/admin/languages`,
                 data: languageValue,
-                headers: {
-                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
-                },
-            })
+            }, store)
             .then((res) => {
                 store.dispatch(addLanguageSubmitSuccess(languageValue));
                 toast.info("La langue a bien été ajoutée");

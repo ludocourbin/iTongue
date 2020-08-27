@@ -14,7 +14,7 @@ const initialState = {
         //password: '123456',
     },
     loading: false,
-    isLogged: false,
+    isLogged: true,
     message: "",
     userConnect: {},
 };

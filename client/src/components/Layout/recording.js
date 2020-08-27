@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Card, Image, Button, Icon, Dropdown } from "semantic-ui-react";
+import { Card, Button, Icon } from "semantic-ui-react";
 import { motion } from "framer-motion";
 
 import ReactMicComponent from "./reactMicComponent";
+import TranslationDropdown from "./translationDropdown";
+import TranslationLabel from "./tranlationLabel";
 import "./recording.scss";
 
 const Recording = ({
@@ -103,46 +105,21 @@ const Recording = ({
                 </Card.Meta>
                 {audio ? (
                     <div>
-                        <Card.Content className="recording-widget__text-selected">
-                            <Image
-                                src={`https://www.countryflags.io/${audio.englishTranslation.language.code}/flat/32.png`}
-                                className="flag_image"
-                            />
-                            {audio.englishTranslation.text}
-                        </Card.Content>
-                        <Card.Content className="recording-widget__text-selected">
-                            <Image
-                                src={`https://www.countryflags.io/${audio.translation.language.code}/flat/32.png`}
-                                className="flag_image"
-                            />
-                            {audio.translation.text}
-                        </Card.Content>
+                        <TranslationLabel translation={audio.englishTranslation} />
+                        <TranslationLabel translation={audio.translation} />
                     </div>
                 ) : (
                     <div className="container-dropdown">
-                        <Card.Content>
-                            <Dropdown
-                                style={{ width: "100%" }}
-                                selection
-                                placeholder="Sélectionner une expression"
-                                name="expressions"
-                                options={optionsText}
-                                value={expressionSelected}
-                                onChange={handleChangeExpression}
-                            />
-                        </Card.Content>
-
-                        <Card.Content>
-                            <Dropdown
-                                style={{ width: "100%" }}
-                                selection
-                                placeholder="Sélectionner une traduction"
-                                name="expressions"
-                                options={translationsSelected && translationsSelected}
-                                value={translationSelected && translationSelected}
-                                onChange={handleChangeTranslation}
-                            />
-                        </Card.Content>
+                        <TranslationDropdown
+                            options={optionsText}
+                            value={expressionSelected}
+                            onChange={handleChangeExpression}
+                        />
+                        <TranslationDropdown
+                            options={translationsSelected && translationsSelected}
+                            value={translationSelected && translationSelected}
+                            onChange={handleChangeTranslation}
+                        />
                     </div>
                 )}
                 <Card.Content>

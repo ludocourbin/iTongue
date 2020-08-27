@@ -11,15 +11,14 @@ import {
 
 const mapStateToProps = (state) => ({
     visible: state.team.visible,
-    idAvatar : state.team.idAvatar
 });
 
 const mapDispatchToProps = (dispatch) => ({
     toggleModal: () => {
         dispatch(toggleModal());
     },
-    changeId: (changedId) => {
-        dispatch(changeId(changedId));
+    changeId: (newId) => {
+        dispatch(changeId(newId));
     },
 });
 

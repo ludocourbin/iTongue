@@ -1,14 +1,15 @@
-import React, {useEffect} from 'react'
+import React, {useState} from 'react'
 import { Button, Header, Image, Modal } from 'semantic-ui-react'
 
-const MyModal = (idAvatar, isOpen) => {
+const MyModal = ({
+    myAvatar,
+    toggleModal,
+}) => {
+    const { name } = myAvatar;
 
     const [open, setOpen] = React.useState(true);
     console.log('open MyModal : ' + open);
-    // useEffect(() => {
-    //     console.log('aie');
-    //     setOpen(true);
-    // })
+
     const quentin = {
         avatar:"",
         desc:""
@@ -30,12 +31,10 @@ const MyModal = (idAvatar, isOpen) => {
         desc:"",
     }
     return (
-    //    {isOpen.isOpen && 
         <Modal
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
-        // trigger={triggerModal(idAvatar.idAvatar)}
         >
         <Modal.Header>Select a Photo</Modal.Header>
         <Modal.Content image>
@@ -57,7 +56,10 @@ const MyModal = (idAvatar, isOpen) => {
             content="Yep, that's me"
             labelPosition='right'
             icon='checkmark'
-            onClick={() => setOpen(false)}
+            onClick={() => {
+                setOpen(false);
+                toggleModal();
+            }}
             positive
             />
         </Modal.Actions>

@@ -1,28 +1,26 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import './style.scss';
 import Layout from "../../containers/Layout";
 import MyModal from './modal';
 
 const Team = ({
+    // Data du state
     visible,
-    idAvatar,
+    // Fonctions
     toggleModal,
     changeId,
 }) => {
-    const [openModal, setOpenModal] = useState(false);
-    const [avatarId, setAvatarId] = useState("");
-    const showModal = (e) => {
-        console.log(e.target.id);
+    const showModal = (evt) => {
+        const { id } = evt.target;
+        console.log(this.changeId(id));
+        // changeId({
+        //     [id]:id,
+        // })   
         
-        setAvatarId(e.target.id);
-        setOpenModal(true);
-        console.log('in showModal : ' + openModal)
+        toggleModal();
     }
-    useEffect(() => {
-        console.log('apres useEffect : ' + openModal)
-    })
     
-    console.log("openModal bro : " + openModal)
+    console.log("state visible : " + visible)
     return (
         <Layout>
             <h3> L'équipe du projet iTongue</h3>
@@ -39,7 +37,7 @@ const Team = ({
                     <img onClick={showModal} id="quentin" src="https://image.flaticon.com/icons/svg/147/147144.svg" alt="avatar" />
                 </div>
             </div>
-            {visible && <MyModal idAvatar={avatarId} /> } 
+            {visible && <MyModal /> } 
         </Layout>
     )
 };

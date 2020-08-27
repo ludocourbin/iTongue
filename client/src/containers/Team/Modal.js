@@ -9,7 +9,6 @@ import {
 } from "../../store/actions/modalActions";
 
 const mapStateToProps = (state) => ({
-    visible: state.team.visible,
     idAvatar : state.team.idAvatar
 });
 

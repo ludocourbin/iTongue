@@ -4,6 +4,7 @@ body {
     color: $primary-text-color;
     overflow-x: hidden !important;
     // background-color: $background-color;
+    background-color: #f5f4f4;
 }
 
 ::-webkit-scrollbar {
@@ -19,12 +20,16 @@ a {
     color: $primary-text-color !important;
 }
 
-.grecaptcha-badge {
-    opacity: 1;
-    transition: 3s;
-}
-
-.grecaptcha-badge.hidden {
-    opacity: 0;
-    
-}
+@keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+  
+    to {
+      opacity: 0;
+    }
+  }
+  .grecaptcha-badge {
+    animation: fadeOut 4s forwards;
+    pointer-events: none;
+  }

@@ -109,7 +109,7 @@ const Search = (props) => {
 
     return (
         <Layout>
-            <Container fluid>
+            <>
                 <div className="search-input">
                     <Input
                         icon="search"
@@ -130,15 +130,16 @@ const Search = (props) => {
                     )}
                 </div>
 
-                <Container>
+                <div className="search-container">
+                <Header
+                    size="small"
+                    content="Les derniers iRecords"
+                    className="title"
+                />
                     {!isFocus && isLoadingallUsers && <Placeholder />}
                     {!isFocus && !isLoadingallUsers && (
                         <div className="search-content--items">
-                            <Header
-                                size="small"
-                                content="Les derniers iRecords"
-                                className="title"
-                            />
+
                             {allRecordsList.map((record) => {
                                 return (
                                     <div
@@ -156,8 +157,8 @@ const Search = (props) => {
                         </div>
                     )}
                     {isFocus && <Tab className="search-tabs" panes={panes} />}
-                </Container>
-            </Container>
+                </div>
+            </>
         </Layout>
     );
 };

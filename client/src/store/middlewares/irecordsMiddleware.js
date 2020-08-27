@@ -1,5 +1,5 @@
 import axios from "axios";
-// import {} from '.'
+import { httpClient } from "../../utils";
 import {
     SEND_IRECORDS_RECORDED,
     FETCH_ALL_RECORDS,
@@ -49,7 +49,6 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
                         .then((res) => {
                             const { record } = res.data.data;
                             record.user = user;
-
                             store.dispatch(sendIrecordSuccessUserProfile(record));
                             store.dispatch(sendIrecordSuccessIrecordsPage(record));
                         })

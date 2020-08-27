@@ -8,7 +8,7 @@ const TranslationLabel = ({ translation }) => (
             src={`https://www.countryflags.io/${translation.language.code}/flat/32.png`}
             className="flag_image"
         />
-        {translation.text}
+        <div className="recording-widget__text-selected-text">{translation.text}</div>
     </Card.Content>
 );
 

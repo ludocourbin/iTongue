@@ -2,72 +2,87 @@
 @import "../../styles/mixin";
 
 .swipeout-container {
-    margin-bottom: 10px;
-    border-bottom: none !important;
+  margin-bottom: 10px;
+  border-bottom: none !important;
 }
 
 .irecords {
-    border-bottom: none !important;
-    margin-bottom: 20px !important;
-    position: relative;
-    width: 100% !important;
-    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
+  border-bottom: none !important;
+  margin-bottom: 20px !important;
+  position: relative;
+  width: 100% !important;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 10px !important;
 
-    /* Border between englishText et traductionText */
-    div.ui.card > .content,
-    .ui.cards > .card > .content {
-        border-top: 0;
+  &-container {
+    width: 100vw !important;
+  }
+
+  /* Border between englishText et traductionText */
+  div.ui.card > .content,
+  .ui.cards > .card > .content {
+    border-top: 0;
+  }
+
+  &-container {
+    width: 100vw !important;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .flag_image {
+    display: block;
+    padding: 0.3em;
+    background-color: #ffffff;
+    margin-right: 0.3em;
+    max-width: 30px;
+    max-height: 30px;
+    border-radius: 50%;
+  }
+
+  .header-irecords {
+    padding: 10px !important;
+    display: flex;
+
+    &__avatar {
+      margin: 0 !important;
+      margin-right: 10px !important;
     }
 
-    &-container {
-        width: 100vw !important;
-        box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2);
+    &__fullname {
+      position: relative;
+      top: 5px;
     }
 
-    .flag_image {
-        display: block;
-        padding: 0.3em;
-        background-color: #ffffff;
-        margin-right: 0.3em;
-        max-width: 30px;
-        max-height: 30px;
-        border-radius: 50%;
+    &__copy-delete {
+      position: absolute;
+      right: 8px;
+      top: 15px !important;
+      cursor: pointer;
     }
+  }
 
-    .header-irecords {
-        padding: 10px !important;
-        display: flex;
-
-        &__avatar {
-            margin: 0 !important;
-            margin-right: 10px !important;
-        }
-
-        &__fullname {
-            position: relative;
-            top: 5px;
-        }
-
-        &__copy-delete {
-            position: absolute;
-            right: 8px;
-            top: 15px !important;
-            cursor: pointer;
-        }
-    }
-
-    &__text {
-        padding: 8px !important;
-    }
+  &__text {
+    padding: 8px !important;
+  }
 }
 
 /* Modal confirmation suppression iRecords */
 .delete-irecords {
-    button {
-        font-size: 0.9em !important;
-    }
-    .ui.primary.button,
-    .ui.primary.buttons .button {
-        @include button;
-    }
+  button {
+    font-size: 0.9em !important;
+  }
+  .ui.primary.button,
+  .ui.primary.buttons .button {
+    @include button;
+  }
+}
+
+.record_flag_image {
+  display: block;
+  padding: 0.3em;
+  background-color: #ffffff;
+  margin-right: 0.3em;
+  max-width: 30px;
+  max-height: 30px;
+  border-radius: 50%;
 }

@@ -30,7 +30,12 @@ const MemberCard = ({ user }) => (
       <div className="member-card_right">
         {user.taughtLanguages &&
           user.taughtLanguages.map((language, index) => {
-              return index < 4 && <Flag key={language.id} name={language.code} />;
+              return index < 3 && 
+              <Image
+              key={language.id}
+              src={`https://www.countryflags.io/${language.code}/flat/32.png`}
+              className="record_flag_image"
+              />
           })}
       </div>
     </div>

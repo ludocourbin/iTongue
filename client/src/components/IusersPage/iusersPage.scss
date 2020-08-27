@@ -8,7 +8,9 @@
         font-size: 2rem;
     }
 
-    .users-list {
-        border-bottom: $border-color 1px solid;
+    .users-list > a > .member-card:first-child() {
+        border-top: none !important;
+        //border-bottom: $border-color 1px solid;
+        background-color: blue;
     }
 }

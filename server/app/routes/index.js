@@ -43,6 +43,9 @@ router.get("/private", require("../middlewares/auth-middleware"), (_, res) => {
   res.json({ data: { msg: "Authorized" } });
 });
 
+// Route de test pour vérification du reCaptcha v3
+router.post("/verify", require("../middlewares/recaptcha-middleware"));
+
 router.use("/best", highlightsRouter);
 
 router.use("/search", searchRouter);

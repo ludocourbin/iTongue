@@ -1,18 +1,15 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { Button, Header, Image, Modal } from 'semantic-ui-react'
 
 const MyModal = ({
     myAvatar,
+    visible,
     toggleModal,
 }) => {
-    const { name } = myAvatar;
-
-    const [open, setOpen] = React.useState(true);
-    console.log('open MyModal : ' + open);
 
     const quentin = {
         avatar:"",
-        desc:""
+        desc:"",
     };
     const ludovic = {
         avatar:"",
@@ -32,11 +29,11 @@ const MyModal = ({
     }
     return (
         <Modal
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        open={open}
+        onClose={toggleModal}
+        onOpen={toggleModal}
+        open={visible}
         >
-        <Modal.Header>Select a Photo</Modal.Header>
+        <Modal.Header>Hey {myAvatar}</Modal.Header>
         <Modal.Content image>
             <Image size='medium' src='https://react.semantic-ui.com/images/avatar/large/rachel.png' wrapped />
             <Modal.Description>
@@ -49,15 +46,10 @@ const MyModal = ({
             </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-            <Button color='black' onClick={() => setOpen(false)}>
-            Nope
-            </Button>
             <Button
             content="Yep, that's me"
-            labelPosition='right'
             icon='checkmark'
             onClick={() => {
-                setOpen(false);
                 toggleModal();
             }}
             positive

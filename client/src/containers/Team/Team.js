@@ -6,7 +6,7 @@ import Team from "../../components/Team";
 /* Actions */
 import {
     toggleModal,
-    changeId,
+    changeAvatar,
 } from "../../store/actions/modalActions";
 
 const mapStateToProps = (state) => ({
@@ -17,8 +17,8 @@ const mapDispatchToProps = (dispatch) => ({
     toggleModal: () => {
         dispatch(toggleModal());
     },
-    changeId: (newId) => {
-        dispatch(changeId(newId));
+    changeAvatar: (newId) => {
+        dispatch(changeAvatar(newId));
     },
 });
 

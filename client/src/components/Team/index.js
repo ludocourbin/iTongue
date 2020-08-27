@@ -1,22 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './style.scss';
 import Layout from "../../containers/Layout";
-import MyModal from './modal';
+import MyModal from '../../containers/Team/Modal';
 
 const Team = ({
     // Data du state
     visible,
     // Fonctions
     toggleModal,
-    changeId,
+    changeAvatar,
 }) => {
+    console.log('visible : ' + visible)
     const showModal = (evt) => {
         const { id } = evt.target;
-        console.log(this.changeId(id));
-        // changeId({
-        //     [id]:id,
-        // })   
-        
+        changeAvatar(id);
         toggleModal();
     }
     
@@ -27,7 +24,7 @@ const Team = ({
             <div className="team-div"> 
                 <div className="topDiv">
                     <img onClick={showModal} id="gautier" src="https://image.flaticon.com/icons/svg/147/147144.svg" alt="avatar" />
-                    <img onClick={showModal} id="axel"src="https://image.flaticon.com/icons/svg/147/147144.svg" alt="avatar" />
+                    <img onClick={showModal} id="axel" src="https://image.flaticon.com/icons/svg/147/147144.svg" alt="avatar" />
                 </div>
                 <div className="middleDiv">
                     <img onClick={showModal} id="ludovic" src="https://image.flaticon.com/icons/svg/147/147144.svg" alt="avatar" />

@@ -1,10 +1,8 @@
-import { TOGGLE_MODAL, CHANGE_ID } from "../actions/modalActions";
+import { TOGGLE_MODAL, CHANGE_AVATAR} from "../actions/modalActions";
 
 const initialState = {
     visible: false,
-    myAvatar:{
-        name:"",
-    }
+    myAvatar:"",
 };
 
 export default (state = initialState, action = {}) => {
@@ -14,7 +12,7 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 visible: !state.visible
             };
-        case CHANGE_ID:
+        case CHANGE_AVATAR:
             return {
                 ...state,
                 myAvatar: action.payload

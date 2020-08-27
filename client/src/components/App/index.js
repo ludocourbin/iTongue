@@ -5,7 +5,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Home from "../Home";
 import Contact from "../Contact";
 import Terms from "../Terms";
-import Team from "../Team";
+
 
 
 /* Styles */
@@ -23,6 +23,7 @@ import IrecordsPage from "../../containers/IrecordsPage";
 import IusersPage from "../../containers/IusersPage";
 import Search from "../../containers/Search";
 import Feed from "../../containers/Feed";
+import Team from "../../containers/Team/Team";
 
 const App = ({ isLogged }) => {
     return (

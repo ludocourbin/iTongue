@@ -100,8 +100,10 @@ export const logout = () => ({
 
 export const logoutSucess = (payload) => ({
     type: LOGOUT_SUCCESS,
+    payload,
 });
 
 export const logoutError = (payload) => ({
     type: LOGOUT_ERROR,
+    payload,
 });

@@ -18,3 +18,13 @@ body {
 a {
     color: $primary-text-color !important;
 }
+
+.grecaptcha-badge {
+    opacity: 1;
+    transition: 3s;
+}
+
+.grecaptcha-badge.hidden {
+    opacity: 0;
+    
+}

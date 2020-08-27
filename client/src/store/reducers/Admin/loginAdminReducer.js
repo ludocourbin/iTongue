@@ -4,19 +4,22 @@ import {
     LOGIN_SUBMIT_ERROR,
     LOGIN_INPUT_VALUE,
     LOGOUT,
+    LOGOUT_SUCCESS,
+    LOGOUT_ERROR,
 } from "../../actions/Admin/loginAdminActions";
 
 const initialState = {
     loginData: {
         email: "gautier.colasse@gmail.com",
-        password: "123456789",
-        //email: 'user@user.com',
-        //password: '123456',
+        password: "",
     },
     loading: false,
     isLogged: true,
     message: "",
     userConnect: {},
+    accessToken: "",
+    refreshToken: "",
+    accessTokenExp: null,
 };
 
 export default (state = initialState, action = {}) => {
@@ -41,6 +44,7 @@ export default (state = initialState, action = {}) => {
                 loading: false,
                 isLogged: true,
                 accessToken: action.payload.accessToken,
+                refreshToken: action.payload.refreshToken,
                 userConnect: action.payload.user,
                 message:"",
             };
@@ -55,6 +59,19 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 isLogged: false,
                 currentUser: {},
+            };
+        case LOGOUT_SUCCESS:
+        return {
+            ...state,
+            isLogged: false,
+            accessToken: null,
+            refreshToken: null,
+            userConnect: {},
+            accessTokenExp: null,
+        };
+        case LOGOUT_ERROR:
+            return {
+                ...state,
             };
         default:
             return state;

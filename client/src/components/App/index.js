@@ -35,7 +35,7 @@ const App = ({ isLogged, setCaptchaToken }) => {
           .execute("6Lc948MZAAAAAHbqOeJ8QPogf8mHhgrv25BzveZV", { action: "itongue" })
           .then(token => {
             setCaptchaToken(token);
-            console.log(token);
+            document.querySelector('.grecaptcha-badge').classList.add('hidden');
           });
       });
     });

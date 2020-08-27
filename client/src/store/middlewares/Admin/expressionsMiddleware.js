@@ -2,7 +2,6 @@
 
 /* Libs */
 import { toast } from "react-toastify";
-import axios from "axios";
 import { httpClient } from '../../../utils'
 
 /* Actions */
@@ -55,7 +54,6 @@ import {
     deleteLanguageSubmitSuccess,
     deleteLanguageSubmitError,
 } from "../../actions/Admin/expressionsActions";
-import { lang } from "moment";
 
 const expressionsMiddleware = (store) => (next) => (action) => {
     next(action);
@@ -115,14 +113,6 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 url: `/admin/expressions`,
                 data: { ...objData },
             }, store)
-            axios({
-                method: "POST",
-                url: `${process.env.REACT_APP_API_URL}/admin/expressions`,
-                data: { ...objData },
-                headers: {
-                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
-                },
-            })
                 .then((res) => {
                     store.dispatch(
                         addExpressionSubmitSuccess({

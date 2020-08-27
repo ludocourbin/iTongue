@@ -1,14 +1,22 @@
-import { LOGIN_SUBMIT, loginSubmitSuccess, loginSubmitError, LOGOUT } from "../../actions/Admin/loginAdminActions";
-import axios from 'axios';
+import { 
+    LOGIN_SUBMIT, 
+    loginSubmitSuccess, 
+    loginSubmitError, 
+    LOGOUT, 
+    logoutSucess, 
+    logoutError 
+} from "../../actions/Admin/loginAdminActions";
+
+import { httpClient } from "../../../utils";
 
 export const loginAdminMiddleware = (store) => (next) => (action) => {
 
     next(action);
     switch (action.type) {
         case LOGIN_SUBMIT: 
-            axios({
-                method: 'POST',
-                url: `${process.env.REACT_APP_API_URL}/users/login`,
+
+            httpClient.post({
+                url: `/users/login`,
                 data: { ...store.getState().loginAdminReducer.loginData },
             })
             .then((res) => {
@@ -22,6 +30,7 @@ export const loginAdminMiddleware = (store) => (next) => (action) => {
 
                 store.dispatch(loginSubmitSuccess({
                     accessToken: data.accessToken,
+                    refreshToken: data.refreshToken,
                     user: data.user,
                 }));
             })
@@ -31,7 +40,21 @@ export const loginAdminMiddleware = (store) => (next) => (action) => {
             });
             break;
         case LOGOUT : 
-            break;
+            httpClient.post({
+                        url: "/users/logout",
+                    }, store)
+                .then((res) => {
+                    console.log(res);
+                    store.dispatch(logoutSucess());
+                })
+                .catch((err) => {
+                    console.error(err);
+                    store.dispatch(logoutError());
+                })
+                .finally((res) => {
+                    store.dispatch(logoutSucess());
+                });
+                break;
         default:
             break;
     };

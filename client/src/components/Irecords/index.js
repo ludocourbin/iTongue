@@ -61,9 +61,13 @@ const Irecords = ({
                 ]}
                 autoClose
                 style={{
-                    height: "117px",
+                    height:
+                    record.englishTranslation.language.code !==
+                    record.translation.language.code
+                        ? "140px"
+                        : "87px",
                     width: '100%',
-                    marginBottom: "20px",
+                    marginBottom: "33px",
                     boxShadow: '0 6px 6px rgba(0,0,0,0.2)',
                     borderRadius: '10px',
                     // borderBottom: "1px solid black",
@@ -81,10 +85,11 @@ const Irecords = ({
                             content="Vous êtes sûr de vouloir supprimer ce iRecord ?"
                         />
                         {isLogged && currentUser.id !== isUserRecord && (
-                            <Card.Content className="flex author">
+                            <div className="irecords-header ">
+                            
                                 <Link
                                     to={`user/${user.slug}`}
-                                    className="flex author"
+                                    className=""
                                 >
                                     <Image
                                         avatar
@@ -95,21 +100,21 @@ const Irecords = ({
                                             "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
                                         }
                                     />
-                                    {`${user.firstname} ${user.lastname}`}
+                                    <p></p>{`${user.firstname} ${user.lastname}`}
                                 </Link>
                                 <Icon
                                     onClick={handleCopyiRecord}
                                     className="irecords-copy"
                                     name="copy"
                                 />
-                            </Card.Content>
+                            </div>
                         )}
 
                         {!isLogged && (
-                            <Card.Content className="flex author">
+                            <Card.Content className="irecords-header">
                                 <Link
                                     to={`user/${user.slug}`}
-                                    className="flex author"
+                                    className=""
                                 >
                                     <Image
                                         avatar
@@ -126,11 +131,12 @@ const Irecords = ({
                         )}
                         <Card.Content className="text">
                             <p>
-                                <Flag
-                                    name={
-                                        record.englishTranslation.language.code
-                                    }
+  
+                                <Image
+                                    src={`https://www.countryflags.io/${record.englishTranslation.language.code}/flat/32.png`}
+                                    className="record_flag_image"
                                 />
+
                                 {record.englishTranslation.text}
                             </p>
                         </Card.Content>
@@ -138,8 +144,9 @@ const Irecords = ({
                             record.translation.language.code && (
                             <Card.Content className="text">
                                 <p>
-                                    <Flag
-                                        name={record.translation.language.code}
+                                    <Image
+                                    src={`https://www.countryflags.io/${record.translation.language.code}/flat/32.png`}
+                                    className="record_flag_image"
                                     />
                                     {record.translation.text}
                                 </p>
@@ -165,10 +172,10 @@ const Irecords = ({
                         content="Vous êtes sûr de vouloir supprimer ce iRecord ?"
                     />
                     {isLogged && currentUser.id !== isUserRecord && (
-                        <Card.Content className="flex author">
+                        <Card.Content className="irecords-header">
                             <Link
                                 to={`user/${user.slug}`}
-                                className="flex author"
+                                className=""
                             >
                                 <Image
                                     avatar
@@ -191,7 +198,7 @@ const Irecords = ({
                     {isLogged && currentUser.id === isUserRecord && (
                         <div className="">
                             <BrowserView>
-                                <Card.Content className="flex author">
+                                <Card.Content className="irecords-header">
                                     <Icon
                                         onClick={() => setOpen(true)}
                                         className="irecords-copy"
@@ -206,10 +213,10 @@ const Irecords = ({
                     )}
 
                     {!isLogged && (
-                        <Card.Content className="flex author">
+                        <Card.Content className="irecords-header">
                             <Link
                                 to={`user/${user.slug}`}
-                                className="flex author"
+                                className=""
                             >
                                 <Image
                                     avatar
@@ -226,9 +233,10 @@ const Irecords = ({
                     )}
                     <Card.Content className="text">
                         <p>
-                            <Flag
-                                name={record.englishTranslation.language.code}
-                            />
+                            <Image
+                                src={`https://www.countryflags.io/${record.englishTranslation.language.code}/flat/32.png`}
+                                className="record_flag_image"
+                                />
                             {record.englishTranslation.text}
                         </p>
                     </Card.Content>
@@ -236,7 +244,10 @@ const Irecords = ({
                         record.translation.language.code && (
                         <Card.Content className="text">
                             <p>
-                                <Flag name={record.translation.language.code} />
+                                <Image
+                                    src={`https://www.countryflags.io/${record.translation.language.code}/flat/32.png`}
+                                    className="record_flag_image"
+                                />
                                 {record.translation.text}
                             </p>
                         </Card.Content>

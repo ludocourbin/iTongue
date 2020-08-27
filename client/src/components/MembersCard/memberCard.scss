@@ -2,21 +2,29 @@
 .member-card {
     font-weight: 600;
     display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
     background-color: $background-color;
     color: $primary-text-color;
     padding: 8px 0;
-    border-top: $border-color 1px solid;
+    border-top: 1px solid #f9ecec;
+
+    // &:first-of-type {
+    //     border-top: 0px;
+    // }
+    
     &_left {
-        width: 60%;
-        min-width: 230px;
+        width: 100%;
     }
 
     &_right {
-        width: 200px;
+        width: 150px;
         // margin-left: 15px;
         display: flex;
         flex-wrap: wrap;
     }
+
     .fullname {
         margin-bottom: 0;
     }
@@ -36,3 +44,4 @@
         margin-top: 0.2em !important;
     }
 }
+

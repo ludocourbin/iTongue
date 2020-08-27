@@ -91,7 +91,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
         }
     };
     return (
-        <Card.Content className="flex" textAlign="left">
+        <Card.Content className="flex " textAlign="left">
             <audio
                 id={id}
                 ref={audioRef}

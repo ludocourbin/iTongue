@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, Image, Button, Icon, Dropdown } from "semantic-ui-react";
-import { ReactMic } from "react-mic";
 import { motion } from "framer-motion";
 
-import AudioPlayer from "../../containers/Audio";
+import ReactMicComponent from "./reactMicComponent";
 import "./recording.scss";
 
 const Recording = ({
@@ -16,36 +15,14 @@ const Recording = ({
     fetchAllExpressions,
     allExpressions,
 }) => {
-    const [recording, setRecording] = useState(false);
     const [recordedSound, setRecordedSound] = useState(null);
     const [expressionSelected, setExpressionSelected] = useState(null);
     const [translationsSelected, setTranslationsSelected] = useState(null);
     const [translationSelected, seTranslationSelected] = useState(null);
-    const [micLoading, setMicLoading] = useState(true);
 
     useEffect(() => {
         fetchAllExpressions();
     }, [fetchAllExpressions]);
-
-    const startRecording = () => {
-        setRecording(true);
-        setTimeout(() => {
-            setMicLoading(false);
-        }, 1000);
-    };
-
-    const stopRecording = () => {
-        setRecording(false);
-    };
-
-    const onData = (recordedBlob) => {
-        // console.log("chunk of real-time data is: ", recordedBlob);
-    };
-
-    const onStop = (recordedBlob) => {
-        console.log("recordedBlob is: ", recordedBlob);
-        setRecordedSound(recordedBlob);
-    };
 
     const onSave = () => {
         if (recordedSound) {
@@ -60,7 +37,6 @@ const Recording = ({
     };
 
     const handleReset = () => {
-        // toggleRecording(false);
         setRecordedSound(null);
         selectIrecordToRecord(null);
         if (expressionSelected || translationSelected) {
@@ -170,40 +146,10 @@ const Recording = ({
                     </div>
                 )}
                 <Card.Content>
-                    <div>
-                        <ReactMic
-                            record={recording}
-                            className="sound-wave"
-                            onStop={onStop}
-                            onData={onData}
-                            strokeColor="#FFFFFF"
-                            backgroundColor="#fe734c"
-                            onBlock={startRecording}
-                            mimeType="audio/mp3" // Change type wanted here
-                        />
-                        {recordedSound && !recording && (
-                            <AudioPlayer audio={recordedSound} />
-                        )}
-                        {recordedSound && recording && <p>réenregistrement en cours</p>}
-                        {!recordedSound && !recording && <p>Aucun audio</p>}
-
-                        <div className="recording-microphone">
-                            {recording && (
-                                <Icon
-                                    onClick={stopRecording}
-                                    name={micLoading ? "wait" : "stop circle"}
-                                    size="big"
-                                />
-                            )}
-                            {!recording && (
-                                <Icon
-                                    onClick={startRecording}
-                                    name="microphone"
-                                    size="big"
-                                />
-                            )}
-                        </div>
-                    </div>
+                    <ReactMicComponent
+                        recordedSound={recordedSound}
+                        setRecordedSound={setRecordedSound}
+                    />
                 </Card.Content>
 
                 <Card.Content extra>

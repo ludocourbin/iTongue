@@ -1,4 +1,5 @@
 @import "../../../styles/vars";
+@import "../../../styles/mixin";
 
 .recording-widget {
     // background-color: #ccc !important;
@@ -22,6 +23,13 @@
             background-color: $primary-color !important;
             cursor: pointer;
         }
+    }
+
+    &__save-btn {
+        // height: 30px;
+        // width: 100px;
+        background-color: blue !important;
+        @include button;
     }
 
     .flag_image {
@@ -52,5 +60,9 @@
         width: 56%;
         // display: block;
         margin: 0.5em 0 0;
+    }
+
+    button.ui.button.recording-widget__save-btn {
+        @include button;
     }
 }

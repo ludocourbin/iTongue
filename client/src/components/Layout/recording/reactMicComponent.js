@@ -52,17 +52,3 @@ const ReactMicComponent = ({ setRecordedSound, recordedSound }) => {
 };
 
 export default ReactMicComponent;
-
-// name={micLoading ? "wait" : "stop circle"}
-
-// {recordedSound && !recording && <AudioPlayer audio={recordedSound} />}
-
-// {!recordedSound && !recording && <p>Aucun audio</p>}
-// <div className="recording-microphone">
-//                 {recording && (
-//                     <Icon onClick={stopRecording} name={"stop circle"} size="big" />
-//                 )}
-//                 {!recording && (
-//                     <Icon onClick={startRecording} name="microphone" size="big" />
-//                 )}
-//             </div>

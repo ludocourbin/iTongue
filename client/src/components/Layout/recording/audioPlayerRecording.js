@@ -87,7 +87,9 @@ const Audio = ({
     };
 
     return (
-        <Card.Content className="audioRecorder" /*textAlign="left"*/>
+        <Card.Content
+            className="audioRecorder  recordingAudioRecorder" /*textAlign="left"*/
+        >
             <div className="audioRecorder-player">
                 <div className="audioRecorder-player_container">
                     <audio

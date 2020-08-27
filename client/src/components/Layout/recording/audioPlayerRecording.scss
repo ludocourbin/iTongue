@@ -1,6 +1,10 @@
 @import "../../../styles/vars";
 @import "../../../styles/mixin";
 
+.recordingAudioRecorder {
+    position: relative;
+    top: 9px;
+}
 .audioRecorder {
     padding-bottom: 15px !important;
     position: relative;

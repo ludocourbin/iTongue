@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import Index from '../../components/Admin/index';
 
 const mapStateToProps = (state) => ({
-    isLogged: state.loginAdminReducer.isLogged,
-    userConnect: state.loginAdminReducer.userConnect,
+    isLogged: state.user.isLogged,
+    userConnect: state.user.currentUser,
 });
 
 const mapDispatchToProps = null;

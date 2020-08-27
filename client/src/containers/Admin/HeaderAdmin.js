@@ -1,10 +1,10 @@
 
 import { connect } from 'react-redux';
-import { logout } from '../../store/actions/Admin/loginAdminActions';
 import HeaderAdmin from '../../components/Admin/HeaderAdmin';
+import { logout } from "../../store/actions/userActions";
 
 const mapStateToProps = (state) => ({
-    userConnect: state.loginAdminReducer.userConnect,
+    userConnect: state.user.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

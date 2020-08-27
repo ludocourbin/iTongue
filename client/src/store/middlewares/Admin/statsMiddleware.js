@@ -18,7 +18,7 @@ export const statsMiddleware = (store) => (next) => (action) => {
                 method: 'GET',
                 url: `${process.env.REACT_APP_API_URL}/admin`,
                 headers: {
-                    "Authorization": `Bearer ${store.getState().loginAdminReducer.accessToken}`,
+                    "Authorization": `Bearer ${store.getState().user.accessToken}`,
                 },
             })
             .then(res => {

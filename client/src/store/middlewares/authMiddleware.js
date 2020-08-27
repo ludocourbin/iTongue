@@ -76,8 +76,7 @@ export default store => next => action => {
           store.dispatch(updateTokenExp());
         })
         .catch(err => {
-          toast.warning("Sorry");
-          store.dispatch(loginSubmitError("Désolé cet utilisateur n'existe pas"));
+          store.dispatch(loginSubmitError("Email ou mot de passe incorrect"));
         });
       return;
     case LOGOUT:

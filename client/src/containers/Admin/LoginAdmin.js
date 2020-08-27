@@ -1,20 +1,23 @@
 
 import { connect } from 'react-redux';
-import { loginSubmit, loginInputValue } from '../../store/actions/Admin/loginAdminActions';
 import LoginAdmin from '../../components/Admin/LoginAdmin';
+import {
+    loginInputChange,
+    login,
+} from "../../store/actions/loginActions";
 
 const mapStateToProps = (state) => ({
-    loginData: state.loginAdminReducer.loginData,
-    loading: state.loginAdminReducer.loading,
-    message: state.loginAdminReducer.message,
+    loginData: state.user.loginData,
+    message: state.user.loginErrorMessage,
+    loading: state.user.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     loginSubmit: () => {
-        dispatch(loginSubmit());
+        dispatch(login());
     },
     loginInputValue: (objValue) => {
-        dispatch(loginInputValue(objValue));
+        dispatch(loginInputChange(objValue));
     },
 });
 

@@ -2,7 +2,6 @@ import { combineReducers } from "redux";
 
 // Admin
 import expressionsReducer from "./Admin/expressionsReducer";
-import loginAdminReducer from "./Admin/loginAdminReducer";
 import statisticsRecuder from "./Admin/statisticsRecuder";
 
 /* Reducers */
@@ -16,7 +15,6 @@ export default combineReducers({
     settings,
     user,
     expressionsReducer,
-    loginAdminReducer,
     irecords,
     languagesReducer,
     statisticsRecuder,

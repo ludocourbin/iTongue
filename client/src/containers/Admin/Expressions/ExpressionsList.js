@@ -21,7 +21,7 @@ const mapStateToProps = (state) => ({
     newExpressionLoading: state.expressionsReducer.newExpressionLoading,
     expressionsList: state.expressionsReducer.expressionsList,
     expressionId: state.expressionsReducer.expressionId,
-    userConnect: state.loginAdminReducer.userConnect,
+    userConnect: state.user.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

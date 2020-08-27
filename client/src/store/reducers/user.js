@@ -224,7 +224,7 @@ export default (state = initialState, action = {}) => {
                 refreshToken: null,
                 accessTokenExp: null,
                 loginData: {
-                    email: state.currentUser.email,
+                    email: "",
                     password: "",
                     stayConnected: true,
                 },

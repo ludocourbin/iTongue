@@ -1,4 +1,5 @@
 import axios from "axios";
+// import {} from '.'
 import {
     SEND_IRECORDS_RECORDED,
     FETCH_ALL_RECORDS,
@@ -36,15 +37,15 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
                     formData.append("record", file);
                     formData.append("translation_id", translationId);
 
-                    axios({
-                        method: "POST",
-                        url: `${process.env.REACT_APP_API_URL}/users/${user.id}/record`,
-                        data: formData,
-                        headers: {
-                            "Content-Type": `multipart/form-data`,
-                            Authorization: `Bearer ${store.getState().user.accessToken}`,
-                        },
-                    })
+                    httpClient
+                        .post(
+                            {
+                                url: `/users/${user.id}/record`,
+                                data: formData,
+                                headers: { "Content-Type": `multipart/form-data` },
+                            },
+                            store
+                        )
                         .then((res) => {
                             const { record } = res.data.data;
                             record.user = user;

@@ -31,8 +31,9 @@ const Carousel = () => (
                 <Image src={city3} alt="" />
             </Slide>
         </Slider>
-        <DotGroup className="homePage-carousel__dots" />
     </CarouselProvider>
 );
+
+// <DotGroup className="homePage-carousel__dots" /> /* Todo */
 
 export default Carousel;

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { httpClient } from '../../utils'
 
 import { 
     FETCH_ALL_LANGUAGES, 
@@ -6,25 +6,13 @@ import {
     fetchAllLanguagesError 
 } from '../actions/languagesAction';
 
-import { 
-    /*
-    DELETE_LANGUAGE,
-    deleteLanguageSubmitSuccess,
-    deleteLanguageSubmitError,
-    */
-} from '../actions/Admin/expressionsActions';
-
 export const languagesMiddleware = (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
         case FETCH_ALL_LANGUAGES: 
-            axios({
-                method: 'GET',
-                url: `${process.env.REACT_APP_API_URL}/languages`,
-                headers: {
-                    "Authorization": `Bearer ${store.getState().user.accessToken}`
-                }
-            })
+            httpClient.get({
+                url: `/languages`
+            }, store)
             .then(res => {
                 const allLanguagesList = res.data.data;
                 store.dispatch(fetchAllLanguagesSuccess(allLanguagesList));

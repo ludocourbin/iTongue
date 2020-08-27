@@ -1,7 +1,7 @@
-/* Expressionsiddleware */
+/* statsMiddleware */
 
 /* Libs */
-import axios from "axios";
+import { httpClient } from '../../../utils'
 
 /* Actions */
 import {
@@ -14,13 +14,9 @@ export const statsMiddleware = (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
         case FETCH_STATS: {
-            axios({
-                method: 'GET',
-                url: `${process.env.REACT_APP_API_URL}/admin`,
-                headers: {
-                    "Authorization": `Bearer ${store.getState().user.accessToken}`,
-                },
-            })
+            httpClient.get({
+                url: `/admin`
+            }, store)
             .then(res => {
                 store.dispatch(fetchStatsSuccess(res.data.data[0]));
                 console.log(res);

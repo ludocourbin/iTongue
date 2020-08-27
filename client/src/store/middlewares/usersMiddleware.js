@@ -113,14 +113,11 @@ export const usersMiddleware = (store) => (next) => (action) => {
                     confirm,
                 };
             }
-            axios({
-                method: "POST",
-                url: `${process.env.REACT_APP_API_URL}/users/${id}`,
+
+            httpClient.post({
+                url: `/users/${id}`,
                 data: finalData,
-                headers: {
-                    Authorization: `Bearer ${store.getState().user.accessToken}`,
-                },
-            })
+            }, store)
                 .then((res) => {
                     console.log(res);
                     store.dispatch(editProfilSuccess(finalData));
@@ -178,9 +175,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 return map;
             };
 
-            axios({
-                method: "GET",
-                url: `${process.env.REACT_APP_API_URL}/users/${action.payload}`,
+            httpClient.get({
+                url: `/users/${action.payload}`,
             })
                 .then((res) => {
                     const profilData = res.data.data;
@@ -214,6 +210,10 @@ export const usersMiddleware = (store) => (next) => (action) => {
                     Authorization: `Bearer ${store.getState().user.accessToken}`,
                 },
             })
+            httpClient.post({
+                url: `/users/${id}/slug`,
+                data: { slug },
+            }, store)
                 .then((res) => {
                     console.log("res", res);
                     store.dispatch(editProfilSlugSuccess(slug));
@@ -244,7 +244,6 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 });
             break;
         }
-
         default:
             break;
     }

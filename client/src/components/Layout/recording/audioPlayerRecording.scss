@@ -1,0 +1,102 @@
+@import "../../../styles/vars";
+@import "../../../styles/mixin";
+
+.audioRecorder {
+    padding-bottom: 15px !important;
+    position: relative;
+
+    &-player {
+        display: flex;
+        justify-content: center;
+        padding: 0.6em;
+        padding-top: 0.8em;
+        background-color: #cecccc36 !important;
+        box-shadow: 0 3px 3px rgba(0, 0, 0, 0.219);
+        width: 90%;
+        border-radius: 15px;
+        margin: 0 auto;
+
+        &_container {
+            width: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+
+        &_containerbtn {
+            display: flex;
+        }
+
+        &_btn,
+        &_mic {
+            background-color: #cac7c7;
+            color: $background-items;
+            border: 0 !important;
+        }
+
+        &_mic {
+            position: relative;
+            left: 12px;
+        }
+    }
+
+    .icon {
+        position: relative;
+        top: -3px;
+    }
+
+    i.circular.icon {
+        box-shadow: none;
+        font-size: 0.8em;
+    }
+
+    .ui.progress .bar {
+        background-color: #88888852;
+    }
+
+    .ui.orange.progress .bar {
+        background-color: #aca6a6;
+    }
+
+    .progress {
+        height: 10px;
+        margin-left: 5px !important;
+        // margin-right: 10px !important;
+        margin-bottom: 4px !important;
+        width: 100%;
+        .bar {
+            height: 10px !important;
+        }
+    }
+
+    .noAudio {
+        width: 150px;
+        position: relative;
+
+        top: -4px;
+        left: 16px;
+    }
+
+    .played {
+        position: absolute;
+        top: 29px;
+        left: 109px;
+        font-size: 0.6rem;
+        font-weight: 600;
+        color: #6f6d6d;
+    }
+
+    .total {
+        position: absolute;
+        top: 29px;
+        right: 47px;
+        font-size: 0.6rem;
+        font-weight: 600;
+        color: #6f6d6d;
+    }
+
+    .icon {
+        cursor: pointer;
+    }
+}

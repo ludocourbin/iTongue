@@ -4,7 +4,7 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 
 import Header from "./menu";
 import NavigationBottom from "./navigationBottom";
-import Recording from "./recording";
+import Recording from "./recording/recording";
 
 import "./header.scss";
 
@@ -49,32 +49,19 @@ const LayoutHeader = ({
                 >
                     <div className="main-header-links">
                         <div className="container">
-                            <NavLink
-                                exact
-                                className="main-header-links__item"
-                                to={"/"}
-                            >
+                            <NavLink exact className="main-header-links__item" to={"/"}>
                                 Accueil
                             </NavLink>
-                            <NavLink
-                                className="main-header-links__item"
-                                to={"/irecords"}
-                            >
+                            <NavLink className="main-header-links__item" to={"/irecords"}>
                                 iRecords
                             </NavLink>
-                            <NavLink
-                                className="main-header-links__item"
-                                to={"/users"}
-                            >
+                            <NavLink className="main-header-links__item" to={"/users"}>
                                 iUsers
                             </NavLink>
                         </div>
                         {isLogged ? (
                             <div onClick={handleLogout} className="container">
-                                <Link
-                                    to="/"
-                                    className="main-header-links__item"
-                                >
+                                <Link to="/" className="main-header-links__item">
                                     Se déconnecter
                                 </Link>
                             </div>
@@ -96,22 +83,13 @@ const LayoutHeader = ({
                         )}
 
                         <div className="container">
-                            <NavLink
-                                className="main-header-links__item"
-                                to={"/team"}
-                            >
+                            <NavLink className="main-header-links__item" to={"/team"}>
                                 Team
                             </NavLink>
-                            <NavLink
-                                className="main-header-links__item"
-                                to={"/contact"}
-                            >
+                            <NavLink className="main-header-links__item" to={"/contact"}>
                                 Contact/FAQ
                             </NavLink>
-                            <NavLink
-                                className="main-header-links__item"
-                                to={"/terms"}
-                            >
+                            <NavLink className="main-header-links__item" to={"/terms"}>
                                 Mentions Légales
                             </NavLink>
                         </div>

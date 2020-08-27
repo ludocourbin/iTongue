@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Icon } from "semantic-ui-react";
-import AudioPlayer from "../../containers/Audio";
+import AudioPlayer from "../../../containers/AudioPlayerRecording";
 import AudioRecorder from "audio-recorder-polyfill";
 import mpegEncoder from "audio-recorder-polyfill/mpeg-encoder";
 
@@ -37,21 +37,15 @@ const ReactMicComponent = ({ setRecordedSound, recordedSound }) => {
             recorder.stream.getTracks().forEach((i) => i.stop());
         }
     };
-
+    const linkAudio = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
     return (
         <div className="reactMicComponent">
-            {recordedSound && !recording && <AudioPlayer audio={recordedSound} />}
+            <AudioPlayer
+                audio={linkAudio}
+                recording={recording}
+                recordedSound={recordedSound}
+            />
             {recordedSound && recording && <p>réenregistrement en cours</p>}
-            {!recordedSound && !recording && <p>Aucun audio</p>}
-
-            <div className="recording-microphone">
-                {recording && (
-                    <Icon onClick={stopRecording} name={"stop circle"} size="big" />
-                )}
-                {!recording && (
-                    <Icon onClick={startRecording} name="microphone" size="big" />
-                )}
-            </div>
         </div>
     );
 };
@@ -59,3 +53,15 @@ const ReactMicComponent = ({ setRecordedSound, recordedSound }) => {
 export default ReactMicComponent;
 
 // name={micLoading ? "wait" : "stop circle"}
+
+// {recordedSound && !recording && <AudioPlayer audio={recordedSound} />}
+
+// {!recordedSound && !recording && <p>Aucun audio</p>}
+// <div className="recording-microphone">
+//                 {recording && (
+//                     <Icon onClick={stopRecording} name={"stop circle"} size="big" />
+//                 )}
+//                 {!recording && (
+//                     <Icon onClick={startRecording} name="microphone" size="big" />
+//                 )}
+//             </div>

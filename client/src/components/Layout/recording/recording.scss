@@ -1,7 +1,11 @@
-@import "../../styles/vars";
+@import "../../../styles/vars";
 
 .recording-widget {
-    background-color: #ccc !important;
+    // background-color: #ccc !important;
+    position: relative;
+    top: -85px;
+    width: 370px !important;
+    width: 100vw !important;
 
     &__closeIcon {
         display: flex;
@@ -31,7 +35,7 @@
     }
 
     &__text-selected {
-        margin-left: 95px;
+        margin-left: 100px;
         padding: 8px;
         font-size: 1.1em;
 
@@ -42,8 +46,11 @@
             }
         }
     }
-}
 
-// .recording-widget__text-selected::first-letter {
-//     text-transform: capitalize;
-// }
+    .separator {
+        border: 1px solid rgba(0, 0, 0, 0.116);
+        width: 56%;
+        // display: block;
+        margin: 0.5em 0 0;
+    }
+}

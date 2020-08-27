@@ -15,7 +15,7 @@ import { statsMiddleware } from "./middlewares/Admin/statsMiddleware";
 // Configuration object for redux-persist
 const persistConfig = {
     key: "root",
-    whitelist: ["user", "loginAdminReducer"],
+    whitelist: ["user", "loginAdminReducer", "irecords"],
     storage, // define which storage to use
 };
 

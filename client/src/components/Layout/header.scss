@@ -22,7 +22,7 @@
 }
 
 .main-content.modalRecording.user {
-    height: calc(100vh - 428px);
+    height: calc(100vh - 348px);
 }
 
 .header-nav {
@@ -140,49 +140,4 @@
     .i.big.icon {
         color: $primary-color !important;
     }
-}
-
-.recording {
-    position: relative;
-    top: -25px;
-    height: 389px !important;
-    min-height: 398px !important;
-
-    &-widget {
-        width: 370px !important;
-        width: 100vw !important;
-        position: re;
-    }
-
-    .text-selected {
-        padding: 20px !important;
-        text-align: center;
-    }
-
-    .closeIcon {
-        position: absolute;
-        right: 5px;
-        top: 5px;
-        font-size: 1.5em !important;
-    }
-
-    &-microphone {
-        // background-color: black;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        & i {
-            margin-bottom: 10px !important;
-            // width: ;
-        }
-    }
-
-    .sound-wave {
-        width: 100%;
-    }
-}
-
-.container-dropdown {
-    padding-top: 30px !important;
 }

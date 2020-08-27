@@ -33,7 +33,6 @@ export const usersMiddleware = (store) => (next) => (action) => {
                     {
                         url: `/users`,
                     },
-                    false,
                     store
                 )
                 .then((res) => {

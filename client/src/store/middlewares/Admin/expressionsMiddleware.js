@@ -3,6 +3,7 @@
 /* Libs */
 import { toast } from "react-toastify";
 import axios from "axios";
+import { httpClient } from '../../../utils'
 
 /* Actions */
 import {
@@ -48,7 +49,13 @@ import {
     ADD_LANGUAGE_SUBMIT,
     addLanguageSubmitSuccess,
     addLanguageSubmitError,
+
+    // Delete language
+    DELETE_LANGUAGE_SUBMIT,
+    deleteLanguageSubmitSuccess,
+    deleteLanguageSubmitError,
 } from "../../actions/Admin/expressionsActions";
+import { lang } from "moment";
 
 const expressionsMiddleware = (store) => (next) => (action) => {
     next(action);
@@ -353,7 +360,6 @@ const expressionsMiddleware = (store) => (next) => (action) => {
         }
         case ADD_LANGUAGE_SUBMIT: {
             // OK
-
             const languageValue = store.getState().expressionsReducer
                 .languageValue;
 
@@ -379,6 +385,29 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             });
             break;
         }
+
+        case DELETE_LANGUAGE_SUBMIT: {
+            // OK
+            const langId = action.payload;
+            const allLanguages = store.getState().expressionsReducer.languagesList;
+
+            console.log("allLanguages", allLanguages);
+
+            httpClient.delete({
+                url: `/admin/languages/${langId}`
+            }, store)
+            .then(res => {
+                const response = res.data.data.deleted;
+                const newLangsList = allLanguages.filter(language => language.id !== langId && language);
+                store.dispatch(deleteLanguageSubmitSuccess(newLangsList));
+                response && toast.info("La langue a bien été supprimée");
+            })
+            .catch(err => {
+                console.error(err);
+                store.dispatch(deleteLanguageSubmitError());
+            });
+            break;
+        };
         default:
             break;
     }

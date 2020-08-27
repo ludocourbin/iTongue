@@ -1,6 +1,6 @@
 
 import { connect } from 'react-redux';
-import { addLanguageSubmit, languageInputValue, fetchLanguages } from '../../store/actions/Admin/expressionsActions';
+import { addLanguageSubmit, languageInputValue, fetchLanguages, deleteLanguageSubmit } from '../../store/actions/Admin/expressionsActions';
 import Languages from '../../components/Admin/Languages';
 
 const mapStateToProps = (state) => ({
@@ -18,7 +18,10 @@ const mapDispatchToProps = (dispatch) => ({
     },
     fetchLanguages: () => {
         dispatch(fetchLanguages());
-    }
+    },
+    deleteLanguageSubmit: (langId) => {
+        dispatch(deleteLanguageSubmit(langId));
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Languages);

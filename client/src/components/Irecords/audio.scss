@@ -2,19 +2,23 @@
 @import "../../styles/mixin";
 
 .audioRecorder {
-    padding-bottom: 25px !important;
+    padding-bottom: 15px !important;
     position: relative;
+
 
     &-player {
         display: flex;
-        padding: .8em;
+        justify-content: center;
+        padding: .6em;
+        padding-top: .8em;
         background-color: #cecccc36!important;
         box-shadow: 0 3px 3px rgba(0, 0, 0, 0.219);
-        width: 100%;
-        border-radius: 20px;
+        width: 90%;
+        border-radius: 15px;
+        margin: 0 auto;
 
         &_container {
-            width: 100%;
+            width: 90%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -39,6 +43,7 @@
 
     i.circular.icon {
         box-shadow: none;
+        font-size: .8em;
     }
 
     .ui.progress .bar {
@@ -51,8 +56,10 @@
 
     .progress {
         height: 10px;
-        margin-left: 10px !important;
-        margin-bottom: 10px !important;
+        margin-left: 5px !important;
+       // margin-right: 10px !important;
+        margin-bottom: 4px !important;
+        width: 100%;
         .bar {
             height: 10px !important;
         }
@@ -60,18 +67,18 @@
 
     .played {
         position: absolute;
-        top: 39px;
-        left: 97px;
-        font-size: 0.8rem;
+        top: 40px;
+        left: 109px;
+        font-size: 0.6rem;
         font-weight: 600;
         color: #6f6d6d;
     }
 
     .total {
         position: absolute;
-        top: 39px;
-        right: 26px;
-        font-size: 0.8rem;
+        top: 40px;
+        right: 47px;
+        font-size: 0.6rem;
         font-weight: 600;
         color: #6f6d6d;
     }

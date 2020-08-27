@@ -19,6 +19,7 @@ const Languages = (props) => {
         languageValue, 
         fetchLanguages,
         newLanguageLoading,
+        deleteLanguageSubmit,
     } = props;
 
     useEffect(() => {
@@ -34,6 +35,11 @@ const Languages = (props) => {
         languageInputValue({
             [name] : value,
         });
+    };
+
+    const handdleDeleteLanguage = (langId) => {
+        console.log("hello", langId);
+        deleteLanguageSubmit(langId);
     };
 
     return (
@@ -83,7 +89,7 @@ const Languages = (props) => {
                                 </Table.Cell>
                                 <Table.Cell>{ language.name }</Table.Cell>
                                 <Table.Cell>{ language.code }</Table.Cell>
-                                <Table.Cell><Icon name="close" /></Table.Cell>
+                                <Table.Cell><Icon name="close" onClick={() => handdleDeleteLanguage(language.id)}/></Table.Cell>
                             </Table.Row>
                         ))}
                     </Table.Body>

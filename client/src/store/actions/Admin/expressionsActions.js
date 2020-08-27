@@ -203,18 +203,19 @@ export const languageInputValue = (payload) => ({
     payload,
 });
 
-export const DELETE_LANGUAGE = "DELETE_LANGUAGE";
-export const DELETE_LANGUAGE_SUCCESS = "DELETE_LANGUAGE_SUCCESS";
-export const DELETE_LANGUAGE_ERROR = "DELETE_LANGUAGE_ERROR";
+export const DELETE_LANGUAGE_SUBMIT = "DELETE_LANGUAGE_SUBMIT";
+export const DELETE_LANGUAGE_SUBMIT_SUCCESS = "DELETE_LANGUAGE_SUBMIT_SUCCESS";
+export const DELETE_LANGUAGE_SUBMIT_ERROR = "DELETE_LANGUAGE_SUBMIT_ERROR";
 
-export const deleteLanguageSubmit = () => ({
-    type: DELETE_LANGUAGE,
+export const deleteLanguageSubmit = (payload) => ({
+    type: DELETE_LANGUAGE_SUBMIT,
+    payload,
 });
 export const deleteLanguageSubmitSuccess = (payload) => ({
-    type: DELETE_LANGUAGE_SUCCESS,
+    type: DELETE_LANGUAGE_SUBMIT_SUCCESS,
     payload,
 });
 export const deleteLanguageSubmitError = (payload) => ({
-    type: DELETE_LANGUAGE_ERROR,
+    type: DELETE_LANGUAGE_SUBMIT_ERROR,
     payload,
 });

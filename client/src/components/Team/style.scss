@@ -1,0 +1,28 @@
+.team-div{
+  width:95vw;
+  margin-top:50px;
+}
+h3{
+  display:flex;
+  justify-content: center;
+}
+.topDiv {
+    display:flex;
+    width:100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.middleDiv {
+    display:flex;
+    justify-content: center;
+}
+.botDiv {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+img {
+    max-width: 30px;
+    height:auto;
+}

@@ -5,6 +5,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Home from "../Home";
 import Contact from "../Contact";
 import Terms from "../Terms";
+import Team from "../Team";
 
 
 /* Styles */
@@ -51,6 +52,7 @@ const App = ({ isLogged }) => {
                 <Route exact path="/feed" component={Feed} />
                 <Route path="/admin" component={Admin} />
                 <Route exact path ="/terms" component={Terms} />
+                <Route exact path ="/team" component={Team} />
                 <Route>
                     <h1>La page n'existe pas</h1>
                 </Route>

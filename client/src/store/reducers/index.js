@@ -10,6 +10,7 @@ import settings from "./settings";
 import user from "./user";
 import irecords from "./irecords";
 import languagesReducer from './languagesReducer';
+import team from './team';
 
 export default combineReducers({
     settings,
@@ -19,4 +20,5 @@ export default combineReducers({
     irecords,
     languagesReducer,
     statisticsRecuder,
+    team
 });

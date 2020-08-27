@@ -40,11 +40,11 @@ const Recording = ({
 
     const handleReset = () => {
         setRecordedSound(null);
-        selectIrecordToRecord(null);
-        if (expressionSelected || translationSelected) {
-            setExpressionSelected(null);
-            seTranslationSelected(null);
-        }
+        // selectIrecordToRecord(null);
+        // if (expressionSelected || translationSelected) {
+        //     setExpressionSelected(null);
+        //     seTranslationSelected(null);
+        // }
     };
 
     const optionsText = allExpressions.map((option) => {
@@ -131,9 +131,12 @@ const Recording = ({
 
                 <Card.Content extra>
                     <div className="ui two buttons">
-                        <Button onClick={handleReset} basic color="red">
-                            <Icon name="refresh" />
-                        </Button>
+                        {recordedSound && (
+                            <Button onClick={handleReset} basic color="red">
+                                <Icon name="refresh" />
+                            </Button>
+                        )}
+
                         <Button
                             disabled={recordedSound ? false : true}
                             onClick={onSave}

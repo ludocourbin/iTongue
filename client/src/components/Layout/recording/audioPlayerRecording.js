@@ -9,10 +9,12 @@ const Audio = ({
     audio,
     recordedSound,
     recording,
+    startRecording,
+    stopRecording,
 }) => {
-    const { id, url } = audio;
+    // const { id, url } = audio;
 
-    if (!audio.url) {
+    if (audio) {
         fetch(audio)
             .then((blobContainer) => blobContainer.blob())
             .then((blob) => {
@@ -30,15 +32,13 @@ const Audio = ({
     const [mouseDown, setMouseDown] = useState(false);
     const [displayCurrentime, setDisplayCurrentTime] = useState(false);
 
-    const [test, setTest] = useState(false);
-
     const togglePlaying = () => {
         setPlaying(!playing);
 
         if (!playing) {
             audioRef.current.play();
 
-            setIrecordSelectedId(id);
+            // setIrecordSelectedId(id);
         } else {
             audioRef.current.pause();
         }
@@ -53,19 +53,6 @@ const Audio = ({
         }
         audioRef.current.currentTime = scrubTime;
     };
-
-    const handleStop = () => {
-        audioRef.current.currentTime = 0.0;
-        setPlaying(false);
-        audioRef.current.pause();
-    };
-
-    useEffect(() => {
-        if (irecordSelectedId !== id) {
-            setPlaying(false);
-            audioRef.current.pause();
-        }
-    }, [irecordSelectedId, id]);
 
     useEffect(() => {
         if (displayCurrentime) {
@@ -82,13 +69,6 @@ const Audio = ({
         return padZero(parseInt((t / 60) % 60)) + ":" + padZero(parseInt(t % 60));
     };
 
-    /* J'ai commenté car non utilisé -> Gautier
-    const start = (start) => {
-        if (start != null) {
-            setDuration(audioRef.current.duration);
-        }
-    };
-*/
     const handleDuration = async () => {
         if (audio.blob) {
             const duration = await getBlobDuration(audio.blob);
@@ -105,19 +85,15 @@ const Audio = ({
             setDuration(duration);
         }
     };
+
     return (
         <Card.Content className="audioRecorder" /*textAlign="left"*/>
             <div className="audioRecorder-player">
                 <div className="audioRecorder-player_container">
                     <audio
-                        id={id}
                         ref={audioRef}
                         type="audio/mpeg"
-                        src={
-                            audio.url
-                                ? `${process.env.REACT_APP_FILES_URL}/${audio.url}`
-                                : audio
-                        }
+                        src={audio}
                         onLoadedData={handleDuration}
                         onTimeUpdate={() => {
                             setCurrentTime(audioRef.current.currentTime);
@@ -125,7 +101,30 @@ const Audio = ({
                         preload="auto"
                     />
                     <div className="audioRecorder-player_containerbtn">
+                        {/* Don't have any record and is currently playing */
+                        /* Don't have
+                        any audio and isn't playing CAT to record */}
                         {!recordedSound && !recording && (
+                            <Icon
+                                circular
+                                className="audioRecorder-player_mic"
+                                onClick={startRecording}
+                                name="microphone"
+                            />
+                        )}
+
+                        {/* Don't have record and is recording */}
+                        {!recordedSound && recording && (
+                            <Icon
+                                circular
+                                className="audioRecorder-player_mic"
+                                onClick={stopRecording}
+                                name={"stop"}
+                            />
+                        )}
+
+                        {/* Has record and isn't playing, requesting to play the record */}
+                        {recordedSound && (
                             <Icon
                                 circular
                                 className="audioRecorder-player_btn"
@@ -133,25 +132,51 @@ const Audio = ({
                                 name={playing ? "pause" : "play"}
                             />
                         )}
+
+                        {/* ici viens code du bas dans le même ordre actuel */}
+                        {/* N'a pas d'audio et est en train d'en enregistrer un */}
+                        {!recordedSound && recording && (
+                            <div className="audioRecorder-player_waves">
+                                <div className="loader-container">
+                                    <div className="rectangle-1"></div>
+                                    <div className="rectangle-2"></div>
+                                    <div className="rectangle-3"></div>
+                                    <div className="rectangle-4"></div>
+                                    <div className="rectangle-5"></div>
+                                    <div className="rectangle-6"></div>
+                                    <div className="rectangle-5"></div>
+                                    <div className="rectangle-4"></div>
+                                    <div className="rectangle-3"></div>
+                                    <div className="rectangle-2"></div>
+                                    <div className="rectangle-1"></div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* N'a pas d'audio et n'est pas en train d'en enregistrer un */}
+                        {!recordedSound && !recording && (
+                            <div className="noAudio">Aucun audio</div>
+                        )}
+                        {/* Has audio and either playing or not */}
+                        {recordedSound && (
+                            <div
+                                className="audioRecorder-player_progress"
+                                style={{ cursor: "ew-resize" }}
+                                ref={progress}
+                                onClick={scrub}
+                                onMouseMove={(e) => mouseDown && scrub(e)}
+                                onMouseUp={() => setMouseDown(false)}
+                                onMouseDown={() => setMouseDown(true)}
+                            >
+                                <Progress
+                                    percent={percent}
+                                    className={playing ? "orange" : null}
+                                />
+                                <p className="recorder-played">{sToTime(currentTime)}</p>
+                                <p className="recorder-total">{sToTime(duration)}</p>
+                            </div>
+                        )}
                     </div>
-                    {!recordedSound && (
-                        <div
-                            className="audioRecorder-player_progress"
-                            style={{ cursor: "ew-resize", width: "100%" }}
-                            ref={progress}
-                            onClick={scrub}
-                            onMouseMove={(e) => mouseDown && scrub(e)}
-                            onMouseUp={() => setMouseDown(false)}
-                            onMouseDown={() => setMouseDown(true)}
-                        >
-                            <Progress
-                                percent={percent}
-                                className={playing ? "orange" : null}
-                            />
-                            <p className="played">{sToTime(currentTime)}</p>
-                            <p className="total">{sToTime(duration)}</p>
-                        </div>
-                    )}
                 </div>
             </div>
         </Card.Content>
@@ -159,21 +184,3 @@ const Audio = ({
 };
 
 export default Audio;
-
-// {!recordedSound && (
-//     <Icon
-//         circular
-//         className="audioRecorder-player_mic"
-//         onClick={togglePlaying}
-//         name="microphone"
-//     />
-// )}
-
-// {!recordedSound && !playing && (
-//     <Icon
-//         circular
-//         className="audioRecorder-player_mic"
-//         onClick={togglePlaying}
-//         name="microphone"
-//     />
-// )}

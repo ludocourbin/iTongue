@@ -37,15 +37,16 @@ const ReactMicComponent = ({ setRecordedSound, recordedSound }) => {
             recorder.stream.getTracks().forEach((i) => i.stop());
         }
     };
-    const linkAudio = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+    // const linkAudio = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
     return (
         <div className="reactMicComponent">
             <AudioPlayer
-                audio={linkAudio}
+                audio={recordedSound}
                 recording={recording}
                 recordedSound={recordedSound}
+                startRecording={startRecording}
+                stopRecording={stopRecording}
             />
-            {recordedSound && recording && <p>réenregistrement en cours</p>}
         </div>
     );
 };

@@ -133,7 +133,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
                     </div>
                     <div
                         className="audioRecorder-player_progress"
-                        style={{ cursor: "ew-resize", width: "100%" }}
+                        style={{ cursor: "ew-resize", width: "75%" }}
                         ref={progress}
                         onClick={scrub}
                         onMouseMove={(e) => mouseDown && scrub(e)}

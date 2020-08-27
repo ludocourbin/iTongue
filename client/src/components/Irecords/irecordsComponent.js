@@ -71,27 +71,28 @@ const Irecord = ({
                         />
                     </HeaderIrecord>
                 )}
-                <Card.Content className="irecords__text">
-                    <p>
-                        <Image
-                            src={`https://www.countryflags.io/${record.englishTranslation.language.code}/flat/32.png`}
-                            className="flag_image"
-                        />
-                        {record.englishTranslation.text}
-                    </p>
-                </Card.Content>
-                {record.englishTranslation.language.code !==
-                    record.translation.language.code && (
-                    <Card.Content className="irecords__text">
-                        <p>
+                 <div className="irecords_rows">
+                    <div className="irecords__row">
                             <Image
-                                src={`https://www.countryflags.io/${record.translation.language.code}/flat/32.png`}
-                                className="flag_image"
+                                src={`https://www.countryflags.io/${record.englishTranslation.language.code}/flat/32.png`}
+                                className="record_flag_image"
                             />
-                            {record.translation.text}
-                        </p>
-                    </Card.Content>
-                )}
+                            <div className="expression">{record.englishTranslation.text}</div>
+                    </div>
+
+                    {record.englishTranslation.language.code !== record.translation.language.code && (
+                    
+                    <><div className="separator"></div>
+                        <div className="irecords__row">
+                                <Image
+                                    src={`https://www.countryflags.io/${record.translation.language.code}/flat/32.png`}
+                                    className="record_flag_image"
+                                />
+                                <div className="translation">{record.translation.text}</div>
+                        </div>
+                        </>
+                    )}
+                </div>
                 <AudioPlayer audio={record} />
             </Card>
         </div>

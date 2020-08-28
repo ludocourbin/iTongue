@@ -3,10 +3,7 @@ import ProfilSearch from "../../components/User/Profil/profilSearch";
 import { setRecordsBySearch, getRecordsBySearch } from '../../store/actions/profilSearchActions';
 import { fetchAllLanguages } from '../../store/actions/languagesAction';
 
-const mapStateToProps = (state) => ({
-    recordsFiltered: state.user.recordsFiltered,
-    allLanguagesList: state.languagesReducer.allLanguagesList,
-});
+const mapStateToProps = null;
 
 const mapDispatchToProps = (dispatch) => ({
     setRecordsBySearch: (recordsFiltered) => {

@@ -11,7 +11,6 @@ import ProfilSearch from "../../../containers/User/ProfilSearch";
 import { Segment, Image, Icon } from "semantic-ui-react";
 import Statistics from "../Statistics";
 
-
 /* Style */
 import "./userprofil.scss";
 
@@ -23,13 +22,10 @@ const UserProfil = ({
     recordsFiltered,
     getRecordsBySearch,
 }) => {
+    
     const [isUserAccount, setIsUserAccount] = useState(false);
 
     let slug = useParams();
-
-    useEffect(() => {
-        getRecordsBySearch();
-    }, [getRecordsBySearch]);
 
     useEffect(() => {
         checkUserSlug(slug.slug);
@@ -46,7 +42,9 @@ const UserProfil = ({
         checkUser();
     }, [slug.slug, currentUser.slug]);
 
-    console.log("recordsFilteredrecordsFilteredrecordsFiltered", recordsFiltered);
+    useEffect(() => {
+        getRecordsBySearch();
+    }, [getRecordsBySearch, recordsFiltered]);
 
     const {
         id,
@@ -153,8 +151,8 @@ const UserProfil = ({
                     records={records}
                     />
 
-                    {records && records.length && !recordsFiltered.length > 1 ? (
-                        records.map((audio, key) => (
+                    {recordsFiltered && recordsFiltered.length ? 
+                        recordsFiltered.map((audio, key) => (
                             <Irecords
                                 key={key}
                                 record={audio}
@@ -162,10 +160,8 @@ const UserProfil = ({
                                 isUserRecord={id}
                             />
                         ))
-                    ) 
-                    : recordsFiltered && recordsFiltered.length && recordsFiltered !== [] ?
-                    
-                        recordsFiltered.map((audio, key) => (
+                    : records && !recordsFiltered.length ?
+                        records.map((audio, key) => (
                             <Irecords
                                 key={key}
                                 record={audio}

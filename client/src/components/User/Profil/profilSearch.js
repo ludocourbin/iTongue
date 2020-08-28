@@ -1,39 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Dropdown } from 'semantic-ui-react';
+import { Dropdown, Input } from 'semantic-ui-react';
 import './userprofil.scss';
 
-const ProfilSearch = ({ records, recordsFiltered, setRecordsBySearch, fetchAllLanguages, allLanguagesList }) => {
+const ProfilSearch = ({ records, setRecordsBySearch}) => {
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [inputSearch, setInputSearch] =useState("");
-    const [languageSelect, setLanguageSelect] =useState("");
-    const [results, setResults] =useState([]);
-
-    const filterSearch = (search) => records.filter(record => {
-        return record.translation.text.toLowerCase().includes(search) ||
-        record.englishTranslation.text.toLowerCase().includes(search)
-    });
-
-    const handdleSearchChange = (e, data) => {
-        setInputSearch(e.target.value);
-
-        if(filterSearch(data.value) !== [])  {
-            setRecordsBySearch(filterSearch(data.value));
-        } else {
-            setRecordsBySearch(filterSearch([]));
-        }
-    };
+    const [inputSearch, setInputSearch] =useState({ search: '', lang: null });
 
     useEffect(() => {
-        fetchAllLanguages();
-    }, [fetchAllLanguages]);
+        if(inputSearch.search && !inputSearch.lang)  {
+            setRecordsBySearch(filterSearch(inputSearch.search))
+        } else if (inputSearch.search && inputSearch.lang) {
+            setRecordsBySearch(filterSearch(inputSearch.search,inputSearch.lang))
+        } else {
+            setRecordsBySearch([]);
+        }
+    }, [inputSearch]);
 
-    const languages = records.map(record => {
+    const filterSearch = (search, langId) => {
+        const filteredRecords = records && records.filter(record => {
+            const regexp = new RegExp(search, "i");
+            return (regexp.test(record.translation.text)
+                || regexp.test(record.englishTranslation.text)) 
+                && (!langId || record.translation.language.id == langId);
+        });
+        return filteredRecords;
+    };
+
+    const handdleChange = (e, data) => {
+        setInputSearch({
+            search: e.target.name === "search" ? e.target.value : inputSearch.search,
+            lang: data.name === "lang" ? data.value : null
+        });
+    };
+
+    const languages = records && records.map(record => {
         return record.translation.language;
     });
 
     const filterLanguages = Array.from(new Set(
-        languages.map(language => language.id)))
+        languages && languages.map(language => language.id)))
         .map(id => {
             return languages.find(lang => lang.id === id);
         }
@@ -48,29 +53,24 @@ const ProfilSearch = ({ records, recordsFiltered, setRecordsBySearch, fetchAllLa
         };
     });
 
-    const handleChangeLanguage = (e, data) => {
-        console.log("handleChangeLanguage", data.value); // ID of language
-        setLanguageSelect(data.value);
-    };
-
     return (
         <div className="profil-search">
-                <Search
-                placeholder={"Search.."}
-                value={inputSearch}
-                onSearchChange={handdleSearchChange}
-                size={"large"}
-                aligned="center"
-                showNoResults={false}
-                />
-                <Dropdown 
-                selection
-                placeholder="Languages" 
-                name="learnedLanguages" 
-                options={optionsLanguages}
-                // defaultValue={profilData.modifylearnedLanguages}
-                onChange={handleChangeLanguage}
-                />
+            <Input
+            placeholder={"Search.."}
+            value={inputSearch.search}
+            onChange={handdleChange}
+            size={"large"}
+            name='search'
+            icon='search'
+            />
+            <Dropdown 
+            selection
+            placeholder="Languages" 
+            name="lang" 
+            options={optionsLanguages}
+            onChange={handdleChange}
+            minCharacters={0}
+            />
         </div>
     );
 };

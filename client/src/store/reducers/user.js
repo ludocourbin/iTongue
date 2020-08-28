@@ -413,7 +413,7 @@ export default (state = initialState, action = {}) => {
         case UPDATE_TOKEN_EXP:
             return {
                 ...state,
-                accessTokenExp: Date.now() + 0.1 * 60 * 1000,
+                accessTokenExp: Date.now() + 19 * 60 * 1000,
             };
         case UPDATE_ACCESS_TOKEN:
             return {

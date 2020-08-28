@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Card, Icon, Confirm, Image } from "semantic-ui-react";
-import { useParams } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import AudioPlayer from "../../containers/Audio";
 import HeaderIrecord from "./headerIrecord";
@@ -42,8 +41,6 @@ const Irecord = ({
         deleteIrecord(record.id);
     };
 
-    console.log(useParams());
-    console.log("user", user.slug);
     return (
         <div className="irecords">
             <Card className="irecords-container" key={record.id}>

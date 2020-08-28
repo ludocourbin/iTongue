@@ -21,7 +21,6 @@ const Recording = ({
     learnedLanguages,
 }) => {
     const [recordedSound, setRecordedSound] = useState(null);
-    const [translationSelected, seTranslationSelected] = useState(null);
 
     useEffect(() => {
         fetchAllExpressions();
@@ -48,40 +47,6 @@ const Recording = ({
         // }
     };
 
-    // const handleChangeTranslation = (e, data) => {
-    //     seTranslationSelected(data.value);
-    //     const languageObject = data.options.find(
-    //         (translation) => translation.value === data.value
-    //     );
-    //     setTranslationId(languageObject.key);
-    // };
-
-    // useEffect(() => {
-    //     if (expressionSelected) {
-    //         const expression = allExpressions.find(
-    //             (option) => option.englishText === expressionSelected
-    //         );
-
-    //         const allLanguages = [...taughtLanguages, ...learnedLanguages];
-
-    //         const filteredLanguages = expression.translations.filter((translation) =>
-    //             allLanguages.find(({ id }) => translation.language.id === id)
-    //         );
-
-    //         const options = filteredLanguages.map((option) => {
-    //             return {
-    //                 key: option.id,
-    //                 value: option.text,
-    //                 text: option.text,
-    //                 flag: option.language.code,
-    //                 language: option.language.id,
-    //             };
-    //         });
-
-    //         setTranslationsSelected(options);
-    //     }
-    // }, [expressionSelected, allExpressions]);
-
     const variants = {
         visible: { opacity: 1, y: 50 },
         hidden: { opacity: 0, y: 100 },
@@ -89,7 +54,11 @@ const Recording = ({
 
     return (
         <motion.div initial="hidden" animate="visible" variants={variants}>
-            <Card className="recording-widget">
+            <Card
+                className={`${
+                    audio ? "recording-copy" : "recording-selecting"
+                } recording-widget`}
+            >
                 <Card.Meta className="recording-widget__closeIcon">
                     <Icon
                         onClick={handleClose}
@@ -112,6 +81,7 @@ const Recording = ({
                                 allExpressions={allExpressions}
                                 taughtLanguages={taughtLanguages}
                                 learnedLanguages={learnedLanguages}
+                                setTranslationId={setTranslationId}
                             />
                         )}
                     </div>
@@ -152,14 +122,3 @@ const Recording = ({
 };
 
 export default Recording;
-
-// <TranslationDropdown
-//                     options={optionsText}
-//                     value={expressionSelected}
-//                     onChange={handleChangeExpression}
-//                 />
-//                 <TranslationDropdown
-//                     options={translationsSelected && translationsSelected}
-//                     value={translationSelected && translationSelected}
-//                     onChange={handleChangeTranslation}
-//                 />

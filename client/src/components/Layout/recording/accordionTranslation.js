@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Accordion, Icon } from "semantic-ui-react";
+import { Accordion, Icon, Image } from "semantic-ui-react";
 
-const AccordionTranslation = ({ allExpressions, taughtLanguages, learnedLanguages }) => {
+const AccordionTranslation = ({
+    allExpressions,
+    taughtLanguages,
+    learnedLanguages,
+    setTranslationId,
+}) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [expressionSelected, setExpressionSelected] = useState(null);
     const [translationsSelected, setTranslationsSelected] = useState(null);
@@ -26,7 +31,8 @@ const AccordionTranslation = ({ allExpressions, taughtLanguages, learnedLanguage
                 allLanguages.find(({ id }) => translation.language.id === id)
             );
 
-            console.log(filteredLanguages);
+            console.log(filteredLanguages[0].text);
+            console.log(filteredLanguages[0].language.code);
 
             const options = filteredLanguages.map((option) => {
                 return {
@@ -42,6 +48,14 @@ const AccordionTranslation = ({ allExpressions, taughtLanguages, learnedLanguage
         }
     }, [expressionSelected, allExpressions]);
 
+    // const handleChangeTranslation = (e, data) => {
+    //     seTranslationSelected(data.value);
+    //     const languageObject = data.options.find(
+    //         (translation) => translation.value === data.value
+    //     );
+    //     setTranslationId(languageObject.key);
+    // };
+
     return (
         <Accordion>
             {allExpressions.map((expression, index) => (
@@ -53,15 +67,19 @@ const AccordionTranslation = ({ allExpressions, taughtLanguages, learnedLanguage
                             handleClick(e, titleProps, expression.englishText)
                         }
                     >
-                        <Icon name="dropdown" />
                         {expression.englishText}
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === index}>
-                        <p>
-                            A dog is a type of domesticated animal. Known for its loyalty
-                            and faithfulness, it can be found as a welcome guest in many
-                            households across the world.
-                        </p>
+                        {translationsSelected &&
+                            translationsSelected.map((traduction) => (
+                                <div className="accordion-traductions_text">
+                                    <Image
+                                        src={`https://www.countryflags.io/${traduction.flag}/flat/32.png`}
+                                        className="record_flag_image"
+                                    />
+                                    <div className="expression">{traduction.text}</div>
+                                </div>
+                            ))}
                     </Accordion.Content>
                 </div>
             ))}

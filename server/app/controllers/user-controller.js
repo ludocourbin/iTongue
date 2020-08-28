@@ -368,9 +368,12 @@ module.exports = {
         displayMsg: "L'identifiant d'un utilisateur doit être un entier"
       });
 
+    const user = await userDatamapper.findByPk(userId, false);
+    if (!user) return next();
+
     try {
       const followers = await userDatamapper.getFollowers(userId);
-      res.json({ data: { followers } });
+      res.json({ data: followers });
     } catch (err) {
       next(err);
     }
@@ -385,12 +388,32 @@ module.exports = {
         displayMsg: "L'identifiant d'un utilisateur doit être un entier"
       });
 
+    const user = await userDatamapper.findByPk(userId, false);
+    if (!user) return next();
+
     try {
       const followed = await userDatamapper.getFollowed(userId);
-      res.json({ data: { followed } });
+      res.json({ data: followed });
     } catch (err) {
       next(err);
     }
+  },
+
+  showFeed: async (req, res, next) => {
+    const userId = req.params.id;
+    if (isNaN(userId))
+      return next({
+        statusCode: 400,
+        displayMsg: "L'identifiant d'un utilisateur doit être un entier"
+      });
+
+    const user = await userDatamapper.findByPk(userId, false);
+    if (!user) return next();
+
+    try {
+      const feed = await userDatamapper.getFeed(userId);
+      res.json({ data: feed });
+    } catch (err) {}
   },
 
   login: async (req, res, next) => {

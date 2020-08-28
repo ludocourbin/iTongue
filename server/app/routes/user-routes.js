@@ -582,7 +582,108 @@ router.post("/:id(\\d+)/follow", ownerMiddleware, userController.follow);
  */
 router.delete("/:id(\\d+)/follow/:followedId(\\d+)", ownerMiddleware, userController.unfollow);
 
+/**
+ * @swagger
+ * /users/{id}/followers:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Display user's followers
+ *     description: Display a list of user's followers.
+ *     parameters:
+ *       - in: path
+ *         name: user Id
+ *         schema:
+ *           $ref: "#components/schemas/PrimaryKey"
+ *         required: true
+ *         description: Primary key of the user to get followers
+ *     responses:
+ *       "200":
+ *         description: List of followers
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/UsersFollow"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "404":
+ *         $ref: "#/components/responses/UserNotFound"
+ */
 router.get("/:id(\\d+)/followers", userController.showFollowers);
+
+/**
+ * @swagger
+ * /users/{id}/followed:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Display followed users
+ *     description: Display all user's followed by given user id in path
+ *     parameters:
+ *       - in: path
+ *         name: user Id
+ *         schema:
+ *           $ref: "#components/schemas/PrimaryKey"
+ *         required: true
+ *         description: Primary key of the followed user
+ *     responses:
+ *       "200":
+ *         description: List of followed users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/UsersFollow"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "404":
+ *         $ref: "#/components/responses/UserNotFound"
+ */
 router.get("/:id(\\d+)/followed", userController.showFollowed);
+
+/**
+ * @swagger
+ * /users/{id}/feed:
+ *   get:
+ *     tags:
+ *       - Users
+ *     security:
+ *       - BearerJWT: []
+ *     summary: Display followed users
+ *     description: Display fresh irecords from followed users
+ *     parameters:
+ *       - in: path
+ *         name: user Id
+ *         schema:
+ *           $ref: "#components/schemas/PrimaryKey"
+ *         required: true
+ *         description: Primary key of the feed user
+ *     responses:
+ *       "200":
+ *         description: Feed of logged user with fresh irecords from his followed users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/Record"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "404":
+ *         $ref: "#/components/responses/UserNotFound"
+ */
+router.get("/:id(\\d+)/feed", ownerMiddleware, userController.showFeed);
 
 module.exports = router;

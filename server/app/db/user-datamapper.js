@@ -184,11 +184,22 @@ const dataMapper = {
 
   getFollowed: async userId => {
     const query = {
-      text: "SELECT * FROM get_user_subscriptions($1, $2, $3) AS followed",
+      text: 'SELECT * FROM "get_user_subscriptions"($1, $2, $3) AS "followed"',
       values: [userId, "followed_id", "follower_id"]
     };
 
     const result = await client.query(query);
+    return result.rows;
+  },
+
+  getFeed: async userId => {
+    const query = {
+      text: 'SELECT * FROM "get_feed"($1) AS "feed"',
+      values: [userId]
+    };
+
+    const result = await client.query(query);
+    console.log(result);
     return result.rows;
   }
 };

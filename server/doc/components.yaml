@@ -89,6 +89,14 @@ components:
         avatarUrl:
           $ref: "#/components/schemas/URL"
 
+    UsersFollow:
+      allOf:
+        - $ref: "#/components/schemas/RecordUser"
+        - type: object
+          properties:
+            createdAt:
+              $ref: "#/components/schemas/DateTZ"
+
     DashboardUser:
       type: object
       properties:

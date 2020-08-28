@@ -3,6 +3,7 @@ import { Card, Button, Icon } from "semantic-ui-react";
 import { motion } from "framer-motion";
 
 import ReactMicComponent from "./reactMicComponent";
+import AccordionTranslation from "./accordionTranslation";
 import TranslationDropdown from "./translationDropdown";
 import TranslationLabel from "./tranlationLabel";
 import "./recording.scss";
@@ -16,10 +17,10 @@ const Recording = ({
     setTranslationId,
     fetchAllExpressions,
     allExpressions,
+    taughtLanguages,
+    learnedLanguages,
 }) => {
     const [recordedSound, setRecordedSound] = useState(null);
-    const [expressionSelected, setExpressionSelected] = useState(null);
-    const [translationsSelected, setTranslationsSelected] = useState(null);
     const [translationSelected, seTranslationSelected] = useState(null);
 
     useEffect(() => {
@@ -41,53 +42,45 @@ const Recording = ({
     const handleReset = () => {
         setRecordedSound(null);
         // selectIrecordToRecord(null);
-        if (expressionSelected || translationSelected) {
-            setExpressionSelected(null);
-            seTranslationSelected(null);
-        }
+        // if (expressionSelected || translationSelected) {
+        // setExpressionSelected(null);
+        // seTranslationSelected(null);
+        // }
     };
 
-    const optionsText =
-        allExpressions &&
-        allExpressions.map((option) => {
-            return {
-                key: option.id,
-                value: option.englishText,
-                text: option.englishText,
-            };
-        });
+    // const handleChangeTranslation = (e, data) => {
+    //     seTranslationSelected(data.value);
+    //     const languageObject = data.options.find(
+    //         (translation) => translation.value === data.value
+    //     );
+    //     setTranslationId(languageObject.key);
+    // };
 
-    const handleChangeExpression = (e, data) => {
-        setExpressionSelected(data.value);
-    };
+    // useEffect(() => {
+    //     if (expressionSelected) {
+    //         const expression = allExpressions.find(
+    //             (option) => option.englishText === expressionSelected
+    //         );
 
-    const handleChangeTranslation = (e, data) => {
-        seTranslationSelected(data.value);
-        const languageObject = data.options.find(
-            (translation) => translation.value === data.value
-        );
-        setTranslationId(languageObject.key);
-    };
+    //         const allLanguages = [...taughtLanguages, ...learnedLanguages];
 
-    useEffect(() => {
-        if (expressionSelected) {
-            const expression = allExpressions.find(
-                (option) => option.englishText === expressionSelected
-            );
+    //         const filteredLanguages = expression.translations.filter((translation) =>
+    //             allLanguages.find(({ id }) => translation.language.id === id)
+    //         );
 
-            const options = expression.translations.map((option) => {
-                return {
-                    key: option.id,
-                    value: option.text,
-                    text: option.text,
-                    flag: option.language.code,
-                    language: option.language.id,
-                };
-            });
+    //         const options = filteredLanguages.map((option) => {
+    //             return {
+    //                 key: option.id,
+    //                 value: option.text,
+    //                 text: option.text,
+    //                 flag: option.language.code,
+    //                 language: option.language.id,
+    //             };
+    //         });
 
-            setTranslationsSelected(options);
-        }
-    }, [expressionSelected, allExpressions]);
+    //         setTranslationsSelected(options);
+    //     }
+    // }, [expressionSelected, allExpressions]);
 
     const variants = {
         visible: { opacity: 1, y: 50 },
@@ -105,23 +98,22 @@ const Recording = ({
                         corner="top right"
                     />
                 </Card.Meta>
-                {audio ? (
+                {audio && (
                     <div>
                         <TranslationLabel translation={audio.englishTranslation} />
                         <TranslationLabel translation={audio.translation} />
                     </div>
-                ) : (
+                )}
+
+                {!audio && (
                     <div className="container-dropdown">
-                        <TranslationDropdown
-                            options={optionsText}
-                            value={expressionSelected}
-                            onChange={handleChangeExpression}
-                        />
-                        <TranslationDropdown
-                            options={translationsSelected && translationsSelected}
-                            value={translationSelected && translationSelected}
-                            onChange={handleChangeTranslation}
-                        />
+                        {allExpressions && (
+                            <AccordionTranslation
+                                allExpressions={allExpressions}
+                                taughtLanguages={taughtLanguages}
+                                learnedLanguages={learnedLanguages}
+                            />
+                        )}
                     </div>
                 )}
                 <Card.Content>
@@ -160,3 +152,14 @@ const Recording = ({
 };
 
 export default Recording;
+
+// <TranslationDropdown
+//                     options={optionsText}
+//                     value={expressionSelected}
+//                     onChange={handleChangeExpression}
+//                 />
+//                 <TranslationDropdown
+//                     options={translationsSelected && translationsSelected}
+//                     value={translationSelected && translationSelected}
+//                     onChange={handleChangeTranslation}
+//                 />

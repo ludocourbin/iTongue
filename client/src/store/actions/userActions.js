@@ -6,7 +6,6 @@ export const SIGNUP = "SIGNUP";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const SIGNUP_ERROR = "SIGNUP_ERROR";
 
-
 export const signupInputChange = (payload) => ({
     type: SIGNUP_INPUT_CHANGE,
     payload,
@@ -75,7 +74,6 @@ export const checkUserSlugError = (payload) => ({
     type: CHECK_USER_SLUG_ERROR,
     payload,
 });
-
 
 /* JWT Update token EXP */
 export const UPDATE_TOKEN_EXP = "UPDATE_TOKEN_EXP";

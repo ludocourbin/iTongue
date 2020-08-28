@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import ReactMicComponent from "./reactMicComponent";
 import AccordionTranslation from "./accordionTranslation";
-import TranslationDropdown from "./translationDropdown";
+// import TranslationDropdown from "./translationDropdown";
 import TranslationLabel from "./tranlationLabel";
 import "./recording.scss";
 
@@ -19,6 +19,7 @@ const Recording = ({
     allExpressions,
     taughtLanguages,
     learnedLanguages,
+    traductionId,
 }) => {
     const [recordedSound, setRecordedSound] = useState(null);
 
@@ -82,6 +83,7 @@ const Recording = ({
                                 taughtLanguages={taughtLanguages}
                                 learnedLanguages={learnedLanguages}
                                 setTranslationId={setTranslationId}
+                                traductionId={traductionId}
                             />
                         )}
                     </div>
@@ -90,6 +92,7 @@ const Recording = ({
                     <ReactMicComponent
                         recordedSound={recordedSound}
                         setRecordedSound={setRecordedSound}
+                        traductionId={traductionId}
                     />
                 </Card.Content>
 

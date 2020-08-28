@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card, Icon, Confirm, Image } from "semantic-ui-react";
+import { useParams } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import AudioPlayer from "../../containers/Audio";
 import HeaderIrecord from "./headerIrecord";
@@ -40,6 +41,9 @@ const Irecord = ({
         setOpen(false);
         deleteIrecord(record.id);
     };
+
+    console.log(useParams());
+    console.log("user", user.slug);
     return (
         <div className="irecords">
             <Card className="irecords-container" key={record.id}>
@@ -52,7 +56,8 @@ const Irecord = ({
                     confirmButton="Supprimer"
                     content="Vous êtes sûr de vouloir supprimer ce iRecord ?"
                 />
-                {!isLogged && <HeaderIrecord user={user} />}
+                {!isLogged && user.id === isUserRecord && <HeaderIrecord user={user} />}
+
                 {!isMobile && isLogged && currentUser.id === isUserRecord && (
                     <HeaderIrecord user={user}>
                         <Icon
@@ -71,25 +76,28 @@ const Irecord = ({
                         />
                     </HeaderIrecord>
                 )}
-                 <div className="irecords_rows">
+                <div className="irecords_rows">
                     <div className="irecords__row">
-                            <Image
-                                src={`https://www.countryflags.io/${record.englishTranslation.language.code}/flat/32.png`}
-                                className="record_flag_image"
-                            />
-                            <div className="expression">{record.englishTranslation.text}</div>
+                        <Image
+                            src={`https://www.countryflags.io/${record.englishTranslation.language.code}/flat/32.png`}
+                            className="record_flag_image"
+                        />
+                        <div className="expression">{record.englishTranslation.text}</div>
                     </div>
 
-                    {record.englishTranslation.language.code !== record.translation.language.code && (
-                    
-                    <><div className="separator"></div>
-                        <div className="irecords__row">
+                    {record.englishTranslation.language.code !==
+                        record.translation.language.code && (
+                        <>
+                            <div className="separator"></div>
+                            <div className="irecords__row">
                                 <Image
                                     src={`https://www.countryflags.io/${record.translation.language.code}/flat/32.png`}
                                     className="record_flag_image"
                                 />
-                                <div className="translation">{record.translation.text}</div>
-                        </div>
+                                <div className="translation">
+                                    {record.translation.text}
+                                </div>
+                            </div>
                         </>
                     )}
                 </div>

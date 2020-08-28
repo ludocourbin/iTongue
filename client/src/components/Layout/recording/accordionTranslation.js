@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Accordion, Icon, Image } from "semantic-ui-react";
+import { Accordion, Image } from "semantic-ui-react";
+import "./accordionTranslation.scss";
 
 const AccordionTranslation = ({
     allExpressions,
     taughtLanguages,
     learnedLanguages,
     setTranslationId,
+    traductionId,
 }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [expressionSelected, setExpressionSelected] = useState(null);
@@ -42,9 +44,9 @@ const AccordionTranslation = ({
             });
 
             setTranslationsSelected(options);
-            console.log(translationsSelected);
+            // console.log(translationsSelected);
         }
-    }, [expressionSelected, allExpressions]);
+    }, [expressionSelected, allExpressions, taughtLanguages, learnedLanguages]);
 
     // const handleChangeTranslation = (e, data) => {
     //     seTranslationSelected(data.value);
@@ -66,7 +68,7 @@ const AccordionTranslation = ({
                             handleClick(e, titleProps, expression.englishText)
                         }
                     >
-                        {expression.englishText}
+                        <span className="expression"> {expression.englishText}</span>
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === index}>
                         {translationsSelected &&
@@ -74,7 +76,11 @@ const AccordionTranslation = ({
                                 <div
                                     onClick={() => setTranslationId(traduction.key)}
                                     key={traduction.flag}
-                                    className="accordion-dropdown_traductions_text"
+                                    className={`${
+                                        traduction.key === traductionId
+                                            ? "active-title"
+                                            : ""
+                                    } accordion-dropdown_traductions_text`}
                                 >
                                     <Image
                                         src={`https://www.countryflags.io/${traduction.flag}/flat/32.png`}

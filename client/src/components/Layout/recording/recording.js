@@ -40,20 +40,22 @@ const Recording = ({
 
     const handleReset = () => {
         setRecordedSound(null);
-        selectIrecordToRecord(null);
+        // selectIrecordToRecord(null);
         if (expressionSelected || translationSelected) {
             setExpressionSelected(null);
             seTranslationSelected(null);
         }
     };
 
-    const optionsText = allExpressions.map((option) => {
-        return {
-            key: option.id,
-            value: option.englishText,
-            text: option.englishText,
-        };
-    });
+    const optionsText =
+        allExpressions &&
+        allExpressions.map((option) => {
+            return {
+                key: option.id,
+                value: option.englishText,
+                text: option.englishText,
+            };
+        });
 
     const handleChangeExpression = (e, data) => {
         setExpressionSelected(data.value);
@@ -88,7 +90,7 @@ const Recording = ({
     }, [expressionSelected, allExpressions]);
 
     const variants = {
-        visible: { opacity: 1, y: 0 },
+        visible: { opacity: 1, y: 50 },
         hidden: { opacity: 0, y: 100 },
     };
 
@@ -131,15 +133,22 @@ const Recording = ({
 
                 <Card.Content extra>
                     <div className="ui two buttons">
-                        <Button onClick={handleReset} basic color="red">
-                            <Icon name="refresh" />
-                        </Button>
+                        {recordedSound && (
+                            <Button
+                                onClick={handleReset}
+                                className="recording-widget__cancel-btn"
+                                basic
+                            >
+                                <Icon name="refresh" />
+                            </Button>
+                        )}
+
                         <Button
                             disabled={recordedSound ? false : true}
                             onClick={onSave}
                             basic
-                            color="green"
                             loading={loading}
+                            className="recording-widget__save-btn"
                         >
                             Sauvegarder
                         </Button>

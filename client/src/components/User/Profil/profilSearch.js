@@ -6,6 +6,7 @@ const ProfilSearch = ({ records, recordsFiltered, setRecordsBySearch, fetchAllLa
 
     const [isLoading, setIsLoading] = useState(false);
     const [inputSearch, setInputSearch] =useState("");
+    const [languageSelect, setLanguageSelect] =useState("");
     const [results, setResults] =useState([]);
 
     const filterSearch = (search) => records.filter(record => {
@@ -27,8 +28,18 @@ const ProfilSearch = ({ records, recordsFiltered, setRecordsBySearch, fetchAllLa
         fetchAllLanguages();
     }, [fetchAllLanguages]);
 
+    const languages = records.map(record => {
+        return record.translation.language;
+    });
 
-    const optionsLanguages = allLanguagesList.map(language => {
+    const filterLanguages = Array.from(new Set(
+        languages.map(language => language.id)))
+        .map(id => {
+            return languages.find(lang => lang.id === id);
+        }
+    );
+
+    const optionsLanguages = filterLanguages.map(language => {
         return {
             key: language.id,
             value: language.id,
@@ -37,24 +48,28 @@ const ProfilSearch = ({ records, recordsFiltered, setRecordsBySearch, fetchAllLa
         };
     });
 
+    const handleChangeLanguage = (e, data) => {
+        console.log("handleChangeLanguage", data.value); // ID of language
+        setLanguageSelect(data.value);
+    };
+
     return (
         <div className="profil-search">
                 <Search
                 placeholder={"Search.."}
                 value={inputSearch}
                 onSearchChange={handdleSearchChange}
-                results={results}
                 size={"large"}
                 aligned="center"
                 showNoResults={false}
                 />
                 <Dropdown 
-                selection 
+                selection
                 placeholder="Languages" 
                 name="learnedLanguages" 
                 options={optionsLanguages}
                 // defaultValue={profilData.modifylearnedLanguages}
-                //onChange={handdleInputChange}
+                onChange={handleChangeLanguage}
                 />
         </div>
     );

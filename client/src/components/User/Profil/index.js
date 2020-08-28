@@ -160,7 +160,7 @@ const UserProfil = ({
                                 isUserRecord={id}
                             />
                         ))
-                    : records && !recordsFiltered.length ?
+                    : records && !recordsFiltered.length && records.length ?
                         records.map((audio, key) => (
                             <Irecords
                                 key={key}

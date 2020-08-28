@@ -22,6 +22,8 @@ const NavigationBottom = ({
         }
     };
 
+    console.log("user", user);
+
     return (
         <Sticky
             bottomOffset={0}

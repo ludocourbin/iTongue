@@ -59,7 +59,7 @@ const ProfilSearch = ({ records, setRecordsBySearch}) => {
             placeholder={"Search.."}
             value={inputSearch.search}
             onChange={handdleChange}
-            size={"large"}
+            size={"small"}
             name='search'
             icon='search'
             />
@@ -70,6 +70,7 @@ const ProfilSearch = ({ records, setRecordsBySearch}) => {
             options={optionsLanguages}
             onChange={handdleChange}
             minCharacters={0}
+            clearable
             />
         </div>
     );

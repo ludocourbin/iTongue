@@ -28,7 +28,6 @@ export default store => next => action => {
         url: `${process.env.REACT_APP_API_URL}/users`,
         data: {
           ...data
-          // avatarUrl: "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
         }
       })
         .then(res => {
@@ -40,13 +39,13 @@ export default store => next => action => {
             axios({
               method: "post",
               url: `${process.env.REACT_APP_API_URL}/users/login`,
-              data
+              data,
             })
               .then(res => {
                 const currentUser = res.data.data;
                 store.dispatch(signupSuccess(currentUser));
                 store.dispatch(updateTokenExp());
-                toast.success(`Bienvenue ${currentUser.firstname}`);
+                toast.success(`Bienvenue ${currentUser.user.firstname}`);
               })
               .catch(err => {
                 console.log(err);

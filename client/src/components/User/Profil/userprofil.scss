@@ -161,18 +161,23 @@
 .profil-search {
     width: 100%;
     margin: 1em 0;
+    display: flex;
+    //box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2) !important;
+    font-size: 1em!important;
+
     &_input {
         margin: 0 auto;
     }
 
-    .ui.search {
-        display: flex;
-        justify-content: center;
+    .ui.icon.input>input {
+        border-radius: 0!important;
+        border: none!important;
+        border-right: 1px solid #f9ecec!important;
     }
 
     .ui.selection.dropdown {
         min-width: 10em;
         border: none;
-        box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2) !important;
+       //box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2) !important;
     }
 }

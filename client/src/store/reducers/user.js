@@ -152,7 +152,7 @@ export default (state = initialState, action = {}) => {
                 },
                 errorMailUsed: "",
                 errorMessageEmail: "",
-                currentUser: { ...action.payload },
+                currentUser: { ...action.payload.user },
                 accessToken: action.payload.accessToken,
                 refreshToken: action.payload.refreshToken,
                 editProfilData: {

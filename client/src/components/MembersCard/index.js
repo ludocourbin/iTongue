@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "semantic-ui-react";
+import { Image, Header } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import "./memberCard.scss";
@@ -20,9 +20,9 @@ const MemberCard = ({ user }) => (
                     }
                 />
                 <div>
-                    <h3 className="fullname">
+                    <Header className="fullname">
                         {user.firstname} {user.lastname}
-                    </h3>
+                    </Header>
                     <p className="records">
                         {user.records ? user.records.length : 0} iRecords
                     </p>
@@ -37,7 +37,7 @@ const MemberCard = ({ user }) => (
                                 <Image
                                     key={language.id}
                                     src={`https://www.countryflags.io/${language.code}/flat/32.png`}
-                                    className="record_flag_image"
+                                    className="membercard_flag_image"
                                 />
                             )
                         );

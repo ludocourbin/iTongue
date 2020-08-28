@@ -5,7 +5,7 @@ import { Card, Image } from "semantic-ui-react";
 const HeaderIrecords = ({ user, ...props }) => (
     <Card.Content className="header-irecords">
         <div>
-            <Link to={`user/${user.slug}`}>
+            <Link to={`/user/${user.slug}`}>
                 <Image
                     className="header-irecords__avatar"
                     avatar

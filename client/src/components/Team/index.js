@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './style.scss';
+import { Image, Grid } from 'semantic-ui-react';
 import Layout from "../../containers/Layout";
 import MyModal from '../../containers/Team/Modal';
 
@@ -20,18 +21,115 @@ const Team = ({
     console.log("state visible : " + visible)
     return (
         <Layout>
-            <h3> L'équipe du projet iTongue</h3>
             <div className="team-div"> 
                 <div className="topDiv">
-                    <img onClick={showModal} id="gautier" src="https://image.flaticon.com/icons/svg/147/147144.svg" alt="avatar" />
-                    <img onClick={showModal} id="axel" src="https://image.flaticon.com/icons/svg/147/147144.svg" alt="avatar" />
+                    <Grid columns={2}>
+                        <Grid.Column>
+                        <Image
+                            onClick={showModal}
+                            id="gautier"
+                            fluid
+                            label={{
+                            as: 'a',
+                            color: 'orange',
+                            content: 'Gautier',
+                            icon: 'user',
+                            ribbon: true,
+                            }}
+                            attached="bottom"
+                            circular
+                            size='small'
+                            src='https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/9/e/8/3/1f5e7a08b34c5d49a68544a78bcc?v=1598598733917'
+                        />
+                        </Grid.Column>
+
+                        <Grid.Column>
+                        <Image
+                            onClick={showModal}
+                            id="axel"
+                            fluid
+                            label={{
+                            as: 'a',
+                            color: 'orange',
+                            content: 'Axel',
+                            icon: 'user',
+                            ribbon: true,
+                            }}
+                            circular
+                            size='small'
+                            src='https://media-exp1.licdn.com/dms/image/C4D03AQESNZlLPJ0_yQ/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=2vuvNJidAV1t7bccoxhTbqyBU8I6aOExOrvcDGhJr08'
+                        />
+                        </Grid.Column>
+                    </Grid>
                 </div>
+                    {/* <Image onClick={showModal} id="gautier"
+                        src='https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/9/e/8/3/1f5e7a08b34c5d49a68544a78bcc?v=1598598733917'
+                        size='small' circular /> */}
+                    {/* <Image onClick={showModal} id="axel"src='https://media-exp1.licdn.com/dms/image/C4D03AQESNZlLPJ0_yQ/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=2vuvNJidAV1t7bccoxhTbqyBU8I6aOExOrvcDGhJr08' size='small' circular  /> */}
+
                 <div className="middleDiv">
-                    <img onClick={showModal} id="ludovic" src="https://image.flaticon.com/icons/svg/147/147144.svg" alt="avatar" />
+                    {/* <Image onClick={showModal} id="ludovic"src='https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/5/6/5/7/aa0d3e447aac8a32fb8c3ae0a52c?v=1598599248039' size='small' circular  /> */}
+                    <Grid columns={1}>
+                        <Grid.Column>
+                        <Image
+                            onClick={showModal}
+                            id="ludovic"
+                            fluid
+                            label={{
+                            as: 'a',
+                            color: 'orange',
+                            content: 'Ludovic',
+                            icon: 'user',
+                            ribbon: true,
+                            }}
+                            circular
+                            size='small'
+                            src='https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/5/6/5/7/aa0d3e447aac8a32fb8c3ae0a52c?v=1598599248039'
+                        />
+                        </Grid.Column>
+                    </Grid>
                 </div>
                 <div className="botDiv"> 
-                    <img onClick={showModal} id="sacha" src="https://image.flaticon.com/icons/svg/147/147144.svg" alt="avatar" />  
-                    <img onClick={showModal} id="quentin" src="https://image.flaticon.com/icons/svg/147/147144.svg" alt="avatar" />
+                    {/* <Image onClick={showModal} id="sacha"src='https://media-exp1.licdn.com/dms/image/C5603AQGqAXcak7nJwQ/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=bL6B29ZibHWkKpI2oM8nRRWKeewfdJzjNPxPkWxjnS0' size='small' circular  />  
+                    <Image onClick={showModal} id="quentin"src='https://media-exp1.licdn.com/dms/image/C4E03AQGkvnlOcZm7nA/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=no4zBOPgEux8I0eZaUFu1JdzrhAY4fdtbz3gRBhB-IM' size='small' circular  /> */}
+                    <Grid columns={2}>
+                        <Grid.Column>
+                        <Image
+                            onClick={showModal}
+                            id="sacha"
+                            fluid
+                            label={{
+                            as: 'a',
+                            color: 'orange',
+                            content: 'Sacha',
+                            icon: 'user',
+                            ribbon: true,
+                            }}
+                            circular
+                            size='small'
+                            src='https://media-exp1.licdn.com/dms/image/C5603AQGqAXcak7nJwQ/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=bL6B29ZibHWkKpI2oM8nRRWKeewfdJzjNPxPkWxjnS0'
+                        />
+                        </Grid.Column>
+
+                        <Grid.Column>
+                        <Image
+                            onClick={showModal}
+                            id="quentin"
+                            fluid
+                            label={{
+                            as: 'a',
+                            color: 'orange',
+                            content: 'Quentin',
+                            icon: 'user',
+                            ribbon: true,
+                            }}
+                            circular
+                            size='small'
+                            src='https://media-exp1.licdn.com/dms/image/C4E03AQGkvnlOcZm7nA/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=no4zBOPgEux8I0eZaUFu1JdzrhAY4fdtbz3gRBhB-IM'
+                        />
+                        </Grid.Column>
+                    </Grid>
+                
                 </div>
             </div>
             {visible && <MyModal /> } 

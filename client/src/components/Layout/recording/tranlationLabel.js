@@ -9,7 +9,7 @@ const TranslationLabel = ({ translation }, index) => (
             className="flag_image"
         />
         <div className="recording-widget__text-selected-text">{translation.text}</div>
-        {translation.language.code == "gb" && <div className="separator"></div>}
+        {translation.language.code === "gb" && <div className="separator"></div>}
     </Card.Content>
 );
 

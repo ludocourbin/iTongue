@@ -41,7 +41,7 @@ const App = ({ isLogged, setCaptchaToken }) => {
     });
 
     document.body.appendChild(script);
-  }, []);
+  }, [setCaptchaToken]);
 
   return (
     <div className="App">

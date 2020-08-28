@@ -6,16 +6,6 @@ const ProfilSearch = ({ records, setRecordsBySearch}) => {
 
     const [inputSearch, setInputSearch] =useState({ search: '', lang: null });
 
-    useEffect(() => {
-        if(inputSearch.search && !inputSearch.lang)  {
-            setRecordsBySearch(filterSearch(inputSearch.search))
-        } else if (inputSearch.search && inputSearch.lang) {
-            setRecordsBySearch(filterSearch(inputSearch.search,inputSearch.lang))
-        } else {
-            setRecordsBySearch([]);
-        }
-    }, [inputSearch]);
-
     const filterSearch = (search, langId) => {
         const filteredRecords = records && records.filter(record => {
             const regexp = new RegExp(search, "i");
@@ -25,6 +15,18 @@ const ProfilSearch = ({ records, setRecordsBySearch}) => {
         });
         return filteredRecords;
     };
+    
+    useEffect(() => {
+        if(inputSearch.search && !inputSearch.lang)  {
+            setRecordsBySearch(filterSearch(inputSearch.search))
+        } else if (inputSearch.search && inputSearch.lang) {
+            setRecordsBySearch(filterSearch(inputSearch.search,inputSearch.lang))
+        } else {
+            setRecordsBySearch([]);
+        }
+    }, [inputSearch, filterSearch, setRecordsBySearch]);
+
+
 
     const handdleChange = (e, data) => {
         setInputSearch({

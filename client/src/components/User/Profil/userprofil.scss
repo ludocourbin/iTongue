@@ -99,8 +99,8 @@
     }
 
     .user-profil_feed {
-        padding: 1em;
-        padding-top: 2em;
+        padding: 0 1em 1em 1em;
+        //padding-top: 2em;
 
         &__norecords {
             display: flex;
@@ -155,4 +155,18 @@
     margin-bottom: 33px !important;
     width: 100% !important;
     box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.1);
+}
+
+
+.profil-search {
+    width: 100%;
+    margin: 1em 0;
+    &_input {
+        margin: 0 auto;
+    }
+
+    .ui.search {
+        display: flex;
+        justify-content: center;
+    }
 }

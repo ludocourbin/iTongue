@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
 import UpdateAvatar from "../../../containers/User/UpdateAvatar";
+import ProfilSearch from "../../../containers/User/ProfilSearch";
 
 /* Components */
 import { Segment, Image, Icon } from "semantic-ui-react";
@@ -19,10 +20,16 @@ const UserProfil = ({
     editProfilAvatar,
     checkUserSlug,
     userSlugInfos,
+    recordsFiltered,
+    getRecordsBySearch,
 }) => {
     const [isUserAccount, setIsUserAccount] = useState(false);
 
     let slug = useParams();
+
+    useEffect(() => {
+        getRecordsBySearch();
+    }, [getRecordsBySearch]);
 
     useEffect(() => {
         checkUserSlug(slug.slug);
@@ -38,6 +45,8 @@ const UserProfil = ({
         };
         checkUser();
     }, [slug.slug, currentUser.slug]);
+
+    console.log("recordsFilteredrecordsFilteredrecordsFiltered", recordsFiltered);
 
     const {
         id,
@@ -139,7 +148,12 @@ const UserProfil = ({
                 </div>
 
                 <div className="user-profil_feed">
-                    {records && records.length ? (
+
+                    <ProfilSearch 
+                    records={records}
+                    />
+
+                    {records && records.length && !recordsFiltered.length > 1 ? (
                         records.map((audio, key) => (
                             <Irecords
                                 key={key}
@@ -148,7 +162,18 @@ const UserProfil = ({
                                 isUserRecord={id}
                             />
                         ))
-                    ) : (
+                    ) 
+                    : recordsFiltered && recordsFiltered.length && recordsFiltered !== [] ?
+                    
+                        recordsFiltered.map((audio, key) => (
+                            <Irecords
+                                key={key}
+                                record={audio}
+                                user={userSlugInfos}
+                                isUserRecord={id}
+                            />
+                        ))
+                    : (
                         <>
                             <div className="user-profil_feed__norecords">
                                 <Icon

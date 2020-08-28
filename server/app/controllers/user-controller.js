@@ -319,6 +319,40 @@ module.exports = {
     }
   },
 
+  follow: async (req, res, next) => {
+    const userId = req.params.id;
+    const { followedId } = req.body;
+
+    if (isNaN(userId) || isNaN(followedId))
+      return next({ statusCode: 400, displayMsg: "L'indentifiant d'un utilisateur doit être un entier" })
+
+    const user = await userDatamapper.findByPk(userId, false);
+    if(!user) return next();
+    const followedUser = await userDatamapper.findByPk(followedId, false);
+    if (!followedUser) return next();
+     
+    try{
+      await userDatamapper.follow(userId, followedId);
+      res.status(204).json({});
+    } catch(err){
+      next(err);
+    }
+  },
+
+  unfollow: async (req, res, next) => {
+    const { id: userId, followedId} = req.params;
+
+    if (isNaN(userId) || isNaN(followedId))
+      return next({ statusCode: 400, displayMsg: "L'indentifiant d'un utilisateur doit être un entier" });
+    
+    try{
+      await userDatamapper.unfollow(userId, followedId);
+      res.status(204).json({});
+    } catch(err){
+      next(err);
+    }
+  },
+
   login: async (req, res, next) => {
     const { email, password } = req.body;
 

@@ -150,6 +150,26 @@ const dataMapper = {
     };
     const result = await client.query(query);
     return result.rowCount;
+  },
+
+  follow: async (followerId, followedId) => {
+    const query = {
+      text: 'INSERT INTO "user_user_follow"("follower_id", "followed_id") VALUES($1, $2)',
+      values: [followerId, followedId]
+    }
+
+    const result = await client.query(query);
+    return result.rowCount;
+  },
+  
+  unfollow: async (followerId, followedId) => {
+    const query = {
+      text: 'DELETE FROM "user_user_follow" WHERE "follower_id" = $1 AND "followed_id" = $2',
+      values: [followerId, followedId]
+    }
+
+    const result = await client.query(query);
+    return result.rowCount;
   }
 };
 

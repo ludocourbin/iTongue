@@ -130,8 +130,7 @@ router.post("/logout", authController.logout);
  *     summary: Show a user profile
  *     description: Information about a user, his records and languages.
  *     parameters:
- *     - in: path
- *       $ref: "#/components/parameters/UserPk"
+ *       - $ref: "#/components/parameters/UserPk"
  *     responses:
  *       "200":
  *         description: Success. An object containing the detail of the user activity.
@@ -157,8 +156,7 @@ router.post("/logout", authController.logout);
  *     summary: Update a user profile
  *     description: Profile edit form submission. Modification possiblities include the learned and taught languages, password, name, and bio.
  *     parameters:
- *     - in: path
- *       $ref: "#/components/parameters/UserPk"
+ *       - $ref: "#/components/parameters/UserPk"
  *     requestBody:
  *       content:
  *         application/json:
@@ -196,8 +194,7 @@ router.post("/logout", authController.logout);
  *     summary: Delete a user account
  *     description: User account deletion. This operation requires administrator rights.
  *     parameters:
- *     - in: path
- *       $ref: "#/components/parameters/UserPk"
+ *       - $ref: "#/components/parameters/UserPk"
  *     responses:
  *       "204":
  *         $ref: "#/components/responses/NoContent"
@@ -260,8 +257,7 @@ router.get("/:slug([-a-z\\d]+)", userController.showOne);
  *     summary: Edit the user custom slug
  *     description: User slug edit form submission. Updates the slug if there is no conflict in database, suggests an available one otherwise.
  *     parameters:
- *     - in: path
- *       $ref: "#/components/parameters/UserPk"
+ *       - $ref: "#/components/parameters/UserPk"
  *     requestBody:
  *       required: true
  *       content:
@@ -317,8 +313,7 @@ router.post("/:id(\\d+)/slug", ownerMiddleware, validator(userSchema), userContr
  *     summary: Add a language to a user
  *     description: Add a new language to a user. It can be a learned language or a tauthgt one.
  *     parameters:
- *     - in: path
- *       $ref: "#/components/parameters/UserPk"
+ *       - $ref: "#/components/parameters/UserPk"
  *     requestBody:
  *       required: true
  *       content:
@@ -354,17 +349,15 @@ router.post("/:id(\\d+)/language", ownerMiddleware, userController.addLanguage);
  *     summary: Delete a user language
  *     description: User language deletion. Removal of one of the user learned or taught languages.
  *     parameters:
- *     - in: path
- *       $ref: "#/components/parameters/UserPk"
- *     - in: path
- *       $ref: "#/components/parameters/LanguagePk"
- *     - in: path
- *       name: role
- *       schema:
- *         type: string
- *         enum: [learner, teacher]
- *       required: true
- *       description: Indicates which type of language to remove, a learned or a taught one.
+ *       - $ref: "#/components/parameters/UserPk"
+ *       - $ref: "#/components/parameters/LanguagePk"
+ *       - in: path
+ *         name: role
+ *         schema:
+ *           type: string
+ *           enum: [learner, teacher]
+ *         required: true
+ *         description: Indicates which type of language to remove, a learned or a taught one.
  *     responses:
  *       "204":
  *         $ref: "#/components/responses/NoContent"
@@ -390,8 +383,7 @@ router.delete(
  *     summary: Update the user profile picture
  *     description: Image file upload to replace the user profile picture.
  *     parameters:
- *     - in: path
- *       $ref: "#/components/parameters/UserPk"
+ *       - $ref: "#/components/parameters/UserPk"
  *     requestBody:
  *       required: true
  *       content:
@@ -447,8 +439,7 @@ router.post(
  *     summary: Upload a user record
  *     description: Uploading an audio file corresponding to a new recording of a translation by a user.
  *     parameters:
- *     - in: path
- *       $ref: "#/components/parameters/UserPk"
+ *       - $ref: "#/components/parameters/UserPk"
  *     requestBody:
  *       required: true
  *       content:
@@ -508,10 +499,8 @@ router.post(
  *     summary: Delete a user record
  *     description: User record deletion. Removal of one of the user records.
  *     parameters:
- *     - in: path
- *       $ref: "#/components/parameters/UserPk"
- *     - in: path
- *       $ref: "#/components/parameters/RecordPk"
+ *       - $ref: "#/components/parameters/UserPk"
+ *       - $ref: "#/components/parameters/RecordPk"
  *     responses:
  *       "204":
  *         $ref: "#/components/responses/NoContent"
@@ -523,5 +512,47 @@ router.post(
  *         $ref: "#/components/responses/RecordNotFound"
  */
 router.delete("/:id/record/:recordId", ownerMiddleware, userController.removeRecord);
+
+/**
+ * @swagger
+ * /users/{id}/follow:
+ *   post:
+ *     tags:
+ *       - Users
+ *     security:
+ *       - BearerJWT: []
+ *     summary: Follow a user
+ *     description: Subscribes to an other user activity.
+ *     parameters:
+ *       - $ref: "#/components/parameters/UserPk"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               followedId:
+ *                 $ref: "#/components/schemas/PrimaryKey"
+ *         application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               followedId:
+ *                 $ref: "#/components/schemas/PrimaryKey"
+ *     responses:
+ *       "204":
+ *         $ref: "#/components/responses/NoContent"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ *       "404":
+ *         $ref: "#/components/responses/UserNotFound"
+ *       "409":
+ *         $ref: "#/components/reponses/Conflict"
+ */
+router.post("/:id(\\d+)/follow", ownerMiddleware, userController.follow);
+router.delete("/:id(\\d+)/follow/:followedId(\\d+)", ownerMiddleware, userController.unfollow);
 
 module.exports = router;

@@ -1,13 +1,36 @@
-
 @import "../../../styles/vars";
 @import "../../../styles/mixin";
 
+.recording-selecting {
+    top: -319px;
+}
+
+.recording-copy {
+    top: -85px;
+}
 .recording-widget {
     // background-color: #ccc !important;
     position: relative;
-    top: -85px;
     width: 370px !important;
     width: 100vw !important;
+
+    .container-dropdown {
+        min-height: 333px;
+        height: 333px;
+        overflow-y: scroll;
+
+        &_accordion {
+            text-align: center;
+        }
+
+        .accordion-dropdown_traductions_text {
+            cursor: pointer;
+
+            &:hover {
+                background-color: blue !important;
+            }
+        }
+    }
 
     &__closeIcon {
         display: flex;

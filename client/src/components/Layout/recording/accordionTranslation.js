@@ -31,9 +31,6 @@ const AccordionTranslation = ({
                 allLanguages.find(({ id }) => translation.language.id === id)
             );
 
-            console.log(filteredLanguages[0].text);
-            console.log(filteredLanguages[0].language.code);
-
             const options = filteredLanguages.map((option) => {
                 return {
                     key: option.id,
@@ -45,6 +42,7 @@ const AccordionTranslation = ({
             });
 
             setTranslationsSelected(options);
+            console.log(translationsSelected);
         }
     }, [expressionSelected, allExpressions]);
 
@@ -57,12 +55,13 @@ const AccordionTranslation = ({
     // };
 
     return (
-        <Accordion>
+        <Accordion className="container-dropdown_accordion">
             {allExpressions.map((expression, index) => (
-                <div className="">
+                <div key={index} className="">
                     <Accordion.Title
                         active={activeIndex === index}
                         index={index}
+                        className={activeIndex === index ? "active-title" : ""}
                         onClick={(e, titleProps) =>
                             handleClick(e, titleProps, expression.englishText)
                         }
@@ -72,12 +71,16 @@ const AccordionTranslation = ({
                     <Accordion.Content active={activeIndex === index}>
                         {translationsSelected &&
                             translationsSelected.map((traduction) => (
-                                <div className="accordion-traductions_text">
+                                <div
+                                    onClick={() => setTranslationId(traduction.key)}
+                                    key={traduction.flag}
+                                    className="accordion-dropdown_traductions_text"
+                                >
                                     <Image
                                         src={`https://www.countryflags.io/${traduction.flag}/flat/32.png`}
                                         className="record_flag_image"
                                     />
-                                    <div className="expression">{traduction.text}</div>
+                                    <span className="expression">{traduction.text}</span>
                                 </div>
                             ))}
                     </Accordion.Content>

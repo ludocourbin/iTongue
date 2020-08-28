@@ -553,6 +553,35 @@ router.delete("/:id/record/:recordId", ownerMiddleware, userController.removeRec
  *         $ref: "#/components/reponses/Conflict"
  */
 router.post("/:id(\\d+)/follow", ownerMiddleware, userController.follow);
+
+/**
+ * @swagger
+ * /users/{id}/follow/{followedId}:
+ *   delete:
+ *     tags:
+ *       - Users
+ *     security:
+ *       - BearerJWT: []
+ *     summary: Unsubscribe from an other user
+ *     description: Unsubscibe from an other user.
+ *     parameters:
+ *       - $ref: "#/components/parameters/UserPk"
+ *       - in: path
+ *         name: followedId
+ *         schema:
+ *           $ref: "#components/schemas/PrimaryKey"
+ *         required: true
+ *         description: Primary key of the user to follow.
+ *     responses:
+ *       "204":
+ *         $ref: "#/components/responses/NoContent"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ */
 router.delete("/:id(\\d+)/follow/:followedId(\\d+)", ownerMiddleware, userController.unfollow);
+
+router.get("/:id(\\d+)/followers", userController.showFollowers);
 
 module.exports = router;

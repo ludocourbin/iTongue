@@ -352,7 +352,7 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/BestUser"
-    
+
     BestUser:
       type: object
       properties:
@@ -373,7 +373,7 @@ components:
           example: /thumnails/jhon-doe.jpg
         languageMostTaught:
           type: object
-          properties: 
+          properties:
             language:
               type: string
               example: french
@@ -403,7 +403,7 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/BestTranslation"
-    
+
     BestTranslation:
       type: object
       properties:

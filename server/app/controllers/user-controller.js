@@ -324,31 +324,54 @@ module.exports = {
     const { followedId } = req.body;
 
     if (isNaN(userId) || isNaN(followedId))
-      return next({ statusCode: 400, displayMsg: "L'indentifiant d'un utilisateur doit être un entier" })
+      return next({
+        statusCode: 400,
+        displayMsg: "L'indentifiant d'un utilisateur doit être un entier"
+      });
 
     const user = await userDatamapper.findByPk(userId, false);
-    if(!user) return next();
+    if (!user) return next();
     const followedUser = await userDatamapper.findByPk(followedId, false);
     if (!followedUser) return next();
-     
-    try{
+
+    try {
       await userDatamapper.follow(userId, followedId);
       res.status(204).json({});
-    } catch(err){
+    } catch (err) {
       next(err);
     }
   },
 
   unfollow: async (req, res, next) => {
-    const { id: userId, followedId} = req.params;
+    const { id: userId, followedId } = req.params;
 
     if (isNaN(userId) || isNaN(followedId))
-      return next({ statusCode: 400, displayMsg: "L'indentifiant d'un utilisateur doit être un entier" });
-    
-    try{
+      return next({
+        statusCode: 400,
+        displayMsg: "L'indentifiant d'un utilisateur doit être un entier"
+      });
+
+    try {
       await userDatamapper.unfollow(userId, followedId);
       res.status(204).json({});
-    } catch(err){
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  showFollowers: async (req, res, next) => {
+    const userId = req.params.id;
+
+    if (isNaN(userId))
+      return next({
+        statusCode: 400,
+        displayMsg: "L'identifiant d'un utilisateur doit être un entier"
+      });
+
+    try {
+      const followers = await userDatamapper.getFollowers(userId);
+      res.json({ data: { followers } });
+    } catch (err) {
       next(err);
     }
   },

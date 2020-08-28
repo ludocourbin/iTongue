@@ -49,7 +49,7 @@
         background-color: $background-color;
         margin-bottom: 10px;
         padding: 10px;
-        text-transform: capitalize;
+        
         align-items: center;
         .flag_image {
             display: block;
@@ -67,5 +67,26 @@
             // color: $border-color;
             // color: $background-color;
         }
+    }
+
+    .popular {
+
+        &_container {
+            display: flex;
+            flex: 1;
+            justify-content: space-between;
+        }
+
+        &__name {
+            text-transform: capitalize;
+        }
+
+        &__irecords {
+            font-weight: normal!important;
+        }
+    }
+
+    .ui.image {
+        max-width: 35px;
     }
 }

@@ -10,10 +10,6 @@
     padding: 8px 0;
     border-top: 1px solid #f9ecec;
 
-    // &:first-of-type {
-    //     border-top: 0px;
-    // }
-    
     &_left {
         width: 100%;
     }
@@ -45,7 +41,6 @@
     }
 }
 
-
 .membercard_flag_image {
     display: block;
     padding: 0.3em;
@@ -53,6 +48,4 @@
     max-width: 32px!important;
     max-height: 35px;
     border-radius: 50%;
-
   }
-  

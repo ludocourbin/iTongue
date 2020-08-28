@@ -4,4 +4,6 @@ BEGIN;
 
 DROP TABLE "user_user_follow", "liked_record";
 
+DROP FUNCTION "get_user_subscriptions";
+
 COMMIT;

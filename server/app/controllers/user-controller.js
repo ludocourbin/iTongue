@@ -376,6 +376,23 @@ module.exports = {
     }
   },
 
+  showFollowed: async (req, res, next) => {
+    const userId = req.params.id;
+
+    if (isNaN(userId))
+      return next({
+        statusCode: 400,
+        displayMsg: "L'identifiant d'un utilisateur doit être un entier"
+      });
+
+    try {
+      const followed = await userDatamapper.getFollowed(userId);
+      res.json({ data: { followed } });
+    } catch (err) {
+      next(err);
+    }
+  },
+
   login: async (req, res, next) => {
     const { email, password } = req.body;
 

@@ -583,5 +583,6 @@ router.post("/:id(\\d+)/follow", ownerMiddleware, userController.follow);
 router.delete("/:id(\\d+)/follow/:followedId(\\d+)", ownerMiddleware, userController.unfollow);
 
 router.get("/:id(\\d+)/followers", userController.showFollowers);
+router.get("/:id(\\d+)/followed", userController.showFollowed);
 
 module.exports = router;

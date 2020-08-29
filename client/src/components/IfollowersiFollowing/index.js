@@ -4,6 +4,7 @@ import { Menu, Header } from "semantic-ui-react";
 
 import Layout from "../../containers/Layout";
 import Followers from "./followers";
+import Following from "./following";
 import Placeholder from "../Placeholder";
 
 import "./ifollowersiFollowing.scss";
@@ -65,7 +66,7 @@ const IfollowersiFollowing = ({
                 allFollowing ? (
                     allFollowing.map((following) => (
                         <div className="">
-                            <Followers user={following} />
+                            <Following user={following} />
                         </div>
                     ))
                 ) : (

@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 // import './Followers.scss';
 
 const Followers = ({ user }) => {
-    const [followed, setFollowed] = useState(true);
+    const [following, setFollowing] = useState(true);
     return (
-        <div className="followers-card">
-            <div className="followers-card_left">
+        <div className="following-card">
+            <div className="following-card_left">
                 <Image
                     floated="left"
                     size="mini"
@@ -28,17 +28,17 @@ const Followers = ({ user }) => {
                 </div>
             </div>
 
-            <div className="followers-card_right">
-                <Label color={followed ? "red" : "green"}>
-                    {followed ? (
-                        <span>Abonné</span>
+            <div className="following-card_right">
+                <Label color={following ? "red" : "green"}>
+                    {following ? (
+                        <span>Supprimer</span>
                     ) : (
-                        <span className="follow-btn">S'abonner</span>
+                        <span className="follow-btn">Ajouter</span>
                     )}
 
                     <Icon
-                        onClick={() => setFollowed(!followed)}
-                        name={followed ? "delete" : "add"}
+                        onClick={() => setFollowing(!following)}
+                        name={following ? "delete" : "add"}
                     />
                 </Label>
             </div>

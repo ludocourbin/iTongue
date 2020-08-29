@@ -10,6 +10,7 @@ import user from "./user";
 import irecords from "./irecords";
 import languagesReducer from "./languagesReducer";
 import statisticsHomeReducer from "./statisticsHomeReducer";
+import ifollowersifollowing from "./ifollowersifollowingReducer";
 
 export default combineReducers({
     settings,
@@ -19,4 +20,5 @@ export default combineReducers({
     languagesReducer,
     statisticsRecuder,
     statisticsHomeReducer,
+    ifollowersifollowing,
 });

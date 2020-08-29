@@ -7,6 +7,8 @@ import rootReducers from "./reducers";
 import authMiddleware from "./middlewares/authMiddleware";
 import expressionsMiddleware from "./middlewares/Admin/expressionsMiddleware";
 import statsHomeMiddleware from "./middlewares/statsHomeMiddleware";
+import ifollowersifollowingMiddleware from "./middlewares/ifollowersifollowingMiddleware";
+
 import { irecordsMiddleware } from "./middlewares/irecordsMiddleware";
 import { usersMiddleware } from "./middlewares/usersMiddleware";
 import { languagesMiddleware } from "./middlewares/languagesMiddleware";
@@ -29,7 +31,8 @@ const enhancers = composeEnhancers(
         usersMiddleware,
         languagesMiddleware,
         statsMiddleware,
-        statsHomeMiddleware
+        statsHomeMiddleware,
+        ifollowersifollowingMiddleware
     )
 );
 

@@ -5,11 +5,11 @@ import { ToastContainer } from "react-toastify";
 import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
 import UpdateAvatar from "../../../containers/User/UpdateAvatar";
+import ProfilSearch from "../../../containers/User/ProfilSearch";
 
 /* Components */
 import { Segment, Image, Icon } from "semantic-ui-react";
 import Statistics from "../Statistics";
-
 
 /* Style */
 import "./userprofil.scss";
@@ -19,7 +19,10 @@ const UserProfil = ({
     editProfilAvatar,
     checkUserSlug,
     userSlugInfos,
+    recordsFiltered,
+    getRecordsBySearch,
 }) => {
+    
     const [isUserAccount, setIsUserAccount] = useState(false);
 
     let slug = useParams();
@@ -38,6 +41,10 @@ const UserProfil = ({
         };
         checkUser();
     }, [slug.slug, currentUser.slug]);
+
+    useEffect(() => {
+        getRecordsBySearch();
+    }, [getRecordsBySearch, recordsFiltered]);
 
     const {
         id,
@@ -139,7 +146,21 @@ const UserProfil = ({
                 </div>
 
                 <div className="user-profil_feed">
-                    {records && records.length ? (
+
+                    <ProfilSearch 
+                    records={records}
+                    />
+
+                    {recordsFiltered && recordsFiltered.length ? 
+                        recordsFiltered.map((audio, key) => (
+                            <Irecords
+                                key={key}
+                                record={audio}
+                                user={userSlugInfos}
+                                isUserRecord={id}
+                            />
+                        ))
+                    : records && !recordsFiltered.length && records.length ?
                         records.map((audio, key) => (
                             <Irecords
                                 key={key}
@@ -148,7 +169,7 @@ const UserProfil = ({
                                 isUserRecord={id}
                             />
                         ))
-                    ) : (
+                    : (
                         <>
                             <div className="user-profil_feed__norecords">
                                 <Icon

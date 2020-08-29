@@ -22,6 +22,7 @@ const LayoutHeader = ({
     allExpressions,
     fetchAllExpressions,
     learnedLanguages,
+    traductionId,
     taughtLanguages,
     ...props
 }) => {
@@ -118,6 +119,7 @@ const LayoutHeader = ({
                             fetchAllExpressions={fetchAllExpressions}
                             learnedLanguages={learnedLanguages}
                             taughtLanguages={taughtLanguages}
+                            traductionId={traductionId}
                         />
                     ) : null}
                     {isLogged ? (

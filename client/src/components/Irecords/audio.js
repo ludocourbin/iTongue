@@ -4,7 +4,7 @@ import getBlobDuration from "get-blob-duration";
 import "./audio.scss";
 
 const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
-    const { id, url } = audio;
+    const { id } = audio;
 
     if (!audio.url) {
         fetch(audio)

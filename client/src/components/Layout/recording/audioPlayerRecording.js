@@ -11,6 +11,7 @@ const Audio = ({
     recording,
     startRecording,
     stopRecording,
+    traductionId,
 }) => {
     // const { id, url } = audio;
 
@@ -112,6 +113,7 @@ const Audio = ({
                             className="audioRecorder-player_mic"
                             onClick={startRecording}
                             name="microphone"
+                            disabled={traductionId ? false : true}
                         />
                     )}
 

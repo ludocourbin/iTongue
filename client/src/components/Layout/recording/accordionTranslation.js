@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Accordion, Icon } from "semantic-ui-react";
+import { Accordion, Image } from "semantic-ui-react";
+import "./accordionTranslation.scss";
 
-const AccordionTranslation = ({ allExpressions, taughtLanguages, learnedLanguages }) => {
+const AccordionTranslation = ({
+    allExpressions,
+    taughtLanguages,
+    learnedLanguages,
+    setTranslationId,
+    traductionId,
+}) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [expressionSelected, setExpressionSelected] = useState(null);
     const [translationsSelected, setTranslationsSelected] = useState(null);
@@ -26,8 +33,6 @@ const AccordionTranslation = ({ allExpressions, taughtLanguages, learnedLanguage
                 allLanguages.find(({ id }) => translation.language.id === id)
             );
 
-            console.log(filteredLanguages);
-
             const options = filteredLanguages.map((option) => {
                 return {
                     key: option.id,
@@ -39,29 +44,51 @@ const AccordionTranslation = ({ allExpressions, taughtLanguages, learnedLanguage
             });
 
             setTranslationsSelected(options);
+            // console.log(translationsSelected);
         }
-    }, [expressionSelected, allExpressions]);
+    }, [expressionSelected, allExpressions, taughtLanguages, learnedLanguages]);
+
+    // const handleChangeTranslation = (e, data) => {
+    //     seTranslationSelected(data.value);
+    //     const languageObject = data.options.find(
+    //         (translation) => translation.value === data.value
+    //     );
+    //     setTranslationId(languageObject.key);
+    // };
 
     return (
-        <Accordion>
+        <Accordion className="container-dropdown_accordion">
             {allExpressions.map((expression, index) => (
-                <div className="">
+                <div key={index} className="">
                     <Accordion.Title
                         active={activeIndex === index}
                         index={index}
+                        className={activeIndex === index ? "active-title" : ""}
                         onClick={(e, titleProps) =>
                             handleClick(e, titleProps, expression.englishText)
                         }
                     >
-                        <Icon name="dropdown" />
-                        {expression.englishText}
+                        <span className="expression"> {expression.englishText}</span>
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === index}>
-                        <p>
-                            A dog is a type of domesticated animal. Known for its loyalty
-                            and faithfulness, it can be found as a welcome guest in many
-                            households across the world.
-                        </p>
+                        {translationsSelected &&
+                            translationsSelected.map((traduction) => (
+                                <div
+                                    onClick={() => setTranslationId(traduction.key)}
+                                    key={traduction.flag}
+                                    className={`${
+                                        traduction.key === traductionId
+                                            ? "active-title"
+                                            : ""
+                                    } accordion-dropdown_traductions_text`}
+                                >
+                                    <Image
+                                        src={`https://www.countryflags.io/${traduction.flag}/flat/32.png`}
+                                        className="record_flag_image"
+                                    />
+                                    <span className="expression">{traduction.text}</span>
+                                </div>
+                            ))}
                     </Accordion.Content>
                 </div>
             ))}

@@ -10,3 +10,4 @@
 204-function-language 2020-08-24T08:22:50Z Quentin Lemogodeuc <quentin@MacBook.local> # Function to update one language
 300-view-dashboard 2020-08-24T10:30:00Z sacha-smz <sacha.zacaropoulos@gmail.com> # Admin dashboard view
 400-functions-highlights 2020-08-25T08:57:59Z Quentin Lemogodeuc <q.lemogodeuc@gmail.com> # The view serves datas for the home page
+500-tables-follow-userLike 2020-08-28T08:09:29Z Quentin Lemogodeuc <q.lemogodeuc@gmail.com> # Create tables M2M user-follow, record-like

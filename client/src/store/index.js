@@ -15,10 +15,10 @@ import { statsMiddleware } from "./middlewares/Admin/statsMiddleware";
 // Configuration object for redux-persist
 const persistConfig = {
     key: "root",
-    whitelist: ["user", "loginAdminReducer", "irecords"],
+    whitelist: ["user", "loginAdminReducer"],
     storage, // define which storage to use
 };
-
+// "irecords"
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const enhancers = composeEnhancers(

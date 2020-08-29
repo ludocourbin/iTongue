@@ -10,23 +10,19 @@
     padding: 8px 0;
     border-top: 1px solid #f9ecec;
 
-    // &:first-of-type {
-    //     border-top: 0px;
-    // }
-    
     &_left {
         width: 100%;
     }
 
     &_right {
-        width: 150px;
-        // margin-left: 15px;
+        width: 180px;
         display: flex;
-        flex-wrap: wrap;
+        justify-content: flex-end;
     }
 
     .fullname {
         margin-bottom: 0;
+        font-size: 1.2em!important;
     }
 
     .avatar {
@@ -45,3 +41,11 @@
     }
 }
 
+.membercard_flag_image {
+    display: block;
+    padding: 0.3em;
+    background-color: #ffffff;
+    max-width: 32px!important;
+    max-height: 35px;
+    border-radius: 50%;
+  }

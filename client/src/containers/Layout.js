@@ -22,6 +22,7 @@ const mapStateToProps = (state) => ({
     loading: state.irecords.loading,
     isLogged: state.user.isLogged,
     allExpressions: state.irecords.allExpressions,
+    traductionId: state.irecords.languageId,
     learnedLanguages: state.user.currentUser.learnedLanguages,
     taughtLanguages: state.user.currentUser.taughtLanguages,
 });

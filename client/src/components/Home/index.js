@@ -128,10 +128,15 @@ const Home = ({
                                     src={`https://www.countryflags.io/${language}/flat/32.png`}
                                     className="flag_image"
                                 />
-                                <p>{text}</p>
-                                <p className="home-translations__irecords">
-                                    Nbres d'enregistrements: {iRecords}
-                                </p>
+  
+                                <div className="popular_container">
+                                    <div className="popular__name">
+                                        {text}
+                                    </div>
+                                    <div className="popular__irecords">
+                                        { iRecords } iRecords
+                                    </div>
+                                </div>
                             </div>
                         )
                     )}

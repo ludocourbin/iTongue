@@ -18,6 +18,7 @@ const Irecords = ({
     currentUser,
     deleteIrecord,
 }) => {
+
     if (isMobile && isLogged && currentUser.id === isUserRecord) {
         return (
             <Swipeout

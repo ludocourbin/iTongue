@@ -150,6 +150,57 @@ const dataMapper = {
     };
     const result = await client.query(query);
     return result.rowCount;
+  },
+
+  follow: async (followerId, followedId) => {
+    const query = {
+      text: 'INSERT INTO "user_user_follow"("follower_id", "followed_id") VALUES($1, $2)',
+      values: [followerId, followedId]
+    };
+
+    const result = await client.query(query);
+    return result.rowCount;
+  },
+
+  unfollow: async (followerId, followedId) => {
+    const query = {
+      text: 'DELETE FROM "user_user_follow" WHERE "follower_id" = $1 AND "followed_id" = $2',
+      values: [followerId, followedId]
+    };
+
+    const result = await client.query(query);
+    return result.rowCount;
+  },
+
+  getFollowers: async userId => {
+    const query = {
+      text: "SELECT * FROM get_user_subscriptions($1, $2, $3) AS followers",
+      values: [userId, "follower_id", "followed_id"]
+    };
+
+    const result = await client.query(query);
+    return result.rows;
+  },
+
+  getFollowed: async userId => {
+    const query = {
+      text: 'SELECT * FROM "get_user_subscriptions"($1, $2, $3) AS "followed"',
+      values: [userId, "followed_id", "follower_id"]
+    };
+
+    const result = await client.query(query);
+    return result.rows;
+  },
+
+  getFeed: async userId => {
+    const query = {
+      text: 'SELECT * FROM "get_feed"($1) AS "feed"',
+      values: [userId]
+    };
+
+    const result = await client.query(query);
+    console.log(result);
+    return result.rows;
   }
 };
 

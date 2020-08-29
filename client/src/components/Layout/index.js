@@ -21,6 +21,10 @@ const LayoutHeader = ({
     setTranslationId,
     allExpressions,
     fetchAllExpressions,
+    learnedLanguages,
+    traductionId,
+    taughtLanguages,
+
     ...props
 }) => {
     const [visible, setVisible] = useState(false);
@@ -114,6 +118,9 @@ const LayoutHeader = ({
                             loading={loading}
                             allExpressions={allExpressions}
                             fetchAllExpressions={fetchAllExpressions}
+                            learnedLanguages={learnedLanguages}
+                            taughtLanguages={taughtLanguages}
+                            traductionId={traductionId}
                         />
                     ) : null}
                     {isLogged ? (

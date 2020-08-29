@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-import { Icon } from "semantic-ui-react";
 import AudioPlayer from "../../../containers/AudioPlayerRecording";
 import AudioRecorder from "audio-recorder-polyfill";
 import mpegEncoder from "audio-recorder-polyfill/mpeg-encoder";
@@ -9,7 +7,7 @@ AudioRecorder.encoder = mpegEncoder;
 AudioRecorder.prototype.mimeType = "audio/mpeg";
 window.MediaRecorder = AudioRecorder;
 
-const ReactMicComponent = ({ setRecordedSound, recordedSound }) => {
+const ReactMicComponent = ({ setRecordedSound, recordedSound, traductionId }) => {
     // const [micLoading, setMicLoading] = useState(true);
     const [recording, setRecording] = useState(false);
     const [recorder, setRecorder] = useState(null);
@@ -46,6 +44,7 @@ const ReactMicComponent = ({ setRecordedSound, recordedSound }) => {
                 recordedSound={recordedSound}
                 startRecording={startRecording}
                 stopRecording={stopRecording}
+                traductionId={traductionId}
             />
         </div>
     );

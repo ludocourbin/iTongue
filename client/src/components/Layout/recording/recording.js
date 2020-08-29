@@ -3,7 +3,8 @@ import { Card, Button, Icon } from "semantic-ui-react";
 import { motion } from "framer-motion";
 
 import ReactMicComponent from "./reactMicComponent";
-import TranslationDropdown from "./translationDropdown";
+import AccordionTranslation from "./accordionTranslation";
+// import TranslationDropdown from "./translationDropdown";
 import TranslationLabel from "./tranlationLabel";
 import "./recording.scss";
 
@@ -16,11 +17,11 @@ const Recording = ({
     setTranslationId,
     fetchAllExpressions,
     allExpressions,
+    taughtLanguages,
+    learnedLanguages,
+    traductionId,
 }) => {
     const [recordedSound, setRecordedSound] = useState(null);
-    const [expressionSelected, setExpressionSelected] = useState(null);
-    const [translationsSelected, setTranslationsSelected] = useState(null);
-    const [translationSelected, seTranslationSelected] = useState(null);
 
     useEffect(() => {
         fetchAllExpressions();
@@ -41,53 +42,11 @@ const Recording = ({
     const handleReset = () => {
         setRecordedSound(null);
         // selectIrecordToRecord(null);
-        if (expressionSelected || translationSelected) {
-            setExpressionSelected(null);
-            seTranslationSelected(null);
-        }
+        // if (expressionSelected || translationSelected) {
+        // setExpressionSelected(null);
+        // seTranslationSelected(null);
+        // }
     };
-
-    const optionsText =
-        allExpressions &&
-        allExpressions.map((option) => {
-            return {
-                key: option.id,
-                value: option.englishText,
-                text: option.englishText,
-            };
-        });
-
-    const handleChangeExpression = (e, data) => {
-        setExpressionSelected(data.value);
-    };
-
-    const handleChangeTranslation = (e, data) => {
-        seTranslationSelected(data.value);
-        const languageObject = data.options.find(
-            (translation) => translation.value === data.value
-        );
-        setTranslationId(languageObject.key);
-    };
-
-    useEffect(() => {
-        if (expressionSelected) {
-            const expression = allExpressions.find(
-                (option) => option.englishText === expressionSelected
-            );
-
-            const options = expression.translations.map((option) => {
-                return {
-                    key: option.id,
-                    value: option.text,
-                    text: option.text,
-                    flag: option.language.code,
-                    language: option.language.id,
-                };
-            });
-
-            setTranslationsSelected(options);
-        }
-    }, [expressionSelected, allExpressions]);
 
     const variants = {
         visible: { opacity: 1, y: 50 },
@@ -96,7 +55,11 @@ const Recording = ({
 
     return (
         <motion.div initial="hidden" animate="visible" variants={variants}>
-            <Card className="recording-widget">
+            <Card
+                className={`${
+                    audio ? "recording-copy" : "recording-selecting"
+                } recording-widget`}
+            >
                 <Card.Meta className="recording-widget__closeIcon">
                     <Icon
                         onClick={handleClose}
@@ -105,29 +68,31 @@ const Recording = ({
                         corner="top right"
                     />
                 </Card.Meta>
-                {audio ? (
+                {audio && (
                     <div>
                         <TranslationLabel translation={audio.englishTranslation} />
                         <TranslationLabel translation={audio.translation} />
                     </div>
-                ) : (
+                )}
+
+                {!audio && (
                     <div className="container-dropdown">
-                        <TranslationDropdown
-                            options={optionsText}
-                            value={expressionSelected}
-                            onChange={handleChangeExpression}
-                        />
-                        <TranslationDropdown
-                            options={translationsSelected && translationsSelected}
-                            value={translationSelected && translationSelected}
-                            onChange={handleChangeTranslation}
-                        />
+                        {allExpressions && (
+                            <AccordionTranslation
+                                allExpressions={allExpressions}
+                                taughtLanguages={taughtLanguages}
+                                learnedLanguages={learnedLanguages}
+                                setTranslationId={setTranslationId}
+                                traductionId={traductionId}
+                            />
+                        )}
                     </div>
                 )}
                 <Card.Content>
                     <ReactMicComponent
                         recordedSound={recordedSound}
                         setRecordedSound={setRecordedSound}
+                        traductionId={traductionId}
                     />
                 </Card.Content>
 

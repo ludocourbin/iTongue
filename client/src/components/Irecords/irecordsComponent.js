@@ -57,6 +57,9 @@ const Irecord = ({
                     content="Vous êtes sûr de vouloir supprimer ce iRecord ?"
                 />
 
+                {/* A check : 
+                {!isLogged && user.id === isUserRecord && <HeaderIrecord user={user} />} */}
+
                 {/* Non connecté check profil */}
                 {!isLogged && user.id === isUserRecord && slug !== user.slug &&<HeaderIrecord user={user} />}
 
@@ -96,23 +99,26 @@ const Irecord = ({
                  
                  <div className="irecords_rows">
                     <div className="irecords__row">
-                            <Image
-                                src={`https://www.countryflags.io/${record.englishTranslation.language.code}/flat/32.png`}
-                                className="record_flag_image"
-                            />
-                            <div className="expression">{record.englishTranslation.text}</div>
+                        <Image
+                            src={`https://www.countryflags.io/${record.englishTranslation.language.code}/flat/32.png`}
+                            className="record_flag_image"
+                        />
+                        <div className="expression">{record.englishTranslation.text}</div>
                     </div>
 
-                    {record.englishTranslation.language.code !== record.translation.language.code && (
-                    
-                    <><div className="separator"></div>
-                        <div className="irecords__row">
+                    {record.englishTranslation.language.code !==
+                        record.translation.language.code && (
+                        <>
+                            <div className="separator"></div>
+                            <div className="irecords__row">
                                 <Image
                                     src={`https://www.countryflags.io/${record.translation.language.code}/flat/32.png`}
                                     className="record_flag_image"
                                 />
-                                <div className="translation">{record.translation.text}</div>
-                        </div>
+                                <div className="translation">
+                                    {record.translation.text}
+                                </div>
+                            </div>
                         </>
                     )}
                 </div>

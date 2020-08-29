@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Input, Tab, Button, Header } from "semantic-ui-react";
+import { Input, Tab, Button, Header } from "semantic-ui-react";
 import { orderCreateByDateWithMoment } from "../../utils.js";
 
 /* Component */
@@ -30,18 +30,14 @@ const Search = (props) => {
 
     const tabRecordsUsers = [...allRecordsList, ...allUsersList];
 
-    const usersAndRecordsOrderedByDate = orderCreateByDateWithMoment(
-        tabRecordsUsers
-    );
+    const usersAndRecordsOrderedByDate = orderCreateByDateWithMoment(tabRecordsUsers);
 
     const usersAndRecords = usersAndRecordsOrderedByDate.filter(
         (el) =>
-            (el.type === "member" &&
-                el.firstname.toLowerCase().includes(keyword)) ||
+            (el.type === "member" && el.firstname.toLowerCase().includes(keyword)) ||
             (el.type === "audio" &&
                 el.englishTranslation.text.toLowerCase().includes(keyword)) ||
-            (el.type === "audio" &&
-                el.user.firstname.toLowerCase().includes(keyword))
+            (el.type === "audio" && el.user.firstname.toLowerCase().includes(keyword))
     );
 
     const members = allUsersList.filter((el) =>
@@ -131,21 +127,17 @@ const Search = (props) => {
                 </div>
 
                 <div className="search-container">
-                <Header
-                    size="small"
-                    content="Les derniers iRecords"
-                    className="title"
-                />
+                    <Header
+                        size="small"
+                        content="Les derniers iRecords"
+                        className="title"
+                    />
                     {!isFocus && isLoadingallUsers && <Placeholder />}
                     {!isFocus && !isLoadingallUsers && (
                         <div className="search-content--items">
-
                             {allRecordsList.map((record) => {
                                 return (
-                                    <div
-                                        style={{ width: "100%" }}
-                                        key={record.id}
-                                    >
+                                    <div style={{ width: "100%" }} key={record.id}>
                                         <Irecords
                                             record={record}
                                             user={record.user}

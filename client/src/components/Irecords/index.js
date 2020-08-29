@@ -7,16 +7,16 @@ import IrecordsComponent from "./irecordsComponent";
 import "./irecords.scss";
 
 const Irecords = ({
-  toggleRecording,
-  selectIrecordToRecord,
-  isRecording,
-  record,
-  isUserRecord,
-  user,
-  setTranslationId,
-  isLogged,
-  currentUser,
-  deleteIrecord
+    toggleRecording,
+    selectIrecordToRecord,
+    isRecording,
+    record,
+    isUserRecord,
+    user,
+    setTranslationId,
+    isLogged,
+    currentUser,
+    deleteIrecord,
 }) => {
   if (isMobile && isLogged && currentUser.id === isUserRecord) {
     return (

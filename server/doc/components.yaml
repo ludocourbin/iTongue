@@ -89,6 +89,14 @@ components:
         avatarUrl:
           $ref: "#/components/schemas/URL"
 
+    UsersFollow:
+      allOf:
+        - $ref: "#/components/schemas/RecordUser"
+        - type: object
+          properties:
+            createdAt:
+              $ref: "#/components/schemas/DateTZ"
+
     DashboardUser:
       type: object
       properties:
@@ -352,7 +360,7 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/BestUser"
-    
+
     BestUser:
       type: object
       properties:
@@ -373,7 +381,7 @@ components:
           example: /thumnails/jhon-doe.jpg
         languageMostTaught:
           type: object
-          properties: 
+          properties:
             language:
               type: string
               example: french
@@ -403,7 +411,7 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/BestTranslation"
-    
+
     BestTranslation:
       type: object
       properties:
@@ -452,13 +460,15 @@ components:
       description: Primary key of the translation.
 
     UserPk:
+      in: path
       name: id
       schema:
-        $ref: "#/components/schemas/PrimaryKey"
+        $ref: "#components/schemas/PrimaryKey"
       required: true
       description: Primary key of the user.
 
     LanguagePk:
+      in: path
       name: language_id
       schema:
         $ref: "#/components/schemas/LanguagePk"
@@ -474,6 +484,7 @@ components:
       description: Primary key of the language.
 
     RecordPk:
+      in: path
       name: language_id
       schema:
         $ref: "#/components/schemas/PrimaryKey"

@@ -3,25 +3,25 @@ import { toast } from "react-toastify";
 import { httpClient } from "../../utils";
 
 import {
-  SIGNUP,
-  signupSuccess,
-  signupError,
-  updateTokenExp,
-  LOGOUT,
-  logoutSucess,
-  logoutError
+    SIGNUP,
+    signupSuccess,
+    signupError,
+    updateTokenExp,
+    LOGOUT,
+    logoutSucess,
+    logoutError,
 } from "../actions/userActions";
 
 import { LOGIN, loginSubmitSuccess, loginSubmitError } from "../actions/loginActions";
 
-export default store => next => action => {
-  next(action);
-  switch (action.type) {
-    // réagir au signup
-    case SIGNUP:
-      const data = store.getState().user.signupData;
+export default (store) => (next) => (action) => {
+    next(action);
+    switch (action.type) {
+        // réagir au signup
+        case SIGNUP:
+            const data = store.getState().user.signupData;
 
-      // httpClient.post({ url: "/users", data }, true, store).then().catch();
+            // httpClient.post({ url: "/users", data }, true, store).then().catch();
 
       axios({
         method: "post",
@@ -98,8 +98,8 @@ export default store => next => action => {
           store.dispatch(logoutSucess());
         });
 
-      return;
-    default:
-      return;
-  }
+            return;
+        default:
+            return;
+    }
 };

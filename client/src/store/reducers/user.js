@@ -40,6 +40,11 @@ import {
     EDIT_PROFIL_SLUG_INPUT,
 } from "../actions/editProfilActions";
 
+import { 
+    GET_RECORDS_BY_SEARCH,
+    SET_RECORDS_BY_SEARCH,
+} from "../actions/profilSearchActions";
+
 import {
     DELETE_IRECORD_SUCCESS_USER_PROFIL,
     SEND_IRECORD_SUCCESS_USER_PROFIL,
@@ -93,6 +98,10 @@ const initialState = {
     editProfilSlugInputValue: "",
     editProfilSlugMsg: "",
     /* END EDIT PROFIL */
+
+    /* SET Records by search on profil */
+        recordsFiltered: [],
+    /* END */
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
@@ -143,7 +152,7 @@ export default (state = initialState, action = {}) => {
                 },
                 errorMailUsed: "",
                 errorMessageEmail: "",
-                currentUser: { ...action.payload },
+                currentUser: { ...action.payload.user },
                 accessToken: action.payload.accessToken,
                 refreshToken: action.payload.refreshToken,
                 editProfilData: {
@@ -410,6 +419,15 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
                 accessToken: action.payload,
+            };
+        case SET_RECORDS_BY_SEARCH:
+            return {
+                ...state,
+                recordsFiltered: [...action.payload]
+            };
+        case GET_RECORDS_BY_SEARCH:
+            return {
+                ...state,
             };
         default:
             return state;

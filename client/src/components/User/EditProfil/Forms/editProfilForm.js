@@ -14,7 +14,7 @@ const EditProfilForm = (props) => {
         editProfilDataLoading,
     } = props;
 
-    const [ countCharBio, setCountCharBio ] = useState(profilData.bio.length);
+    const [ countCharBio, setCountCharBio ] = useState(profilData.bio ? profilData.bio.length : 0);
 
     const handdleInputChangeBio = (e) => {
         const { name, value } = e.target; 
@@ -62,7 +62,7 @@ const EditProfilForm = (props) => {
                     </div>
                     <TextArea 
                     name="bio"
-                    value={profilData.bio}
+                    value={profilData.bio ? profilData.bio : ""}
                     onChange={handdleInputChangeBio}
                     placeholder={"Une petite introduction pour ton profil.."}
                     maxLength="140"

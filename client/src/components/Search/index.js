@@ -53,9 +53,9 @@ const Search = (props) => {
 
     const panes = [
         {
-            menuItem: { key: "All", icon: "th", content: "All" },
+            menuItem: { key: "All", icon: "th", content: "All", className:"tabpane-all"},
             render: () => (
-                <Tab.Pane>
+                <Tab.Pane >
                     {usersAndRecords &&
                         usersAndRecords.map((record, index) => (
                             <div key={index}>

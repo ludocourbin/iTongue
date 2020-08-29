@@ -23,81 +23,80 @@ export default (store) => (next) => (action) => {
 
             // httpClient.post({ url: "/users", data }, true, store).then().catch();
 
+      axios({
+        method: "post",
+        url: `${process.env.REACT_APP_API_URL}/users`,
+        data: {
+          ...data
+        }
+      })
+        .then(res => {
+          const data = {
+            email: store.getState().user.signupData.email,
+            password: store.getState().user.signupData.password
+          };
+          if (res.data.data.id) {
             axios({
-                method: "post",
-                url: `${process.env.REACT_APP_API_URL}/users`,
-                data: {
-                    ...data,
-                    // avatarUrl: "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
-                },
+              method: "post",
+              url: `${process.env.REACT_APP_API_URL}/users/login`,
+              data,
             })
-                .then((res) => {
-                    const data = {
-                        email: store.getState().user.signupData.email,
-                        password: store.getState().user.signupData.password,
-                    };
-                    if (res.data.data.id) {
-                        axios({
-                            method: "post",
-                            url: `${process.env.REACT_APP_API_URL}/users/login`,
-                            data,
-                        })
-                            .then((res) => {
-                                const currentUser = res.data.data;
-                                store.dispatch(signupSuccess(currentUser));
-                                store.dispatch(updateTokenExp());
-                                toast.success(`Bienvenue ${currentUser.user.firstname}`);
-                            })
-                            .catch((err) => {
-                                console.log(err);
-                            });
-                    }
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        // The request was made and the server responded with a status code
-                        // that falls out of the range of 2xx
-                        // console.log(error.response.data.errors[0].msg);
-                        store.dispatch(signupError(error.response.data.errors[0].msg));
-                    }
-                });
-            return;
-        case LOGIN:
-            const token = store.getState().settings.captchaToken;
-            const dataLogin = store.getState().user.loginData;
-            axios({
-                method: "post",
-                url: `${process.env.REACT_APP_API_URL}/users/login`,
-                data: { ...dataLogin, captcha: token },
-            })
-                .then((res) => {
-                    const currentUser = res.data.data;
-                    store.dispatch(loginSubmitSuccess(currentUser));
-                    store.dispatch(updateTokenExp());
-                })
-                .catch((err) => {
-                    store.dispatch(loginSubmitError("Email ou mot de passe incorrect"));
-                });
-            return;
-        case LOGOUT:
-            httpClient
-                .post(
-                    {
-                        url: "/users/logout",
-                    },
-                    store
-                )
-                .then((res) => {
-                    console.log(res);
-                    store.dispatch(logoutSucess());
-                })
-                .catch((err) => {
-                    console.error(err);
-                    store.dispatch(logoutError());
-                })
-                .finally((res) => {
-                    store.dispatch(logoutSucess());
-                });
+              .then(res => {
+                const currentUser = res.data.data;
+                store.dispatch(signupSuccess(currentUser));
+                store.dispatch(updateTokenExp());
+                toast.success(`Bienvenue ${currentUser.user.firstname}`);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+        })
+        .catch(error => {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            // console.log(error.response.data.errors[0].msg);
+            store.dispatch(signupError(error.response.data.errors[0].msg));
+          }
+        });
+      return;
+    case LOGIN:
+      const token = store.getState().settings.captchaToken;
+      const dataLogin = store.getState().user.loginData;
+      axios({
+        method: "post",
+        url: `${process.env.REACT_APP_API_URL}/users/login`,
+        data: { ...dataLogin, captcha: token }
+      })
+        .then(res => {
+          const currentUser = res.data.data;
+          store.dispatch(loginSubmitSuccess(currentUser));
+          store.dispatch(updateTokenExp());
+        })
+        .catch(err => {
+          store.dispatch(loginSubmitError("Email ou mot de passe incorrect"));
+        });
+      return;
+    case LOGOUT:
+      httpClient
+        .post(
+          {
+            url: "/users/logout"
+          },
+          store
+        )
+        .then(res => {
+          console.log(res);
+          store.dispatch(logoutSucess());
+        })
+        .catch(err => {
+          console.error(err);
+          store.dispatch(logoutError());
+        })
+        .finally(res => {
+          store.dispatch(logoutSucess());
+        });
 
             return;
         default:

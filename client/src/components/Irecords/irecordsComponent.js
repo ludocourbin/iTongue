@@ -3,6 +3,7 @@ import { Card, Icon, Confirm, Image } from "semantic-ui-react";
 import { isMobile } from "react-device-detect";
 import AudioPlayer from "../../containers/Audio";
 import HeaderIrecord from "./headerIrecord";
+import { useParams } from "react-router-dom";
 
 const Irecord = ({
     record,
@@ -16,6 +17,8 @@ const Irecord = ({
     deleteIrecord,
     isUserRecord,
 }) => {
+    
+    const { slug } = useParams();
     const [selectediRecordId, setSelectediRecordId] = useState(null);
     const [open, setOpen] = useState(false);
 
@@ -53,8 +56,17 @@ const Irecord = ({
                     confirmButton="Supprimer"
                     content="Vous êtes sûr de vouloir supprimer ce iRecord ?"
                 />
-                {!isLogged && user.id === isUserRecord && <HeaderIrecord user={user} />}
 
+                {/* A check : 
+                {!isLogged && user.id === isUserRecord && <HeaderIrecord user={user} />} */}
+
+                {/* Non connecté check profil */}
+                {!isLogged && user.id === isUserRecord && slug !== user.slug &&<HeaderIrecord user={user} />}
+
+                {/* Non connecté */}
+                {!isLogged  && user.id !== isUserRecord && <HeaderIrecord user={user} />}
+
+                {/* Non-mobile, connecté et c'est son iRecord */}
                 {!isMobile && isLogged && currentUser.id === isUserRecord && (
                     <HeaderIrecord user={user}>
                         <Icon
@@ -64,7 +76,8 @@ const Irecord = ({
                         />
                     </HeaderIrecord>
                 )}
-                {isLogged && currentUser.id !== isUserRecord && (
+                {/* Est connecté, et c'est le iRecord d'une autre personne */}
+                {isLogged && currentUser.id !== isUserRecord && slug !== user.slug ?
                     <HeaderIrecord user={user}>
                         <Icon
                             onClick={handleCopyiRecord}
@@ -72,8 +85,19 @@ const Irecord = ({
                             name="copy"
                         />
                     </HeaderIrecord>
-                )}
-                <div className="irecords_rows">
+                    : isLogged && currentUser.id === isUserRecord && slug === user.slug 
+                     || isLogged && currentUser.id === isUserRecord && slug !== user.slug ?
+                        <>
+                        </>
+                    :
+                    <Icon
+                            onClick={handleCopyiRecord}
+                            className="header-irecords__copy-delete"
+                            name="copy"
+                    />
+                 }
+                 
+                 <div className="irecords_rows">
                     <div className="irecords__row">
                         <Image
                             src={`https://www.countryflags.io/${record.englishTranslation.language.code}/flat/32.png`}

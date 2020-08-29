@@ -99,8 +99,8 @@
     }
 
     .user-profil_feed {
-        padding: 1em;
-        padding-top: 2em;
+        padding: 0 1em 1em 1em;
+        //padding-top: 2em;
 
         &__norecords {
             display: flex;
@@ -155,4 +155,29 @@
     margin-bottom: 33px !important;
     width: 100% !important;
     box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.1);
+}
+
+
+.profil-search {
+    width: 100%;
+    margin: 1em 0;
+    display: flex;
+    //box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2) !important;
+    font-size: 1em!important;
+
+    &_input {
+        margin: 0 auto;
+    }
+
+    .ui.icon.input>input {
+        border-radius: 0!important;
+        border: none!important;
+        border-right: 1px solid #f9ecec!important;
+    }
+
+    .ui.selection.dropdown {
+        min-width: 10em;
+        border: none;
+       //box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2) !important;
+    }
 }

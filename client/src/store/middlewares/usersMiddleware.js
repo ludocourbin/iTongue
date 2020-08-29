@@ -114,10 +114,14 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 };
             }
 
-            httpClient.post({
-                url: `/users/${id}`,
-                data: finalData,
-            }, store)
+            httpClient
+                .post(
+                    {
+                        url: `/users/${id}`,
+                        data: finalData,
+                    },
+                    store
+                )
                 .then((res) => {
                     console.log(res);
                     store.dispatch(editProfilSuccess(finalData));
@@ -175,9 +179,10 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 return map;
             };
 
-            httpClient.get({
-                url: `/users/${action.payload}`,
-            })
+            httpClient
+                .get({
+                    url: `/users/${action.payload}`,
+                })
                 .then((res) => {
                     const profilData = res.data.data;
                     let profilUserData = {
@@ -209,11 +214,15 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 headers: {
                     Authorization: `Bearer ${store.getState().user.accessToken}`,
                 },
-            })
-            httpClient.post({
-                url: `/users/${id}/slug`,
-                data: { slug },
-            }, store)
+            });
+            httpClient
+                .post(
+                    {
+                        url: `/users/${id}/slug`,
+                        data: { slug },
+                    },
+                    store
+                )
                 .then((res) => {
                     console.log("res", res);
                     store.dispatch(editProfilSlugSuccess(slug));

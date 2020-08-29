@@ -24,7 +24,6 @@ const LayoutHeader = ({
     learnedLanguages,
     traductionId,
     taughtLanguages,
-
     ...props
 }) => {
     const [visible, setVisible] = useState(false);
@@ -138,4 +137,3 @@ const LayoutHeader = ({
 };
 
 export default LayoutHeader;
-// <NavigationBottom />

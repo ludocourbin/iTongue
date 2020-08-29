@@ -32,6 +32,10 @@ components:
           $ref: "#/components/schemas/Languages"
         taughtLanguages:
           $ref: "#/components/schemas/Languages"
+        follwerCount:
+          type: integer
+        followedCount:
+          type: integer
 
     UpdatedUser:
       type: object

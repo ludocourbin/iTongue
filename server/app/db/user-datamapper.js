@@ -1,7 +1,5 @@
 const client = require("./");
 
-const queryUtils = require("../utils/query-utils");
-
 // TODO Cache Redis
 
 const dataMapper = {
@@ -11,20 +9,30 @@ const dataMapper = {
   },
 
   findAll: async (filter, withRelations = true) => {
-    const table = withRelations ? "user_with_relations" : "user";
-    const result = await client.query(queryUtils.filter(`SELECT * FROM "${table}"`, filter));
+    const funcName = withRelations ? "get_users_with_relations" : "get_users";
+    const query = {
+      text: `SELECT * FROM "${funcName}"($1)`,
+      values: [filter]
+    };
+    const result = await client.query(query);
     return result.rows;
   },
 
   showAll: async filter => {
-    const result = await client.query(queryUtils.filter('SELECT * FROM "user_display"', filter));
+    const query = {
+      text: 'SELECT * FROM "show_users"($1)',
+      values: [filter]
+    };
+    const result = await client.query(query);
     return result.rows;
   },
 
   findOne: async (filter, withRelations = true) => {
-    const table = withRelations ? "user_with_relations" : "user";
-    const query = queryUtils.filter(`SELECT * FROM "${table}"`, filter);
-    query.text += ' ORDER BY "id" DESC LIMIT 1';
+    const funcName = withRelations ? "get_users_with_relations" : "get_users";
+    const query = {
+      text: `SELECT * FROM "${funcName}"($1) LIMIT 1`,
+      values: [filter]
+    };
 
     const result = await client.query(query);
     return result.rows[0];
@@ -34,8 +42,10 @@ const dataMapper = {
     dataMapper.findOne({ id: { operator: "=", value: id } }, withRelations),
 
   showOne: async filter => {
-    const query = queryUtils.filter('SELECT * FROM "user_display"', filter);
-    query.text += ' ORDER BY "id" DESC LIMIT 1';
+    const query = {
+      text: `SELECT * FROM "show_users"($1) LIMIT 1`,
+      values: [filter]
+    };
 
     const result = await client.query(query);
     return result.rows[0];

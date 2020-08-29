@@ -1,6 +1,6 @@
 const client = require("../redis/cache");
 
- /**
+/**
  * @typedef {Object} Expression
  * @property {Number} id ID of the expression
  * @property {String} label Label of the expression
@@ -13,11 +13,11 @@ const client = require("../redis/cache");
  */
 
 /**
-* @typedef {Object} Updated
-* @property {Boolean} updated True if succes
-*/
+ * @typedef {Object} Updated
+ * @property {Boolean} updated True if succes
+ */
 
- /**
+/**
  * @typedef {Object} Deleted
  * @property {Boolean} deleted True if succes
  */
@@ -33,7 +33,7 @@ module.exports = {
       name: `create-expression-${label}`,
       text: 'INSERT INTO "expression"("label") VALUES($1) RETURNING "id"',
       values: [label]
-    }
+    };
     return await client.query(query);
   },
 
@@ -48,7 +48,7 @@ module.exports = {
       name: `update-expression-${id}`,
       text: 'UPDATE "expression" SET "label" = $1 WHERE "id" = $2 RETURNING TRUE AS "updated"',
       values: [label, id]
-    }
+    };
     return await client.query(query);
   },
 
@@ -56,12 +56,14 @@ module.exports = {
    * Find all expressions
    * @returns {Expression[]} Available expressions
    */
-  findAll: async () => {
+  findAll: async (filter = {}) => {
     const query = {
-      name: "read-expressions",
-      text: 'SELECT * FROM "expression_with_relations"'
-    }
-    return await client.query(query);
+      // name: "read-expressions",
+      text: 'SELECT * FROM "get_expressions"($1)',
+      values: [filter]
+    };
+    const result = await client.query(query);
+    return result.rows;
   },
 
   /**

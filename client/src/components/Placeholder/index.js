@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Placeholder, Segment } from "semantic-ui-react";
 
 const PlaceholderExampleGrid = () => (
-    <Grid columns={3} stackable>
+    <Grid columns={3} style={{ marginTop: "10px" }} stackable>
         <Grid.Column>
             <Segment raised>
                 <Placeholder>

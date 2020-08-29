@@ -31,12 +31,10 @@ export default (store) => (next) => (action) => {
                     store.dispatch(
                         fetchIfollowersSuccess([
                             {
-                                id: "5",
-                                firstname: "Gautier",
-                                lastname: "Colasse",
-                                slug: "gautier-colasse",
-                                avatarUrl:
-                                    "uploads/avatars/9/e/8/3/1f5e7a08b34c5d49a68544a78bcc",
+                                id: "6",
+                                firstname: "Sacha",
+                                lastname: "Zacaropoulos",
+                                slug: "sacha-zacaropoulos",
                             },
                         ])
                     );

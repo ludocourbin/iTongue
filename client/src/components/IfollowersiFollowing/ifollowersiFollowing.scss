@@ -1,3 +1,5 @@
+@import "../../styles/vars";
+
 .ifollowersiFollowing {
     &-menu {
         // margin: 0 auto !important;
@@ -8,3 +10,52 @@
         }
     }
 }
+
+.followers-card,
+.following-card {
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    background-color: $background-color;
+    color: $primary-text-color;
+    padding: 8px 0;
+    border-top: 1px solid #f9ecec;
+
+    &_left {
+        width: 100%;
+    }
+
+    &_right {
+        width: 180px;
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 5px;
+
+        .follow-btn {
+            padding-right: 2px;
+        }
+
+        .follow-btn ~ .icon.add {
+            position: relative;
+            left: 6px;
+        }
+    }
+
+    .fullname {
+        margin-bottom: 0;
+        position: relative;
+        top: 10px;
+        font-size: 1.2em !important;
+    }
+
+    .avatar {
+        margin-left: 10px !important;
+    }
+}
+
+// .ui.floated.image {
+//     margin-bottom: 0 !important;
+//     margin-top: 0.2em !important;
+// }

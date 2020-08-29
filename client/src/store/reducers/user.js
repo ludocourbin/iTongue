@@ -40,7 +40,7 @@ import {
     EDIT_PROFIL_SLUG_INPUT,
 } from "../actions/editProfilActions";
 
-import { 
+import {
     GET_RECORDS_BY_SEARCH,
     SET_RECORDS_BY_SEARCH,
 } from "../actions/profilSearchActions";
@@ -49,6 +49,12 @@ import {
     DELETE_IRECORD_SUCCESS_USER_PROFIL,
     SEND_IRECORD_SUCCESS_USER_PROFIL,
 } from "../actions/irecordsActions.js";
+
+import {
+    FETCH_FEED_USER,
+    FETCH_FEED_USER_SUCCESS,
+    FETCH_FEED_USER_ERROR,
+} from "../actions/feedActions";
 
 const initialState = {
     currentUser: {},
@@ -97,10 +103,13 @@ const initialState = {
     editProfilAvatarLoading: false,
     editProfilSlugInputValue: "",
     editProfilSlugMsg: "",
+    feedUser: [],
+    feedUserLoading: false,
+    feedUserError: "",
     /* END EDIT PROFIL */
 
     /* SET Records by search on profil */
-        recordsFiltered: [],
+    recordsFiltered: [],
     /* END */
 };
 export default (state = initialState, action = {}) => {
@@ -423,12 +432,35 @@ export default (state = initialState, action = {}) => {
         case SET_RECORDS_BY_SEARCH:
             return {
                 ...state,
-                recordsFiltered: [...action.payload]
+                recordsFiltered: [...action.payload],
             };
         case GET_RECORDS_BY_SEARCH:
             return {
                 ...state,
             };
+        case FETCH_FEED_USER:
+            return {
+                ...state,
+                feedUserLoading: true,
+                feedUser: [],
+                feedUserError: "",
+            };
+        case FETCH_FEED_USER_SUCCESS:
+            return {
+                ...state,
+                feedUserLoading: false,
+                feedUser: [...action.payload],
+                feedUserError: "",
+            };
+
+        case FETCH_FEED_USER_ERROR:
+            return {
+                ...state,
+                feedUserLoading: false,
+                feedUser: [],
+                feedUserError: "Erreur à la récupération du feed",
+            };
+
         default:
             return state;
     }

@@ -4,12 +4,8 @@ import { updateAccessToken, updateTokenExp } from "./store/actions/userActions";
 
 export const orderCreateByDateWithMoment = (array) => {
     return array.sort(function (element1, element2) {
-        const time1 = moment(element1.createdAt).format(
-            "dddd, MMMM Do YYYY, h:mm:ss a"
-        );
-        const time2 = moment(element2.createdAt).format(
-            "dddd, MMMM Do YYYY, h:mm:ss a"
-        );
+        const time1 = moment(element1.createdAt).format("dddd, MMMM Do YYYY, h:mm:ss a");
+        const time2 = moment(element2.createdAt).format("dddd, MMMM Do YYYY, h:mm:ss a");
         if (time1 > time2) {
             return 1;
         } else {
@@ -30,28 +26,29 @@ export const httpClient = {
             const { accessTokenExp, refreshToken } = user;
             let { accessToken } = user;
 
-            console.log({
-                exp: new Date(accessTokenExp),
-                now: new Date(),
-                IsStillValid: accessTokenExp > Date.now(),
-                refreshToken,
-                accessToken,
-            });
+            // console.log({
+            //     exp: new Date(accessTokenExp),
+            //     now: new Date(),
+            //     IsStillValid: accessTokenExp > Date.now(),
+            //     refreshToken,
+            //     accessToken,
+            // });
 
             // Need refresh
             if (refreshToken && (!accessToken || accessTokenExp < Date.now())) {
                 console.log("token refreshing");
-                const response = await httpClient.post({
-                    url: "/auth/refresh",
-                    data: { refreshToken: refreshToken },
-                })
-                .then(res => {
-                    console.log(res);
-                })
-                .catch(err => {
-                    console.error(err);
-                    console.log("ERREUR du catch: ", err.response.data.errors[0].msg);
-                });
+                const response = await httpClient
+                    .post({
+                        url: "/auth/refresh",
+                        data: { refreshToken: refreshToken },
+                    })
+                    .then((res) => {
+                        // console.log(res);
+                    })
+                    .catch((err) => {
+                        // console.error(err);
+                        console.log("ERREUR du catch: ", err.response.data.errors[0].msg);
+                    });
 
                 console.log("response", response.data.data.accessToken);
 

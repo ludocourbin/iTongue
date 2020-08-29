@@ -21,7 +21,12 @@ import {
     editProfilSlugInput,
 } from "../actions/editProfilActions";
 
-import axios from "axios";
+import {
+    FETCH_FEED_USER,
+    fetchFeedUserSuccess,
+    fetchFeedUserError,
+} from "../actions/feedActions";
+
 import { httpClient } from "../../utils";
 
 export const usersMiddleware = (store) => (next) => (action) => {
@@ -207,14 +212,6 @@ export const usersMiddleware = (store) => (next) => (action) => {
         case EDIT_PROFIL_SLUG: {
             const { id, slug } = store.getState().user.editProfilData;
 
-            axios({
-                method: "POST",
-                url: `${process.env.REACT_APP_API_URL}/users/${id}/slug`,
-                data: { slug },
-                headers: {
-                    Authorization: `Bearer ${store.getState().user.accessToken}`,
-                },
-            });
             httpClient
                 .post(
                     {
@@ -253,6 +250,25 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 });
             break;
         }
+
+        case FETCH_FEED_USER:
+            const { currentUser } = store.getState().user;
+
+            httpClient
+                .get(
+                    {
+                        url: `/users/${currentUser.id}/feed`,
+                    },
+                    store
+                )
+                .then((res) => {
+                    store.dispatch(fetchFeedUserSuccess(res.data.data));
+                })
+                .catch((_) => {
+                    console.log("error");
+                    store.dispatch(fetchFeedUserError());
+                });
+            break;
         default:
             break;
     }

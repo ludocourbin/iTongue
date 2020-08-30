@@ -202,14 +202,6 @@ export const usersMiddleware = (store) => (next) => (action) => {
         case EDIT_PROFIL_SLUG: {
             const { id, slug } = store.getState().user.editProfilData;
 
-            axios({
-                method: "POST",
-                url: `${process.env.REACT_APP_API_URL}/users/${id}/slug`,
-                data: { slug },
-                headers: {
-                    Authorization: `Bearer ${store.getState().user.accessToken}`,
-                },
-            })
             httpClient.post({
                 url: `/users/${id}/slug`,
                 data: { slug },
@@ -238,6 +230,9 @@ export const usersMiddleware = (store) => (next) => (action) => {
                         } else {
                             store.dispatch(
                                 editProfilSlugError("Une erreur est survenue")
+                            );
+                            toast.info(
+                                "Une erreur est survenue lors du changement de votre slug"
                             );
                         }
                     }

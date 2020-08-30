@@ -6,6 +6,7 @@ import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
 import UpdateAvatar from "../../../containers/User/UpdateAvatar";
 import ProfilSearch from "../../../containers/User/ProfilSearch";
+import Follow from "../../../containers/User/Follow";
 
 /* Components */
 import { Segment, Image, Icon } from "semantic-ui-react";
@@ -57,6 +58,8 @@ const UserProfil = ({
         learnedLanguages,
         taughtLanguages,
         checkUserSlugLoading,
+        followerCount,
+        followedCount,
     } = userSlugInfos;
 
     return (
@@ -78,6 +81,7 @@ const UserProfil = ({
                                 checkUserSlugLoading={checkUserSlugLoading}
                             />
                         </div>
+                        <Follow userSlugInfos={userSlugInfos} />
                     </div>
                     <div className="container_right">
                         <div className="container_right__first-row">
@@ -130,14 +134,17 @@ const UserProfil = ({
                         <div className="container_right__third-row">
                             <Statistics
                                 totalRecords={records ? records.length : 0}
-                                totalFollow={547}
-                                totalFollower={645}
+                                totalFollow={followerCount}
+                                totalFollower={followedCount}
                             />
                         </div>
                     </div>
                 </Segment>
 
+                
+
                 <div className="container_bio">
+                
                     {bio && (
                         <p>
                             <strong>« </strong> {bio} <strong> »</strong>

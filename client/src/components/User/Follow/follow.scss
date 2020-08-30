@@ -1,0 +1,15 @@
+
+@import "../../../styles/vars";
+
+.follow {
+    width: 64px;
+    position: absolute;
+    bottom: 1.28em;
+    left: 3.5em;
+    
+
+    .ui.red.button {
+        width: 64px;
+        background-color: $primary-color;
+    }   
+}

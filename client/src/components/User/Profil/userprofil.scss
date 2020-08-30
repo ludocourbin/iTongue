@@ -1,6 +1,5 @@
 @import "../../../styles/vars";
 
-
 .user-profil {
     //background-color: $background-color;
     height: calc(100vh - 108px);
@@ -28,14 +27,16 @@
         align-items: flex-start;
         align-content: center;
         width: 100%;
+        height:190px;
         overflow-x: hidden;
         padding: 1em !important;
         padding-top: 2em !important;
+        position: relative;
 
         .container_left {
             width: 35%;
             padding-left: 1em;
-
+            
             &__container {
                 width: 105px;
                 position: relative;
@@ -44,6 +45,7 @@
 
         .container_right {
             width: 65%;
+            height: 100%;
             margin-left: 1.8em;
             display: flex;
             flex-direction: column;
@@ -59,10 +61,11 @@
                 width: 100%;
                 display: flex;
                 flex-direction: row;
-
+/*
                 .icon-settings {
                     //margin-left: 1.5em;
                 }
+*/
             }
 
             &__second-row {

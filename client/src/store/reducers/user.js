@@ -50,6 +50,14 @@ import {
     SEND_IRECORD_SUCCESS_USER_PROFIL,
 } from "../actions/irecordsActions.js";
 
+import {
+    FOLLOW,
+    FOLLOW_SUCCESS,
+    FOLLOW_ERROR,
+    UNFOLLOW,
+    UNFOLLOW_SUCCESS,
+    UNFOLLOW_ERROR,
+} from "../actions/followActions";
 const initialState = {
     currentUser: {},
     isLogged: false,
@@ -429,6 +437,34 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
             };
+        case FOLLOW:
+            return {
+                ...state,
+            };    
+        case FOLLOW_SUCCESS:
+            return {
+                ...state,
+                userSlugInfos: {
+                    ...state.userSlugInfos,
+                    
+                }
+            };    
+        case FOLLOW_ERROR:
+            return {
+                ...state,
+            };    
+        case UNFOLLOW:
+            return {
+                ...state,
+            };    
+        case UNFOLLOW_SUCCESS:
+            return {
+                ...state,
+            };    
+        case UNFOLLOW_ERROR:
+            return {
+                ...state,
+            };    
         default:
             return state;
     }

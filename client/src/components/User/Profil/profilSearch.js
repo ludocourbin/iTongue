@@ -26,7 +26,7 @@ const ProfilSearch = ({ records, setRecordsBySearch }) => {
         } else {
             setRecordsBySearch(filterSearch(inputSearch.search));
         }
-    }, [inputSearch, filterSearch, setRecordsBySearch]);
+    }, [inputSearch, setRecordsBySearch]);
 
     const handdleChange = (e, data) => {
         setInputSearch({

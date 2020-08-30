@@ -45,7 +45,7 @@ const UserProfil = ({
 
     useEffect(() => {
         getRecordsBySearch();
-    }, [getRecordsBySearch, recordsFiltered]);
+    }, [getRecordsBySearch]);
 
     const {
         id,
@@ -134,8 +134,8 @@ const UserProfil = ({
                         <div className="container_right__third-row">
                             <Statistics
                                 totalRecords={records ? records.length : 0}
-                                totalFollow={followerCount}
-                                totalFollower={followedCount}
+                                totalFollower={followerCount}
+                                totalFollowed={followedCount}
                             />
                         </div>
                     </div>

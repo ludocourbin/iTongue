@@ -38,3 +38,24 @@ export const unFollowError = (payload) => ({
     type: UNFOLLOW_ERROR,
     payload,
 });
+
+// CHECK_IF_USER_FOLLOW
+
+export const CHECK_IF_USER_FOLLOW = "CHECK_IF_USER_FOLLOW";
+export const CHECK_IF_USER_FOLLOW_SUCCESS = "CHECK_IF_USER_FOLLOW_SUCCESS";
+export const CHECK_IF_USER_FOLLOW_ERROR = "CHECK_IF_USER_FOLLOW_ERROR";
+
+export const checkIfUserFollow = (payload) => ({
+    type: CHECK_IF_USER_FOLLOW,
+    payload,
+});
+
+export const checkIfUserFollowSuccess = (payload) => ({
+    type: CHECK_IF_USER_FOLLOW_SUCCESS,
+    payload,
+});
+
+export const checkIfUserFollowError = (payload) => ({
+    type: CHECK_IF_USER_FOLLOW_ERROR,
+    payload,
+});

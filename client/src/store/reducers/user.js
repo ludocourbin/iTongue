@@ -57,7 +57,12 @@ import {
     UNFOLLOW,
     UNFOLLOW_SUCCESS,
     UNFOLLOW_ERROR,
+    CHECK_IF_USER_FOLLOW,
+    CHECK_IF_USER_FOLLOW_SUCCESS,
+    CHECK_IF_USER_FOLLOW_ERROR,
 } from "../actions/followActions";
+
+
 const initialState = {
     currentUser: {},
     isLogged: false,
@@ -107,9 +112,8 @@ const initialState = {
     editProfilSlugMsg: "",
     /* END EDIT PROFIL */
 
-    /* SET Records by search on profil */
-        recordsFiltered: [],
-    /* END */
+    recordsFiltered: [],
+    isUserFollowThisUser : false,
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
@@ -444,9 +448,10 @@ export default (state = initialState, action = {}) => {
         case FOLLOW_SUCCESS:
             return {
                 ...state,
+                isUserFollowThisUser: true,
                 userSlugInfos: {
                     ...state.userSlugInfos,
-                    
+                    followerCount: state.userSlugInfos.followerCount + 1,
                 }
             };    
         case FOLLOW_ERROR:
@@ -460,11 +465,29 @@ export default (state = initialState, action = {}) => {
         case UNFOLLOW_SUCCESS:
             return {
                 ...state,
+                isUserFollowThisUser: action.payload,
+                userSlugInfos: {
+                    ...state.userSlugInfos,
+                    followerCount: state.userSlugInfos.followerCount - 1,
+                }
             };    
         case UNFOLLOW_ERROR:
             return {
                 ...state,
-            };    
+            };
+        case CHECK_IF_USER_FOLLOW:
+            return {
+                ...state,
+            };
+        case CHECK_IF_USER_FOLLOW_SUCCESS:
+            return {
+                ...state,
+                isUserFollowThisUser: action.payload,
+            };
+        case CHECK_IF_USER_FOLLOW_ERROR:
+            return {
+                ...state,
+            };
         default:
             return state;
     }

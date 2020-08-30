@@ -44,23 +44,9 @@ export const httpClient = {
                 const response = await httpClient.post({
                     url: "/auth/refresh",
                     data: { refreshToken: refreshToken },
-                })
-                .then(res => {
-                    console.log(res);
-                })
-                .catch(err => {
-                    console.error(err);
-                    console.log("ERREUR du catch: ", err.response.data.errors[0].msg);
                 });
 
-                //console.log("response", response.data.data.accessToken);
-
-                // console.log("accessToken avant:", accessToken);
-                
                 accessToken = response.data.data.accessToken;
-
-                // console.log("accessToken après assignation:", accessToken);
-
                 store.dispatch(updateTokenExp());
                 store.dispatch(updateAccessToken(accessToken));
             }

@@ -5,7 +5,7 @@ import './statistics.scss'
 
 const Statistics = (props) => {
 
-    const { totalRecords, totalFollow, totalFollower } = props;
+    const { totalRecords, totalFollower, totalFollowed } = props;
 
     return (
         <Statistic.Group widths="three" size="mini" className="statistics-group">
@@ -18,16 +18,16 @@ const Statistics = (props) => {
             </Statistic>
 
             <Statistic>
-                <Statistic.Value>{totalFollow}</Statistic.Value>
+                <Statistic.Value>{totalFollower}</Statistic.Value>
                 <Statistic.Label>
-                    iFollow
+                    iFollower
                 </Statistic.Label>
             </Statistic>
             
             <Statistic>
-                <Statistic.Value>{totalFollower}</Statistic.Value>
+                <Statistic.Value>{totalFollowed}</Statistic.Value>
                 <Statistic.Label>
-                    iFollower
+                    iFollowed
                 </Statistic.Label>
             </Statistic>
 

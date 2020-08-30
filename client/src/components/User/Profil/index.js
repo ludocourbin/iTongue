@@ -141,10 +141,7 @@ const UserProfil = ({
                     </div>
                 </Segment>
 
-                
-
                 <div className="container_bio">
-                
                     {bio && (
                         <p>
                             <strong>« </strong> {bio} <strong> »</strong>
@@ -153,10 +150,7 @@ const UserProfil = ({
                 </div>
 
                 <div className="user-profil_feed">
-
-                    <ProfilSearch 
-                    records={records}
-                    />
+                    <ProfilSearch records={records} />
 
                     {recordsFiltered && recordsFiltered.length ? 
                         recordsFiltered.map((audio, key) => (
@@ -167,16 +161,7 @@ const UserProfil = ({
                                 isUserRecord={id}
                             />
                         ))
-                    : records && !recordsFiltered.length && records.length ?
-                        records.map((audio, key) => (
-                            <Irecords
-                                key={key}
-                                record={audio}
-                                user={userSlugInfos}
-                                isUserRecord={id}
-                            />
-                        ))
-                    : (
+                    :  (
                         <>
                             <div className="user-profil_feed__norecords">
                                 <Icon

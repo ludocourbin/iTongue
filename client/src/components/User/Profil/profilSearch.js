@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown, Input } from 'semantic-ui-react';
 import './userprofil.scss';
 
-const ProfilSearch = ({ records, setRecordsBySearch}) => {
+const ProfilSearch = ({ records, setRecordsBySearch }) => {
 
     const [inputSearch, setInputSearch] =useState({ search: '', lang: null });
 
@@ -18,20 +18,20 @@ const ProfilSearch = ({ records, setRecordsBySearch}) => {
     
     useEffect(() => {
         if(inputSearch.search && !inputSearch.lang)  {
-            setRecordsBySearch(filterSearch(inputSearch.search))
+            setRecordsBySearch(filterSearch(inputSearch.search));
+        } else if (inputSearch.search == "" && inputSearch.lang) {
+            setRecordsBySearch(filterSearch(inputSearch.search,inputSearch.lang));
         } else if (inputSearch.search && inputSearch.lang) {
-            setRecordsBySearch(filterSearch(inputSearch.search,inputSearch.lang))
+            setRecordsBySearch(filterSearch(inputSearch.search,inputSearch.lang));
         } else {
-            setRecordsBySearch([]);
+            setRecordsBySearch(filterSearch(inputSearch.search));
         }
     }, [inputSearch, filterSearch, setRecordsBySearch]);
-
-
 
     const handdleChange = (e, data) => {
         setInputSearch({
             search: e.target.name === "search" ? e.target.value : inputSearch.search,
-            lang: data.name === "lang" ? data.value : null
+            lang: data.name === "lang" ? data.value : inputSearch.lang
         });
     };
 

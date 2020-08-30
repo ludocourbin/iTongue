@@ -20,10 +20,10 @@ SELECT "u".*,
 		     WHERE "lu"."user_id" = "u"."id") AS "taughtLanguages",
        (SELECT COUNT(*)
           FROM "user_user_follow"
-         WHERE "followed_id" = "u"."id") AS "followerCount",
+         WHERE "followed_id" = "u"."id")::INT AS "followerCount",
        (SELECT COUNT(*)
           FROM "user_user_follow"
-         WHERE "follower_id" = "u"."id") AS "followedCount"
+         WHERE "follower_id" = "u"."id")::INT AS "followedCount"
   FROM "user" "u";
 
 CREATE VIEW "user_display" AS

@@ -8,7 +8,7 @@ const dataMapper = {
     return result.rows[0];
   },
 
-  findAll: async (filter, withRelations = true) => {
+  findAll: async (filter = {}, withRelations = true) => {
     const funcName = withRelations ? "get_users_with_relations" : "get_users";
     const query = {
       text: `SELECT * FROM "${funcName}"($1)`,
@@ -18,7 +18,7 @@ const dataMapper = {
     return result.rows;
   },
 
-  showAll: async filter => {
+  showAll: async (filter = {}) => {
     const query = {
       text: 'SELECT * FROM "show_users"($1)',
       values: [filter]
@@ -27,7 +27,7 @@ const dataMapper = {
     return result.rows;
   },
 
-  findOne: async (filter, withRelations = true) => {
+  findOne: async (filter = {}, withRelations = true) => {
     const funcName = withRelations ? "get_users_with_relations" : "get_users";
     const query = {
       text: `SELECT * FROM "${funcName}"($1) LIMIT 1`,
@@ -41,7 +41,7 @@ const dataMapper = {
   findByPk: (id, withRelations = true) =>
     dataMapper.findOne({ id: { operator: "=", value: id } }, withRelations),
 
-  showOne: async filter => {
+  showOne: async (filter = {}) => {
     const query = {
       text: `SELECT * FROM "show_users"($1) LIMIT 1`,
       values: [filter]

@@ -13,9 +13,9 @@ const dataMapper = {
     return result.rows[0];
   },
 
-  findOne: async filter => {
+  findOne: async (filter = {}) => {
     const query = {
-      text: 'SELECT * FROM "get_records" LIMIT 1',
+      text: 'SELECT * FROM "get_records"($1) LIMIT 1',
       values: [filter]
     };
 
@@ -23,7 +23,7 @@ const dataMapper = {
     return result.rows[0];
   },
 
-  showOne: async filter => {
+  showOne: async (filter = {}) => {
     const query = {
       text: 'SELECT * FROM "show_records"($1) LIMIT 1',
       values: [filter]
@@ -35,7 +35,9 @@ const dataMapper = {
 
   findByPk: id => dataMapper.findOne({ id: { operator: "=", value: id } }),
 
-  findAll: async filter => {
+  showByPk: id => dataMapper.showOne({ id: { table: "r", operator: "=", value: id } }),
+
+  findAll: async (filter = {}) => {
     const query = {
       text: 'SELECT * FROM "show_records"($1)',
       values: [filter]

@@ -12,4 +12,5 @@
 400-functions-highlights 2020-08-25T08:57:59Z Quentin Lemogodeuc <q.lemogodeuc@gmail.com> # The view serves datas for the home page
 500-tables-follow-userLike 2020-08-28T08:09:29Z Quentin Lemogodeuc <q.lemogodeuc@gmail.com> # Create tables M2M user-follow, record-like
 501-add-subscription-counts-to-user-display 2020-08-29T08:24:35Z sacha-smz <sacha.zacaropoulos@gmail.com> # Adds followers count and followed count to user display
-502-add-where-clause-generator-function 2020-08-30T08:27:51Z sacha-smz <sacha.zacaropoulos@gmail.com> # Adds a function generationg dynamic SQL WHERE clause 
+502-add-where-clause-generator-function 2020-08-30T08:27:51Z sacha-smz <sacha.zacaropoulos@gmail.com> # Adds a function generationg dynamic SQL WHERE clause
+503-constraints-and-indexes 2020-08-30T14:44:31Z sacha-smz <sacha.zacaropoulos@gmail.com> # Adding constraints and indexes on existing tables and views

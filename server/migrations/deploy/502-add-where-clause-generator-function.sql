@@ -2,14 +2,10 @@
 
 BEGIN;
 
-DROP VIEW "user_display", "user_with_relations", "expression_with_relations";
+DROP VIEW "user_display", "expression_with_relations";
 
 CREATE TYPE "expression_with_relations" AS
 ("id" INT, "label" TEXT, "englishText" TEXT, "createdAt" TIMESTAMPTZ, "translations" JSON);
-
-CREATE TYPE "user_with_relations" AS
-("id" INT, "email" TEXT, "password" TEXT, "firstname" TEXT, "lastname" TEXT, "slug" TEXT, "bio" TEXT, "avatar_url" TEXT, "is_admin" BOOLEAN,
-"created_at" TIMESTAMPTZ, "records" JSON, "learnedLanguages" JSON, "taughtLanguages" JSON, "followerCount" INT, "followedCount" INT);
 
 CREATE TYPE "user_display" AS
 ("id" INT, "email" TEXT, "firstname" TEXT, "lastname" TEXT, "slug" TEXT, "bio" TEXT, "avatarUrl" TEXT, "isAdmin" BOOLEAN,
@@ -129,7 +125,7 @@ END
 $$ LANGUAGE plpgsql STABLE;
 
 CREATE FUNCTION "get_records"("filter" JSON DEFAULT '{}')
-RETURNS SETOF "record" AS
+RETURNS SETOF "public"."record" AS
 $$
 DECLARE
   "query" TEXT := 'SELECT * FROM "record"';

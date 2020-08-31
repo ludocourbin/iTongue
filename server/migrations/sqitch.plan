@@ -16,3 +16,4 @@
 503-constraints-and-indexes 2020-08-30T14:44:31Z sacha-smz <sacha.zacaropoulos@gmail.com> # Adding constraints and indexes on existing tables and views
 600-create-tables-comments-like-fav 2020-08-31T13:32:09Z Quentin Lemogodeuc <q.lemogodeuc@gmail.com> # Create tables for commenting liking and adding records to favs
 601-record-likes-related-updates 2020-08-31T15:08:33Z sacha-smz <sacha.zacaropoulos@gmail.com> # Function updates related to the new record like feature
+602-functions-comment 2020-08-31T16:02:27Z Quentin Lemogodeuc <q.lemogodeuc@gmail.com> # Add functions to retrieve comments

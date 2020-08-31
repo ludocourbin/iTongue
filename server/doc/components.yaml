@@ -237,6 +237,23 @@ components:
       required:
         - label
 
+    Comment:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/PrimaryKey"
+        text:
+          type: string
+        user:
+          $ref: "#/components/schemas/RecordUser"
+        createdAt:
+          $ref: "#/components/schemas/DateTZ"
+
+    Comments:
+      type: array
+      items:
+        $ref: "#/components/schemas/Comment"
+
     UserLanguage:
       type: object
       properties:

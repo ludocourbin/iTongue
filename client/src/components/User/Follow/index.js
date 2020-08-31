@@ -5,18 +5,14 @@ import './follow.scss';
 
 const Follow = ({ userSlugInfos, user, follow, unFollow, checkIfUserFollow, isUserFollowThisUser }) => {
 
-    console.log("isUserFollowThisUser", isUserFollowThisUser);
-
     const { slug } = useParams();
 
     const handdleClickFollow = () => {
         follow(userSlugInfos.id);
-        console.log("user", user.id , "follow", "user", userSlugInfos.id);
     };
 
     const handdleClickUnFollow = () => {
         unFollow(userSlugInfos.id);
-        console.log("user", user.id , "unFollow", "user", userSlugInfos.id);
     };
 
     useEffect(() => {

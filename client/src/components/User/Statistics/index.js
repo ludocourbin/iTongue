@@ -2,6 +2,7 @@ import React from 'react';
 import { Statistic } from 'semantic-ui-react';
 
 import './statistics.scss'
+import { NavLink } from 'react-router-dom';
 
 const Statistics = (props) => {
 
@@ -20,15 +21,15 @@ const Statistics = (props) => {
             <Statistic>
                 <Statistic.Value>{totalFollower}</Statistic.Value>
                 <Statistic.Label>
-                    iFollower
+                    <NavLink to="/ifollowers">iFollower</NavLink>
                 </Statistic.Label>
             </Statistic>
             
             <Statistic>
-                <Statistic.Value>{totalFollowed}</Statistic.Value>
-                <Statistic.Label>
-                    iFollowed
-                </Statistic.Label>
+                    <Statistic.Value>{totalFollowed}</Statistic.Value>
+                    <Statistic.Label>
+                    <NavLink to="/ifollowing">iFollowed</NavLink>
+                    </Statistic.Label>
             </Statistic>
 
         </Statistic.Group>

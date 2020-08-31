@@ -3,8 +3,13 @@ import { Image, Header, Label, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 // import './Followers.scss';
 
-const Followers = ({ user, currentUserId, userSlugId }) => {
-    const [following, setFollowing] = useState(true);
+const Followers = ({ user, currentUserId, userSlugId, allFollowers }) => {
+    const isFollowing = allFollowers.find(
+        (userFollowing) => userFollowing.id === user.id
+    );
+    const [following, setFollowing] = useState(isFollowing ? true : false);
+
+    const isUser = user.id === currentUserId;
     return (
         <div className="following-card">
             <div className="following-card_left">
@@ -29,7 +34,7 @@ const Followers = ({ user, currentUserId, userSlugId }) => {
             </div>
 
             <div className="following-card_right">
-                {currentUserId === userSlugId ? (
+                {currentUserId === userSlugId && !isUser ? (
                     <Label className={following ? "" : "follow-btn"}>
                         {following ? (
                             <span>Supprimer</span>
@@ -42,7 +47,7 @@ const Followers = ({ user, currentUserId, userSlugId }) => {
                             name={following ? "delete" : "add"}
                         />
                     </Label>
-                ) : (
+                ) : currentUserId !== userSlugId && !isUser ? (
                     <Label className={following ? "" : "follow-btn"}>
                         {following ? (
                             <span>Abonné(e)</span>
@@ -54,6 +59,8 @@ const Followers = ({ user, currentUserId, userSlugId }) => {
                             name={following ? "delete" : "add"}
                         />
                     </Label>
+                ) : (
+                    <div></div>
                 )}
             </div>
         </div>

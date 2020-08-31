@@ -18,6 +18,9 @@ const IfollowersiFollowing = ({
     fetchIfollowing,
     currentUser,
     userSlugInfos,
+    follow,
+    unFollow,
+    checkIfUserFollow,
 }) => {
     const { pathname } = useLocation();
 
@@ -31,8 +34,6 @@ const IfollowersiFollowing = ({
         setActiveItem(name);
     };
 
-    console.log("currentUser", currentUser);
-    console.log("userSlugInfos", userSlugInfos);
     return (
         <Layout>
             <div className="ifollowersiFollowing">
@@ -71,9 +72,11 @@ const IfollowersiFollowing = ({
                     allFollowing.map((following) => (
                         <div className="">
                             <Following
+                                allFollowers={allFollowers}
                                 user={following}
                                 currentUserId={currentUser.id}
                                 userSlugId={userSlugInfos.id}
+                                checkIfUserFollow={checkIfUserFollow}
                             />
                         </div>
                     ))
@@ -83,7 +86,7 @@ const IfollowersiFollowing = ({
             ) : allFollowers ? (
                 allFollowers.map((followers) => (
                     <div className="">
-                        <Followers user={followers} />
+                        <Followers allFollowers={allFollowers} user={followers} />
                     </div>
                 ))
             ) : (

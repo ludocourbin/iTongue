@@ -5,6 +5,8 @@ import {
     fetchIfollowing,
 } from "../store/actions/ifollowersifollowingActions";
 
+import { follow, unFollow, checkIfUserFollow } from "../store/actions/followActions";
+
 const mapStateToProps = (state) => ({
     allFollowers: state.ifollowersifollowing.allFollowers,
     allFollowing: state.ifollowersifollowing.allFollowing,
@@ -20,6 +22,15 @@ const mapDispatchToProps = (dispatch) => ({
     },
     fetchIfollowing: () => {
         dispatch(fetchIfollowing());
+    },
+    follow: (userId) => {
+        dispatch(follow(userId));
+    },
+    unFollow: (userId) => {
+        dispatch(unFollow(userId));
+    },
+    checkIfUserFollow: (userSlug) => {
+        dispatch(checkIfUserFollow(userSlug));
     },
 });
 

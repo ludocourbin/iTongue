@@ -14,3 +14,4 @@
 501-add-subscription-counts-to-user-display 2020-08-29T08:24:35Z sacha-smz <sacha.zacaropoulos@gmail.com> # Adds followers count and followed count to user display
 502-add-where-clause-generator-function 2020-08-30T08:27:51Z sacha-smz <sacha.zacaropoulos@gmail.com> # Adds a function generationg dynamic SQL WHERE clause
 503-constraints-and-indexes 2020-08-30T14:44:31Z sacha-smz <sacha.zacaropoulos@gmail.com> # Adding constraints and indexes on existing tables and views
+600-create-tables-comments-like-fav 2020-08-31T13:32:09Z Quentin Lemogodeuc <q.lemogodeuc@gmail.com> # Create tables for commenting liking and adding records to favs

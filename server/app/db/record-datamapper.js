@@ -1,13 +1,11 @@
 const client = require("./");
 
-const queryUtils = require("../utils/query-utils");
-
 const dataMapper = {
   insertOne: async record => {
     const query = {
       text: `INSERT INTO "record" ("url", "user_id", "translation_id")
-              VALUES ($1, $2, $3)
-           RETURNING "id"`,
+                  VALUES ($1, $2, $3)
+               RETURNING "id"`,
       values: [record.url, record.userId, record.translationId]
     };
 
@@ -15,17 +13,21 @@ const dataMapper = {
     return result.rows[0];
   },
 
-  findOne: async filter => {
-    const query = queryUtils.filter(`SELECT * FROM "record"`, filter);
-    query.text += ' ORDER BY "id" DESC LIMIT 1';
+  findOne: async (filter = {}) => {
+    const query = {
+      text: 'SELECT * FROM "get_records"($1) LIMIT 1',
+      values: [filter]
+    };
 
     const result = await client.query(query);
     return result.rows[0];
   },
 
-  showOne: async filter => {
-    const query = queryUtils.filter(`SELECT * FROM "record_display"`, filter);
-    query.text += ' ORDER BY "id" DESC LIMIT 1';
+  showOne: async (filter = {}) => {
+    const query = {
+      text: 'SELECT * FROM "show_records"($1) LIMIT 1',
+      values: [filter]
+    };
 
     const result = await client.query(query);
     return result.rows[0];
@@ -33,8 +35,14 @@ const dataMapper = {
 
   findByPk: id => dataMapper.findOne({ id: { operator: "=", value: id } }),
 
-  findAll: async filter => {
-    const result = await client.query(queryUtils.filter(`SELECT * FROM "record_display"`, filter));
+  showByPk: id => dataMapper.showOne({ id: { table: "r", operator: "=", value: id } }),
+
+  findAll: async (filter = {}) => {
+    const query = {
+      text: 'SELECT * FROM "show_records"($1)',
+      values: [filter]
+    };
+    const result = await client.query(query);
     return result.rows;
   },
 

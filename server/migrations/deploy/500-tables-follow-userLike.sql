@@ -40,7 +40,7 @@ $$
    SELECT "r".*
     FROM "record_display" "r"
     JOIN "user_user_follow" "f"
-      ON ("r"."user"#>>'{id}')::INT = "f"."followed_id"
+      ON ("r"."user"->>'id')::INT = "f"."followed_id"
    WHERE "f"."follower_id" = "user_id"
 ORDER BY "r"."createdAt" DESC;
 $$

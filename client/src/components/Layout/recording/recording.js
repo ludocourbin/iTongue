@@ -125,3 +125,14 @@ const Recording = ({
 };
 
 export default Recording;
+
+// <TranslationDropdown
+//                     options={optionsText}
+//                     value={expressionSelected}
+//                     onChange={handleChangeExpression}
+//                 />
+//                 <TranslationDropdown
+//                     options={translationsSelected && translationsSelected}
+//                     value={translationSelected && translationSelected}
+//                     onChange={handleChangeTranslation}
+//                 />

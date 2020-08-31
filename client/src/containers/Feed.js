@@ -1,14 +1,14 @@
 import { connect } from "react-redux";
 import Feed from "../components/Feed";
-import { fetchAllRecords } from "../store/actions/irecordsActions";
+import { fetchFeedUser } from "../store/actions/feedActions";
 
 const mapStateToProps = (state) => ({
-    allRecordsList: state.irecords.allRecordsList,
+    feedUser: state.user.feedUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchAllRecords: () => {
-        dispatch(fetchAllRecords());
+    fetchFeedUser: () => {
+        dispatch(fetchFeedUser());
     },
 });
 

@@ -17,7 +17,6 @@ const Irecord = ({
     deleteIrecord,
     isUserRecord,
 }) => {
-    
     const { slug } = useParams();
     const [selectediRecordId, setSelectediRecordId] = useState(null);
     const [open, setOpen] = useState(false);
@@ -61,10 +60,12 @@ const Irecord = ({
                 {!isLogged && user.id === isUserRecord && <HeaderIrecord user={user} />} */}
 
                 {/* Non connecté check profil */}
-                {!isLogged && user.id === isUserRecord && slug !== user.slug &&<HeaderIrecord user={user} />}
+                {!isLogged && user.id === isUserRecord && slug !== user.slug && (
+                    <HeaderIrecord user={user} />
+                )}
 
                 {/* Non connecté */}
-                {!isLogged  && user.id !== isUserRecord && <HeaderIrecord user={user} />}
+                {!isLogged && user.id !== isUserRecord && <HeaderIrecord user={user} />}
 
                 {/* Non-mobile, connecté et c'est son iRecord */}
                 {!isMobile && isLogged && currentUser.id === isUserRecord && (
@@ -76,8 +77,8 @@ const Irecord = ({
                         />
                     </HeaderIrecord>
                 )}
-                {/* Est connecté, et c'est le iRecord d'une autre personne */}
-                {isLogged && currentUser.id !== isUserRecord && slug !== user.slug ?
+                {/* Est connecté, et c'est le iRecord d'une autre personne   */}
+                {isLogged && currentUser.id !== isUserRecord && slug !== user.slug ? (
                     <HeaderIrecord user={user}>
                         <Icon
                             onClick={handleCopyiRecord}
@@ -85,19 +86,21 @@ const Irecord = ({
                             name="copy"
                         />
                     </HeaderIrecord>
-                    : isLogged && currentUser.id === isUserRecord && slug === user.slug 
-                     || isLogged && currentUser.id === isUserRecord && slug !== user.slug ?
-                        <>
-                        </>
-                    :
+                ) : (isLogged && currentUser.id === isUserRecord && slug === user.slug) ||
+                  (isLogged && currentUser.id === isUserRecord && slug !== user.slug) ? (
+                    <></>
+                ) : (!isLogged && slug !== user.slug) ||
+                  (!isLogged && slug === user.slug) ? (
+                    <></>
+                ) : (
                     <Icon
-                            onClick={handleCopyiRecord}
-                            className="header-irecords__copy-delete"
-                            name="copy"
+                        onClick={handleCopyiRecord}
+                        className="header-irecords__copy-delete"
+                        name="copy"
                     />
-                 }
-                 
-                 <div className="irecords_rows">
+                )}
+
+                <div className="irecords_rows">
                     <div className="irecords__row">
                         <Image
                             src={`https://www.countryflags.io/${record.englishTranslation.language.code}/flat/32.png`}

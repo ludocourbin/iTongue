@@ -21,7 +21,12 @@ import {
     editProfilSlugInput,
 } from "../actions/editProfilActions";
 
-import axios from "axios";
+import {
+    FETCH_FEED_USER,
+    fetchFeedUserSuccess,
+    fetchFeedUserError,
+} from "../actions/feedActions";
+
 import { httpClient } from "../../utils";
 
 export const usersMiddleware = (store) => (next) => (action) => {
@@ -114,10 +119,14 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 };
             }
 
-            httpClient.post({
-                url: `/users/${id}`,
-                data: finalData,
-            }, store)
+            httpClient
+                .post(
+                    {
+                        url: `/users/${id}`,
+                        data: finalData,
+                    },
+                    store
+                )
                 .then((res) => {
                     console.log(res);
                     store.dispatch(editProfilSuccess(finalData));
@@ -175,9 +184,10 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 return map;
             };
 
-            httpClient.get({
-                url: `/users/${action.payload}`,
-            })
+            httpClient
+                .get({
+                    url: `/users/${action.payload}`,
+                })
                 .then((res) => {
                     const profilData = res.data.data;
                     let profilUserData = {
@@ -202,10 +212,14 @@ export const usersMiddleware = (store) => (next) => (action) => {
         case EDIT_PROFIL_SLUG: {
             const { id, slug } = store.getState().user.editProfilData;
 
-            httpClient.post({
-                url: `/users/${id}/slug`,
-                data: { slug },
-            }, store)
+            httpClient
+                .post(
+                    {
+                        url: `/users/${id}/slug`,
+                        data: { slug },
+                    },
+                    store
+                )
                 .then((res) => {
                     console.log("res", res);
                     store.dispatch(editProfilSlugSuccess(slug));
@@ -239,6 +253,25 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 });
             break;
         }
+
+        case FETCH_FEED_USER:
+            const { currentUser } = store.getState().user;
+
+            httpClient
+                .get(
+                    {
+                        url: `/users/${currentUser.id}/feed`,
+                    },
+                    store
+                )
+                .then((res) => {
+                    store.dispatch(fetchFeedUserSuccess(res.data.data));
+                })
+                .catch((_) => {
+                    console.log("error");
+                    store.dispatch(fetchFeedUserError());
+                });
+            break;
         default:
             break;
     }

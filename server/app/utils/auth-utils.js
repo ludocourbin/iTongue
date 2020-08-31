@@ -46,7 +46,7 @@ const utils = {
 
   invalidateAccessToken: async token => {
     const payload = await verifyToken(token, "access");
-    return await utils.blackListAccessToken(token, payload);
+    return await utils.blacklistAccessToken(token, payload);
   },
 
   blacklistAccessToken: async (token, payload) => {

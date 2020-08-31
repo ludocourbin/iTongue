@@ -15,7 +15,7 @@ const { SALT_ROUNDS, USER_ROLES, PUBLIC_DIR, AVATARS_DIR, RECORDS_DIR } = requir
 module.exports = {
   showAll: async (_, res, next) => {
     try {
-      const users = await userDatamapper.showAll({});
+      const users = await userDatamapper.showAll();
       res.json({ data: users });
     } catch (err) {
       next(err);
@@ -224,14 +224,14 @@ module.exports = {
 
       let record;
       if (oldRecord) {
-        record = await recordDatamapper.showOne(oldRecord.id);
+        record = await recordDatamapper.showByPk(oldRecord.id);
       } else {
         const result = await recordDatamapper.insertOne({
           userId,
           translationId,
           url: recordUrl
         });
-        record = await recordDatamapper.showOne(result.id);
+        record = await recordDatamapper.showByPk(result.id);
       }
 
       delete record.user;
@@ -413,7 +413,9 @@ module.exports = {
     try {
       const feed = await userDatamapper.getFeed(userId);
       res.json({ data: feed });
-    } catch (err) {}
+    } catch (err) {
+      next(err);
+    }
   },
 
   login: async (req, res, next) => {

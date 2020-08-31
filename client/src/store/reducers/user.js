@@ -40,7 +40,7 @@ import {
     EDIT_PROFIL_SLUG_INPUT,
 } from "../actions/editProfilActions";
 
-import { 
+import {
     GET_RECORDS_BY_SEARCH,
     SET_RECORDS_BY_SEARCH,
 } from "../actions/profilSearchActions";
@@ -62,6 +62,11 @@ import {
     CHECK_IF_USER_FOLLOW_ERROR,
 } from "../actions/followActions";
 
+import {
+    FETCH_FEED_USER,
+    FETCH_FEED_USER_SUCCESS,
+    FETCH_FEED_USER_ERROR,
+} from "../actions/feedActions";
 
 const initialState = {
     currentUser: {},
@@ -110,6 +115,9 @@ const initialState = {
     editProfilAvatarLoading: false,
     editProfilSlugInputValue: "",
     editProfilSlugMsg: "",
+    feedUser: [],
+    feedUserLoading: false,
+    feedUserError: "",
     /* END EDIT PROFIL */
 
     recordsFiltered: [],
@@ -435,7 +443,7 @@ export default (state = initialState, action = {}) => {
         case SET_RECORDS_BY_SEARCH:
             return {
                 ...state,
-                recordsFiltered: [...action.payload]
+                recordsFiltered: [...action.payload],
             };
         case GET_RECORDS_BY_SEARCH:
             return {
@@ -488,6 +496,29 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
             };
+        case FETCH_FEED_USER:
+            return {
+                ...state,
+                feedUserLoading: true,
+                feedUser: [],
+                feedUserError: "",
+            };
+        case FETCH_FEED_USER_SUCCESS:
+            return {
+                ...state,
+                feedUserLoading: false,
+                feedUser: [...action.payload],
+                feedUserError: "",
+            };
+
+        case FETCH_FEED_USER_ERROR:
+            return {
+                ...state,
+                feedUserLoading: false,
+                feedUser: [],
+                feedUserError: "Erreur à la récupération du feed",
+            };
+
         default:
             return state;
     }

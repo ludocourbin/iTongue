@@ -79,36 +79,58 @@ ALTER TYPE "user_record" ADD ATTRIBUTE "likeCount" INT;
 ALTER TYPE "user_record" ADD ATTRIBUTE "bookmarkCount" INT;
 ALTER TYPE "user_record" ADD ATTRIBUTE "commentCount" INT;
 
+CREATE TYPE "user_with_relations_type" AS
+("id" INT, "email" TEXT, "password" TEXT, "firstname" TEXT, "lastname" TEXT, "slug" TEXT, "bio" TEXT, "avatar_url" TEXT, "is_admin" BOOLEAN, "created_at" TIMESTAMPTZ,
+"records" JSON, "learnedLanguages" JSON, "taughtLanguages" JSON, "followers" JSON, "followed" JSON);
+
 CREATE FUNCTION "get_users_with_relations"("filter" JSON DEFAULT '{}')
-RETURNS SETOF "user_with_relations" AS
+RETURNS SETOF "user_with_relations_type" AS
 $$
 DECLARE
   "query" TEXT := 'SELECT "u".*,
- 	     (SELECT COALESCE(json_agg(("r"."id", "r"."url", "r"."createdAt", "r"."englishTranslation", "r"."translation", "r"."likeCount", "r"."bookmarkCount", "r"."commentCount")::"user_record") FILTER(WHERE "r"."id" IS NOT NULL), ''[]'')
-		      FROM "show_records"() "r"
-	 	     WHERE "u"."id" = ("r"."user"->>''id'')::INT) AS "records",
-	     (SELECT COALESCE(json_agg("l".*) FILTER(WHERE "lu"."role" = ''learner''), ''[]'')
-		      FROM "language_user" "lu"
-		      JOIN "language" "l"
-            ON "lu"."language_id" = "l"."id"
-		     WHERE "lu"."user_id" = "u"."id") AS "learnedLanguages",
-       (SELECT COALESCE(json_agg("l".*) FILTER(WHERE "lu"."role" = ''teacher''), ''[]'')
-		      FROM "language_user" "lu"
-		      JOIN "language" "l" ON "lu"."language_id" = "l"."id"
-		     WHERE "lu"."user_id" = "u"."id") AS "taughtLanguages",
-       (SELECT COUNT(*)
-          FROM "user_user_follow"
-         WHERE "followed_id" = "u"."id")::INT AS "followerCount",
-       (SELECT COUNT(*)
-          FROM "user_user_follow"
-         WHERE "follower_id" = "u"."id")::INT AS "followedCount"
-          FROM "user" "u"';
+                          (SELECT COALESCE(json_agg(("r"."id", "r"."url", "r"."createdAt", "r"."englishTranslation", "r"."translation", "r"."likeCount", "r"."bookmarkCount", "r"."commentCount")::"user_record") FILTER(WHERE "r"."id" IS NOT NULL), ''[]'')
+                              FROM "show_records"() "r"
+                            WHERE "u"."id" = ("r"."user"->>''id'')::INT) AS "records",
+                          (SELECT COALESCE(json_agg("l".*) FILTER(WHERE "lu"."role" = ''learner''), ''[]'')
+                              FROM "language_user" "lu"
+                              JOIN "language" "l"
+                                ON "lu"."language_id" = "l"."id"
+                            WHERE "lu"."user_id" = "u"."id") AS "learnedLanguages",
+                          (SELECT COALESCE(json_agg("l".*) FILTER(WHERE "lu"."role" = ''teacher''), ''[]'')
+                             FROM "language_user" "lu"
+                             JOIN "language" "l" ON "lu"."language_id" = "l"."id"
+                            WHERE "lu"."user_id" = "u"."id") AS "taughtLanguages",
+                          (SELECT COALESCE(json_agg(("fu"."id", "fu"."email", "fu"."firstname", "fu"."lastname", "fu"."slug", "fu"."avatar_url", "fu"."created_at")::"plain_user") FILTER(WHERE "uuf"."id" IS NOT NULL), ''[]'')
+                             FROM "user_user_follow" "uuf"
+                             JOIN "user" "fu"
+                               ON "uuf"."follower_id" = "fu"."id"
+                            WHERE "uuf"."followed_id" = "u"."id") AS followers,
+                          (SELECT COALESCE(json_agg(("fu"."id", "fu"."email", "fu"."firstname", "fu"."lastname", "fu"."slug", "fu"."avatar_url", "fu"."created_at")::"plain_user") FILTER(WHERE "uuf"."id" IS NOT NULL), ''[]'')
+                             FROM "user_user_follow" "uuf"
+                             JOIN "user" "fu"
+                               ON "uuf"."followed_id" = "fu"."id"
+                             WHERE "uuf"."follower_id" = "u"."id") AS followed
+                     FROM "user" "u"';
 BEGIN
   "query" := "query" || "build_where_clause"("filter") || ' ORDER BY "u"."id" DESC';
   -- RAISE NOTICE 'query : %', "query";
   RETURN QUERY EXECUTE "query";
 END
 $$ LANGUAGE plpgsql STABLE;
+
+DROP FUNCTION "show_users";
+
+ALTER TYPE "user_display_type" DROP ATTRIBUTE "followerCount";
+ALTER TYPE "user_display_type" DROP ATTRIBUTE "followedCount";
+ALTER TYPE "user_display_type" ADD ATTRIBUTE "followers" JSON;
+ALTER TYPE "user_display_type" ADD ATTRIBUTE "followed" JSON;
+
+CREATE FUNCTION "show_users"("filter" JSON DEFAULT '{}')
+RETURNS SETOF "user_display_type" AS
+$$
+  SELECT "id", "email", "firstname", "lastname", "slug", "bio", "avatar_url" AS "avatarUrl", "is_admin" AS "isAdmin", "created_at" AS "createdAt", "records", "learnedLanguages", "taughtLanguages", "followers", "followed"
+    FROM "get_users_with_relations"("filter");
+$$ LANGUAGE SQL STABLE;
 
 CREATE FUNCTION "get_record_likes"("record_id" INT)
 RETURNS SETOF "plain_user" AS

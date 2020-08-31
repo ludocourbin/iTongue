@@ -2,7 +2,10 @@
 
 BEGIN;
 
+DROP FUNCTION "show_users";
 DROP FUNCTION "get_users_with_relations";
+
+DROP TYPE "user_with_relations_type";
 
 ALTER TYPE "user_record" DROP ATTRIBUTE "likeCount";
 ALTER TYPE "user_record" DROP ATTRIBUTE "bookmarkCount";
@@ -38,6 +41,18 @@ BEGIN
   RETURN QUERY EXECUTE "query";
 END
 $$ LANGUAGE plpgsql STABLE;
+
+ALTER TYPE "user_display_type" DROP ATTRIBUTE "followed";
+ALTER TYPE "user_display_type" DROP ATTRIBUTE "followers";
+ALTER TYPE "user_display_type" ADD ATTRIBUTE "followedCount" INT;
+ALTER TYPE "user_display_type" ADD ATTRIBUTE "followerCount" INT;
+
+CREATE FUNCTION "show_users"("filter" JSON DEFAULT '{}')
+RETURNS SETOF "user_display_type" AS
+$$
+  SELECT "id", "email", "firstname", "lastname", "slug", "bio", "avatar_url" AS "avatarUrl", "is_admin" AS "isAdmin", "created_at" AS "createdAt", "records", "learnedLanguages", "taughtLanguages", "followerCount", "followedCount"
+    FROM "get_users_with_relations"("filter");
+$$ LANGUAGE SQL STABLE;
 
 DROP FUNCTION "get_user_bookmarks", "get_user_likes", "get_record_bookmarks", "get_record_likes", "show_records";
 

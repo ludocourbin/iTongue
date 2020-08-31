@@ -4,6 +4,7 @@ import { isMobile } from "react-device-detect";
 import AudioPlayer from "../../containers/Audio";
 import HeaderIrecord from "./headerIrecord";
 import { useParams } from "react-router-dom";
+import Comments from "../../containers/Comments";
 
 const Irecord = ({
     record,
@@ -126,6 +127,7 @@ const Irecord = ({
                     )}
                 </div>
                 <AudioPlayer audio={record} />
+                <Comments user={user} />
             </Card>
         </div>
     );

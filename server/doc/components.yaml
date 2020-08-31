@@ -217,6 +217,23 @@ components:
       required:
         - label
 
+    Comment:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/PrimaryKey"
+        text:
+          type: string
+        user:
+          $ref: "#/components/schemas/RecordUser"
+        createdAt:
+          $ref: "#/components/schemas/DateTZ"
+
+    Comments:
+      type: array
+      items:
+        $ref: "#/components/schemas/Comment"
+
     UserLanguage:
       type: object
       properties:
@@ -486,6 +503,34 @@ components:
         $ref: "#/components/schemas/PrimaryKey"
       required: true
       description: Primary key of the language.
+
+    RecordID:
+      in: path
+      name: id
+      schema:
+        $ref: "#/components/schemas/PrimaryKey"
+      required: true
+      description: Primary key of the record
+
+    CommentID:
+      in: path
+      name: id
+      schema:
+        $ref: "#/components/schemas/PrimaryKey"
+      required: true
+      description: Primary key of the comment.
+
+    CommentText:
+      in: body
+      name: text
+      schema:
+        type: object
+        properties:
+          text:
+            type: srting
+            example: J'adore la prononciation !
+      required:
+        - text
 
     RecordPk:
       in: path

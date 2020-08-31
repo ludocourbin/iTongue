@@ -2,7 +2,6 @@ const express = require("express");
 
 const authMiddleware = require("../middlewares/auth-middleware");
 const commentController = require("../controllers/comment-controller");
-
 const router = express.Router();
 
 /**
@@ -11,6 +10,8 @@ const router = express.Router();
  *   get:
  *     tags:
  *       - Comments
+ *     parameters:
+ *       - $ref: "#/components/parameters/RecordID"
  *     summary: Get comments from a record
  *     description: Retrieves all comments from a single record
  *     responses:
@@ -25,12 +26,17 @@ router.get("/:recordId(\\d+)", commentController.showAllByRecordId);
 
 /**
  * @swagger
- * /comments/{userId}/{recordId}:
+ * /comments/{recordId}:
  *   post:
  *     tags:
  *       - Comments
+ *     security:
+ *       - BearerJWT: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/RecordID"
+ *       - $ref: "#/components/parameters/CommentText"
  *     summary: Add comment
- *     description: Allows user to post a comment on a record
+ *     description: Allows user to add a comment on a record
  *     responses:
  *       "204":
  *         description: Ok
@@ -41,33 +47,47 @@ router.post("/:recordId(\\d+)", authMiddleware, commentController.create);
 
 /**
  * @swagger
- * /comments:
+ * /comments/update/{commentId}:
  *   post:
  *     tags:
  *       - Comments
- *     summary: Update user's comment
- *     description: Allows user to update an existant comment on a record
+ *     security:
+ *       - BearerJWT: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/CommentID"
+ *       - $ref: "#/components/parameters/CommentText"
+ *     summary: Update comment
+ *     description: Allows user to update an existant comment of his on a record
  *     responses:
  *       "204":
  *         description: Ok
  *       "403":
  *         $ref: "#/components/responses/Forbidden"
+ *         description: Ok
+ *       "404":
+ *         $ref: "#/components/responses/RecordNotFound"
  */
 router.post("/update/:commentId(\\d+)/", authMiddleware, commentController.update);
 
 /**
  * @swagger
- * /comments:
+ * /comments/{commentId}:
  *   delete:
  *     tags:
  *       - Comments
- *     summary: Add comment
- *     description: Allows user to post a comment on a record
+ *     security:
+ *       - BearerJWT: []
+ *     parameters:
+ *       - $ref: "#/components/parameters/CommentID"
+ *     summary: Delete comment
+ *     description: Allows user to delete an existant comment of his on a record
  *     responses:
  *       "204":
  *         description: Ok
  *       "403":
  *         $ref: "#/components/responses/Forbidden"
+ *       "404":
+ *         $ref: "#/components/responses/RecordNotFound"
  */
 router.delete("/:commentId(\\d+)", authMiddleware, commentController.delete);
 

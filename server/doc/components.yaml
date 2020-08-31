@@ -524,6 +524,34 @@ components:
       required: true
       description: Primary key of the language.
 
+    RecordID:
+      in: path
+      name: id
+      schema:
+        $ref: "#/components/schemas/PrimaryKey"
+      required: true
+      description: Primary key of the record
+
+    CommentID:
+      in: path
+      name: id
+      schema:
+        $ref: "#/components/schemas/PrimaryKey"
+      required: true
+      description: Primary key of the comment.
+
+    CommentText:
+      in: body
+      name: text
+      schema:
+        type: object
+        properties:
+          text:
+            type: srting
+            example: J'adore la prononciation !
+      required:
+        - text
+
     RecordPk:
       in: path
       name: language_id

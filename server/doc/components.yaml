@@ -101,7 +101,7 @@ components:
             createdAt:
               $ref: "#/components/schemas/DateTZ"
 
-    DashboardUser:
+    PlainUser:
       type: object
       properties:
         id:
@@ -115,6 +115,8 @@ components:
           $ref: "#/components/schemas/Lastname"
         slug:
           $ref: "#/components/schemas/Slug"
+        avatarUrl:
+          $ref: "#/components/schemas/URL"
         createdAt:
           $ref: "#/components/schemas/DateTZ"
 
@@ -143,6 +145,15 @@ components:
           $ref: "#/components/schemas/Translation"
         translation:
           $ref: "#/components/schemas/Translation"
+        likeCount:
+          type: integer
+          example: 18
+        bookmarkCount:
+          type: integer
+          example: 32
+        commentCount:
+          type: integer
+          example: 8
 
     Records:
       type: array
@@ -164,6 +175,15 @@ components:
           $ref: "#/components/schemas/Translation"
         translation:
           $ref: "#/components/schemas/Translation"
+        likeCount:
+          type: integer
+          example: 18
+        bookmarkCount:
+          type: integer
+          example: 32
+        commentCount:
+          type: integer
+          example: 8
 
     DashboardRecord:
       type: object

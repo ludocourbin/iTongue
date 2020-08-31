@@ -57,9 +57,8 @@ const NavigationBottom = ({
                 <NavLink to="/messages" activeClassName="active-navbottom">
                     <Icon
                         className="header-icon navigationBottom-items"
-                        name="send"
+                        name="envelope"
                         size="big"
-                        disabled
                     />
                 </NavLink>
                 <NavLink to="/likes" activeClassName="active-navbottom">

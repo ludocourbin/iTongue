@@ -172,17 +172,7 @@ const UserProfil = ({
                                 isUserRecord={id}
                             />
                         ))
-                    :
-                        recordsFiltered && recordsFiltered.length ? 
-                            recordsFiltered.map((audio, key) => (
-                                <Irecords
-                                    key={key}
-                                    record={audio}
-                                    user={userSlugInfos}
-                                    isUserRecord={id}
-                                />
-                            ))
-                        :  (
+                    :  (
                             <>
                                 <div className="user-profil_feed__norecords">
                                     <Icon

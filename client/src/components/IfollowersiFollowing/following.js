@@ -52,34 +52,36 @@ const Followers = ({
                 </div>
             </div>
 
-            <div className="following-card_right">
-                {currentUserId === userSlugId && !isUser ? (
-                    <Label className={following ? "" : "follow-btn"}>
-                        {following ? (
-                            <span>Supprimer</span>
-                        ) : (
-                            <span className="follow-btn">Ajouter</span>
-                        )}
+            {currentUserId === userSlugId && (
+                <div className="following-card_right">
+                    {currentUserId === userSlugId && !isUser ? (
+                        <Label className={following ? "" : "follow-btn"}>
+                            {following ? (
+                                <span>Supprimer</span>
+                            ) : (
+                                <span className="follow-btn">Ajouter</span>
+                            )}
 
-                        <Icon
-                            onClick={handleFollow}
-                            name={following ? "delete" : "add"}
-                        />
-                    </Label>
-                ) : currentUserId !== userSlugId && !isUser ? (
-                    <Label className={isFollowing ? "" : "follow-btn"}>
-                        {isFollowing ? (
-                            <span>Abonné(e)</span>
-                        ) : (
-                            <span className="">S'abonner</span>
-                        )}
-                        <Icon
-                            onClick={handleFollow}
-                            name={isFollowing ? "delete" : "add"}
-                        />
-                    </Label>
-                ) : null}
-            </div>
+                            <Icon
+                                onClick={handleFollow}
+                                name={following ? "delete" : "add"}
+                            />
+                        </Label>
+                    ) : currentUserId !== userSlugId && !isUser ? (
+                        <Label className={isFollowing ? "" : "follow-btn"}>
+                            {isFollowing ? (
+                                <span>Abonné(e)</span>
+                            ) : (
+                                <span className="">S'abonner</span>
+                            )}
+                            <Icon
+                                onClick={handleFollow}
+                                name={isFollowing ? "delete" : "add"}
+                            />
+                        </Label>
+                    ) : null}
+                </div>
+            )}
         </div>
     );
 };

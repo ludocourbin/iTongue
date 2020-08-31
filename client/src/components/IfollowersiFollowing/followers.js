@@ -3,7 +3,14 @@ import { Image, Header, Label, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 // import './Followers.scss';
 
-const Followers = ({ user, follow, unFollow, currentUserId, allFollowing }) => {
+const Followers = ({
+    user,
+    follow,
+    unFollow,
+    currentUserId,
+    userSlugId,
+    allFollowing,
+}) => {
     const [followed, setFollowed] = useState(true);
 
     /* handle following of other page's */
@@ -51,7 +58,7 @@ const Followers = ({ user, follow, unFollow, currentUserId, allFollowing }) => {
                 </div>
             </div>
 
-            {!isUser && (
+            {!isUser && currentUserId === userSlugId && (
                 <div className="followers-card_right">
                     <Label className={following ? "" : "follow-btn"}>
                         {following ? (

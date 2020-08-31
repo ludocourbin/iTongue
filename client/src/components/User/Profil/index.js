@@ -25,8 +25,8 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
         learnedLanguages,
         taughtLanguages,
         checkUserSlugLoading,
-        followerCount,
-        followedCount,
+        followers,
+        followed,
     } = userSlugInfos;
     let slug = useParams();
     useEffect(() => {
@@ -125,8 +125,8 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                         <div className="container_right__third-row">
                             <Statistics
                                 totalRecords={records ? records.length : 0}
-                                totalFollower={followerCount}
-                                totalFollowed={followedCount}
+                                totalFollower={followers.length}
+                                totalFollowed={followed.length}
                             />
                         </div>
                     </div>

@@ -9,9 +9,9 @@ import {
     FETCH_ALL_RECORDS_SUCCESS,
     FETCH_ALL_RECORDS_ERROR,
     SET_TRANSLATION_ID,
-    FETCH_EXPRESSIONS,
-    FETCH_EXPRESSIONS_ERROR,
-    FETCH_EXPRESSIONS_SUCCESS,
+    FETCH_EXPRESSIONS_USER,
+    FETCH_EXPRESSIONS_ERROR_USER,
+    FETCH_EXPRESSIONS_SUCCESS_USER,
     DELETE_IRECORD,
     DELETE_IRECORD_SUCCESS_IRECORDS_PAGE,
     DELETE_IRECORD_ERROR,
@@ -89,21 +89,21 @@ export default (state = initialState, action = {}) => {
                 isLoadingAllRecords: false,
                 recordsListError: action.payload,
             };
-        case FETCH_EXPRESSIONS:
+        case FETCH_EXPRESSIONS_USER:
             return {
                 ...state,
                 errorFetchingExpressions: null,
                 allExpressions: [],
                 isLoadingExpressions: true,
             };
-        case FETCH_EXPRESSIONS_SUCCESS:
+        case FETCH_EXPRESSIONS_SUCCESS_USER:
             return {
                 ...state,
                 isLoadingExpressions: false,
                 allExpressions: [...action.payload],
                 errorFetchingExpressions: null,
             };
-        case FETCH_EXPRESSIONS_ERROR:
+        case FETCH_EXPRESSIONS_ERROR_USER:
             return {
                 ...state,
                 allExpressions: [],

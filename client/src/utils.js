@@ -37,27 +37,12 @@ export const httpClient = {
             // Need refresh
             if (refreshToken && (!accessToken || accessTokenExp < Date.now())) {
                 console.log("token refreshing");
-                const response = await httpClient
-                    .post({
-                        url: "/auth/refresh",
-                        data: { refreshToken: refreshToken },
-                    })
-                    .then((res) => {
-                        // console.log(res);
-                    })
-                    .catch((err) => {
-                        // console.error(err);
-                        console.log("ERREUR du catch: ", err.response.data.errors[0].msg);
-                    });
-
-                console.log("response", response.data.data.accessToken);
-
-                console.log("accessToken avant:", accessToken);
+                const response = await httpClient.post({
+                    url: "/auth/refresh",
+                    data: { refreshToken: refreshToken },
+                });
 
                 accessToken = response.data.data.accessToken;
-
-                console.log("accessToken après assignation:", accessToken);
-
                 store.dispatch(updateTokenExp());
                 store.dispatch(updateAccessToken(accessToken));
             }

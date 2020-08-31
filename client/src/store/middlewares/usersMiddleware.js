@@ -245,6 +245,9 @@ export const usersMiddleware = (store) => (next) => (action) => {
                             store.dispatch(
                                 editProfilSlugError("Une erreur est survenue")
                             );
+                            toast.info(
+                                "Une erreur est survenue lors du changement de votre slug"
+                            );
                         }
                     }
                 });

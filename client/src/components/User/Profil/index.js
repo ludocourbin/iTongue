@@ -6,6 +6,7 @@ import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
 import UpdateAvatar from "../../../containers/User/UpdateAvatar";
 import ProfilSearch from "../../../containers/User/ProfilSearch";
+import Follow from "../../../containers/User/Follow";
 
 /* Components */
 import { Segment, Image, Icon } from "semantic-ui-react";
@@ -44,7 +45,7 @@ const UserProfil = ({
 
     useEffect(() => {
         getRecordsBySearch();
-    }, [getRecordsBySearch, recordsFiltered]);
+    }, [getRecordsBySearch]);
 
     const {
         id,
@@ -57,6 +58,8 @@ const UserProfil = ({
         learnedLanguages,
         taughtLanguages,
         checkUserSlugLoading,
+        followerCount,
+        followedCount,
     } = userSlugInfos;
 
     return (
@@ -78,6 +81,7 @@ const UserProfil = ({
                                 checkUserSlugLoading={checkUserSlugLoading}
                             />
                         </div>
+                        <Follow userSlugInfos={userSlugInfos} />
                     </div>
                     <div className="container_right">
                         <div className="container_right__first-row">
@@ -130,8 +134,8 @@ const UserProfil = ({
                         <div className="container_right__third-row">
                             <Statistics
                                 totalRecords={records ? records.length : 0}
-                                totalFollow={547}
-                                totalFollower={645}
+                                totalFollower={followerCount}
+                                totalFollowed={followedCount}
                             />
                         </div>
                     </div>
@@ -146,10 +150,7 @@ const UserProfil = ({
                 </div>
 
                 <div className="user-profil_feed">
-
-                    <ProfilSearch 
-                    records={records}
-                    />
+                    <ProfilSearch records={records} />
 
                     {recordsFiltered && recordsFiltered.length ? 
                         recordsFiltered.map((audio, key) => (
@@ -160,16 +161,7 @@ const UserProfil = ({
                                 isUserRecord={id}
                             />
                         ))
-                    : records && !recordsFiltered.length && records.length ?
-                        records.map((audio, key) => (
-                            <Irecords
-                                key={key}
-                                record={audio}
-                                user={userSlugInfos}
-                                isUserRecord={id}
-                            />
-                        ))
-                    : (
+                    :  (
                         <>
                             <div className="user-profil_feed__norecords">
                                 <Icon

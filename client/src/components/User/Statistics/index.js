@@ -2,10 +2,11 @@ import React from 'react';
 import { Statistic } from 'semantic-ui-react';
 
 import './statistics.scss'
+import { NavLink } from 'react-router-dom';
 
 const Statistics = (props) => {
 
-    const { totalRecords, totalFollow, totalFollower } = props;
+    const { totalRecords, totalFollower, totalFollowed } = props;
 
     return (
         <Statistic.Group widths="three" size="mini" className="statistics-group">
@@ -18,17 +19,17 @@ const Statistics = (props) => {
             </Statistic>
 
             <Statistic>
-                <Statistic.Value>{totalFollow}</Statistic.Value>
+                <Statistic.Value>{totalFollower}</Statistic.Value>
                 <Statistic.Label>
-                    iFollow
+                    <NavLink to="/ifollowers">iFollower</NavLink>
                 </Statistic.Label>
             </Statistic>
             
             <Statistic>
-                <Statistic.Value>{totalFollower}</Statistic.Value>
-                <Statistic.Label>
-                    iFollower
-                </Statistic.Label>
+                    <Statistic.Value>{totalFollowed}</Statistic.Value>
+                    <Statistic.Label>
+                    <NavLink to="/ifollowing">iFollowed</NavLink>
+                    </Statistic.Label>
             </Statistic>
 
         </Statistic.Group>

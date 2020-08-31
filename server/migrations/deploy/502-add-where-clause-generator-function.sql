@@ -4,12 +4,15 @@ BEGIN;
 
 DROP VIEW "user_display", "expression_with_relations";
 
-CREATE TYPE "expression_with_relations" AS
+CREATE TYPE "expression_with_relations_type" AS
 ("id" INT, "label" TEXT, "englishText" TEXT, "createdAt" TIMESTAMPTZ, "translations" JSON);
 
-CREATE TYPE "user_display" AS
+CREATE TYPE "user_display_type" AS
 ("id" INT, "email" TEXT, "firstname" TEXT, "lastname" TEXT, "slug" TEXT, "bio" TEXT, "avatarUrl" TEXT, "isAdmin" BOOLEAN,
 "createdAt" TIMESTAMPTZ, "records" JSON, "learnedLanguages" JSON, "taughtLanguages" JSON, "followerCount" INT, "followedCount" INT);
+
+CREATE TYPE "record_display_type" AS
+("id" INT, "url" TEXT, "createdAt" TIMESTAMPTZ, "user" JSON, "englishTranslation" JSON, "translation" JSON);
 
 CREATE FUNCTION "build_where_clause"("filter" JSON)
 RETURNS TEXT AS
@@ -52,11 +55,12 @@ BEGIN
 END
 $$ LANGUAGE plpgsql IMMUTABLE;
 
+
 CREATE FUNCTION "show_records"("filter" JSON DEFAULT '{}')
-RETURNS SETOF "record_display" AS
+RETURNS SETOF "record_display_type" AS
 $$
 DECLARE
-  "query" TEXT := ' SELECT "r"."id", "r"."url", "r"."created_at" AS "createdAt",
+  "query" TEXT := 'SELECT "r"."id", "r"."url", "r"."created_at" AS "createdAt",
                             to_json(("u"."id", "u"."firstname", "u"."lastname", "u"."slug", "u"."avatar_url")::"record_user") AS "user",
                             (SELECT to_json(("id", "text", "created_at", "expression", "language")::"record_translation")
                               FROM "translation_with_relations"
@@ -118,7 +122,7 @@ END
 $$ LANGUAGE plpgsql STABLE;
 
 CREATE FUNCTION "show_users"("filter" JSON DEFAULT '{}')
-RETURNS SETOF "user_display" AS
+RETURNS SETOF "user_display_type" AS
 $$
   SELECT "id", "email", "firstname", "lastname", "slug", "bio", "avatar_url" AS "avatarUrl", "is_admin" AS "isAdmin", "created_at" AS "createdAt", "records", "learnedLanguages", "taughtLanguages", "followerCount", "followedCount"
     FROM "get_users_with_relations"("filter");
@@ -126,7 +130,7 @@ $$ LANGUAGE SQL STABLE;
 
 -- select * from get_expressions('{"id": {"table": "e", "operator": ">", "value": 4}, "language": {"table": "tr", "key": "name", "operator": "ILIKE", "value": "english"}}');
 CREATE FUNCTION "get_expressions"("filter" JSON DEFAULT '{}')
-RETURNS SETOF "expression_with_relations" AS
+RETURNS SETOF "expression_with_relations_type" AS
 $$
 DECLARE
   "query" TEXT := 'SELECT "e"."id", "e"."label",

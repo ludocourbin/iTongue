@@ -686,4 +686,8 @@ router.get("/:id(\\d+)/followed", userController.showFollowed);
  */
 router.get("/:id(\\d+)/feed", ownerMiddleware, userController.showFeed);
 
+router.get("/:id(\\d+)/likes", ownerMiddleware, userController.showLikes);
+
+router.get("/:id(\\d+)/bookmarks", ownerMiddleware, userController.showBookmarks);
+
 module.exports = router;

@@ -2,6 +2,8 @@ const express = require("express");
 
 const recordController = require("../controllers/record-controller");
 
+const authMiddleware = require("../middlewares/auth-middleware");
+
 const router = express.Router();
 
 /**
@@ -26,5 +28,19 @@ const router = express.Router();
  *                     $ref: "#/components/schemas/Record"
  */
 router.get("/", recordController.showAll);
+
+router
+  .route("/:id/like")
+  .post(authMiddleware, recordController.like)
+  .delete(authMiddleware, recordController.unlike);
+
+router.get("/:id/likes", recordController.showLikes);
+
+router
+  .route("/:id/bookmark")
+  .post(authMiddleware, recordController.bookmark)
+  .delete(authMiddleware, recordController.unbookmark);
+
+router.get("/:id/bookmarks", recordController.showBookmarks);
 
 module.exports = router;

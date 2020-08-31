@@ -4,7 +4,7 @@ BEGIN;
 
 DROP FUNCTION "get_records", "get_expressions", "show_users", "get_users_with_relations", "get_users", "show_records", "build_where_clause";
 
-DROP TYPE "user_display", "expression_with_relations";
+DROP TYPE "record_display_type", "user_display_type", "expression_with_relations_type";
 
 CREATE VIEW "expression_with_relations" AS
      SELECT "e"."id", "e"."label",

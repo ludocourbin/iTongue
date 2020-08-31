@@ -1,4 +1,5 @@
 @import "../../styles/vars";
+@import "../../styles/mixin";
 
 .ifollowersiFollowing {
     &-menu {
@@ -35,9 +36,10 @@
 
         .follow-btn {
             padding-right: 2px;
+            @include button;
         }
 
-        .follow-btn ~ .icon.add {
+        .follow-btn > .icon.add {
             position: relative;
             left: 6px;
         }

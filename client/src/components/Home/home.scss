@@ -2,7 +2,7 @@
 
 .homePage {
     padding: 10px;
-    font-weight: 700;
+    // font-weight: 700;
     color: $primary-text-color;
 
     &-carousel__dots {
@@ -48,7 +48,7 @@
         background-color: $background-color;
         margin-bottom: 10px;
         padding: 10px;
-        
+
         align-items: center;
         .flag_image {
             display: block;
@@ -69,7 +69,6 @@
     }
 
     .popular {
-
         &_container {
             display: flex;
             flex: 1;
@@ -81,7 +80,7 @@
         }
 
         &__irecords {
-            font-weight: normal!important;
+            font-weight: normal !important;
         }
     }
 

@@ -16,9 +16,10 @@ const IfollowersiFollowing = ({
     isLoadingAllFollowing,
     fetchIfollowers,
     fetchIfollowing,
+    currentUser,
+    userSlugInfos,
 }) => {
     const { pathname } = useLocation();
-    // console.log(pathname.slice());
 
     useEffect(() => {
         fetchIfollowers();
@@ -29,6 +30,9 @@ const IfollowersiFollowing = ({
     const handleItemClick = (e, { name }) => {
         setActiveItem(name);
     };
+
+    console.log("currentUser", currentUser);
+    console.log("userSlugInfos", userSlugInfos);
     return (
         <Layout>
             <div className="ifollowersiFollowing">
@@ -66,7 +70,11 @@ const IfollowersiFollowing = ({
                 allFollowing ? (
                     allFollowing.map((following) => (
                         <div className="">
-                            <Following user={following} />
+                            <Following
+                                user={following}
+                                currentUserId={currentUser.id}
+                                userSlugId={userSlugInfos.id}
+                            />
                         </div>
                     ))
                 ) : (

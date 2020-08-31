@@ -10,6 +10,8 @@ const mapStateToProps = (state) => ({
     allFollowing: state.ifollowersifollowing.allFollowing,
     isLoadingAllFollowers: state.ifollowersifollowing.isLoadingAllFollowers,
     isLoadingAllFollowing: state.ifollowersifollowing.isLoadingAllFollowing,
+    currentUser: state.user.currentUser,
+    userSlugInfos: state.user.userSlugInfos,
 });
 
 const mapDispatchToProps = (dispatch) => ({

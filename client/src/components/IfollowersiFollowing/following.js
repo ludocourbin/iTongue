@@ -3,7 +3,7 @@ import { Image, Header, Label, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 // import './Followers.scss';
 
-const Followers = ({ user }) => {
+const Followers = ({ user, currentUserId, userSlugId }) => {
     const [following, setFollowing] = useState(true);
     return (
         <div className="following-card">
@@ -29,18 +29,32 @@ const Followers = ({ user }) => {
             </div>
 
             <div className="following-card_right">
-                <Label color={following ? "red" : "green"}>
-                    {following ? (
-                        <span>Supprimer</span>
-                    ) : (
-                        <span className="follow-btn">Ajouter</span>
-                    )}
+                {currentUserId === userSlugId ? (
+                    <Label className={following ? "" : "follow-btn"}>
+                        {following ? (
+                            <span>Supprimer</span>
+                        ) : (
+                            <span className="follow-btn">Ajouter</span>
+                        )}
 
-                    <Icon
-                        onClick={() => setFollowing(!following)}
-                        name={following ? "delete" : "add"}
-                    />
-                </Label>
+                        <Icon
+                            onClick={() => setFollowing(!following)}
+                            name={following ? "delete" : "add"}
+                        />
+                    </Label>
+                ) : (
+                    <Label className={following ? "" : "follow-btn"}>
+                        {following ? (
+                            <span>Abonné(e)</span>
+                        ) : (
+                            <span className="">S'abonner</span>
+                        )}
+                        <Icon
+                            onClick={() => setFollowing(!following)}
+                            name={following ? "delete" : "add"}
+                        />
+                    </Label>
+                )}
             </div>
         </div>
     );

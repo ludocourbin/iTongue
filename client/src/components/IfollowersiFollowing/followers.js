@@ -29,7 +29,7 @@ const Followers = ({ user }) => {
             </div>
 
             <div className="followers-card_right">
-                <Label color={followed ? "red" : "green"}>
+                <Label className={followed ? "" : "follow-btn"}>
                     {followed ? (
                         <span>Abonné</span>
                     ) : (

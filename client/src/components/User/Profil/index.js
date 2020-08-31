@@ -152,8 +152,8 @@ const UserProfil = ({
                 <div className="user-profil_feed">
                     <ProfilSearch records={records} />
 
-                    {recordsFiltered && recordsFiltered.length ? 
-                        recordsFiltered.map((audio, key) => (
+                    {records && !recordsFiltered  ?
+                        records.map((audio, key) => (
                             <Irecords
                                 key={key}
                                 record={audio}
@@ -161,19 +161,29 @@ const UserProfil = ({
                                 isUserRecord={id}
                             />
                         ))
-                    :  (
-                        <>
-                            <div className="user-profil_feed__norecords">
-                                <Icon
-                                    name="microphone slash"
-                                    size="big"
-                                    circular
+                    :
+                        recordsFiltered && recordsFiltered.length ? 
+                            recordsFiltered.map((audio, key) => (
+                                <Irecords
+                                    key={key}
+                                    record={audio}
+                                    user={userSlugInfos}
+                                    isUserRecord={id}
                                 />
-                                <div className="norecords-informations">
-                                    Aucun iRecord.
+                            ))
+                        :  (
+                            <>
+                                <div className="user-profil_feed__norecords">
+                                    <Icon
+                                        name="microphone slash"
+                                        size="big"
+                                        circular
+                                    />
+                                    <div className="norecords-informations">
+                                        Aucun iRecord.
+                                    </div>
                                 </div>
-                            </div>
-                        </>
+                            </>
                     )}
                 </div>
             </div>

@@ -443,7 +443,7 @@ export default (state = initialState, action = {}) => {
         case SET_RECORDS_BY_SEARCH:
             return {
                 ...state,
-                recordsFiltered: [...action.payload],
+                recordsFiltered: action.payload,
             };
         case GET_RECORDS_BY_SEARCH:
             return {

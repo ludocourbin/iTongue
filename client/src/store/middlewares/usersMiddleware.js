@@ -76,6 +76,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 modifylearnedLanguages,
                 password,
                 confirm,
+                followerCount,
+                followedCount,
                 ...editProfilData
             } = store.getState().user.editProfilData;
 

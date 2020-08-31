@@ -23,6 +23,8 @@ const Recording = ({
 }) => {
     const [recordedSound, setRecordedSound] = useState(null);
 
+    console.log(audio);
+
     useEffect(() => {
         fetchAllExpressions();
     }, [fetchAllExpressions]);
@@ -56,8 +58,15 @@ const Recording = ({
     return (
         <motion.div initial="hidden" animate="visible" variants={variants}>
             <Card
+                // className={`${
+                //     audio ? "recording-copy" : "recording-selecting"
+                // } recording-widget`}
                 className={`${
-                    audio ? "recording-copy" : "recording-selecting"
+                    audio && audio.englishTranslation.id !== audio.translation.id
+                        ? "recording-copy"
+                        : audio && audio.englishTranslation.id === audio.translation.id
+                        ? "recording-copy-sameLanguageExpression"
+                        : "recording-selecting"
                 } recording-widget`}
             >
                 <Card.Meta className="recording-widget__closeIcon">
@@ -70,7 +79,10 @@ const Recording = ({
                 </Card.Meta>
                 {audio && (
                     <div>
-                        <TranslationLabel translation={audio.englishTranslation} />
+                        {audio.englishTranslation.id !== audio.translation.id && (
+                            <TranslationLabel translation={audio.englishTranslation} />
+                        )}
+
                         <TranslationLabel translation={audio.translation} />
                     </div>
                 )}

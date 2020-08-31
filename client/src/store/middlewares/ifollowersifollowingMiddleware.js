@@ -23,21 +23,8 @@ export default (store) => (next) => (action) => {
                     store
                 )
                 .then((res) => {
-                    console.log(res);
-
-                    /* Currently no followers so I'll use an object to fake it */
+                    // console.log(res);
                     store.dispatch(fetchIfollowersSuccess(res.data.data));
-
-                    // store.dispatch(
-                    //     fetchIfollowersSuccess([
-                    //         {
-                    //             id: "6",
-                    //             firstname: "Sacha",
-                    //             lastname: "Zacaropoulos",
-                    //             slug: "sacha-zacaropoulos",
-                    //         },
-                    //     ])
-                    // );
                 })
                 .catch((_) => {
                     console.log("error");

@@ -53,7 +53,7 @@ router.use(adminMiddleware);
  *                     recentUsers:
  *                       type: array
  *                       items:
- *                         $ref: "#/components/schemas/DashboardUser"
+ *                         $ref: "#/components/schemas/PlainUser"
  *                     recentRecords:
  *                       type: array
  *                       items:

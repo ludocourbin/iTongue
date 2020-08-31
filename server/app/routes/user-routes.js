@@ -184,6 +184,8 @@ router.post("/logout", authController.logout);
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
  *       "404":
  *         $ref: "#/components/responses/UserNotFound"
  *   delete:
@@ -202,6 +204,8 @@ router.post("/logout", authController.logout);
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
  *       "404":
  *         $ref: "#/components/responses/UserNotFound"
  */
@@ -284,6 +288,8 @@ router.get("/:slug([-a-z\\d]+)", userController.showOne);
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
  *       "404":
  *         $ref: "#/components/responses/UserNotFound"
  *       "409":
@@ -330,6 +336,8 @@ router.post("/:id(\\d+)/slug", ownerMiddleware, validator(userSchema), userContr
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
  *       "404":
  *         $ref: "#/components/responses/UserNotFound"
  *       "409":
@@ -365,6 +373,8 @@ router.post("/:id(\\d+)/language", ownerMiddleware, userController.addLanguage);
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
  */
 router.delete(
   "/:id(\\d+)/language/:languageId(\\d+)/:role",
@@ -417,6 +427,8 @@ router.delete(
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
  *       "404":
  *         $ref: "#/components/responses/UserNotFound"
  */
@@ -476,6 +488,8 @@ router.post(
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
  *       "404":
  *         $ref: "#/components/responses/UserNotFound"
  */
@@ -508,6 +522,8 @@ router.post(
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
  *       "404":
  *         $ref: "#/components/responses/RecordNotFound"
  */
@@ -547,6 +563,8 @@ router.delete("/:id/record/:recordId", ownerMiddleware, userController.removeRec
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
  *       "404":
  *         $ref: "#/components/responses/UserNotFound"
  *       "409":
@@ -579,6 +597,8 @@ router.post("/:id(\\d+)/follow", ownerMiddleware, userController.follow);
  *         $ref: "#/components/responses/BadRequest"
  *       "401":
  *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
  */
 router.delete("/:id(\\d+)/follow/:followedId(\\d+)", ownerMiddleware, userController.unfollow);
 
@@ -681,13 +701,83 @@ router.get("/:id(\\d+)/followed", userController.showFollowed);
  *                     $ref: "#/components/schemas/Record"
  *       "400":
  *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
  *       "404":
  *         $ref: "#/components/responses/UserNotFound"
  */
 router.get("/:id(\\d+)/feed", ownerMiddleware, userController.showFeed);
 
+/**
+ * @swagger
+ * /users/{id}/likes:
+ *   get:
+ *     tags:
+ *       - Users
+ *       - Records
+ *       - Likes
+ *     security:
+ *       - BearerJWT: []
+ *     summary: User liked records
+ *     description: Display a list of a user's liked records.
+ *     parameters:
+ *       - $ref: "#/components/parameters/UserPk"
+ *     responses:
+ *       "200":
+ *         description: A JSON array of the user's liked records
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   $ref: "#/components/schemas/Records"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
+ *       "404":
+ *         $ref: "#/components/responses/UserNotFound"
+ */
 router.get("/:id(\\d+)/likes", ownerMiddleware, userController.showLikes);
 
+/**
+ * @swagger
+ * /users/{id}/bookmarks:
+ *   get:
+ *     tags:
+ *       - Users
+ *       - Records
+ *       - Bookmarks
+ *     security:
+ *       - BearerJWT: []
+ *     summary: User bookmarked records
+ *     description: Display a list of a user's bookmarked records.
+ *     parameters:
+ *       - $ref: "#/components/parameters/UserPk"
+ *     responses:
+ *       "200":
+ *         description: A JSON array of the user's bookmarked records
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   $ref: "#/components/schemas/Records"
+ *       "400":
+ *         $ref: "#/components/responses/BadRequest"
+ *       "401":
+ *         $ref: "#/components/responses/Unauthorized"
+ *       "403":
+ *         $ref: "#/components/responses/Forbidden"
+ *       "404":
+ *         $ref: "#/components/responses/UserNotFound"
+ */
 router.get("/:id(\\d+)/bookmarks", ownerMiddleware, userController.showBookmarks);
 
 module.exports = router;

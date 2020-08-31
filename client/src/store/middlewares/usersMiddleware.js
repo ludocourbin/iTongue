@@ -130,9 +130,11 @@ export const usersMiddleware = (store) => (next) => (action) => {
                     store
                 )
                 .then((res) => {
-                    console.log(res);
-                    store.dispatch(editProfilSuccess(finalData));
-                    console.log("finalData", finalData);
+                    store.dispatch(editProfilSuccess({
+                        editData: finalData,
+                        accessToken: res.data.data.accessToken,
+                        refreshToken: res.data.data.refreshToken,
+                    }));
 
                     if (res.status === 200) {
                         toast.info("Vos informations ont bien été enregistrées");

@@ -209,7 +209,6 @@ const dataMapper = {
     };
 
     const result = await client.query(query);
-    console.log(result);
     return result.rows;
   }
 };

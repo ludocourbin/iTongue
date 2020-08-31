@@ -41,11 +41,6 @@ import {
 } from "../actions/editProfilActions";
 
 import {
-    GET_RECORDS_BY_SEARCH,
-    SET_RECORDS_BY_SEARCH,
-} from "../actions/profilSearchActions";
-
-import {
     DELETE_IRECORD_SUCCESS_USER_PROFIL,
     SEND_IRECORD_SUCCESS_USER_PROFIL,
 } from "../actions/irecordsActions.js";
@@ -120,7 +115,6 @@ const initialState = {
     feedUserError: "",
     /* END EDIT PROFIL */
 
-    recordsFiltered: [],
     isUserFollowThisUser : false,
 };
 export default (state = initialState, action = {}) => {
@@ -296,17 +290,20 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 currentUser: {
                     ...state.currentUser,
-                    ...action.payload,
+                    ...action.payload.editData,
                     password: "",
                     confirm: "",
                 },
                 editProfilData: {
                     ...state.editProfilData,
-                    ...action.payload,
+                    ...action.payload.editData,
                     password: "",
                     confirm: "",
                 },
                 editProfilDataLoading: false,
+                accessTokenExp: Date.now() + 19 * 60 * 1000,
+                accessToken: action.payload.accessToken,
+                refreshToken: action.payload.refreshToken,
             };
         case EDIT_PROFIL_ERROR:
             return {
@@ -439,15 +436,6 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
                 accessToken: action.payload,
-            };
-        case SET_RECORDS_BY_SEARCH:
-            return {
-                ...state,
-                recordsFiltered: action.payload,
-            };
-        case GET_RECORDS_BY_SEARCH:
-            return {
-                ...state,
             };
         case FOLLOW:
             return {

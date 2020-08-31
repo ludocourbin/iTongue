@@ -20,12 +20,26 @@ const UserProfil = ({
     editProfilAvatar,
     checkUserSlug,
     userSlugInfos,
-    recordsFiltered,
-    getRecordsBySearch,
 }) => {
     
     const [isUserAccount, setIsUserAccount] = useState(false);
+    const [inputSearch, setInputSearch] =useState({ search: '', lang: null });
 
+    const {
+        id,
+        avatarUrl,
+        firstname,
+        lastname,
+        isAdmin,
+        bio,
+        records,
+        learnedLanguages,
+        taughtLanguages,
+        checkUserSlugLoading,
+        followerCount,
+        followedCount,
+    } = userSlugInfos;
+    
     let slug = useParams();
 
     useEffect(() => {
@@ -43,24 +57,16 @@ const UserProfil = ({
         checkUser();
     }, [slug.slug, currentUser.slug]);
 
-    useEffect(() => {
-        getRecordsBySearch();
-    }, [getRecordsBySearch]);
-
-    const {
-        id,
-        avatarUrl,
-        firstname,
-        lastname,
-        isAdmin,
-        bio,
-        records,
-        learnedLanguages,
-        taughtLanguages,
-        checkUserSlugLoading,
-        followerCount,
-        followedCount,
-    } = userSlugInfos;
+    const filteredRecords =
+        records &&
+        records.filter((record) => {
+            const regexp = new RegExp(inputSearch.search, "i");
+            return (
+                (regexp.test(record.translation.text) ||
+                    regexp.test(record.englishTranslation.text)) &&
+                (!inputSearch.lang || record.translation.language.id === inputSearch.lang)
+            );
+        });
 
     return (
         <Layout>
@@ -150,10 +156,15 @@ const UserProfil = ({
                 </div>
 
                 <div className="user-profil_feed">
-                    <ProfilSearch records={records} />
 
-                    {records && !recordsFiltered  ?
-                        records.map((audio, key) => (
+                    <ProfilSearch 
+                    records={records} 
+                    inputSearch={inputSearch} 
+                    setInputSearch={setInputSearch}
+                    />
+
+                    {filteredRecords && filteredRecords.length ? 
+                        filteredRecords.map((audio, key) => (
                             <Irecords
                                 key={key}
                                 record={audio}

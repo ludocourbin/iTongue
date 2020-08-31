@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { Menu, Header } from "semantic-ui-react";
+import { useLocation, Link } from "react-router-dom";
+import { Menu, Header, Icon } from "semantic-ui-react";
 
 import Layout from "../../containers/Layout";
 import Followers from "./followers";
@@ -20,7 +20,6 @@ const IfollowersiFollowing = ({
     userSlugInfos,
     follow,
     unFollow,
-    checkIfUserFollow,
 }) => {
     const { pathname } = useLocation();
 
@@ -37,6 +36,12 @@ const IfollowersiFollowing = ({
     return (
         <Layout>
             <div className="ifollowersiFollowing">
+                <Header size="tiny" className="ifollowersiFollowing-profil_back">
+                    <Link to={`/user/${userSlugInfos.slug}`}>
+                        <Icon name="chevron circle left" size="small" />
+                        Retour au profil
+                    </Link>
+                </Header>
                 <Menu className="ifollowersiFollowing-menu" pointing secondary>
                     <Menu.Item
                         className="ifollowersiFollowing-menu__item"
@@ -70,24 +75,30 @@ const IfollowersiFollowing = ({
             {activeItem === "ifollowing" ? (
                 allFollowing ? (
                     allFollowing.map((following) => (
-                        <div className="">
-                            <Following
-                                allFollowers={allFollowers}
-                                user={following}
-                                currentUserId={currentUser.id}
-                                userSlugId={userSlugInfos.id}
-                                checkIfUserFollow={checkIfUserFollow}
-                            />
-                        </div>
+                        <Following
+                            key={following.id}
+                            allFollowing={allFollowing}
+                            user={following}
+                            currentUserId={currentUser.id}
+                            userSlugId={userSlugInfos.id}
+                            follow={follow}
+                            unFollow={unFollow}
+                        />
                     ))
                 ) : (
                     <div className="">you don't follow anyone</div>
                 )
             ) : allFollowers ? (
-                allFollowers.map((followers) => (
-                    <div className="">
-                        <Followers allFollowers={allFollowers} user={followers} />
-                    </div>
+                allFollowers.map((follower) => (
+                    <Followers
+                        key={follower.id}
+                        allFollowing={allFollowing}
+                        currentUserId={currentUser.id}
+                        userSlugId={userSlugInfos.id}
+                        follow={follow}
+                        unFollow={unFollow}
+                        user={follower}
+                    />
                 ))
             ) : (
                 <div className="">no one follow you</div>

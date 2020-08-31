@@ -3,8 +3,31 @@ import { Image, Header, Label, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 // import './Followers.scss';
 
-const Followers = ({ user }) => {
+const Followers = ({ user, follow, unFollow, currentUserId, allFollowing }) => {
     const [followed, setFollowed] = useState(true);
+
+    /* handle following of other page's */
+    const isFollowing = allFollowing.find(
+        (userFollowing) => userFollowing.id === user.id
+    );
+
+    const [following, setFollowing] = useState(isFollowing ? true : false);
+
+    const handleFollow = () => {
+        setFollowing(!following);
+        changeFollowStatus();
+    };
+
+    const changeFollowStatus = () => {
+        if (following) {
+            unFollow(user.id);
+        } else {
+            follow(user.id);
+        }
+    };
+
+    const isUser = user.id === currentUserId;
+
     return (
         <div className="followers-card">
             <div className="followers-card_left">
@@ -28,20 +51,22 @@ const Followers = ({ user }) => {
                 </div>
             </div>
 
-            <div className="followers-card_right">
-                <Label className={followed ? "" : "follow-btn"}>
-                    {followed ? (
-                        <span>Abonné</span>
-                    ) : (
-                        <span className="follow-btn">S'abonner</span>
-                    )}
+            {!isUser && (
+                <div className="followers-card_right">
+                    <Label className={following ? "" : "follow-btn"}>
+                        {following ? (
+                            <span>Abonné</span>
+                        ) : (
+                            <span className="follow-btn">S'abonner</span>
+                        )}
 
-                    <Icon
-                        onClick={() => setFollowed(!followed)}
-                        name={followed ? "delete" : "add"}
-                    />
-                </Label>
-            </div>
+                        <Icon
+                            onClick={handleFollow}
+                            name={following ? "delete" : "add"}
+                        />
+                    </Label>
+                </div>
+            )}
         </div>
     );
 };

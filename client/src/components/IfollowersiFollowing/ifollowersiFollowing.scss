@@ -3,12 +3,16 @@
 
 .ifollowersiFollowing {
     &-menu {
-        // margin: 0 auto !important;
         &__item {
             width: 50%;
             padding: 15px 0 !important;
             padding-left: 60px !important;
         }
+    }
+
+    &-profil_back {
+        margin-bottom: 0 !important;
+        padding: 10px !important;
     }
 }
 
@@ -56,8 +60,3 @@
         margin-left: 10px !important;
     }
 }
-
-// .ui.floated.image {
-//     margin-bottom: 0 !important;
-//     margin-top: 0.2em !important;
-// }

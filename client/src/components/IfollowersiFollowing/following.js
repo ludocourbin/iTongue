@@ -1,15 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, Header, Label, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 // import './Followers.scss';
 
-const Followers = ({ user, currentUserId, userSlugId, allFollowers }) => {
-    const isFollowing = allFollowers.find(
-        (userFollowing) => userFollowing.id === user.id
-    );
-    const [following, setFollowing] = useState(isFollowing ? true : false);
+const Followers = ({
+    user,
+    currentUserId,
+    userSlugId,
+    unFollow,
+    follow,
+    allFollowing,
+}) => {
+    const [following, setFollowing] = useState(true);
+
+    const handleFollow = () => {
+        setFollowing(!following);
+        changeFollowStatus();
+    };
+
+    const changeFollowStatus = () => {
+        following ? unFollow(user.id) : follow(user.id);
+    };
 
     const isUser = user.id === currentUserId;
+
+    /* handle following of other page's */
+    const isFollowing = allFollowing.find(
+        (userFollowing) => userFollowing.id === user.id
+    );
+
     return (
         <div className="following-card">
             <div className="following-card_left">
@@ -43,25 +62,23 @@ const Followers = ({ user, currentUserId, userSlugId, allFollowers }) => {
                         )}
 
                         <Icon
-                            onClick={() => setFollowing(!following)}
+                            onClick={handleFollow}
                             name={following ? "delete" : "add"}
                         />
                     </Label>
                 ) : currentUserId !== userSlugId && !isUser ? (
-                    <Label className={following ? "" : "follow-btn"}>
-                        {following ? (
+                    <Label className={isFollowing ? "" : "follow-btn"}>
+                        {isFollowing ? (
                             <span>Abonné(e)</span>
                         ) : (
                             <span className="">S'abonner</span>
                         )}
                         <Icon
-                            onClick={() => setFollowing(!following)}
-                            name={following ? "delete" : "add"}
+                            onClick={handleFollow}
+                            name={isFollowing ? "delete" : "add"}
                         />
                     </Label>
-                ) : (
-                    <div></div>
-                )}
+                ) : null}
             </div>
         </div>
     );

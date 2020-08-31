@@ -36,8 +36,8 @@ const UserProfil = ({
         learnedLanguages,
         taughtLanguages,
         checkUserSlugLoading,
-        followerCount,
-        followedCount,
+        followers,
+        followed,
     } = userSlugInfos;
     
     let slug = useParams();
@@ -140,8 +140,8 @@ const UserProfil = ({
                         <div className="container_right__third-row">
                             <Statistics
                                 totalRecords={records ? records.length : 0}
-                                totalFollower={followerCount}
-                                totalFollowed={followedCount}
+                                totalFollower={followers ? followers.length : 0}
+                                totalFollowed={followed ? followed.length : 0}
                             />
                         </div>
                     </div>

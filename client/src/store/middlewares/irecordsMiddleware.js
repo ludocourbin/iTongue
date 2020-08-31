@@ -17,6 +17,18 @@ import {
   deleteIrecordError
 } from "../actions/irecordsActions";
 
+import {
+  COMMENT_SUBMIT,
+  commentSubmitSuccess,
+  commentSubmitError,
+  DELETE_COMMENT,
+  deleteCommentSuccess,
+  deleteCommentError,
+  UPDATE_COMMENT,
+  updateCommentSuccess,
+  updateCommentError,
+} from "../actions/commentActions";
+
 export const irecordsMiddleware = store => next => action => {
   next(action);
   switch (action.type) {
@@ -83,7 +95,7 @@ export const irecordsMiddleware = store => next => action => {
           console.error(err);
         });
       break;
-    }
+    };
     case FETCH_EXPRESSIONS:
       axios({
         method: "GET",
@@ -102,7 +114,6 @@ export const irecordsMiddleware = store => next => action => {
           console.error(err);
         });
       break;
-
     case DELETE_IRECORD:
       const { id } = store.getState().user.currentUser;
 
@@ -135,6 +146,65 @@ export const irecordsMiddleware = store => next => action => {
           store.dispatch(deleteIrecordError());
         });
       break;
+    
+    case COMMENT_SUBMIT :
+        const { commentInputValue } = store.getState().irecords;
+        console.log("commentInputValue", commentInputValue);
+        const recordId = action.payload;
+        httpClient
+          .post(
+            {
+              url: `/comments/${recordId}`,
+              data: {
+                text: commentInputValue,
+              },
+            },
+            store
+          )
+          .then(res => {
+            console.log("res", res);
+            store.dispatch(commentSubmitSuccess());
+          })
+          .catch(err => {
+            console.error(err);
+            //store.dispatch(commentSubmitError(      ));
+          });
+          
+    break;
+    case DELETE_COMMENT :
+        httpClient
+          .delete(
+            {
+              url: ``,
+            },
+            store
+          )
+          .then(res => {
+            console.log("res", res);
+          })
+          .catch(err => {
+            console.error(err);
+          });
+          
+    break;
+    case UPDATE_COMMENT :
+        httpClient
+          .post(
+            {
+              url: ``,
+              data: "dataform",
+            },
+            store
+          )
+          .then(res => {
+            console.log("res", res);
+          })
+          .catch(err => {
+            console.error(err);
+          });
+          
+    break;
+    
     default:
       return;
   }

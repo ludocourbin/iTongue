@@ -25,6 +25,9 @@ import {
     DELETE_COMMENT,
     DELETE_COMMENT_SUCCESS,
     DELETE_COMMENT_ERROR,
+    UPDATE_COMMENT,
+    UPDATE_COMMENT_SUCCESS,
+    UPDATE_COMMENT_ERROR,
 } from '../actions/commentActions';
 
 const initialState = {
@@ -174,6 +177,18 @@ export default (state = initialState, action = {}) => {
                 ...state,
             };
         case DELETE_COMMENT_ERROR:
+            return {
+                ...state,
+            };
+        case UPDATE_COMMENT:
+            return {
+                ...state,
+            };
+        case UPDATE_COMMENT_SUCCESS:
+            return {
+                ...state,
+            };
+        case UPDATE_COMMENT_ERROR:
             return {
                 ...state,
             };

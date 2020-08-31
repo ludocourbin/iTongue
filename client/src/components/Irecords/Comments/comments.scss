@@ -26,12 +26,24 @@
   .social-comments {
     margin-top: .8em;
 
+    .ui.form .fields {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-around;
+      align-items: center;
+      align-content: center;
+    }
+
+    .ui.form textarea {
+      resize: none;
+    }
+
     .ui.avatar.image{
       display: block;
       width: 25px;
       height: 25px;
-      margin-right: 11px!important;
-      margin-top: .3em;
+      // margin-right: 11px!important;
+      // margin-top: .3em;
     }
 
     .ui.fluid.input>input {
@@ -68,10 +80,34 @@
 
     &_text {
         font-size: .8em;
+
+        .ui.form textarea {
+          resize: none;
+          font-size: .8em;
+        }
+    }
+    
+    &_actions {
+      height: 35px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-content: center;
+      align-items: center;
+
+      .icon {
+        font-size: .7em !important;
+        margin-right: .5em;
+        cursor: pointer;
+      }
     }
     
     &_containerLeft {
       width: 15%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     &_containerRight {

@@ -10,6 +10,8 @@ const router = express.Router();
  *   get:
  *     tags:
  *       - Comments
+ *     parameters:
+ *       - $ref: "#/components/parameters/RecordID"
  *     summary: Get comments from a record
  *     description: Retrieves all comments from a single record
  *     responses:

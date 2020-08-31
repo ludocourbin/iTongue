@@ -2,7 +2,7 @@
 
 BEGIN;
 
-DROP FUNCTION "show_records", "get_records", "get_expressions", "show_users", "get_users_with_relations", "get_users", "build_where_clause";
+DROP FUNCTION "get_records", "get_expressions", "show_users", "get_users_with_relations", "get_users", "show_records", "build_where_clause";
 
 DROP TYPE "user_display", "expression_with_relations";
 

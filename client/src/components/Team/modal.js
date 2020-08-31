@@ -8,13 +8,13 @@ const MyModal = ({
     toggleModal,
 }) => {
     const thisAvatar = {
-        name:"",
-        picture:"",
-        desc:"",
-        location:"",
-        spe:"",
-        github:"",
-        linkedin:"",
+        name:"Ludovic Courbin",
+        picture:"https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/5/6/5/7/aa0d3e447aac8a32fb8c3ae0a52c?v=1598599248039",
+        desc:"A la tête de cette aventure iTongue, Ludovic vit la vie à fond, il ne s'arrête jamais.",
+        location:"Pau, Nouvelle-Aquitaine",
+        spe:"Product Owner / Front-end",
+        github:"https://github.com/ludocourbin",
+        linkedin:"https://www.linkedin.com/in/ludoviccourbin/",
     }
     switch (myAvatar) {
         case 'ludovic' :
@@ -66,7 +66,7 @@ const MyModal = ({
         default:
             console.log('This guy is not in the team. Get him out !');
         }
-   
+        console.log(thisAvatar);
     return (
         <Modal
         onClose={toggleModal}

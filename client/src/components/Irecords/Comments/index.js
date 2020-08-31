@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
-import { Icon, Image, Input, Transition } from "semantic-ui-react";
+import { Icon, Image, Input, Transition, Form } from "semantic-ui-react";
 import './comments.scss';
+import { Link } from 'react-router-dom';
 
-const Comments = ({ user }) => {
+const Comments = ({ user, commentInput, commentSubmit, deleteComment, commentInputValue, commentSubmitLoading }) => {
 
     const [showComments, setShowComments] = useState(false);
+
+    const handdleInputChange = (e) => {
+
+        commentInput(e.target.value);
+    };
+
+    const handdleSubmit = (e) => {
+        e.preventDefault();
+        commentSubmit();
+    };
 
     return (
         <div className="social">
@@ -20,19 +31,31 @@ const Comments = ({ user }) => {
             </div>
             <Transition visible={showComments} animation='fade' duration={500}>
                 <div className="social-comments">
-                    <Input type="text" fluid size="mini" placeholder="Nouveau commentaire.."/>
+                    <Form onSubmit={handdleSubmit}>
+                        <Input 
+                        value={commentInputValue}
+                        onChange={handdleInputChange}
+                        loading={commentSubmitLoading}
+                        type="text" 
+                        fluid 
+                        size="mini" 
+                        placeholder="Nouveau commentaire.."
+                        />
+                    </Form>
                     <div className="social-comment">
                         <div className="social-comment_containerLeft">
-                            <Image
-                            className="social-comment_avatar"
-                            avatar
-                            size="large"
-                            src={
-                                user.avatarUrl == null
-                                ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
-                                : `${process.env.REACT_APP_FILES_URL}/${user.avatarUrl}`
-                            }
-                            />
+                            <Link to={`/user/${user.slug}`}>
+                                <Image
+                                className="social-comment_avatar"
+                                avatar
+                                size="large"
+                                src={
+                                    user.avatarUrl == null
+                                    ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                                    : `${process.env.REACT_APP_FILES_URL}/${user.avatarUrl}`
+                                }
+                                />
+                            </Link>
                         </div>
                         <div className="social-comment_containerRight">
                             <div className="social-comment_wrapper">

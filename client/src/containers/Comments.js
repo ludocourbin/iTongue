@@ -3,6 +3,8 @@ import Comments from "../components/Irecords/Comments";
 import { commentInput, commentSubmit, deleteComment } from '../store/actions/commentActions';
 
 const mapStateToProps = (state) => ({
+    commentInputValue: state.irecords.commentInputValue,
+    commentSubmitLoading: state.irecords.commentSubmitLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -17,6 +17,16 @@ import {
     DELETE_IRECORD_ERROR,
 } from "../actions/irecordsActions";
 
+import {
+    COMMENT_SUBMIT,
+    COMMENT_SUBMIT_SUCCESS,
+    COMMENT_SUBMIT_ERROR,
+    COMMENT_INPUT,
+    DELETE_COMMENT,
+    DELETE_COMMENT_SUCCESS,
+    DELETE_COMMENT_ERROR,
+} from '../actions/commentActions';
+
 const initialState = {
     irecordSelectedId: null,
     isRecording: false,
@@ -31,6 +41,9 @@ const initialState = {
     errorFetchingExpressions: null,
     irecordDeletedMessage: "",
     irecordDeletedError: "",
+
+    commentInputValue: "",
+    commentSubmitLoading: false,
 };
 
 export default (state = initialState, action = {}) => {
@@ -131,7 +144,40 @@ export default (state = initialState, action = {}) => {
                 irecordDeletedMessage: "",
                 irecordDeletedError: "Problème lors de la suppression",
             };
+        case COMMENT_SUBMIT:
+            return {
+                ...state,
+                commentSubmitLoading: true,
+            };
+        case COMMENT_SUBMIT_SUCCESS:
+            return {
+                ...state,
+                commentInputValue: "",
+                commentSubmitLoading: false,
+            };
+        case COMMENT_SUBMIT_ERROR:
+            return {
+                ...state,
+                commentSubmitLoading: false,
+            };
+        case COMMENT_INPUT:
+            return {
+                ...state,
+                commentInputValue: action.payload,
+            };
+        case DELETE_COMMENT:
+            return {
+                ...state,
+            };
+        case DELETE_COMMENT_SUCCESS:
+            return {
+                ...state,
+            };
+        case DELETE_COMMENT_ERROR:
+            return {
+                ...state,
+            };
         default:
             return state;
-    }
+    };
 };

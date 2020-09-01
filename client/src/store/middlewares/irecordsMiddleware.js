@@ -27,6 +27,9 @@ import {
   UPDATE_COMMENT,
   updateCommentSuccess,
   updateCommentError,
+  FETCH_COMMENTS_BY_RECORD,
+  fetchCommentsByRecordSuccess,
+  fetchCommentsByRecordError,
 } from "../actions/commentActions";
 
 export const irecordsMiddleware = store => next => action => {
@@ -78,6 +81,7 @@ export const irecordsMiddleware = store => next => action => {
       })
         .then(res => {
           const records = res.data.data;
+          console.log(res.data.data);
           const recordsWithType = records.map(record => {
             return {
               ...record,
@@ -149,7 +153,8 @@ export const irecordsMiddleware = store => next => action => {
     
     case COMMENT_SUBMIT :
         const { commentInputValue } = store.getState().irecords;
-        console.log("commentInputValue", commentInputValue);
+        const { currentUser } = store.getState().user;
+
         const recordId = action.payload;
         httpClient
           .post(
@@ -163,7 +168,17 @@ export const irecordsMiddleware = store => next => action => {
           )
           .then(res => {
             console.log("res", res);
-            store.dispatch(commentSubmitSuccess());
+            store.dispatch(commentSubmitSuccess([{
+              id: res.data.data.id,
+              text: commentInputValue,
+              user: {
+                id: currentUser.id,
+                firstname: currentUser.firstname,
+                lastname: currentUser.lastname,
+                slug: currentUser.slug,
+                avatarUrl: currentUser.avatarUrl,
+              }
+            }]));
           })
           .catch(err => {
             console.error(err);
@@ -204,7 +219,24 @@ export const irecordsMiddleware = store => next => action => {
           });
           
     break;
-    
+    case FETCH_COMMENTS_BY_RECORD :
+      const record_Id = action.payload;
+      httpClient
+        .get(
+          {
+            url: `/comments/${record_Id}`,
+          },
+        )
+        .then(res => {
+          console.log("res", res);
+          store.dispatch(fetchCommentsByRecordSuccess(res.data.data));
+        })
+        .catch(err => {
+          console.error(err);
+          //store.dispatch(commentSubmitError(      ));
+        });
+        
+      break;
     default:
       return;
   }

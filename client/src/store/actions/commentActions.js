@@ -63,8 +63,9 @@ export const FETCH_COMMENTS_BY_RECORD = "FETCH_COMMENTS_BY_RECORD";
 export const FETCH_COMMENTS_BY_RECORD_SUCCESS = "FETCH_COMMENTS_BY_RECORD_SUCCESS";
 export const FETCH_COMMENTS_BY_RECORD_ERROR = "FETCH_COMMENTS_BY_RECORD_ERROR";
 
-export const fetchCommentsByRecord = () => ({
+export const fetchCommentsByRecord = (payload) => ({
     type: FETCH_COMMENTS_BY_RECORD,
+    payload,
 });
 
 export const fetchCommentsByRecordSuccess = (payload) => ({

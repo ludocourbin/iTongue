@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Icon, Image, Input, Transition, Form, TextArea, Confirm, Button } from "semantic-ui-react";
+import { Icon, Image, Transition, Form, TextArea, Confirm } from "semantic-ui-react";
 import './comments.scss';
 import { Link } from 'react-router-dom';
 
@@ -8,7 +8,8 @@ const Comments = (props) => {
     const { 
         user, 
         record,
-        //comments,
+        commentsList,
+        fetchCommentsByRecord,
         commentInput, 
         commentSubmit, 
         deleteComment, 
@@ -17,13 +18,11 @@ const Comments = (props) => {
         commentSubmitLoading, 
     } = props;
 
-    let comment = { id : 5 };
-
     const [showComments, setShowComments] = useState(false);
     const [commentEditId, setCommentEditId] = useState(0);
     const [commentEditStatus, setCommentEditStatus] = useState(false);
     const [deleteCommentId, setDeleteCommentId] = useState(0);
-    const [ confirm, setConfirm ] = useState(false); // true || false
+    const [confirm, setConfirm] = useState(false); // true || false
 
     const handdleInputChange = (e) => {
         commentInput(e.target.value);
@@ -44,58 +43,57 @@ const Comments = (props) => {
             <div className="social-interraction">
                 <div className="social-nbrlike">
                     <Icon name="thumbs up" />
-                    15
+                    {record && record.likeCount}
                 </div>
-                <div className="social-nbrcomment" onClick={() => setShowComments(!showComments)}>
+                <div className="social-nbrcomment" onClick={() => {
+                    fetchCommentsByRecord(record.id);
+                    setShowComments(!showComments);
+                }}>
                     <Icon name="comments" />
-                    6 comments
+                    {record && record.commentCount} comments
                 </div>
             </div>
             <Transition visible={showComments} animation='fade' duration={500}>
-                
+           
                 <div className="social-comments">
+                { showComments &&
                     <Form onSubmit={handdleSubmit}>
-                        <Form.Group>
-                            <TextArea 
-                            value={commentInputValue}
-                            onChange={handdleInputChange}
-                            //loading={commentSubmitLoading}
-                            type="text" 
-                            size="mini" 
-                            placeholder="Nouveau commentaire.."
-                            rows="1.5"
-                            onKeyPress={(e) => {
-                                if (e.key === 'Enter') {
-                                    handdleSubmit();
-                                    e.preventDefault();
-                                }
-                            }}
-                            />
-                            {/* <Button 
-                            type="submit"
-                            content="Publish"
-                            size="mini"
-                            /> */}
-                        </Form.Group>
+                        <TextArea 
+                        value={commentInputValue}
+                        onChange={handdleInputChange}
+                        type="text" 
+                        size="mini" 
+                        placeholder="Nouveau commentaire.."
+                        rows="1.5"
+                        onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                                handdleSubmit();
+                                e.preventDefault();
+                            }
+                        }}
+                        />
                     </Form>
-                    
-                    <div className="social-comment">
+                }
+
+                { showComments && commentsList && commentsList.map(comment => (
+
+                    <div className="social-comment" key={comment.id}>
                         <div className="social-comment_containerLeft">
-                            <Link to={`/user/${user.slug}`}>
+                            <Link to={`/user/${comment.user.slug}`}>
                                 <Image
                                 className="social-comment_avatar"
                                 avatar
                                 size="large"
                                 src={
-                                    user.avatarUrl == null
+                                    comment.user.avatarUrl == null
                                     ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
-                                    : `${process.env.REACT_APP_FILES_URL}/${user.avatarUrl}`
+                                    : `${process.env.REACT_APP_FILES_URL}/${comment.user.avatarUrl}`
                                 }
                                 />
                             </Link>
                             <div className="social-comment_actions">
                                 <Icon name={commentEditStatus ? "undo" : "edit"} onClick={() => {
-                                    setCommentEditId(5);
+                                    setCommentEditId(comment.id);
                                     setCommentEditStatus(!commentEditStatus);
                                 }}/>
                                 <Icon name="delete" onClick={() => {
@@ -113,7 +111,7 @@ const Comments = (props) => {
                         </div>
                         <div className="social-comment_containerRight">
                             <div className="social-comment_wrapper">
-                                <div className="social-comment_name">Gautier Colasse</div>
+                                <div className="social-comment_name">{comment.user.firstname} {comment.user.lastname}</div>
                                 <div className="social-comment_date">45min</div>
                             </div>
                             <div className="social-comment_text">
@@ -121,7 +119,7 @@ const Comments = (props) => {
                                 { comment.id === commentEditId && commentEditStatus ? 
                                 <Form onSubmit={handdleSubmit}>
                                     <TextArea 
-                                    value={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam voluptate laudantium quos quis, animi aut."}
+                                    value={comment.text}
                                     //onChange={handdleInputChange}
                                     //loading={commentSubmitLoading}
                                     type="text" 
@@ -132,12 +130,13 @@ const Comments = (props) => {
                                     />
                                 </Form>
                                 :
-                                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam voluptate laudantium quos quis, animi aut."
+                                    comment.text
                                 }
                             </div>
 
                         </div>
                     </div>
+                    ))}
                 </div>
             </Transition>
         </div>

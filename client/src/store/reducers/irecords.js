@@ -28,6 +28,9 @@ import {
     UPDATE_COMMENT,
     UPDATE_COMMENT_SUCCESS,
     UPDATE_COMMENT_ERROR,
+    FETCH_COMMENTS_BY_RECORD,
+    FETCH_COMMENTS_BY_RECORD_SUCCESS,
+    FETCH_COMMENTS_BY_RECORD_ERROR,
 } from '../actions/commentActions';
 
 const initialState = {
@@ -47,6 +50,7 @@ const initialState = {
 
     commentInputValue: "",
     commentSubmitLoading: false,
+    commentsList: [],
 };
 
 export default (state = initialState, action = {}) => {
@@ -157,6 +161,10 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 commentInputValue: "",
                 commentSubmitLoading: false,
+                commentsList: [
+                    ...state.commentsList,
+                    ...action.payload
+                ]
             };
         case COMMENT_SUBMIT_ERROR:
             return {
@@ -189,6 +197,19 @@ export default (state = initialState, action = {}) => {
                 ...state,
             };
         case UPDATE_COMMENT_ERROR:
+            return {
+                ...state,
+            };
+        case FETCH_COMMENTS_BY_RECORD:
+            return {
+                ...state,
+            };
+        case FETCH_COMMENTS_BY_RECORD_SUCCESS:
+            return {
+                ...state,
+                commentsList: action.payload,
+            };
+        case FETCH_COMMENTS_BY_RECORD_ERROR:
             return {
                 ...state,
             };

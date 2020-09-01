@@ -1,13 +1,19 @@
 @import "../../styles/vars";
+@import "../../styles/mixin";
 
 .ifollowersiFollowing {
     &-menu {
-        // margin: 0 auto !important;
         &__item {
             width: 50%;
             padding: 15px 0 !important;
             padding-left: 60px !important;
         }
+    }
+
+    &-profil_back {
+        margin-bottom: 0 !important;
+        padding: 10px !important;
+        background-color: $shape-color;
     }
 }
 
@@ -35,9 +41,15 @@
 
         .follow-btn {
             padding-right: 2px;
+            @include button;
         }
 
-        .follow-btn ~ .icon.add {
+        .not-follow-btn {
+            padding-right: 2px;
+        }
+
+        .follow-btn > .icon.add,
+        .not-follow-btn > .icon.add {
             position: relative;
             left: 6px;
         }
@@ -54,8 +66,3 @@
         margin-left: 10px !important;
     }
 }
-
-// .ui.floated.image {
-//     margin-bottom: 0 !important;
-//     margin-top: 0.2em !important;
-// }

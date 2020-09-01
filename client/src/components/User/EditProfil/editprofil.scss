@@ -1,15 +1,15 @@
-@import '../../../styles/mixin';
-@import '../../../styles/vars';
+@import "../../../styles/mixin";
+@import "../../../styles/vars";
 
 .edit-profil {
     //padding: 1em 1em;
     overflow-x: hidden;
 
     &_back {
-        padding: 1em .5em!important;
-        margin: 0!important;
+        padding: 1em 0.5em !important;
+        margin: 0 !important;
         background-color: $shape-color;
-        margin-bottom: 1.5em!important;
+        margin-bottom: 1.5em !important;
     }
 
     &_profil {
@@ -21,9 +21,9 @@
         }
     }
 
-   &_langs {
+    &_langs {
         padding: 1em;
-   }
+    }
 
     &_password {
         padding: 1em;
@@ -43,7 +43,6 @@
         line-height: 2em;
         margin: 1em;
 
-
         &__arrow {
             position: absolute;
             right: 0;
@@ -58,21 +57,21 @@
     &_label {
         display: block;
         font-weight: 600;
-        margin-bottom: .5em;
+        margin-bottom: 0.5em;
     }
 
     &_accordion {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        
+
         .activeAccordion {
             color: $primary-color;
         }
     }
 
     .ui.pointing.label:before {
-        left: 85%!important;
+        left: 85% !important;
     }
 
     .ui.button {
@@ -82,26 +81,25 @@
     }
 
     &_container {
-
         display: flex;
         justify-content: space-around;
         align-items: center;
         margin: 1em 0;
 
         &__avatar {
-            max-width: 120px!important;
+            max-width: 120px !important;
         }
-    
+
         &__toggle {
             display: flex;
             flex-direction: column;
             width: 150px;
-            
+
             .toggle_container {
                 display: flex;
                 justify-content: space-between;
                 align-content: center;
-                padding: .4em 0;
+                padding: 0.4em 0;
             }
         }
     }

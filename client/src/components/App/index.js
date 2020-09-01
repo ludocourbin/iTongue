@@ -72,7 +72,11 @@ const App = ({ isLogged, setCaptchaToken }) => {
                     path="/user/:slug/edit"
                     render={() => (isLogged ? <EditProfil /> : <Redirect to="/login" />)}
                 />
-                <Route exact path="/feed" component={Feed} />
+                <Route
+                    exact
+                    path="/feed"
+                    render={() => (isLogged ? <Feed /> : <Redirect to="/login" />)}
+                />
                 <Route exact path="/messages" component={Conversations} />
                 <Route exact path="/messages/conversation" component={Message} />
                 <Route exact path="/ifollowers" component={IfollowersiFollowing} />

@@ -2,7 +2,6 @@
 
 BEGIN;
 
-DROP FUNCTION "get_comments"("recordId" INT, "limit" INT);
-DROP TYPE "comments_with_user";
+DROP VIEW "comments_with_user";
 
 COMMIT;

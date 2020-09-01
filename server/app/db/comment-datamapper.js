@@ -1,15 +1,11 @@
 const client = require("./");
 
 const dataMapper = {
-  getAllByRecordId: async (recordId, resultLimit) => {
-    let limit = 3;
-    if (resultLimit) {
-      limit = resultLimit;
-    }
-
+  getAllByRecordId: async recordId => {
     const query = {
-      text: 'SELECT * FROM "get_comments"($1, $2)',
-      values: [recordId, limit]
+      name: `read-record-comments-${recordId}`,
+      text: 'SELECT * FROM "comments_with_user" WHERE "recordId" = $1',
+      values: [recordId]
     };
     const result = await client.query(query);
     return result.rows;

@@ -2,17 +2,10 @@
 @import "../../styles/mixin";
 
 .irecordsPage {
-
     margin: 1em;
-    
+
     .title {
         margin: 20px 0 !important;
-    }
-    
-    .irecords-list {
-        @include flex-column;
-        align-items: center;
-        align-content: center;
     }
 }
 

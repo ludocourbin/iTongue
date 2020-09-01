@@ -132,6 +132,20 @@ $$
     FROM "get_users_with_relations"("filter");
 $$ LANGUAGE SQL STABLE;
 
+DROP FUNCTION "get_feed";
+
+CREATE FUNCTION "get_feed" ("user_id" INT) 
+RETURNS SETOF "record_display_type" AS
+$$
+   SELECT "r".*
+    FROM "show_records"() "r"
+    JOIN "user_user_follow" "f"
+      ON ("r"."user"->>'id')::INT = "f"."followed_id"
+   WHERE "f"."follower_id" = "user_id"
+ORDER BY "r"."id" DESC;
+$$
+LANGUAGE SQL STABLE;
+
 CREATE FUNCTION "get_record_likes"("record_id" INT)
 RETURNS SETOF "plain_user" AS
 $$

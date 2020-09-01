@@ -2,8 +2,23 @@
 
 BEGIN;
 
-DROP FUNCTION "show_users";
-DROP FUNCTION "get_users_with_relations";
+DROP FUNCTION "get_user_bookmarks", "get_user_likes", "get_record_bookmarks", "get_record_likes";
+
+DROP FUNCTION "get_feed";
+
+CREATE FUNCTION "get_feed" ("user_id" INT) 
+RETURNS SETOF "record_display" AS
+$$
+   SELECT "r".*
+    FROM "record_display" "r"
+    JOIN "user_user_follow" "f"
+      ON ("r"."user"->>'id')::INT = "f"."followed_id"
+   WHERE "f"."follower_id" = "user_id"
+ORDER BY "r"."createdAt" DESC;
+$$
+LANGUAGE SQL STABLE;
+
+DROP FUNCTION "show_users", "get_users_with_relations";
 
 DROP TYPE "user_with_relations_type";
 
@@ -54,7 +69,7 @@ $$
     FROM "get_users_with_relations"("filter");
 $$ LANGUAGE SQL STABLE;
 
-DROP FUNCTION "get_user_bookmarks", "get_user_likes", "get_record_bookmarks", "get_record_likes", "show_records";
+DROP FUNCTION "show_records";
 
 ALTER TYPE "record_display_type" DROP ATTRIBUTE "commentCount";
 ALTER TYPE "record_display_type" DROP ATTRIBUTE "bookmarkCount";

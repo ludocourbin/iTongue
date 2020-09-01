@@ -15,8 +15,11 @@ import Statistics from "../Statistics";
 import "./userprofil.scss";
 
 const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfos }) => {
+    
     const [isUserAccount, setIsUserAccount] = useState(false);
+    
     const [inputSearch, setInputSearch] = useState({ search: "", lang: null });
+    
     const {
         id,
         avatarUrl,
@@ -31,10 +34,13 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
         followers,
         followed,
     } = userSlugInfos;
+
     let slug = useParams();
+
     useEffect(() => {
         checkUserSlug(slug.slug);
     }, [slug.slug, checkUserSlug]);
+
     useEffect(() => {
         const checkUser = () => {
             if (currentUser.slug === slug.slug) {
@@ -45,6 +51,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
         };
         checkUser();
     }, [slug.slug, currentUser.slug]);
+
     const filteredRecords =
         records &&
         records.filter((record) => {
@@ -128,8 +135,8 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                         <div className="container_right__third-row">
                             <Statistics
                                 totalRecords={records ? records.length : 0}
-                                totalFollower={followers.length}
-                                totalFollowed={followed.length}
+                                totalFollower={followers ? followers.length : 0}
+                                totalFollowed={followed ? followed.length : 0}
                             />
                         </div>
                     </div>
@@ -147,7 +154,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                         inputSearch={inputSearch}
                         setInputSearch={setInputSearch}
                     />
-                    {filteredRecords && filteredRecords.length ? (
+                    {filteredRecords && filteredRecords.length ? 
                         filteredRecords.map((audio, key) => (
                             <Irecords
                                 key={key}
@@ -156,15 +163,19 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                 isUserRecord={id}
                             />
                         ))
-                    ) : (
-                        <>
-                            <div className="user-profil_feed__norecords">
-                                <Icon name="microphone slash" size="big" circular />
-                                <div className="norecords-informations">
-                                    Aucun iRecord.
+                    :  (
+                            <>
+                                <div className="user-profil_feed__norecords">
+                                    <Icon
+                                        name="microphone slash"
+                                        size="big"
+                                        circular
+                                    />
+                                    <div className="norecords-informations">
+                                        Aucun iRecord.
+                                    </div>
                                 </div>
-                            </div>
-                        </>
+                            </>
                     )}
                 </div>
             </div>

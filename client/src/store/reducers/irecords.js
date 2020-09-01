@@ -17,6 +17,24 @@ import {
     DELETE_IRECORD_ERROR,
 } from "../actions/irecordsActions";
 
+import {
+    COMMENT_SUBMIT,
+    COMMENT_SUBMIT_SUCCESS,
+    COMMENT_SUBMIT_ERROR,
+    COMMENT_INPUT,
+    DELETE_COMMENT,
+    DELETE_COMMENT_SUCCESS,
+    DELETE_COMMENT_ERROR,
+    UPDATE_COMMENT,
+    UPDATE_COMMENT_SUCCESS,
+    UPDATE_COMMENT_ERROR,
+    FETCH_COMMENTS_BY_RECORD,
+    FETCH_COMMENTS_BY_RECORD_SUCCESS,
+    FETCH_COMMENTS_BY_RECORD_ERROR,
+    SET_RECORD_ID_COMMENT,
+    UPDATE_COMMENT_INPUT,
+} from '../actions/commentActions';
+
 const initialState = {
     irecordSelectedId: null,
     isRecording: false,
@@ -31,6 +49,12 @@ const initialState = {
     errorFetchingExpressions: null,
     irecordDeletedMessage: "",
     irecordDeletedError: "",
+
+    commentInputValue: "",
+    commentSubmitLoading: false,
+    commentsList: [],
+    commentEditInputValue: "",
+    iRecordCommentIdSelect: 0,
 };
 
 export default (state = initialState, action = {}) => {
@@ -131,7 +155,81 @@ export default (state = initialState, action = {}) => {
                 irecordDeletedMessage: "",
                 irecordDeletedError: "Problème lors de la suppression",
             };
+        case COMMENT_SUBMIT:
+            return {
+                ...state,
+                commentSubmitLoading: true,
+            };
+        case COMMENT_SUBMIT_SUCCESS:
+            return {
+                ...state,
+                commentInputValue: "",
+                commentSubmitLoading: false,
+                commentsList: [
+                    ...state.commentsList,
+                    ...action.payload
+                ]
+            };
+        case COMMENT_SUBMIT_ERROR:
+            return {
+                ...state,
+                commentSubmitLoading: false,
+            };
+        case COMMENT_INPUT:
+            return {
+                ...state,
+                commentInputValue: action.payload,
+            };
+        case DELETE_COMMENT:
+            return {
+                ...state,
+            };
+        case DELETE_COMMENT_SUCCESS:
+            return {
+                ...state,
+                commentsList: [...action.payload]
+            };
+        case DELETE_COMMENT_ERROR:
+            return {
+                ...state,
+            };
+        case UPDATE_COMMENT:
+            return {
+                ...state,
+            };
+        case UPDATE_COMMENT_SUCCESS:
+            return {
+                ...state,
+                commentsList: action.payload,
+            };
+        case UPDATE_COMMENT_ERROR:
+            return {
+                ...state,
+            };
+        case UPDATE_COMMENT_INPUT:
+            return {
+                ...state,
+                commentEditInputValue: action.payload,
+            };
+        case FETCH_COMMENTS_BY_RECORD:
+            return {
+                ...state,
+            };
+        case FETCH_COMMENTS_BY_RECORD_SUCCESS:
+            return {
+                ...state,
+                commentsList: action.payload,
+            };
+        case FETCH_COMMENTS_BY_RECORD_ERROR:
+            return {
+                ...state,
+            };
+        case SET_RECORD_ID_COMMENT:
+            return {
+                ...state,
+                iRecordCommentIdSelect: action.payload,
+            };
         default:
             return state;
-    }
+    };
 };

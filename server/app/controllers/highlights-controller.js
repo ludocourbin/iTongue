@@ -1,42 +1,32 @@
-const client = require("../db");
+const highlightsDatamapper = require("../db/highlights-datamapper");
 
 module.exports = {
   getBestUsers: async (req, res, next) => {
     const limit = parseInt(req.params.limit, 10);
-    const query = 'SELECT * FROM "users_with_more_irecords"($1)';
     try {
-      const bestUsers = await client.query(query, [limit]);
-      res.json({ data: bestUsers.rows });
+      const bestUsers = await highlightsDatamapper.getBestUsers(query, [limit]);
+      res.json({ data: bestUsers });
     } catch (err) {
       next(err);
     }
   },
-  
+
   getBestTranslations: async (req, res, next) => {
     const limit = parseInt(req.params.limit, 10);
-    const query = 'SELECT * FROM "translations_with_more_irecords"($1)';
     try {
-      const bestTranslations = await client.query(query, [limit]);
-      res.json({ data: bestTranslations.rows });
+      const bestTranslations = await highlightsDatamapper.getBestTranslations(query, [limit]);
+      res.json({ data: bestTranslations });
     } catch (err) {
       next(err);
     }
   },
 
   getLastiRecords: async (req, res, next) => {
-    const limit = parseInt(req.params.limit, 10);
-    // const query = 'SELECT * FROM "record_display"';
-    const query = 'SELECT * FROM "last_irecords"($1)';
     try {
-      // const lastIrecords = await client.query(query);
-      const lastIrecords = await client.query(query, [limit]);
-      res.json({ data: lastIrecords.rows });
+      const lastIrecords = await highlightsDatamapper.getLastiRecords();
+      res.json({ data: lastIrecords });
     } catch (err) {
       next(err);
     }
-  },
-
-  todo: async (_, res) => {
-    res.status(200).json({ data: "todo" });
   }
 };

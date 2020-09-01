@@ -8,7 +8,7 @@ const router = express.Router();
  * @swagger
  * /best/users/{limit}:
  *  get:
- *      tags: 
+ *      tags:
  *        - Highlights
  *      summary: Users with more records
  *      description:
@@ -36,7 +36,7 @@ router.get("/users/:limit(\\d+)", highlightsController.getBestUsers);
  * @swagger
  * /best/translations/{limit}:
  *  get:
- *      tags: 
+ *      tags:
  *        - Highlights
  *      summary: Translations with more records
  *      description:
@@ -62,20 +62,13 @@ router.get("/translations/:limit(\\d+)", highlightsController.getBestTranslation
 
 /**
  * @swagger
- * /best/lastirecords/{limit}:
+ * /best/lastirecords/:
  *  get:
- *      tags: 
+ *      tags:
  *        - Highlights
  *      summary: Last iRecords
  *      description:
  *        Get last iRecords, limiting results by passing INTEGER in path
- *      parameters:
- *        - name: limit
- *          description: number of results
- *          in: path
- *          type: integer
- *          required: true
- *          example: 4
  *      responses:
  *          '200':
  *              description: OK
@@ -86,6 +79,6 @@ router.get("/translations/:limit(\\d+)", highlightsController.getBestTranslation
  *          '404':
  *              description: Not Found
  */
-router.get("/lastirecords/:limit(\\d+)", highlightsController.getLastiRecords);
+router.get("/lastirecords/", highlightsController.getLastiRecords);
 
 module.exports = router;

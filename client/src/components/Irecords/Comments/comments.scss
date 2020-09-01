@@ -7,15 +7,18 @@
     &-nbrlike {
         font-weight: 600;
         margin-right: 15px;
+        cursor: pointer;
     }
 
     &-nbrcomment {
         font-weight: 600;
+        cursor: pointer;
     }
 
     &-nbrcomment--active {
         font-weight: 600;
         color: $primary-color;
+        cursor: pointer;
     }
 
     &-interraction {

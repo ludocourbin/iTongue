@@ -32,11 +32,11 @@ const Irecords = ({
                 ]}
                 autoClose
                 style={{
-                    height:
+                    minHeight:
                         record.englishTranslation.language.code !==
                         record.translation.language.code
-                            ? "170px"
-                            : "120px",
+                            ? "200px"
+                            : "150px",
                     width: "100%",
                     marginBottom: "33px",
                     boxShadow: "0 1px 1px rgba(0, 0, 0, 0.1)",

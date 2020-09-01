@@ -69,7 +69,6 @@ const Comments = (props) => {
         }
     }, [iRecordCommentIdSelect, record.id]);
 
-
     return (
         <div className="social">
             <div className="social-interraction">
@@ -85,7 +84,7 @@ const Comments = (props) => {
             <Transition visible={showComments} animation='fade' duration={500}>
                 <>
                 <div className="social-comment_feed">
-                { showComments && isLogged && record && record.commentCount !== 0 &&
+                { showComments && isLogged && record &&
                     <Form onSubmit={handdleSubmit}>
                         <TextArea 
                         value={commentInputValue}

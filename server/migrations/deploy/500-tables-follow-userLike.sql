@@ -4,8 +4,8 @@ BEGIN;
 
 CREATE TABLE "user_user_follow" (
   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "follower_id" INTEGER REFERENCES "user"("id") NOT NULL,
-  "followed_id" INTEGER REFERENCES "user"("id") NOT NULL,
+  "follower_id" INT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
+  "followed_id" INT NOT NULL REFERENCES "user"("id") ON DELETE CASCADE,
   "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP 
 );
 

@@ -62,7 +62,7 @@ module.exports = {
 
     // Serve results from Redis if any
     const chachedResults = await getFromCache(key);
-    if (chachedResults) return chachedResults[0];
+    if (chachedResults) return chachedResults;
 
     // Serve results Postgres if any
     const freshResults = await client.query(query);
@@ -80,9 +80,8 @@ module.exports = {
    */
   async mutate(query) {
     const results = await client.query(query);
-    // console.log("results", results)
+
     const mutation = results.rows[0];
-    console.log("mutation", mutation);
     if (mutation.updated === null) throw Error("Unable to " + query.name);
     if (mutation.deleted === false) throw Error("Unable to " + query.name);
 

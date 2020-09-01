@@ -27,7 +27,7 @@
         align-items: flex-start;
         align-content: center;
         width: 100%;
-        height:190px;
+        height: 190px;
         overflow-x: hidden;
         padding: 1em !important;
         padding-top: 2em !important;
@@ -36,7 +36,7 @@
         .container_left {
             width: 35%;
             padding-left: 1em;
-            
+
             &__container {
                 width: 105px;
                 position: relative;
@@ -61,7 +61,7 @@
                 width: 100%;
                 display: flex;
                 flex-direction: row;
-/*
+                /*
                 .icon-settings {
                     //margin-left: 1.5em;
                 }
@@ -149,6 +149,8 @@
             margin-right: 0.3em;
             max-width: 30px;
             max-height: 30px;
+            min-height: 30px;
+            min-width: 30px;
             border-radius: 50%;
         }
     }
@@ -160,27 +162,26 @@
     box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.1);
 }
 
-
 .profil-search {
     width: 100%;
     margin: 1em 0;
     display: flex;
     //box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2) !important;
-    font-size: 1em!important;
+    font-size: 1em !important;
 
     &_input {
         margin: 0 auto;
     }
 
-    .ui.icon.input>input {
-        border-radius: 0!important;
-        border: none!important;
-        border-right: 1px solid #f9ecec!important;
+    .ui.icon.input > input {
+        border-radius: 0 !important;
+        border: none !important;
+        border-right: 1px solid #f9ecec !important;
     }
 
     .ui.selection.dropdown {
         min-width: 10em;
         border: none;
-       //box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2) !important;
+        //box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2) !important;
     }
 }

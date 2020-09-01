@@ -4,12 +4,15 @@ BEGIN;
 
 DROP VIEW "user_display", "expression_with_relations";
 
-CREATE TYPE "expression_with_relations" AS
+CREATE TYPE "expression_with_relations_type" AS
 ("id" INT, "label" TEXT, "englishText" TEXT, "createdAt" TIMESTAMPTZ, "translations" JSON);
 
-CREATE TYPE "user_display" AS
+CREATE TYPE "user_display_type" AS
 ("id" INT, "email" TEXT, "firstname" TEXT, "lastname" TEXT, "slug" TEXT, "bio" TEXT, "avatarUrl" TEXT, "isAdmin" BOOLEAN,
 "createdAt" TIMESTAMPTZ, "records" JSON, "learnedLanguages" JSON, "taughtLanguages" JSON, "followerCount" INT, "followedCount" INT);
+
+CREATE TYPE "record_display_type" AS
+("id" INT, "url" TEXT, "createdAt" TIMESTAMPTZ, "user" JSON, "englishTranslation" JSON, "translation" JSON);
 
 CREATE FUNCTION "build_where_clause"("filter" JSON)
 RETURNS TEXT AS
@@ -52,6 +55,30 @@ BEGIN
 END
 $$ LANGUAGE plpgsql IMMUTABLE;
 
+
+CREATE FUNCTION "show_records"("filter" JSON DEFAULT '{}')
+RETURNS SETOF "record_display_type" AS
+$$
+DECLARE
+  "query" TEXT := 'SELECT "r"."id", "r"."url", "r"."created_at" AS "createdAt",
+                            to_json(("u"."id", "u"."firstname", "u"."lastname", "u"."slug", "u"."avatar_url")::"record_user") AS "user",
+                            (SELECT to_json(("id", "text", "created_at", "expression", "language")::"record_translation")
+                              FROM "translation_with_relations"
+                              WHERE "language"->>''name'' ILIKE ''english''
+                                AND "t"."expression"->>''id'' = "expression"->>''id'') AS "englishTranslation",
+                            to_json(("t"."id", "t"."text", "t"."created_at", "t"."expression", "t"."language")::"record_translation") AS "translation"
+                      FROM "record" "r"
+                 LEFT JOIN "user" "u"
+                        ON "r"."user_id" = "u"."id"
+                 LEFT JOIN "translation_with_relations" "t"
+                        ON "r"."translation_id" = "t"."id"';
+BEGIN
+  "query" := "query" || "build_where_clause"("filter") || ' ORDER BY "r"."id" DESC';
+  -- RAISE NOTICE 'query: %', "query";
+  RETURN QUERY EXECUTE "query";
+END
+$$ LANGUAGE plpgsql STABLE;
+
 CREATE FUNCTION "get_users"("filter" JSON DEFAULT '{}')
 RETURNS SETOF "user" AS
 $$
@@ -69,7 +96,7 @@ $$
 DECLARE
   "query" TEXT := 'SELECT "u".*,
  	     (SELECT COALESCE(json_agg(("r"."id", "r"."url", "r"."createdAt", "r"."englishTranslation", "r"."translation")::"user_record") FILTER(WHERE "r"."id" IS NOT NULL), ''[]'')
-		     FROM "record_display" "r"
+		     FROM "show_records"() "r"
 	 	     WHERE "u"."id" = ("r"."user"->>''id'')::INT) AS "records",
 	     (SELECT COALESCE(json_agg("l".*) FILTER(WHERE "lu"."role" = ''learner''), ''[]'')
 		      FROM "language_user" "lu"
@@ -95,7 +122,7 @@ END
 $$ LANGUAGE plpgsql STABLE;
 
 CREATE FUNCTION "show_users"("filter" JSON DEFAULT '{}')
-RETURNS SETOF "user_display" AS
+RETURNS SETOF "user_display_type" AS
 $$
   SELECT "id", "email", "firstname", "lastname", "slug", "bio", "avatar_url" AS "avatarUrl", "is_admin" AS "isAdmin", "created_at" AS "createdAt", "records", "learnedLanguages", "taughtLanguages", "followerCount", "followedCount"
     FROM "get_users_with_relations"("filter");
@@ -103,7 +130,7 @@ $$ LANGUAGE SQL STABLE;
 
 -- select * from get_expressions('{"id": {"table": "e", "operator": ">", "value": 4}, "language": {"table": "tr", "key": "name", "operator": "ILIKE", "value": "english"}}');
 CREATE FUNCTION "get_expressions"("filter" JSON DEFAULT '{}')
-RETURNS SETOF "expression_with_relations" AS
+RETURNS SETOF "expression_with_relations_type" AS
 $$
 DECLARE
   "query" TEXT := 'SELECT "e"."id", "e"."label",
@@ -131,29 +158,6 @@ DECLARE
   "query" TEXT := 'SELECT * FROM "record"';
 BEGIN
   "query" := "query" || "build_where_clause"("filter") || ' ORDER BY "id" DESC';
-  RETURN QUERY EXECUTE "query";
-END
-$$ LANGUAGE plpgsql STABLE;
-
-CREATE FUNCTION "show_records"("filter" JSON DEFAULT '{}')
-RETURNS SETOF "record_display" AS
-$$
-DECLARE
-  "query" TEXT := ' SELECT "r"."id", "r"."url", "r"."created_at" AS "createdAt",
-                            to_json(("u"."id", "u"."firstname", "u"."lastname", "u"."slug", "u"."avatar_url")::"record_user") AS "user",
-                            (SELECT to_json(("id", "text", "created_at", "expression", "language")::"record_translation")
-                              FROM "translation_with_relations"
-                              WHERE "language"->>''name'' ILIKE ''english''
-                                AND "t"."expression"->>''id'' = "expression"->>''id'') AS "englishTranslation",
-                            to_json(("t"."id", "t"."text", "t"."created_at", "t"."expression", "t"."language")::"record_translation") AS "translation"
-                      FROM "record" "r"
-                 LEFT JOIN "user" "u"
-                        ON "r"."user_id" = "u"."id"
-                 LEFT JOIN "translation_with_relations" "t"
-                        ON "r"."translation_id" = "t"."id"';
-BEGIN
-  "query" := "query" || "build_where_clause"("filter") || ' ORDER BY "r"."id" DESC';
-  -- RAISE NOTICE 'query: %', "query";
   RETURN QUERY EXECUTE "query";
 END
 $$ LANGUAGE plpgsql STABLE;

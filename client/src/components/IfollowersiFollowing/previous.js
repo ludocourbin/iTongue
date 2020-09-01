@@ -9,10 +9,24 @@ import Placeholder from "../Placeholder";
 
 import "./ifollowersiFollowing.scss";
 
-const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow }) => {
+const IfollowersiFollowing = ({
+    allFollowers,
+    allFollowing,
+    isLoadingAllFollowers,
+    isLoadingAllFollowing,
+    fetchIfollowers,
+    fetchIfollowing,
+    currentUser,
+    userSlugInfos,
+    follow,
+    unFollow,
+}) => {
     const { pathname } = useLocation();
 
-    const { followed, followers } = userSlugInfos;
+    useEffect(() => {
+        fetchIfollowers();
+        fetchIfollowing();
+    }, [fetchIfollowers, fetchIfollowing]);
 
     const [activeItem, setActiveItem] = useState(pathname.substring(1));
     const handleItemClick = (e, { name }) => {
@@ -34,7 +48,7 @@ const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow }) 
                         name="ifollowers"
                         children={
                             <Header size="small">
-                                {followers ? followers.length : 0} iFollowers
+                                {allFollowers && allFollowers.length} iFollowers
                             </Header>
                         }
                         active={activeItem === "ifollowers"}
@@ -45,7 +59,7 @@ const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow }) 
                         name="ifollowing"
                         children={
                             <Header size="small">
-                                {followed ? followed.length : 0} iFollowing
+                                {allFollowing && allFollowing.length} iFollowing
                             </Header>
                         }
                         active={activeItem === "ifollowing"}
@@ -54,14 +68,17 @@ const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow }) 
                 </Menu>
             </div>
 
+            {/* Show placeholder in case of loading */}
+            {(isLoadingAllFollowers && <Placeholder />) ||
+                (isLoadingAllFollowing && <Placeholder />)}
+
             {activeItem === "ifollowing" ? (
-                followed ? (
-                    followed.map((following) => (
+                allFollowing ? (
+                    allFollowing.map((following) => (
                         <Following
                             key={following.id}
-                            allFollowing={followed}
+                            allFollowing={allFollowing}
                             user={following}
-                            currentUser={currentUser}
                             currentUserId={currentUser.id}
                             userSlugId={userSlugInfos.id}
                             follow={follow}
@@ -71,13 +88,12 @@ const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow }) 
                 ) : (
                     <div className="">you don't follow anyone</div>
                 )
-            ) : followers ? (
-                followers.map((follower) => (
+            ) : allFollowers ? (
+                allFollowers.map((follower) => (
                     <Followers
                         key={follower.id}
-                        allFollowing={followed}
+                        allFollowing={allFollowing}
                         currentUserId={currentUser.id}
-                        currentUser={currentUser}
                         userSlugId={userSlugInfos.id}
                         follow={follow}
                         unFollow={unFollow}

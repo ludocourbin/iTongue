@@ -32,10 +32,14 @@ components:
           $ref: "#/components/schemas/Languages"
         taughtLanguages:
           $ref: "#/components/schemas/Languages"
-        follwerCount:
-          type: integer
-        followedCount:
-          type: integer
+        followers:
+          type: array
+          items:
+            $ref: "#components/schemas/PlainUser"
+        followed:
+          type: array
+          items:
+            $ref: "#components/schemas/PlainUser"
 
     UpdatedUser:
       type: object
@@ -101,7 +105,7 @@ components:
             createdAt:
               $ref: "#/components/schemas/DateTZ"
 
-    DashboardUser:
+    PlainUser:
       type: object
       properties:
         id:
@@ -115,6 +119,8 @@ components:
           $ref: "#/components/schemas/Lastname"
         slug:
           $ref: "#/components/schemas/Slug"
+        avatarUrl:
+          $ref: "#/components/schemas/URL"
         createdAt:
           $ref: "#/components/schemas/DateTZ"
 
@@ -143,6 +149,15 @@ components:
           $ref: "#/components/schemas/Translation"
         translation:
           $ref: "#/components/schemas/Translation"
+        likeCount:
+          type: integer
+          example: 18
+        bookmarkCount:
+          type: integer
+          example: 32
+        commentCount:
+          type: integer
+          example: 8
 
     Records:
       type: array
@@ -164,6 +179,15 @@ components:
           $ref: "#/components/schemas/Translation"
         translation:
           $ref: "#/components/schemas/Translation"
+        likeCount:
+          type: integer
+          example: 18
+        bookmarkCount:
+          type: integer
+          example: 32
+        commentCount:
+          type: integer
+          example: 8
 
     DashboardRecord:
       type: object
@@ -216,6 +240,23 @@ components:
           example: bjr
       required:
         - label
+
+    Comment:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/PrimaryKey"
+        text:
+          type: string
+        user:
+          $ref: "#/components/schemas/RecordUser"
+        createdAt:
+          $ref: "#/components/schemas/DateTZ"
+
+    Comments:
+      type: array
+      items:
+        $ref: "#/components/schemas/Comment"
 
     UserLanguage:
       type: object
@@ -486,6 +527,34 @@ components:
         $ref: "#/components/schemas/PrimaryKey"
       required: true
       description: Primary key of the language.
+
+    RecordID:
+      in: path
+      name: id
+      schema:
+        $ref: "#/components/schemas/PrimaryKey"
+      required: true
+      description: Primary key of the record
+
+    CommentID:
+      in: path
+      name: id
+      schema:
+        $ref: "#/components/schemas/PrimaryKey"
+      required: true
+      description: Primary key of the comment.
+
+    CommentText:
+      in: body
+      name: text
+      schema:
+        type: object
+        properties:
+          text:
+            type: srting
+            example: J'adore la prononciation !
+      required:
+        - text
 
     RecordPk:
       in: path

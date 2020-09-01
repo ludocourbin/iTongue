@@ -22,14 +22,14 @@ a {
 
 @keyframes fadeOut {
     from {
-      opacity: 1;
+        opacity: 1;
     }
-  
+
     to {
-      opacity: 0;
+        opacity: 0;
     }
-  }
-  .grecaptcha-badge {
+}
+.grecaptcha-badge {
     animation: fadeOut 4s forwards;
     pointer-events: none;
   }

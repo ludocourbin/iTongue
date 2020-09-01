@@ -72,7 +72,7 @@ const Irecord = ({
                 {!isMobile && isLogged && currentUser.id === isUserRecord && (
                     <HeaderIrecord user={user}>
                         <Icon
-                            onClick={() => deleteIrecord(record.id)}
+                            onClick={() => setOpen(true)}
                             className="header-irecords__copy-delete"
                             name="trash alternate outline"
                         />

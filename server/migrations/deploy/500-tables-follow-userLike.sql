@@ -12,13 +12,6 @@ CREATE TABLE "user_user_follow" (
 ALTER TABLE "user_user_follow"
 ADD CONSTRAINT "unique_follow" UNIQUE ("follower_id", "followed_id");
 
-CREATE TABLE "liked_record" (
-  "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "user_id" INTEGER REFERENCES "user"("id") NOT NULL,
-  "record_id" INTEGER REFERENCES "record"("id") NOT NULL,
-  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP 
-);
-
 CREATE FUNCTION "get_user_subscriptions" ("user_id" INT, "source" TEXT, "target" TEXT) 
 RETURNS TABLE("id" INT, "firstname" TEXT, "lastname" TEXT, "slug" TEXT, "avatarUrl" TEXT) AS
 $$

@@ -154,8 +154,8 @@ export const irecordsMiddleware = store => next => action => {
     case COMMENT_SUBMIT :
         const { commentInputValue } = store.getState().irecords;
         const { currentUser } = store.getState().user;
-
         const recordId = action.payload;
+         
         httpClient
           .post(
             {
@@ -182,7 +182,7 @@ export const irecordsMiddleware = store => next => action => {
           })
           .catch(err => {
             console.error(err);
-            //store.dispatch(commentSubmitError(      ));
+            store.dispatch(commentSubmitError());
           });
           
     break;
@@ -190,15 +190,18 @@ export const irecordsMiddleware = store => next => action => {
         httpClient
           .delete(
             {
-              url: ``,
+              url: `/comments/${action.payload}`,
             },
             store
           )
           .then(res => {
-            console.log("res", res);
+            const { commentsList } = store.getState().irecords;
+            const deleteComment = commentsList.filter(comment => comment.id !== action.payload);
+            store.dispatch(deleteCommentSuccess(deleteComment));
           })
           .catch(err => {
             console.error(err);
+            store.dispatch(deleteCommentError());
           });
           
     break;
@@ -220,20 +223,18 @@ export const irecordsMiddleware = store => next => action => {
           
     break;
     case FETCH_COMMENTS_BY_RECORD :
-      const record_Id = action.payload;
       httpClient
         .get(
           {
-            url: `/comments/${record_Id}`,
+            url: `/comments/${action.payload}`,
           },
         )
         .then(res => {
-          
           store.dispatch(fetchCommentsByRecordSuccess(res.data.data));
         })
         .catch(err => {
           console.error(err);
-          //store.dispatch(commentSubmitError(      ));
+          store.dispatch(fetchCommentsByRecordError());
         });
         
       break;

@@ -32,6 +32,7 @@ import {
     FETCH_COMMENTS_BY_RECORD_SUCCESS,
     FETCH_COMMENTS_BY_RECORD_ERROR,
     SET_RECORD_ID_COMMENT,
+    UPDATE_COMMENT_INPUT,
 } from '../actions/commentActions';
 
 const initialState = {
@@ -52,6 +53,7 @@ const initialState = {
     commentInputValue: "",
     commentSubmitLoading: false,
     commentsList: [],
+    commentEditInputValue: "",
     iRecordCommentIdSelect: 0,
 };
 
@@ -185,6 +187,7 @@ export default (state = initialState, action = {}) => {
         case DELETE_COMMENT_SUCCESS:
             return {
                 ...state,
+                commentsList: [...action.payload]
             };
         case DELETE_COMMENT_ERROR:
             return {
@@ -201,6 +204,11 @@ export default (state = initialState, action = {}) => {
         case UPDATE_COMMENT_ERROR:
             return {
                 ...state,
+            };
+        case UPDATE_COMMENT_INPUT:
+            return {
+                ...state,
+                commentEditInputValue: action.payload,
             };
         case FETCH_COMMENTS_BY_RECORD:
             return {

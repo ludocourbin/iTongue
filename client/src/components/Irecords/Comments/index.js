@@ -14,6 +14,8 @@ const Comments = (props) => {
         commentSubmit, 
         deleteComment, 
         updateComment, 
+        updateCommentInput,
+        commentEditInputValue,
         commentInputValue, 
         commentSubmitLoading, 
         setRecordIdComment, // redux
@@ -24,14 +26,22 @@ const Comments = (props) => {
     const [commentEditId, setCommentEditId] = useState(0);
     const [commentEditStatus, setCommentEditStatus] = useState(false);
     const [deleteCommentId, setDeleteCommentId] = useState(0);
-    const [confirm, setConfirm] = useState(false); // true || false
+    const [confirm, setConfirm] = useState(false);
 
     const handdleInputChange = (e) => {
         commentInput(e.target.value);
     };
 
+    const handdleEditInputChange = (e) => {
+        updateCommentInput(e.target.value);
+    };
+
     const handdleSubmit = (e) => {
         commentSubmit(record.id);
+    };
+
+    const handdleEditSubmit = (e) => {
+        updateComment();
     };
 
     const handdleDeleteComment = () => {
@@ -105,11 +115,12 @@ const Comments = (props) => {
                             <div className="social-comment_actions">
                                 <Icon name={commentEditStatus ? "undo" : "edit"} onClick={() => {
                                     setCommentEditId(comment.id);
+                                    updateCommentInput(comment.text)
                                     setCommentEditStatus(!commentEditStatus);
                                 }}/>
                                 <Icon name="delete" onClick={() => {
                                     setConfirm(true);
-                                    setDeleteCommentId(5);
+                                    setDeleteCommentId(comment.id);
                                 }} />
                                 <Confirm
                                 open={confirm}
@@ -126,18 +137,21 @@ const Comments = (props) => {
                                 <div className="social-comment_date">45min</div>
                             </div>
                             <div className="social-comment_text">
-                                {/*  */}
                                 { comment.id === commentEditId && commentEditStatus ? 
-                                <Form onSubmit={handdleSubmit}>
+                                <Form onSubmit={handdleEditSubmit}>
                                     <TextArea 
-                                    value={comment.text}
-                                    //onChange={handdleInputChange}
-                                    //loading={commentSubmitLoading}
+                                    value={commentEditInputValue}
+                                    onChange={handdleEditInputChange}
                                     type="text" 
                                     size="mini" 
                                     placeholder="Nouveau commentaire.."
                                     spellCheck={false} 
-                                    //readOnly={false}
+                                    onKeyPress={(e) => {
+                                        if (e.key === 'Enter') {
+                                            handdleEditSubmit();
+                                            e.preventDefault();
+                                        }
+                                    }}
                                     />
                                 </Form>
                                 :

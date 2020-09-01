@@ -47,8 +47,9 @@ export const UPDATE_COMMENT_SUCCESS = "UPDATE_COMMENT_SUCCESS";
 export const UPDATE_COMMENT_ERROR = "UPDATE_COMMENT_ERROR";
 export const UPDATE_COMMENT_INPUT = "UPDATE_COMMENT_INPUT";
 
-export const updateComment = () => ({
+export const updateComment = (payload) => ({
     type: UPDATE_COMMENT,
+    payload,
 });
 
 export const updateCommentSuccess = (payload) => ({

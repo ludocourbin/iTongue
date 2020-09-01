@@ -28,8 +28,8 @@ const mapDispatchToProps = (dispatch) => ({
     deleteComment: (commentId) => {
         dispatch(deleteComment(commentId));
     },
-    updateComment: (comment) => {
-        dispatch(updateComment(comment));
+    updateComment: (commentId) => {
+        dispatch(updateComment(commentId));
     },
     fetchCommentsByRecord: (recordId) => {
         dispatch(fetchCommentsByRecord(recordId));

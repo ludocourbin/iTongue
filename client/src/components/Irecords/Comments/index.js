@@ -40,8 +40,9 @@ const Comments = (props) => {
         commentSubmit(record.id);
     };
 
-    const handdleEditSubmit = (e) => {
-        updateComment();
+    const handdleEditSubmit = (e, commentId) => {
+        updateComment(commentId);
+        setCommentEditStatus(false);
     };
 
     const handdleDeleteComment = () => {
@@ -138,7 +139,7 @@ const Comments = (props) => {
                             </div>
                             <div className="social-comment_text">
                                 { comment.id === commentEditId && commentEditStatus ? 
-                                <Form onSubmit={handdleEditSubmit}>
+                                <Form onSubmit={(e) => handdleEditSubmit(e, comment.id)}>
                                     <TextArea 
                                     value={commentEditInputValue}
                                     onChange={handdleEditInputChange}
@@ -148,7 +149,7 @@ const Comments = (props) => {
                                     spellCheck={false} 
                                     onKeyPress={(e) => {
                                         if (e.key === 'Enter') {
-                                            handdleEditSubmit();
+                                            handdleEditSubmit(e, comment.id);
                                             e.preventDefault();
                                         }
                                     }}

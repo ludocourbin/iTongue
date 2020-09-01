@@ -167,7 +167,6 @@ export const irecordsMiddleware = store => next => action => {
             store
           )
           .then(res => {
-            
             store.dispatch(commentSubmitSuccess([{
               id: res.data.data.id,
               text: commentInputValue,
@@ -206,21 +205,41 @@ export const irecordsMiddleware = store => next => action => {
           
     break;
     case UPDATE_COMMENT :
+        const { commentEditInputValue, commentsList } = store.getState().irecords;
+        const userConnect = store.getState().user.currentUser;
         httpClient
           .post(
             {
-              url: ``,
-              data: "dataform",
+              url: `/comments/update/${action.payload}`,
+              data: {
+                text: commentEditInputValue
+              },
             },
             store
           )
           .then(res => {
-            console.log("res", res);
+            const updateComment = commentsList.map(comment => {
+              if(comment.id === action.payload) {
+                return {
+                  id: action.payload,
+                  text: commentEditInputValue,
+                  user: {
+                    id: userConnect.id,
+                    firstname: userConnect.firstname,
+                    lastname: userConnect.lastname,
+                    slug: userConnect.slug,
+                    avatarUrl: userConnect.avatarUrl,
+                  }
+                }
+              }
+              return comment;
+            })
+            store.dispatch(updateCommentSuccess(updateComment));
           })
           .catch(err => {
             console.error(err);
+            store.dispatch(updateCommentError());
           });
-          
     break;
     case FETCH_COMMENTS_BY_RECORD :
       httpClient

@@ -200,6 +200,7 @@ export default (state = initialState, action = {}) => {
         case UPDATE_COMMENT_SUCCESS:
             return {
                 ...state,
+                commentsList: action.payload,
             };
         case UPDATE_COMMENT_ERROR:
             return {

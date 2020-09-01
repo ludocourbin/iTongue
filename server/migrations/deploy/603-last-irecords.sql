@@ -12,8 +12,8 @@ CREATE VIEW "last_irecords" AS
             WHERE "language"->>'name' ILIKE 'english'
               AND "t"."expression"->>'id' = "expression"->>'id') AS "englishTranslation",
           to_json(("t"."id", "t"."text", "t"."created_at", "t"."expression", "t"."language")::"record_translation") AS "translation",
-          (SELECT count(*) FROM "record_comment" "rc" WHERE "rc"."record_id" = "r"."id") AS "comments",
-          (SELECT count(*) FROM "record_user_like" "rl" WHERE "rl"."record_id" = "r"."id") AS "likes"
+          (SELECT count(*) FROM "record_comment" "rc" WHERE "rc"."record_id" = "r"."id") AS "commentCount",
+          (SELECT count(*) FROM "record_user_like" "rl" WHERE "rl"."record_id" = "r"."id") AS "likeCount"
      FROM "record" "r"
 LEFT JOIN "user" "u"
        ON "r"."user_id" = "u"."id"

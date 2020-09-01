@@ -1,7 +1,11 @@
-import React, { useState,useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
+import moment from 'moment';
+/* Components */
 import { Icon, Image, Transition, Form, TextArea, Confirm } from "semantic-ui-react";
-import './comments.scss';
 import { Link } from 'react-router-dom';
+
+/* Style */
+import './comments.scss';
 
 const Comments = (props) => {
 
@@ -23,6 +27,8 @@ const Comments = (props) => {
         setRecordIdComment, // redux
         iRecordCommentIdSelect, // store
     } = props;
+
+    
 
     const [showComments, setShowComments] = useState(false);
     const [commentEditId, setCommentEditId] = useState(0);
@@ -139,7 +145,7 @@ const Comments = (props) => {
                         <div className="social-comment_containerRight">
                             <div className="social-comment_wrapper">
                                 <div className="social-comment_name">{comment.user.firstname} {comment.user.lastname}</div>
-                                <div className="social-comment_date">45min</div>
+                                <div className="social-comment_date">{moment(comment.createdAt).fromNow()}</div>
                             </div>
                             <div className="social-comment_text">
                                 { comment.id === commentEditId && commentEditStatus ? 

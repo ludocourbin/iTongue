@@ -25,6 +25,7 @@ import Search from "../../containers/Search";
 import Feed from "../../containers/Feed";
 import Home from "../../containers/Home";
 import IfollowersiFollowing from "../../containers/ifollowersifollowing";
+import Favoris from "../../containers/Favoris";
 
 const App = ({ isLogged, setCaptchaToken }) => {
     useEffect(() => {
@@ -76,6 +77,11 @@ const App = ({ isLogged, setCaptchaToken }) => {
                     exact
                     path="/feed"
                     render={() => (isLogged ? <Feed /> : <Redirect to="/login" />)}
+                />
+                <Route
+                    exact
+                    path="/favoris"
+                    render={() => (isLogged ? <Favoris /> : <Redirect to="/login" />)}
                 />
                 <Route exact path="/messages" component={Conversations} />
                 <Route exact path="/messages/conversation" component={Message} />

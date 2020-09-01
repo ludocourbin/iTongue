@@ -30,10 +30,7 @@ const NavigationBottom = ({
             ref={stickyRef}
         >
             <div className="navigationBottom">
-                <NavLink
-                    to={`/user/${user.slug}`}
-                    activeClassName="active-navbottom"
-                >
+                <NavLink to={`/user/${user.slug}`} activeClassName="active-navbottom">
                     <Icon
                         className="header-icon navigationBottom-items"
                         name="user"
@@ -48,11 +45,7 @@ const NavigationBottom = ({
                     />
                 </NavLink>
                 <div onClick={handleClick}>
-                    <Icon
-                        className={classNameRecordIcon}
-                        name="microphone"
-                        size="big"
-                    />
+                    <Icon className={classNameRecordIcon} name="microphone" size="big" />
                 </div>
                 <NavLink to="/messages" activeClassName="active-navbottom">
                     <Icon
@@ -61,12 +54,11 @@ const NavigationBottom = ({
                         size="big"
                     />
                 </NavLink>
-                <NavLink to="/likes" activeClassName="active-navbottom">
+                <NavLink to="/favoris" activeClassName="active-navbottom">
                     <Icon
                         className="header-icon navigationBottom-items"
-                        name="heart"
+                        name="favorite"
                         size="big"
-                        disabled
                     />
                 </NavLink>
             </div>

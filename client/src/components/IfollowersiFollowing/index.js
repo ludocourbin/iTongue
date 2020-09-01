@@ -77,6 +77,7 @@ const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow }) 
                         key={follower.id}
                         allFollowing={followed}
                         currentUserId={currentUser.id}
+                        currentUser={currentUser}
                         userSlugId={userSlugInfos.id}
                         follow={follow}
                         unFollow={unFollow}

@@ -8,13 +8,11 @@ const Followers = ({
     follow,
     unFollow,
     currentUserId,
+    currentUser,
     userSlugId,
-    allFollowing,
 }) => {
-    const [followed, setFollowed] = useState(true);
-
     /* handle following of other page's */
-    const isFollowing = allFollowing.find(
+    const isFollowing = currentUser.followed.find(
         (userFollowing) => userFollowing.id === user.id
     );
 
@@ -58,7 +56,7 @@ const Followers = ({
                 </div>
             </div>
 
-            {!isUser && currentUserId === userSlugId && (
+            {!isUser && userSlugId === currentUserId ? (
                 <div className="followers-card_right">
                     <Label className={following ? "" : "follow-btn"}>
                         {following ? (
@@ -73,7 +71,22 @@ const Followers = ({
                         />
                     </Label>
                 </div>
-            )}
+            ) : !isUser && userSlugId !== currentUserId ? (
+                <div className="followers-card_right">
+                    <Label className={following ? "" : "follow-btn"}>
+                        {following ? (
+                            <span>Abonné</span>
+                        ) : (
+                            <span className="follow-btn">S'abonner</span>
+                        )}
+
+                        <Icon
+                            onClick={handleFollow}
+                            name={following ? "delete" : "add"}
+                        />
+                    </Label>
+                </div>
+            ) : null}
         </div>
     );
 };

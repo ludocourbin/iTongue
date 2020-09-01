@@ -12,7 +12,14 @@ const Followers = ({
     allFollowing,
     currentUser,
 }) => {
+    /* handle following of other page's */
+    console.log(currentUser.followed);
+    const isFollowing = currentUser.followed.find(
+        (userFollowing) => userFollowing.id === user.id
+    );
+
     const [following, setFollowing] = useState(true);
+
     const [followingOtherUserPage, setFollowingOtherUserPage] = useState(null);
 
     const handleFollow = () => {
@@ -26,21 +33,15 @@ const Followers = ({
 
     const isUser = user.id === currentUserId;
 
-    /* handle following of other page's */
-    console.log(currentUser.followed);
-    const isFollowing = currentUser.followed.find(
-        (userFollowing) => userFollowing.id === user.id
-    );
-
-    const handleFollowOtherUserPage = () => {
-        if (followingOtherUserPage) {
-            unFollow(user.id);
-            setFollowingOtherUserPage(false);
-        } else {
-            setFollowingOtherUserPage(true);
-            follow(user.id);
-        }
-    };
+    // const handleFollowOtherUserPage = () => {
+    //     if (followingOtherUserPage) {
+    //         unFollow(user.id);
+    //         setFollowingOtherUserPage(false);
+    //     } else {
+    //         setFollowingOtherUserPage(true);
+    //         follow(user.id);
+    //     }
+    // };
 
     // console.log(isFollowing);
 
@@ -78,25 +79,19 @@ const Followers = ({
 
                         <Icon
                             onClick={handleFollow}
-                            name={following || followingOtherUserPage ? "delete" : "add"}
+                            name={following ? "delete" : "add"}
                         />
                     </Label>
                 ) : currentUserId !== userSlugId && !isUser ? (
-                    <Label
-                        className={
-                            isFollowing || followingOtherUserPage
-                                ? "not-follow-btn"
-                                : "follow-btn"
-                        }
-                    >
-                        {isFollowing || followingOtherUserPage ? (
+                    <Label className={following ? "not-follow-btn" : "follow-btn"}>
+                        {following ? (
                             <span>Abonné(e)</span>
                         ) : (
                             <span className="">S'abonner</span>
                         )}
                         <Icon
-                            onClick={handleFollowOtherUserPage}
-                            name={isFollowing ? "delete" : "add"}
+                            onClick={handleFollow}
+                            name={following ? "delete" : "add"}
                         />
                     </Label>
                 ) : null}

@@ -3,7 +3,7 @@ import moment from "moment";
 /* Components */
 import { Icon, Image, Transition, Form, TextArea, Confirm } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import FavorisAndLikes from "../LikeAndFavoris";
+import FavorisAndLikes from "../../../containers/LikeAndFavoris";
 
 /* Style */
 import "./comments.scss";

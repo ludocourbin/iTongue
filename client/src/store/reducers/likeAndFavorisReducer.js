@@ -2,11 +2,16 @@ import {
     FETCH_FAVORIS,
     FETCH_FAVORIS_SUCCESS,
     FETCH_FAVORIS_ERROR,
+    FETCH_LIKES,
+    FETCH_LIKES_SUCCESS,
+    FETCH_LIKES_ERROR,
 } from "../actions/likeAndFavorisActions";
 
 const initialState = {
     allFavoris: [],
     isLoadingAllFavoris: false,
+    allLikes: [],
+    isLoadingAllLikes: false,
 };
 
 export default (state = initialState, action = {}) => {
@@ -28,6 +33,24 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 allFavoris: [],
                 isLoadingAllFavoris: false,
+            };
+        case FETCH_LIKES:
+            return {
+                ...state,
+                isLoadingAllLikes: true,
+                allLikes: [],
+            };
+        case FETCH_LIKES_SUCCESS:
+            return {
+                ...state,
+                allLikes: [...action.payload],
+                isLoadingAllLikes: false,
+            };
+        case FETCH_LIKES_ERROR:
+            return {
+                ...state,
+                allLikes: [],
+                isLoadingAllLikes: false,
             };
         default:
             return state;

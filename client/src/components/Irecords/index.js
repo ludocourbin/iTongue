@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import Swipeout from "rc-swipeout";
 import "rc-swipeout/assets/index.css";
@@ -17,8 +17,13 @@ const Irecords = ({
     isLogged,
     currentUser,
     deleteIrecord,
+    fetchFavoris,
+    fetchLikes,
 }) => {
-
+    useEffect(() => {
+        fetchFavoris();
+        fetchLikes();
+    }, [fetchFavoris, fetchLikes]);
     if (isMobile && isLogged && currentUser.id === isUserRecord) {
         return (
             <Swipeout

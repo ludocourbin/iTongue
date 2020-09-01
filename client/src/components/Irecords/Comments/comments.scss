@@ -13,6 +13,11 @@
         font-weight: 600;
     }
 
+    &-nbrcomment--active {
+        font-weight: 600;
+        color: $primary-color;
+    }
+
     &-interraction {
         border: 0px solid black;
         display: flex;
@@ -23,8 +28,18 @@
         font-size: .8em;
     }
 }
+
+.social-comment_feed {
+  .ui.form textarea {
+    resize: none;
+    
+  }
+}
   .social-comments {
     margin-top: .8em;
+    max-height: 35vh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
 
     .ui.form .fields {
       display: flex;
@@ -63,11 +78,12 @@
     &_wrapper {
         display: flex;
         justify-content: space-between;
+        margin-bottom: .2em;
     }
 
     &_name {
         font-weight: 600;
-        font-size: .9em;
+        font-size: .95em;
     }
 
     &_date {
@@ -79,7 +95,8 @@
     }
 
     &_text {
-        font-size: .8em;
+        font-size: .86em;
+        line-break: anywhere;
 
         .ui.form textarea {
           resize: none;

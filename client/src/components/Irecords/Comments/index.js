@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect, useReducer } from 'react';
 import { Icon, Image, Transition, Form, TextArea, Confirm } from "semantic-ui-react";
 import './comments.scss';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,8 @@ const Comments = (props) => {
 
     const { 
         user, 
+        currentUser,
+        isLogged,
         record,
         commentsList,
         fetchCommentsByRecord,
@@ -78,7 +80,7 @@ const Comments = (props) => {
             <Transition visible={showComments} animation='fade' duration={500}>
            
                 <div className="social-comments">
-                { showComments &&
+                { showComments && isLogged && record && record.commentCount !== 0 &&
                     <Form onSubmit={handdleSubmit}>
                         <TextArea 
                         value={commentInputValue}
@@ -113,24 +115,26 @@ const Comments = (props) => {
                                 }
                                 />
                             </Link>
-                            <div className="social-comment_actions">
-                                <Icon name={commentEditStatus ? "undo" : "edit"} onClick={() => {
-                                    setCommentEditId(comment.id);
-                                    updateCommentInput(comment.text)
-                                    setCommentEditStatus(!commentEditStatus);
-                                }}/>
-                                <Icon name="delete" onClick={() => {
-                                    setConfirm(true);
-                                    setDeleteCommentId(comment.id);
-                                }} />
-                                <Confirm
-                                open={confirm}
-                                onCancel={() => setConfirm(false)}
-                                onConfirm={handdleDeleteComment}
-                                content="Vous souhaitez vraiment supprimer votre commentaire ?"
-                                size="tiny"
-                                />
-                            </div>
+                            { isLogged &&user.id === currentUser.id &&
+                                <div className="social-comment_actions">
+                                    <Icon name={commentEditStatus ? "undo" : "edit"} onClick={() => {
+                                        setCommentEditId(comment.id);
+                                        updateCommentInput(comment.text)
+                                        setCommentEditStatus(!commentEditStatus);
+                                    }}/>
+                                    <Icon name="delete" onClick={() => {
+                                        setConfirm(true);
+                                        setDeleteCommentId(comment.id);
+                                    }} />
+                                    <Confirm
+                                    open={confirm}
+                                    onCancel={() => setConfirm(false)}
+                                    onConfirm={handdleDeleteComment}
+                                    content="Vous souhaitez vraiment supprimer votre commentaire ?"
+                                    size="tiny"
+                                    />
+                                </div>
+                            }
                         </div>
                         <div className="social-comment_containerRight">
                             <div className="social-comment_wrapper">

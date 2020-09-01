@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Icon, Image, Transition, Form, TextArea, Confirm } from "semantic-ui-react";
 import './comments.scss';
 import { Link } from 'react-router-dom';
@@ -16,6 +16,8 @@ const Comments = (props) => {
         updateComment, 
         commentInputValue, 
         commentSubmitLoading, 
+        setRecordIdComment, // redux
+        iRecordCommentIdSelect, // store
     } = props;
 
     const [showComments, setShowComments] = useState(false);
@@ -30,13 +32,25 @@ const Comments = (props) => {
 
     const handdleSubmit = (e) => {
         commentSubmit(record.id);
-        console.log("record.id", record.id);
     };
 
     const handdleDeleteComment = () => {
         setConfirm(false);
         deleteComment(deleteCommentId);
     };
+
+    const handleShowComments = () => {
+        setShowComments(!showComments)
+        fetchCommentsByRecord(record.id);
+        setRecordIdComment(record.id);
+    };
+
+    useEffect(() => {
+        if (iRecordCommentIdSelect !== record.id) {
+            setShowComments(false);
+            commentInput("");
+        }
+    }, [iRecordCommentIdSelect, record.id]);
 
     return (
         <div className="social">
@@ -45,11 +59,8 @@ const Comments = (props) => {
                     <Icon name="thumbs up" />
                     {record && record.likeCount}
                 </div>
-                <div className="social-nbrcomment" onClick={() => {
-                    fetchCommentsByRecord(record.id);
-                    setShowComments(!showComments);
-                }}>
-                    <Icon name="comments" />
+                <div className="social-nbrcomment" onClick={handleShowComments}>
+                    {/* <Icon name="comments" /> */}
                     {record && record.commentCount} comments
                 </div>
             </div>

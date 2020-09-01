@@ -1,11 +1,12 @@
 import { connect } from "react-redux";
 import Comments from "../components/Irecords/Comments";
-import { commentInput, commentSubmit, deleteComment, updateComment, fetchCommentsByRecord } from '../store/actions/commentActions';
+import { commentInput, commentSubmit, deleteComment, updateComment, fetchCommentsByRecord, setRecordIdComment } from '../store/actions/commentActions';
 
 const mapStateToProps = (state) => ({
     commentInputValue: state.irecords.commentInputValue,
     commentSubmitLoading: state.irecords.commentSubmitLoading,
     commentsList: state.irecords.commentsList,
+    iRecordCommentIdSelect: state.irecords.iRecordCommentIdSelect,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -23,6 +24,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     fetchCommentsByRecord: (recordId) => {
         dispatch(fetchCommentsByRecord(recordId));
+    },
+    setRecordIdComment: (recordIdSelect) => {
+        dispatch(setRecordIdComment(recordIdSelect));
     }
 });
 

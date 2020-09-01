@@ -167,7 +167,7 @@ export const irecordsMiddleware = store => next => action => {
             store
           )
           .then(res => {
-            console.log("res", res);
+            
             store.dispatch(commentSubmitSuccess([{
               id: res.data.data.id,
               text: commentInputValue,
@@ -228,7 +228,7 @@ export const irecordsMiddleware = store => next => action => {
           },
         )
         .then(res => {
-          console.log("res", res);
+          
           store.dispatch(fetchCommentsByRecordSuccess(res.data.data));
         })
         .catch(err => {

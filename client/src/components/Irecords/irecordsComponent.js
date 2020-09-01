@@ -127,7 +127,12 @@ const Irecord = ({
                     )}
                 </div>
                 <AudioPlayer audio={record} />
-                <Comments user={user} record={record} />
+
+                <Comments 
+                user={user} 
+                record={record} 
+                />
+
             </Card>
         </div>
     );

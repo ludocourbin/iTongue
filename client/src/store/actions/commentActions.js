@@ -77,3 +77,10 @@ export const fetchCommentsByRecordError = (payload) => ({
     type: FETCH_COMMENTS_BY_RECORD_ERROR,
     payload,
 });
+
+export const SET_RECORD_ID_COMMENT = "SET_RECORD_ID_COMMENT";
+
+export const setRecordIdComment = (payload) => ({
+    type: SET_RECORD_ID_COMMENT,
+    payload,
+});

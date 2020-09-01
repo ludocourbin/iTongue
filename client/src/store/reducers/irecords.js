@@ -31,6 +31,7 @@ import {
     FETCH_COMMENTS_BY_RECORD,
     FETCH_COMMENTS_BY_RECORD_SUCCESS,
     FETCH_COMMENTS_BY_RECORD_ERROR,
+    SET_RECORD_ID_COMMENT,
 } from '../actions/commentActions';
 
 const initialState = {
@@ -51,6 +52,7 @@ const initialState = {
     commentInputValue: "",
     commentSubmitLoading: false,
     commentsList: [],
+    iRecordCommentIdSelect: 0,
 };
 
 export default (state = initialState, action = {}) => {
@@ -212,6 +214,11 @@ export default (state = initialState, action = {}) => {
         case FETCH_COMMENTS_BY_RECORD_ERROR:
             return {
                 ...state,
+            };
+        case SET_RECORD_ID_COMMENT:
+            return {
+                ...state,
+                iRecordCommentIdSelect: action.payload,
             };
         default:
             return state;

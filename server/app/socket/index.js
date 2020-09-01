@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 
+const redis = require("../redis");
 const authUtils = require("../utils/auth-utils");
 const messageDatamapper = require("../db/message-datamapper");
 
@@ -25,12 +26,10 @@ module.exports = io => {
     }
   });
 
-  io.on("connection", socket => {
-    console.log("socket connexion", { socketId: socket.id, socketUser: socket.user });
+  io.on("connect", async socket => {
+    await storeSocket(socket.user.id, socket.id);
 
     socket.on("message", async ({ text, recipient_id }) => {
-      const chatroom = join(socket, socket.user.id, recipient_id);
-
       messageDatamapper
         .insertOne({
           text,
@@ -41,23 +40,52 @@ module.exports = io => {
           console.log(err);
         });
 
-      socket.to(chatroom).emit("message", { chatroom, text });
-
-      // uniquement pour tester l'affichage du message chez l'expéditeur
-      io.in(chatroom).emit("message", { chatroom, text });
+      try {
+        io.to(await getSocket(recipient_id)).emit("message", { text, contactId: socket.user.id });
+      } catch (err) {
+        console.log(err);
+      }
     });
 
-    socket.on("typing", ({ name, recipient_id }) => {
-      const chatroom = join(socket, socket.user.id, recipient_id);
-      socket.to(chatroom).emit("typing", { chatroom, name });
+    socket.on("typing", async ({ recipient_id }) => {
+      try {
+        io.to(await getSocket(recipient_id)).emit("typing", { contactId: socket.user.id });
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    socket.on("disconnect", () => {
+      removeSocket(socket.user.id).catch(err => {
+        console.log(err);
+      });
     });
   });
 };
 
-function join(socket, senderId, recipientId) {
-  const chatroom = "room:" + [senderId, recipientId].sort().join("-");
-  if (!Object.keys(socket.rooms).includes(chatroom)) {
-    socket.join(chatroom);
-  }
-  return chatroom;
+function getSocket(contactId) {
+  return new Promise((resolve, reject) => {
+    redis.client.hget(redis.prefix + "active_sockets", contactId, (err, socketId) => {
+      if (err) return reject(err);
+      resolve(socketId);
+    });
+  });
+}
+
+function storeSocket(userId, socketId) {
+  return new Promise((resolve, reject) => {
+    redis.client.hmset(redis.prefix + "active_sockets", userId, socketId, (err, result) => {
+      if (err) return reject(err);
+      resolve(result);
+    });
+  });
+}
+
+function removeSocket(userId) {
+  return new Promise((resolve, reject) => {
+    redis.client.hdel(redis.prefix + "active_sockets", userId, (err, result) => {
+      if (err) return reject(err);
+      resolve(result);
+    });
+  });
 }

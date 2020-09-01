@@ -26,7 +26,7 @@ $$
                       END AS "contact_id",
                  json_agg(("m"."id", "m"."text", "m"."created_at",
                           to_json(("su"."id", "su"."email", "su"."firstname", "su"."lastname", "su"."slug", "su"."avatar_url", "su"."created_at")::"plain_user"),
-                          to_json(("ru"."id", "ru"."email", "ru"."firstname", "ru"."lastname", "ru"."slug", "ru"."avatar_url", "ru"."created_at")::"plain_user"))::"thread_message") AS "messages",
+                          to_json(("ru"."id", "ru"."email", "ru"."firstname", "ru"."lastname", "ru"."slug", "ru"."avatar_url", "ru"."created_at")::"plain_user"))::"thread_message" ORDER BY "m"."id") AS "messages",
                  MAX("m"."created_at") AS "latest"
            FROM "message" "m"
            JOIN "user" "su"
@@ -56,7 +56,7 @@ $$
       ON "m"."recipient_id" = "ru"."id"
    WHERE ("m"."sender_id" = "user_id" AND "m"."recipient_id" = "contact_id")
       OR ("m"."recipient_id" = "user_id" AND "m"."sender_id" = "contact_id")
-ORDER BY "m"."id" DESC;
+ORDER BY "m"."id";
 
 $$ LANGUAGE SQL STABLE;
 

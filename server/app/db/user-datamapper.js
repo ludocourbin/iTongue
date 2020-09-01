@@ -228,6 +228,24 @@ const dataMapper = {
     };
     const result = await client.query(query);
     return result.rows;
+  },
+
+  getThreads: async userId => {
+    const query = {
+      text: 'SELECT * FROM "get_threads"($1)',
+      values: [userId]
+    };
+    const result = await client.query(query);
+    return result.rows;
+  },
+
+  getThread: async (userId, contactId) => {
+    const query = {
+      text: 'SELECT * FROM "get_thread"($1, $2)',
+      values: [userId, contactId]
+    };
+    const result = await client.query(query);
+    return result.rows;
   }
 };
 

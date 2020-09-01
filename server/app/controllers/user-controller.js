@@ -458,6 +458,46 @@ module.exports = {
     }
   },
 
+  showThreads: async (req, res, next) => {
+    const userId = req.params.id;
+
+    if (isNaN(userId))
+      return next({
+        statusCode: 400,
+        displayMsg: "L'identifiant d'un utilisateur doit être un entier"
+      });
+
+    const user = await userDatamapper.findByPk(userId, false);
+    if (!user) return next();
+
+    try {
+      const threads = await userDatamapper.getThreads(userId);
+      res.json({ data: threads });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  showThread: async (req, res, next) => {
+    const { id: userId, contactId } = req.params;
+
+    if (isNaN(userId) || isNaN(contactId))
+      return next({
+        statusCode: 400,
+        displayMsg: "L'identifiant d'un utilisateur doit être un entier"
+      });
+
+    const user = await userDatamapper.findByPk(userId, false);
+    if (!user) return next();
+
+    try {
+      const thread = await userDatamapper.getThread(userId, contactId);
+      res.json({ data: thread });
+    } catch (err) {
+      next(err);
+    }
+  },
+
   login: async (req, res, next) => {
     const { email, password } = req.body;
 

@@ -6,11 +6,14 @@ import Irecords from "../../../containers/Irecords";
 import UpdateAvatar from "../../../containers/User/UpdateAvatar";
 import ProfilSearch from "../../../containers/User/ProfilSearch";
 import Follow from "../../../containers/User/Follow";
+
 /* Components */
 import { Segment, Image, Icon } from "semantic-ui-react";
 import Statistics from "../Statistics";
+
 /* Style */
 import "./userprofil.scss";
+
 const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfos }) => {
     const [isUserAccount, setIsUserAccount] = useState(false);
     const [inputSearch, setInputSearch] = useState({ search: "", lang: null });

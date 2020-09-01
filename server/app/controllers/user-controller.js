@@ -418,6 +418,46 @@ module.exports = {
     }
   },
 
+  showLikes: async (req, res, next) => {
+    const userId = req.params.id;
+
+    if (isNaN(userId))
+      return next({
+        statusCode: 400,
+        displayMsg: "L'identifiant d'un utilisateur doit être un entier"
+      });
+
+    const user = await userDatamapper.findByPk(userId, false);
+    if (!user) return next();
+
+    try {
+      const likes = await userDatamapper.getLikes(userId);
+      res.json({ data: likes });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  showBookmarks: async (req, res, next) => {
+    const userId = req.params.id;
+
+    if (isNaN(userId))
+      return next({
+        statusCode: 400,
+        displayMsg: "L'identifiant d'un utilisateur doit être un entier"
+      });
+
+    const user = await userDatamapper.findByPk(userId, false);
+    if (!user) return next();
+
+    try {
+      const likes = await userDatamapper.getBookmarks(userId);
+      res.json({ data: likes });
+    } catch (err) {
+      next(err);
+    }
+  },
+
   login: async (req, res, next) => {
     const { email, password } = req.body;
 

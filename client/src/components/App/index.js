@@ -5,6 +5,8 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import Contact from "../Contact";
 import Terms from "../Terms";
+import Conversations from "../Chat/Conversations/index.js";
+import Message from "../Chat/Message/index.js";
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
@@ -75,6 +77,8 @@ const App = ({ isLogged, setCaptchaToken }) => {
                     path="/feed"
                     render={() => (isLogged ? <Feed /> : <Redirect to="/login" />)}
                 />
+                <Route exact path="/messages" component={Conversations} />
+                <Route exact path="/messages/conversation" component={Message} />
                 <Route exact path="/ifollowers" component={IfollowersiFollowing} />
                 <Route exact path="/ifollowing" component={IfollowersiFollowing} />
                 <Route path="/admin" component={Admin} />

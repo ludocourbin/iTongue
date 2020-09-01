@@ -1,10 +1,9 @@
 module.exports = {
-  prefix: "itongue_",
   regex: {
     isCreate: RegExp(/^(create){1}-/, "i"),
     isRead: RegExp(/^(read){1}-/, "i"),
     isMutation: RegExp(/^(update|delete){1}-/, "i"),
-    isUserMutation: RegExp(/^\w+-user-/, "i"),
+    isUserMutation: RegExp(/^\w+-user-/, "i")
   },
 
   expirationTimes: {
@@ -24,6 +23,6 @@ module.exports = {
    * @returns {String} Generated Key with itongue PREFIX
    */
   generateKey(name) {
-    return this.prefix + name;
-  },
-}
+    return "itongue_" + name;
+  }
+};

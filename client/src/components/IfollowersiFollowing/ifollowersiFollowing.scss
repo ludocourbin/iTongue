@@ -43,7 +43,12 @@
             @include button;
         }
 
-        .follow-btn > .icon.add {
+        .not-follow-btn {
+            padding-right: 2px;
+        }
+
+        .follow-btn > .icon.add,
+        .not-follow-btn > .icon.add {
             position: relative;
             left: 6px;
         }

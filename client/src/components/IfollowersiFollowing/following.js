@@ -10,8 +10,10 @@ const Followers = ({
     unFollow,
     follow,
     allFollowing,
+    currentUser,
 }) => {
     const [following, setFollowing] = useState(true);
+    const [followingOtherUserPage, setFollowingOtherUserPage] = useState(null);
 
     const handleFollow = () => {
         setFollowing(!following);
@@ -25,9 +27,22 @@ const Followers = ({
     const isUser = user.id === currentUserId;
 
     /* handle following of other page's */
-    const isFollowing = allFollowing.find(
+    console.log(currentUser.followed);
+    const isFollowing = currentUser.followed.find(
         (userFollowing) => userFollowing.id === user.id
     );
+
+    const handleFollowOtherUserPage = () => {
+        if (followingOtherUserPage) {
+            unFollow(user.id);
+            setFollowingOtherUserPage(false);
+        } else {
+            setFollowingOtherUserPage(true);
+            follow(user.id);
+        }
+    };
+
+    // console.log(isFollowing);
 
     return (
         <div className="following-card">
@@ -52,36 +67,40 @@ const Followers = ({
                 </div>
             </div>
 
-            {currentUserId === userSlugId && (
-                <div className="following-card_right">
-                    {currentUserId === userSlugId && !isUser ? (
-                        <Label className={following ? "" : "follow-btn"}>
-                            {following ? (
-                                <span>Supprimer</span>
-                            ) : (
-                                <span className="follow-btn">Ajouter</span>
-                            )}
+            <div className="following-card_right">
+                {currentUserId === userSlugId && !isUser ? (
+                    <Label className={following ? "" : "follow-btn"}>
+                        {following ? (
+                            <span>Supprimer</span>
+                        ) : (
+                            <span className="follow-btn">Ajouter</span>
+                        )}
 
-                            <Icon
-                                onClick={handleFollow}
-                                name={following ? "delete" : "add"}
-                            />
-                        </Label>
-                    ) : currentUserId !== userSlugId && !isUser ? (
-                        <Label className={isFollowing ? "" : "follow-btn"}>
-                            {isFollowing ? (
-                                <span>Abonné(e)</span>
-                            ) : (
-                                <span className="">S'abonner</span>
-                            )}
-                            <Icon
-                                onClick={handleFollow}
-                                name={isFollowing ? "delete" : "add"}
-                            />
-                        </Label>
-                    ) : null}
-                </div>
-            )}
+                        <Icon
+                            onClick={handleFollow}
+                            name={following || followingOtherUserPage ? "delete" : "add"}
+                        />
+                    </Label>
+                ) : currentUserId !== userSlugId && !isUser ? (
+                    <Label
+                        className={
+                            isFollowing || followingOtherUserPage
+                                ? "not-follow-btn"
+                                : "follow-btn"
+                        }
+                    >
+                        {isFollowing || followingOtherUserPage ? (
+                            <span>Abonné(e)</span>
+                        ) : (
+                            <span className="">S'abonner</span>
+                        )}
+                        <Icon
+                            onClick={handleFollowOtherUserPage}
+                            name={isFollowing ? "delete" : "add"}
+                        />
+                    </Label>
+                ) : null}
+            </div>
         </div>
     );
 };

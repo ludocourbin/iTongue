@@ -10,7 +10,12 @@ import {
     LOGOUT,
     logoutSucess,
     logoutError,
+    checkUserSlug,
 } from "../actions/userActions";
+
+import {
+  fetchFeedUser
+} from "../actions/feedActions";
 
 import { LOGIN, loginSubmitSuccess, loginSubmitError } from "../actions/loginActions";
 
@@ -71,7 +76,10 @@ export default (store) => (next) => (action) => {
       })
         .then(res => {
           const currentUser = res.data.data;
+          console.log("currentUser", currentUser);
           store.dispatch(loginSubmitSuccess(currentUser));
+          store.dispatch(checkUserSlug(currentUser.user.slug));
+          store.dispatch(fetchFeedUser());
           store.dispatch(updateTokenExp());
         })
         .catch(err => {

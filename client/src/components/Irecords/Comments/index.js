@@ -65,7 +65,6 @@ const Comments = (props) => {
     useEffect(() => {
         if (iRecordCommentIdSelect !== record.id) {
             setShowComments(false);
-            commentInput("");
         }
     }, [iRecordCommentIdSelect, record.id]);
 
@@ -76,7 +75,7 @@ const Comments = (props) => {
                     <Icon name="thumbs up" />
                     {record && record.likeCount}
                 </div>
-                <div className={`social-nbrcomment${showComments ? "--active" : ""}`} commentEditStatus  onClick={handleShowComments}>
+                <div className={`social-nbrcomment${showComments ? "--active" : ""}`} onClick={handleShowComments}>
                     {/* <Icon name="comments" /> */}
                     {record && record.commentCount} comments
                 </div>
@@ -123,14 +122,18 @@ const Comments = (props) => {
                                 </Link>
                                 { isLogged && comment.user.id === currentUser.id &&
                                     <div className="social-comment_actions">
-                                        <Icon name={commentEditId === comment.id && commentEditStatus ? "undo" : "edit"} onClick={() => {
+                                        <Icon name={(commentEditStatus && commentEditId === comment.id)  ? "undo" : "edit"} onClick={() => {
                                             setCommentEditId(comment.id);
                                             updateCommentInput(comment.text)
                                             setCommentEditStatus(!commentEditStatus);
+                                            commentInput("");
                                         }}/>
                                         <Icon name="delete" onClick={() => {
                                             setConfirm(true);
-                                            setDeleteCommentId(comment.id);
+                                            setDeleteCommentId({
+                                                commentId: comment.id,
+                                                recordId: record.id,
+                                            });
                                         }} />
                                         <Confirm
                                         open={confirm}

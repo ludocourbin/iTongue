@@ -30,6 +30,7 @@ import {
   FETCH_COMMENTS_BY_RECORD,
   fetchCommentsByRecordSuccess,
   fetchCommentsByRecordError,
+  setCountComment,
 } from "../actions/commentActions";
 
 export const irecordsMiddleware = store => next => action => {
@@ -163,8 +164,8 @@ export const irecordsMiddleware = store => next => action => {
       break;
     
     case COMMENT_SUBMIT :
-        const { commentInputValue } = store.getState().irecords;
-        const { currentUser } = store.getState().user;
+        const { commentInputValue, allRecordsList } = store.getState().irecords;
+        
         const recordId = action.payload;
          
         httpClient
@@ -178,17 +179,60 @@ export const irecordsMiddleware = store => next => action => {
             store
           )
           .then(res => {
-            store.dispatch(commentSubmitSuccess([{
-              id: res.data.data.id,
-              text: commentInputValue,
-              user: {
-                id: currentUser.id,
-                firstname: currentUser.firstname,
-                lastname: currentUser.lastname,
-                slug: currentUser.slug,
-                avatarUrl: currentUser.avatarUrl,
+
+            /* A refacto plus tard en une seule fonction ne vous inquiètez pas ! */
+
+            const { currentUser, userSlugInfos, feedUser } = store.getState().user;
+
+            const allRecordsListUpdateCount = allRecordsList.map(record => {
+              if (record.id === recordId) {
+                return {
+                  ...record,
+                  commentCount: record.commentCount + 1,
+                };
               }
-            }]));
+              return record;
+            });
+            
+            const userSlugInfosUpdateCount = userSlugInfos.records.map(record => {
+              if (record.id === recordId) {
+                return {
+                  ...record,
+                  commentCount: record.commentCount + 1,
+                };
+              }
+              return record;
+            });
+
+            const feedUserUpdateCount = feedUser.map(feed => {
+              if (feed.id === recordId) {
+                return {
+                  ...feed,
+                  commentCount: feed.commentCount + 1,
+                };
+              }
+              return feed;
+            });
+
+            store.dispatch(setCountComment({
+              userSlugInfos: userSlugInfosUpdateCount,
+              feedUser: feedUserUpdateCount,
+            }));
+
+            store.dispatch(commentSubmitSuccess({
+              commentsList: [{
+                id: res.data.data.id,
+                text: commentInputValue,
+                user: {
+                  id: currentUser.id,
+                  firstname: currentUser.firstname,
+                  lastname: currentUser.lastname,
+                  slug: currentUser.slug,
+                  avatarUrl: currentUser.avatarUrl,
+                },
+              }],
+              allRecordsList: allRecordsListUpdateCount,
+            }));
           })
           .catch(err => {
             console.error(err);
@@ -200,14 +244,59 @@ export const irecordsMiddleware = store => next => action => {
         httpClient
           .delete(
             {
-              url: `/comments/${action.payload}`,
+              url: `/comments/${action.payload.commentId}`,
             },
             store
           )
           .then(res => {
-            const { commentsList } = store.getState().irecords;
-            const deleteComment = commentsList.filter(comment => comment.id !== action.payload);
-            store.dispatch(deleteCommentSuccess(deleteComment));
+
+            /* Pareil ici, à refacto plus tard en une seule fonction ne vous inquiètez pas ! */
+
+
+            const { commentsList, allRecordsList } = store.getState().irecords;
+            const { userSlugInfos, feedUser } = store.getState().user;
+
+            const allRecordsListUpdateCount = allRecordsList.map(record => {
+              if (record.id === action.payload.recordId) {
+                return {
+                  ...record,
+                  commentCount: record.commentCount - 1,
+                };
+              }
+              return record;
+            });
+
+            const userSlugInfosUpdateCount = userSlugInfos.records.map(record => {
+              if (record.id === action.payload.recordId) {
+                return {
+                  ...record,
+                  commentCount: record.commentCount - 1,
+                };
+              }
+              return record;
+            });
+
+            const feedUserUpdateCount = feedUser.map(feed => {
+              if (feed.id === action.payload.recordId) {
+                return {
+                  ...feed,
+                  commentCount: feed.commentCount - 1,
+                };
+              }
+              return feed;
+            });
+
+            store.dispatch(setCountComment({
+              userSlugInfos: userSlugInfosUpdateCount,
+              feedUser: feedUserUpdateCount,
+            }));
+         
+            const deleteComment = commentsList.filter(comment => comment.id !== action.payload.commentId);
+
+            store.dispatch(deleteCommentSuccess({
+              deleteComment: deleteComment,
+              allRecordsList: allRecordsListUpdateCount,
+            }));
           })
           .catch(err => {
             console.error(err);

@@ -15,8 +15,10 @@ const Favoris = ({ addFavoris, unFavoris, record, favorisUser }) => {
         setIsFavoris(!isFavoris);
         if (isFavoris) {
             unFavoris(record.id);
+            record.bookmarkCount--;
         } else {
             addFavoris(record.id);
+            record.bookmarkCount++;
         }
     };
     return (

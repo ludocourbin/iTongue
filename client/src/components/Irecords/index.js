@@ -17,13 +17,7 @@ const Irecords = ({
     isLogged,
     currentUser,
     deleteIrecord,
-    fetchFavoris,
-    fetchLikes,
 }) => {
-    useEffect(() => {
-        fetchFavoris();
-        fetchLikes();
-    }, [fetchFavoris, fetchLikes]);
     if (isMobile && isLogged && currentUser.id === isUserRecord) {
         return (
             <Swipeout

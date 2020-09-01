@@ -108,6 +108,23 @@ export default (store) => (next) => (action) => {
                     store.dispatch(addLikesError());
                 });
             break;
+        case UNLIKES:
+            const idRecordToRemoveLike = action.payload;
+            httpClient
+                .delete(
+                    {
+                        url: `/records/${idRecordToRemoveLike}/like`,
+                    },
+                    store
+                )
+                .then((res) => {
+                    store.dispatch(unlikesSuccess());
+                })
+                .catch((_) => {
+                    console.log("error");
+                    store.dispatch(unlikesError());
+                });
+            break;
         default:
             break;
     }

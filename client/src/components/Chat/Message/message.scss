@@ -1,9 +1,8 @@
 @import '../../../styles/vars';
 
 .message {
-    height: 78.65vh;
+    height: 76.2vh;
     position: relative;
-    
 
     .ui.fluid.input>input {
         border: none!important;
@@ -42,6 +41,8 @@
 
     &-list {
         margin: .5em;
+        max-height: 72vh;
+        overflow-y: scroll;
     }
     &_container {
 
@@ -50,6 +51,12 @@
     &__user {
         display: flex;
         align-items: center;
+    }
+
+    &__user--right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
     }
 
     &-avatar {
@@ -63,6 +70,45 @@
     &-name {
         font-weight: 600;
         font-size: 1em;
+    }
+
+    &_wrapper {
+        position: relative;
+        margin: .5em 4em .5em 1.2em;
+        width: fit-content;
+        background-color: #d5d3d3;
+        padding: 0.5em 1em 1.2em 1em;
+        border-radius: 0 7px 7px 7px;
+    }
+
+    &_wrapper--right {
+        position: relative;
+        margin: .5em 1.7em .5em 4em;
+        width: fit-content;
+        background-color: #ffffff;
+        padding: 0.5em 1em 1.2em 1em;
+        border-radius: 7px 0 7px 7px;
+    }
+
+    &-date {
+        position: absolute;
+        bottom: 0px;
+        right: 1em;
+        font-size: .6em;
+    }
+
+    &-text {
+        
+    }
+
+    &-date--right {
+        position: absolute;
+        bottom: 0px;
+        font-size: .6em;
+    }
+
+    &-text--right {
+        text-align: right;
     }
 
 }

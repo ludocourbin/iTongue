@@ -25,10 +25,16 @@ export default (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
         case FETCH_FAVORIS:
+            let userId;
+            if (action.payload) {
+                userId = action.payload;
+            } else {
+                userId = store.getState().user.currentUser.id;
+            }
             httpClient
                 .get(
                     {
-                        url: `/users/${store.getState().user.currentUser.id}/bookmarks`,
+                        url: `/users/${userId}/bookmarks`,
                     },
                     store
                 )
@@ -41,10 +47,16 @@ export default (store) => (next) => (action) => {
                 });
             break;
         case FETCH_LIKES:
+            let currentUserId;
+            if (action.payload) {
+                currentUserId = action.payload;
+            } else {
+                currentUserId = store.getState().user.currentUser.id;
+            }
             httpClient
                 .get(
                     {
-                        url: `/users/${store.getState().user.currentUser.id}/likes`,
+                        url: `/users/${currentUserId}/likes`,
                     },
                     store
                 )

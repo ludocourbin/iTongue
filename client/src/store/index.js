@@ -19,7 +19,7 @@ import { followMiddleware } from "./middlewares/followMiddleware";
 // Configuration object for redux-persist
 const persistConfig = {
     key: "root",
-    whitelist: ["user", "loginAdminReducer"],
+    whitelist: ["user", "loginAdminReducer", "likeAndFavorisReducer"],
     storage, // define which storage to use
 };
 // "irecords"

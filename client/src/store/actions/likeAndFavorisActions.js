@@ -4,8 +4,9 @@ export const FETCH_FAVORIS = "FETCH_FAVORIS";
 export const FETCH_FAVORIS_SUCCESS = "FETCH_FAVORIS_SUCCESS";
 export const FETCH_FAVORIS_ERROR = "FETCH_FAVORIS_ERROR";
 
-export const fetchFavoris = () => ({
+export const fetchFavoris = (payload) => ({
     type: FETCH_FAVORIS,
+    payload,
 });
 export const fetchFavorisSuccess = (payload) => ({
     type: FETCH_FAVORIS_SUCCESS,
@@ -51,8 +52,9 @@ export const FETCH_LIKES = "FETCH_LIKES";
 export const FETCH_LIKES_SUCCESS = "FETCH_LIKES_SUCCESS";
 export const FETCH_LIKES_ERROR = "FETCH_LIKES_ERROR";
 
-export const fetchLikes = () => ({
+export const fetchLikes = (payload) => ({
     type: FETCH_LIKES,
+    payload,
 });
 export const fetchLikesSuccess = (payload) => ({
     type: FETCH_LIKES_SUCCESS,

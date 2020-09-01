@@ -13,6 +13,6 @@ CREATE VIEW "comments_with_user" AS
          "r"."created_at" AS "createdAt"
             FROM "record_comment" "r" 
        LEFT JOIN "user" "u" ON "u"."id" = "r"."user_id"
-        ORDER BY "r"."created_at" DESC;
+        ORDER BY "r"."created_at" ASC;
 
 COMMIT;

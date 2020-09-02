@@ -84,22 +84,32 @@ const Comments = (props) => {
                 <>
                 <div className="social-comment_feed">
                 { showComments && isLogged && record &&
-                    <Form onSubmit={handdleSubmit}>
-                        <TextArea 
-                        value={commentInputValue}
-                        onChange={handdleInputChange}
-                        type="text" 
-                        size="mini" 
-                        placeholder="Nouveau commentaire.."
-                        rows="1.5"
-                        onKeyPress={(e) => {
-                            if (e.key === 'Enter') {
-                                handdleSubmit();
-                                e.preventDefault();
-                            }
-                        }}
+                    <>
+                        <Form onSubmit={handdleSubmit}>
+                            <TextArea 
+                            value={commentInputValue}
+                            onChange={handdleInputChange}
+                            type="text" 
+                            size="mini" 
+                            placeholder="Nouveau commentaire.."
+                            rows="1.5"
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    handdleSubmit();
+                                    e.preventDefault();
+                                }
+                            }}
+                            />
+                        </Form>
+                        <Icon 
+                        name='add' 
+                        inverted 
+                        circular 
+                        link 
+                        className="social-comment_add" 
+                        onClick={handdleSubmit}
                         />
-                    </Form>
+                    </>
                 }
                 </div>
 
@@ -152,22 +162,32 @@ const Comments = (props) => {
                                 </div>
                                 <div className="social-comment_text">
                                     { comment.id === commentEditId && commentEditStatus ? 
-                                    <Form onSubmit={(e) => handdleEditSubmit(e, comment.id)}>
-                                        <TextArea 
-                                        value={commentEditInputValue}
-                                        onChange={handdleEditInputChange}
-                                        type="text" 
-                                        size="mini" 
-                                        placeholder="Nouveau commentaire.."
-                                        spellCheck={false} 
-                                        onKeyPress={(e) => {
-                                            if (e.key === 'Enter') {
-                                                handdleEditSubmit(e, comment.id);
-                                                e.preventDefault();
-                                            }
-                                        }}
+                                    <div className="social-comment_edit">
+                                        <Form onSubmit={(e) => handdleEditSubmit(e, comment.id)}>
+                                            <TextArea 
+                                            value={commentEditInputValue}
+                                            onChange={handdleEditInputChange}
+                                            type="text" 
+                                            size="mini" 
+                                            placeholder="Nouveau commentaire.."
+                                            spellCheck={false} 
+                                            onKeyPress={(e) => {
+                                                if (e.key === 'Enter') {
+                                                    handdleEditSubmit(e, comment.id);
+                                                    e.preventDefault();
+                                                }
+                                            }}
+                                            />
+                                        </Form>
+                                        <Icon 
+                                        name='check' 
+                                        inverted 
+                                        circular 
+                                        link 
+                                        className="social-comment_save"  
+                                        onClick={(e) => handdleEditSubmit(e, comment.id)}
                                         />
-                                    </Form>
+                                    </div>
                                     :
                                         comment.text
                                     }

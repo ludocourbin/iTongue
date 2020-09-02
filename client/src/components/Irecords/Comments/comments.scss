@@ -33,109 +33,139 @@
 }
 
 .social-comment_feed {
+  position: relative;
   .ui.form textarea {
     resize: none;
-    
+    width: 90%;
+  }
+  i.inverted.bordered.icon, i.inverted.circular.icon {
+    font-size: .7em!important;
   }
 }
-  .social-comments {
-    margin-top: .8em;
-    max-height: 35vh;
-    overflow-y: auto;
-    scroll-behavior: smooth;
 
-    .ui.form .fields {
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: space-around;
-      align-items: center;
-      align-content: center;
-    }
-
-    .ui.form textarea {
-      resize: none;
-    }
-
-    .ui.avatar.image{
-      display: block;
-      width: 25px;
-      height: 25px;
-      // margin-right: 11px!important;
-      // margin-top: .3em;
-    }
-
-    .ui.fluid.input>input {
-      border: none!important;
-      border-radius: 0px!important;
-      background-color: #cecccc36 !important;
-    }
+.social-comment_edit {
+  position: relative;
+  .ui.form textarea {
+    resize: none;
+    width: 90%;
   }
+  i.inverted.bordered.icon, i.inverted.circular.icon {
+    font-size: .6em!important;
+  }
+}
 
-  .social-comment {
-    //border: 1px solid black;
-    margin: 1em 0;
+.social-comment_add {
+  position: absolute;
+  
+  bottom: 11px;
+  right: 3px;
+}
+
+.social-comment_save {
+  position: absolute;
+  
+  bottom: 23px;
+  right: 0px;
+}
+
+.social-comments {
+  margin-top: .8em;
+  max-height: 35vh;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+
+  .ui.form .fields {
     display: flex;
-    flex-grow: 1;
-    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+  }
 
-    &_wrapper {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: .2em;
-    }
+  .ui.form textarea {
+    resize: none;
+  }
 
-    &_name {
-        font-weight: 600;
-        font-size: .95em;
-    }
+  .ui.avatar.image{
+    display: block;
+    width: 25px;
+    height: 25px;
+    // margin-right: 11px!important;
+    // margin-top: .3em;
+  }
 
-    &_date {
-        font-size: .7em;
-    }
+  .ui.fluid.input>input {
+    border: none!important;
+    border-radius: 0px!important;
+    background-color: #cecccc36 !important;
+  }
+}
 
-    &_avatar {
-      margin: 0 auto;
-    }
+.social-comment {
+  //border: 1px solid black;
+  margin: 1em 0;
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
 
-    &_text {
-        font-size: .86em;
-        line-break: anywhere;
-
-        .ui.form textarea {
-          resize: none;
-          font-size: .8em;
-        }
-    }
-    
-    &_actions {
-      height: 35px;
+  &_wrapper {
       display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-content: center;
-      align-items: center;
+      justify-content: space-between;
+      margin-bottom: .2em;
+  }
 
-      .icon {
-        font-size: .7em !important;
-        margin-right: .5em;
-        cursor: pointer;
+  &_name {
+      font-weight: 600;
+      font-size: .95em;
+  }
+
+  &_date {
+      font-size: .7em;
+  }
+
+  &_avatar {
+    margin: 0 auto;
+  }
+
+  &_text {
+      font-size: .86em;
+      line-break: anywhere;
+
+      .ui.form textarea {
+        resize: none;
+        font-size: .8em;
       }
-    }
-    
-    &_containerLeft {
-      width: 15%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+  }
+  
+  &_actions {
+    height: 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
 
-    &_containerRight {
-      width: 85%;
-      background-color: #f5f4f4;
-      padding: .7em;
-      padding-top: .3em;
-
-      border-radius: 0 7px 7px 7px;
+    .icon {
+      font-size: .7em !important;
+      margin-right: .5em;
+      cursor: pointer;
     }
   }
+  
+  &_containerLeft {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &_containerRight {
+    width: 85%;
+    background-color: #f5f4f4;
+    padding: .7em;
+    padding-top: .3em;
+
+    border-radius: 0 7px 7px 7px;
+  }
+}

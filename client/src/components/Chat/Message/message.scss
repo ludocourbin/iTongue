@@ -43,10 +43,11 @@
         margin: 1em .5em 2.8em .5em;
         height: 71.5vh;
         overflow-y: auto;
+        scroll-behavior: smooth;
     }
 
     &_container {
-
+        border: 0;
     }
 
     &_container--right {
@@ -87,6 +88,7 @@
         padding: 0.5em 1em 1.2em 1em;
         border-radius: 0 7px 7px 7px;
         min-width: 100px;
+        min-height: 40px;
     }
 
     &_wrapper--right {
@@ -97,6 +99,7 @@
         padding: 0.5em 1em 1.2em 1em;
         border-radius: 7px 0 7px 7px;
         min-width: 100px;
+        min-height: 40px;
     }
 
     &-date {
@@ -104,16 +107,18 @@
         bottom: 0px;
         right: 1em;
         font-size: .6em;
+        font-weight: 600;
     }
 
     &-text {
-        
+        font-size: 1em;
     }
 
     &-date--right {
         position: absolute;
         bottom: 0px;
         font-size: .6em;
+        font-weight: 600;
     }
 
     &-text--right {

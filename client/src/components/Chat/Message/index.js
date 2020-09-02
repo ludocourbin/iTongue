@@ -73,7 +73,7 @@ const Message = () => {
                  </div>
                  <Form onSubmit={handleSubmit}>
                     <Input
-                    icon="send" 
+                    icon={<Icon name='send' link onClick={handleSubmit} />}
                     fluid 
                     className="send-message" 
                     placeholder="Type your message here"

@@ -6,7 +6,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Contact from "../Contact";
 import Terms from "../Terms";
 import Conversations from "../Chat/Conversations/index.js";
-import Message from "../Chat/Message/index.js";
+
 
 /* Styles */
 import "semantic-ui-css/semantic.min.css";
@@ -27,8 +27,9 @@ import Feed from "../../containers/Feed";
 import Home from "../../containers/Home";
 import IfollowersiFollowing from "../../containers/ifollowersifollowing";
 import Favoris from "../../containers/Favoris";
+import Message from "../../containers/Chat/Message";
 
-const App = ({ isLogged, setCaptchaToken }) => {
+const App = ({ isLogged, setCaptchaToken, user, socketConnect }) => {
     useEffect(() => {
         const script = document.createElement("script");
         script.src =
@@ -51,6 +52,12 @@ const App = ({ isLogged, setCaptchaToken }) => {
 
         document.body.appendChild(script);
     }, [setCaptchaToken]);
+
+    useEffect(() => {
+        if (user) {
+            socketConnect();
+        }
+    }, [socketConnect]);
 
     return (
         <div className="App">

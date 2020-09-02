@@ -15,6 +15,7 @@ import { usersMiddleware } from "./middlewares/usersMiddleware";
 import { languagesMiddleware } from "./middlewares/languagesMiddleware";
 import { statsMiddleware } from "./middlewares/Admin/statsMiddleware";
 import { followMiddleware } from "./middlewares/followMiddleware";
+import { chatMiddleware } from "./middlewares/chatMiddleware";
 
 // Configuration object for redux-persist
 const persistConfig = {
@@ -28,6 +29,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const enhancers = composeEnhancers(
     applyMiddleware(
         authMiddleware,
+        chatMiddleware,
         expressionsMiddleware,
         irecordsMiddleware,
         usersMiddleware,

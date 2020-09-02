@@ -23,6 +23,7 @@ import {
 } from "../actions/feedActions";
 
 import { LOGIN, loginSubmitSuccess, loginSubmitError } from "../actions/loginActions";
+import { socketConnect } from "../actions/chatActions";
 
 export default (store) => (next) => (action) => {
     next(action);
@@ -55,8 +56,8 @@ export default (store) => (next) => (action) => {
                                 const currentUser = res.data.data;
                                 store.dispatch(signupSuccess(currentUser));
                                 store.dispatch(updateTokenExp());
+                                store.dispatch(socketConnect());
                                 toast.success(`Bienvenue ${currentUser.user.firstname}`);
-
                                 store.dispatch(fetchFavoris(currentUser.id));
                                 store.dispatch(fetchLikes(currentUser.id));
                             })
@@ -108,6 +109,7 @@ export default (store) => (next) => (action) => {
           store.dispatch(loginSubmitSuccess(currentUser));
           store.dispatch(checkUserSlug(currentUser.user.slug));
           store.dispatch(fetchFeedUser());
+          store.dispatch(socketConnect());
           store.dispatch(fetchFavoris(currentUser.id));
           store.dispatch(fetchLikes(currentUser.id));
           store.dispatch(updateTokenExp());

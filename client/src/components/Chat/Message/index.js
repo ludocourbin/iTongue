@@ -5,7 +5,7 @@ import { Form, Input, Image, Header, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { data } from './data';
 
-const Message = () => {
+const Message = ({ socketEmitMessage }) => {
 
     let datas = data;
 
@@ -36,8 +36,12 @@ const Message = () => {
             }
         ])
 
+        socketEmitMessage({
+            text: inputValue,
+            recipient_id: 1,
+        });
+
         setInputValue("");
-        console.log("dataMessages", dataMessages);
     };
 
     return (

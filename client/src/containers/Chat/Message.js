@@ -3,14 +3,15 @@ import Message from "../../components/Chat/Message";
 import { 
     socketEmitMessage, 
     socketEmitTyping, 
-    socketSetRecipientId,
+    socketSetRecipient,
     fetchAllMessages,
     setMessageInAllMessages,
 } from "../../store/actions/chatActions";
 
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,
-    socketRecipientId: state.chatReducer.socketRecipientId,
+    userSlugInfos: state.user.userSlugInfos,
+    socketRecipient: state.chatReducer.socketRecipient,
     allMessages: state.chatReducer.allMessages,
     userTyping: state.chatReducer.userTyping,
 });
@@ -22,8 +23,8 @@ const mapDispatchToProps = dispatch => ({
     socketEmitTyping: typingObj => {
         dispatch(socketEmitTyping(typingObj));
     },
-    socketSetRecipientId: recipientId => {
-        dispatch(socketSetRecipientId(recipientId));
+    socketSetRecipient: recipientObj => {
+        dispatch(socketSetRecipient(recipientObj));
     },
     fetchAllMessages: () => {
         dispatch(fetchAllMessages());

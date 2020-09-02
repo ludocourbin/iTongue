@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import Conversations from "../../components/Chat/Conversations";
 import { 
-    socketSetRecipientId,
+    socketSetRecipient,
     fetchAllThreads,
 } from "../../store/actions/chatActions";
 
@@ -10,8 +10,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    socketSetRecipientId: recipientId => {
-        dispatch(socketSetRecipientId(recipientId));
+    socketSetRecipient: recipientObj => {
+        dispatch(socketSetRecipient(recipientObj));
     },
     fetchAllThreads: () => {
         dispatch(fetchAllThreads());

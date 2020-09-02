@@ -81,7 +81,6 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
             );
         });
 
-
     return (
         <Layout>
             <ToastContainer autoClose={2000} />
@@ -108,7 +107,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                 {firstname || "Utilisateur"} {lastname || "Inconnu"}
                             </span>
                             {isAdmin && <Icon name="check circle" />}
-                            {isUserAccount && (
+                            {isUserAccount && currentUser ?
                                 <Link to={`/user/${slug.slug}/edit`}>
                                     <Icon
                                         name="setting"
@@ -116,7 +115,15 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                         className="icon-settings"
                                     />
                                 </Link>
-                            )}
+                                :
+                                <Link to={`/messages/${slug.slug}/${userSlugInfos.id}`}>
+                                <Icon
+                                    name="send"
+                                    style={{ color: "#fe734c" }}
+                                    className="icon-message"
+                                />
+                                </Link>
+                            }
                         </div>
                         <div className="container_right__second-row">
                             <div className="second-row_iteach">

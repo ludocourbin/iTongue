@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const Conversations = (props) => {
 
     const { 
-        socketSetRecipientId,         
+        socketSetRecipient,         
         fetchAllThreads,
         allThreads,
     } = props;
@@ -32,7 +32,9 @@ const Conversations = (props) => {
                 { allThreads && allThreads.map(({contact, messages}) => (
                     <div className="conversation" key={contact.id}>
                         <div className="conversation_container">
-                            <Image  className="conversation-avatar" src={`${process.env.REACT_APP_FILES_URL}/${contact.avatarUrl}`}/>
+                            <Link  to={`user/${contact.slug}`}>
+                                <Image  className="conversation-avatar" src={`${process.env.REACT_APP_FILES_URL}/${contact.avatarUrl}`}/>
+                            </Link>
                             <div className="conversation_content">
                                 <div className="conversation-name">
                                     {contact.firstname} {contact.lastname}
@@ -43,7 +45,7 @@ const Conversations = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <Link to={`/messages/${contact.slug}/${contact.id}`} onClick={() => socketSetRecipientId(contact)}>
+                        <Link to={`/messages/${contact.slug}/${contact.id}`} onClick={() => socketSetRecipient(contact)}>
                             <Icon name="send" size="big" className="conversation-sendicon"/>
                         </Link>
                     </div>

@@ -1,7 +1,7 @@
 export const SOCKET_CONNECT = "SOCKET_CONNECT";
 export const SOCKET_EMIT_MESSAGE = "SOCKET_EMIT_MESSAGE";
 export const SOCKET_EMIT_TYPING = "SOCKET_EMIT_TYPING";
-export const SOCKET_SET_RECIPIENT_ID = "SOCKET_SET_RECIPIENT_ID";
+export const SOCKET_SET_RECIPIENT = "SOCKET_SET_RECIPIENT";
 
 export const socketConnect = () => ({
     type: SOCKET_CONNECT,
@@ -17,8 +17,8 @@ export const socketEmitTyping = (payload) => ({
     payload,
 });
 
-export const socketSetRecipientId = (payload) => ({
-    type: SOCKET_SET_RECIPIENT_ID,
+export const socketSetRecipient = (payload) => ({
+    type: SOCKET_SET_RECIPIENT,
     payload,
 });
 

@@ -1,5 +1,5 @@
 import {
-    SOCKET_SET_RECIPIENT_ID,
+    SOCKET_SET_RECIPIENT,
     FETCH_ALL_THREADS,
     FETCH_ALL_THREADS_SUCCESS,
     FETCH_ALL_THREADS_ERROR,
@@ -11,18 +11,18 @@ import {
 } from "../actions/chatActions";
 
 const initialState = {
-    socketRecipientId: {},
+    socketRecipient: {},
     allThreads: [],
-    allMessages: [],
+    allMessages: {},
     userTyping: {},
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
 
-        case SOCKET_SET_RECIPIENT_ID: 
+        case SOCKET_SET_RECIPIENT: 
             return {
                 ...state,
-                socketRecipientId: action.payload,
+                socketRecipient: action.payload,
             };
         case FETCH_ALL_THREADS: 
             return {
@@ -45,20 +45,23 @@ export default (state = initialState, action = {}) => {
         case FETCH_ALL_MESSAGES_SUCCESS: 
             return {
                 ...state,
-                allMessages: [...action.payload],
+                allMessages: {...action.payload},
             };
         case FETCH_ALL_MESSAGES_ERROR: 
             return {
                 ...state,
-                allMessages: [],
+                allMessages: {},
             };
         case SET_MESSAGE_IN_ALL_MESSAGES: 
             return {
                 ...state,
-                allMessages: [
+                allMessages: {
                     ...state.allMessages,
-                    {...action.payload},
-                ],
+                    messages: [
+                        ...state.allMessages.messages,
+                        {...action.payload},
+                    ],
+                },
             };
         case SET_USER_IS_TYPING:
             return {

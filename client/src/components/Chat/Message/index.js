@@ -7,16 +7,17 @@ import moment from 'moment';
 
 const Message = (props) => {
 
-    const { 
-        socketEmitMessage, 
-        socketEmitTyping, 
-        currentUser, 
-        socketSetRecipientId,
-        socketRecipientId,
+    const {
+        socketEmitMessage,
+        socketEmitTyping,
+        currentUser,
+        socketSetRecipient,
+        socketRecipient,
         fetchAllMessages,
         allMessages,
         setMessageInAllMessages,
         userTyping,
+        userSlugInfos,
     } = props;
 
     const params = useParams();
@@ -29,8 +30,8 @@ const Message = (props) => {
     }, [allMessages]);
 
     useEffect(() => {
-        socketSetRecipientId({id: params.id});
-    }, [socketSetRecipientId]);
+        socketSetRecipient({ id: params.id });
+    }, [socketSetRecipient]);
 
     useEffect(() => {
         fetchAllMessages();
@@ -42,15 +43,17 @@ const Message = (props) => {
         if (typing) {
             clearTimeout(typing);
         }
-        typing = setTimeout(() => { 
+        typing = setTimeout(() => {
             socketEmitTyping({
                 authorName: currentUser.firstname,
-                recipientId: socketRecipientId.id,
+                recipientId: socketRecipient.id,
             });
             typing = null;
         }, 200);
     };
 
+    const contact = allMessages.contact;
+    
     const handleSubmit = () => {
         setMessageInAllMessages({
             id: Date.now(),
@@ -66,16 +69,12 @@ const Message = (props) => {
             text: inputValue,
             authorName: currentUser.firstname,
             authorAvatarUrl: currentUser.avatarUrl,
-            recipientId: socketRecipientId.id,
+            recipientId: socketRecipient.id,
+            recipientAvatarUrl: contact.avatarUrl
         });
 
         setInputValue("");
     };
-
-    let contact;
-    if (allMessages && allMessages[0]) {
-        contact = allMessages[0].sender.id == currentUser.id ? allMessages[0].recipient : allMessages[0].sender;
-    }
 
     return (
         <Layout>
@@ -84,25 +83,24 @@ const Message = (props) => {
                     <Icon name="chevron circle left" size="small" />
                     Retour aux messages
                 </Link>
-                { contact &&  
+                { contact &&
                     <Link to={`/user/${contact.slug}`} className="message_link__user">
                         <div>
                             {contact.firstname}
                         </div>
-                    
-                        <Image  className="message_avatar__user" 
-                        src={process.env.REACT_APP_FILES_URL +"/" + contact.avatarUrl}
+
+                        <Image className="message_avatar__user"
+                            src={process.env.REACT_APP_FILES_URL + "/" + contact.avatarUrl}
                         />
                     </Link>
                 }
             </Header>
             <div className="message">
                 <div className="message-list" ref={messageListRef}>
-                    {allMessages && allMessages.length && allMessages.map(message => (
-                        // 
+                    {allMessages.messages && allMessages.messages.map(message => (
                         <div className={`message_container${message.sender.id === currentUser.id ? '--right' : ''}`} key={message.id}>
                             <div className={`message__user${message.sender.id === currentUser.id ? '--right' : ''}`}>
-                                <Image  className="message-avatar" src={`${process.env.REACT_APP_FILES_URL}/${message.sender.avatarUrl}`}/>
+                                <Image className="message-avatar" src={`${process.env.REACT_APP_FILES_URL}/${message.sender.avatarUrl}`} />
                             </div>
                             <div className={`message_wrapper${message.sender.id === currentUser.id ? '--right' : ''}`}>
                                 <div className="message-text" className={`message-text${message.sender.id === currentUser.id ? '--right' : ''}`}>
@@ -114,21 +112,20 @@ const Message = (props) => {
                             </div>
                         </div>
                     ))}
-                 </div>
-                 <div className="message-typing">
-                        
-                        {userTyping.typing ? userTyping.authorName + " est en train d'écrire.." : ""}
-                    </div>
-                 <Form onSubmit={handleSubmit}>
+                </div>
+                <div className="message-typing">
+                    {userTyping.typing ? userTyping.authorName + " est en train d'écrire.." : ""}
+                </div>
+                <Form onSubmit={handleSubmit}>
                     <Input
-                    icon={<Icon name='send' link onClick={handleSubmit} />}
-                    fluid 
-                    className="send-message" 
-                    placeholder="Type your message here"
-                    onChange={handleChange}
-                    value={inputValue}
+                        icon={<Icon name='send' link onClick={handleSubmit} />}
+                        fluid
+                        className="send-message"
+                        placeholder="Type your message here"
+                        onChange={handleChange}
+                        value={inputValue}
                     />
-                 </Form>
+                </Form>
             </div>
         </Layout>
     );

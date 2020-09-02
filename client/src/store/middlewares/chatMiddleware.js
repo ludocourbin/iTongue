@@ -31,7 +31,7 @@ export const chatMiddleware = (store) => (next) => (action) => {
                     }
                 });
 
-                socket.on("message", ({ authorId, authorAvatarUrl, text }) => {
+                socket.on("message", ({ authorId, authorAvatarUrl, text, recipientAvatarUrl}) => {
                     console.log("message reçu");
                     store.dispatch(setMessageInAllMessages({
                         id: Date.now(),
@@ -40,6 +40,9 @@ export const chatMiddleware = (store) => (next) => (action) => {
                         sender: {
                             id: authorId,
                             avatarUrl: authorAvatarUrl,
+                        },
+                        recipient: {
+                            avatarUrl: recipientAvatarUrl
                         }
                     }));
 
@@ -48,7 +51,7 @@ export const chatMiddleware = (store) => (next) => (action) => {
 
                 socket.on("typing", ({ authorId, authorName }) => {
                     console.log(authorName);
-                    const contactId = store.getState().chatReducer.socketRecipientId.id;
+                    const contactId = store.getState().chatReducer.socketRecipient.id;
                     console.log({ contactId, authorId });
                     if (contactId && authorId == contactId) {
                         store.dispatch(setUserIsTyping({
@@ -113,12 +116,12 @@ export const chatMiddleware = (store) => (next) => (action) => {
         case FETCH_ALL_MESSAGES:
 
             const currUser = store.getState().user.currentUser;
-            const { socketRecipientId } = store.getState().chatReducer;
+            const { socketRecipient } = store.getState().chatReducer;
 
-            console.log("socketRecipientId", socketRecipientId);
+            console.log("socketRecipient", socketRecipient);
             
             httpClient.get({
-                url: `/users/${currUser.id}/threads/${socketRecipientId.id}`,
+                url: `/users/${currUser.id}/threads/${socketRecipient.id}`,
             }, store)
                 .then(res => {
                     store.dispatch(fetchAllMessagesSuccess(res.data.data));

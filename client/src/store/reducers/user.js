@@ -68,7 +68,7 @@ import {
 } from '../actions/commentActions';
 
 import {
-    SOCKET_SET_RECIPIENT_ID 
+    SOCKET_SET_RECIPIENT 
 } from "../actions/chatActions";
 
 const initialState = {
@@ -124,7 +124,7 @@ const initialState = {
     /* END EDIT PROFIL */
 
     isUserFollowThisUser : false,
-    socketRecipientId: 0,
+    socketRecipient: 0,
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
@@ -525,10 +525,10 @@ export default (state = initialState, action = {}) => {
                 },
                 feedUser: action.payload.feedUser,
             };
-        case SOCKET_SET_RECIPIENT_ID: 
+        case SOCKET_SET_RECIPIENT: 
             return {
                 ...state,
-                socketRecipientId: action.payload,
+                socketRecipient: action.payload,
             }
         default:
             return state;

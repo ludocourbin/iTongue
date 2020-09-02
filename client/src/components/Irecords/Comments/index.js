@@ -65,7 +65,6 @@ const Comments = (props) => {
     useEffect(() => {
         if (iRecordCommentIdSelect !== record.id) {
             setShowComments(false);
-            commentInput("");
         }
     }, [iRecordCommentIdSelect, record.id]);
 
@@ -75,135 +74,130 @@ const Comments = (props) => {
                 <div className="social-nbrlike">
                     <FavorisAndLikes record={record} />
                 </div>
-                <div
-                    className={`social-nbrcomment${showComments ? "--active" : ""}`}
-                    onClick={handleShowComments}
-                >
+                <div className={`social-nbrcomment${showComments ? "--active" : ""}`} onClick={handleShowComments}>
                     {/* <Icon name="comments" /> */}
-                    {record && record.commentCount} comments
+                    {`${record && record.commentCount} comment${record.commentCount > 1 ? "s" : ""}`}  
                 </div>
             </div>
-            <Transition visible={showComments} animation="fade" duration={500}>
+            <Transition visible={showComments} animation='fade' duration={500}>
                 <>
-                    <div className="social-comment_feed">
-                        {showComments && isLogged && record && (
-                            <Form onSubmit={handdleSubmit}>
-                                <TextArea
-                                    value={commentInputValue}
-                                    onChange={handdleInputChange}
-                                    type="text"
-                                    size="mini"
-                                    placeholder="Nouveau commentaire.."
-                                    rows="1.5"
-                                    onKeyPress={(e) => {
-                                        if (e.key === "Enter") {
-                                            handdleSubmit();
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                />
-                            </Form>
-                        )}
-                    </div>
+                <div className="social-comment_feed">
+                { showComments && isLogged && record &&
+                    <>
+                        <Form onSubmit={handdleSubmit}>
+                            <TextArea 
+                            value={commentInputValue}
+                            onChange={handdleInputChange}
+                            type="text" 
+                            size="mini" 
+                            placeholder="Nouveau commentaire.."
+                            rows="1.5"
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    handdleSubmit();
+                                    e.preventDefault();
+                                }
+                            }}
+                            />
+                        </Form>
+                        <Icon 
+                        name='add' 
+                        inverted 
+                        circular 
+                        link 
+                        className="social-comment_add" 
+                        onClick={handdleSubmit}
+                        />
+                    </>
+                }
+                </div>
 
-                    <div className="social-comments">
-                        {showComments &&
-                            commentsList &&
-                            commentsList.map((comment) => (
-                                <div className="social-comment" key={comment.id}>
-                                    <div className="social-comment_containerLeft">
-                                        <Link to={`/user/${comment.user.slug}`}>
-                                            <Image
-                                                className="social-comment_avatar"
-                                                avatar
-                                                size="large"
-                                                src={
-                                                    comment.user.avatarUrl == null
-                                                        ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
-                                                        : `${process.env.REACT_APP_FILES_URL}/${comment.user.avatarUrl}`
-                                                }
-                                            />
-                                        </Link>
-                                        {isLogged && comment.user.id === currentUser.id && (
-                                            <div className="social-comment_actions">
-                                                <Icon
-                                                    name={
-                                                        commentEditId === comment.id &&
-                                                        commentEditStatus
-                                                            ? "undo"
-                                                            : "edit"
-                                                    }
-                                                    onClick={() => {
-                                                        setCommentEditId(comment.id);
-                                                        updateCommentInput(comment.text);
-                                                        setCommentEditStatus(
-                                                            !commentEditStatus
-                                                        );
-                                                    }}
-                                                />
-                                                <Icon
-                                                    name="delete"
-                                                    onClick={() => {
-                                                        setConfirm(true);
-                                                        setDeleteCommentId(comment.id);
-                                                    }}
-                                                />
-                                                <Confirm
-                                                    open={confirm}
-                                                    onCancel={() => setConfirm(false)}
-                                                    onConfirm={handdleDeleteComment}
-                                                    content="Vous souhaitez vraiment supprimer votre commentaire ?"
-                                                    size="tiny"
-                                                />
-                                            </div>
-                                        )}
+                <div className="social-comments">
+                    <Confirm
+                    className="delete-irecords"
+                    open={confirm}
+                    onCancel={() => setConfirm(false)}
+                    onConfirm={handdleDeleteComment}
+                    content="Vous souhaitez vraiment supprimer votre commentaire ?"
+                    size="mini"
+                    dimmer="blurring"
+                    />
+                    { showComments && commentsList && commentsList.map(comment => (
+                    
+                        <div className="social-comment" key={comment.id}>
+                            <div className="social-comment_containerLeft">
+                                <Link to={`/user/${comment.user.slug}`}>
+                                    <Image
+                                    className="social-comment_avatar"
+                                    avatar
+                                    size="large"
+                                    src={
+                                        comment.user.avatarUrl == null
+                                        ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                                        : `${process.env.REACT_APP_FILES_URL}/${comment.user.avatarUrl}`
+                                    }
+                                    />
+                                </Link>
+                                { isLogged && comment.user.id === currentUser.id &&
+                                    <div className="social-comment_actions">
+                                        <Icon name={(commentEditStatus && commentEditId === comment.id)  ? "undo" : "edit"} onClick={() => {
+                                            setCommentEditId(comment.id);
+                                            updateCommentInput(comment.text)
+                                            setCommentEditStatus(!commentEditStatus);
+                                            commentInput("");
+                                        }}/>
+                                        <Icon name="delete" onClick={() => {
+                                            setConfirm(true);
+                                            setDeleteCommentId({
+                                                commentId: comment.id,
+                                                recordId: record.id,
+                                            });
+                                        }} />
+
                                     </div>
-                                    <div className="social-comment_containerRight">
-                                        <div className="social-comment_wrapper">
-                                            <div className="social-comment_name">
-                                                {comment.user.firstname}{" "}
-                                                {comment.user.lastname}{" "}
-                                                {currentUser.isAdmin && (
-                                                    <Icon name="check circle" />
-                                                )}
-                                            </div>
-                                            <div className="social-comment_date">
-                                                {moment(comment.createdAt).fromNow()}
-                                            </div>
-                                        </div>
-                                        <div className="social-comment_text">
-                                            {comment.id === commentEditId &&
-                                            commentEditStatus ? (
-                                                <Form
-                                                    onSubmit={(e) =>
-                                                        handdleEditSubmit(e, comment.id)
-                                                    }
-                                                >
-                                                    <TextArea
-                                                        value={commentEditInputValue}
-                                                        onChange={handdleEditInputChange}
-                                                        type="text"
-                                                        size="mini"
-                                                        placeholder="Nouveau commentaire.."
-                                                        spellCheck={false}
-                                                        onKeyPress={(e) => {
-                                                            if (e.key === "Enter") {
-                                                                handdleEditSubmit(
-                                                                    e,
-                                                                    comment.id
-                                                                );
-                                                                e.preventDefault();
-                                                            }
-                                                        }}
-                                                    />
-                                                </Form>
-                                            ) : (
-                                                comment.text
-                                            )}
-                                        </div>
-                                    </div>
+                                }
+                            </div>
+                            <div className="social-comment_containerRight">
+                                <div className="social-comment_wrapper">
+                                    <div className="social-comment_name">{comment.user.firstname} {comment.user.lastname} {currentUser.isAdmin && <Icon name="check circle" />}</div>
+                                    <div className="social-comment_date">{moment(comment.createdAt).fromNow()}</div>
                                 </div>
-                            ))}
+                                <div className="social-comment_text">
+                                    { comment.id === commentEditId && commentEditStatus ? 
+                                    <div className="social-comment_edit">
+                                        <Form onSubmit={(e) => handdleEditSubmit(e, comment.id)}>
+                                            <TextArea 
+                                            value={commentEditInputValue}
+                                            onChange={handdleEditInputChange}
+                                            type="text" 
+                                            size="mini" 
+                                            placeholder="Nouveau commentaire.."
+                                            spellCheck={false} 
+                                            onKeyPress={(e) => {
+                                                if (e.key === 'Enter') {
+                                                    handdleEditSubmit(e, comment.id);
+                                                    e.preventDefault();
+                                                }
+                                            }}
+                                            />
+                                        </Form>
+                                        <Icon 
+                                        name='check' 
+                                        inverted 
+                                        circular 
+                                        link 
+                                        className="social-comment_save"  
+                                        onClick={(e) => handdleEditSubmit(e, comment.id)}
+                                        />
+                                    </div>
+                                    :
+                                        comment.text
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                        ))}
                     </div>
                 </>
             </Transition>

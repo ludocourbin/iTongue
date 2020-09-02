@@ -35,11 +35,29 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
         followed,
     } = userSlugInfos;
 
+    const [slugName, setSlugName] = useState({});
+
+    console.log("userSlugInfos", userSlugInfos);
+
     let slug = useParams();
 
     useEffect(() => {
         checkUserSlug(slug.slug);
     }, [slug.slug, checkUserSlug]);
+
+    useEffect(() => {
+        if(slug.slug === userSlugInfos.slug) {
+            setSlugName({
+                firstname: userSlugInfos.firstname,
+                lastname: userSlugInfos.lastname,
+            })
+        }
+    }, [userSlugInfos])
+
+    
+    useEffect(() => {
+        document.title = `iTongue - ${slugName.firstname ? slugName.firstname + " " + slugName.lastname : ""}`;
+    }, [slugName]);
 
     useEffect(() => {
         const checkUser = () => {
@@ -62,6 +80,8 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                 (!inputSearch.lang || record.translation.language.id === inputSearch.lang)
             );
         });
+
+
     return (
         <Layout>
             <ToastContainer autoClose={2000} />

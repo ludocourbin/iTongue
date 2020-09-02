@@ -18,7 +18,7 @@ const IrecordsPage = (props) => {
     }, [fetchAllRecords]);
 
     return (
-        <Layout>
+        <Layout titlePage="iRecords">
             <div className="irecordsPage">
                 <Header size="small" content="Les derniers iRecords" className="title" />
                 <div className="irecords-list">

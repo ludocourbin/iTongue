@@ -1,17 +1,19 @@
 @import "../../../styles/vars";
 @import "../../../styles/mixin";
 
+/*
 .recording-selecting {
-    top: -319px;
+    //top: -319px;
 }
 
 .recording-copy {
-    top: -85px;
+    //top: -85px;
 }
 
 .recording-copy-sameLanguageExpression {
-    top: -43px;
+    //top: -43px;
 }
+*/
 
 .ui.card.recording-widget, .ui.cards>.card {
     box-shadow: none!important;
@@ -19,11 +21,10 @@
 
 .recording-widget {
     // background-color: #ccc !important;
-    position: relative;
+    position: fixed!important;
+    bottom: 50px;
     width: 370px !important;
     width: 100vw !important;
-
-
 
     .container-dropdown {
         min-height: 333px;
@@ -77,8 +78,6 @@
             }
         }
     }
-
-
 
     .separator {
         border: 1px solid rgba(0, 0, 0, 0.116);

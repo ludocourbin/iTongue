@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Icon } from "semantic-ui-react";
 // import Logo from "../../assets/logo.png";
 
-const Header = ({ setVisible, pathname, ...props }) => {
+const Header = ({ setVisible, visible, pathname, ...props }) => {
     return (
         <div className="header-nav">
             <Link to="/search">
@@ -19,7 +19,7 @@ const Header = ({ setVisible, pathname, ...props }) => {
                 />
             </Link>
             <h1 className="header-nav__title">iTongue</h1>
-            <div onClick={() => setVisible()}>
+            <div onClick={() => setVisible(!visible)}>
                 <Icon className="header-nav__icon" name="sidebar" size="big" />
             </div>
         </div>

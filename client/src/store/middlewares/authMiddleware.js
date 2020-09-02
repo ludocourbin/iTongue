@@ -10,9 +10,17 @@ import {
     LOGOUT,
     logoutSucess,
     logoutError,
+    checkUserSlug,
 } from "../actions/userActions";
 
-import { fetchFavoris, fetchLikes } from "../actions/likeAndFavorisActions";
+import { 
+  fetchFavoris, 
+  fetchLikes 
+} from "../actions/likeAndFavorisActions";
+
+import {
+  fetchFeedUser
+} from "../actions/feedActions";
 
 import { LOGIN, loginSubmitSuccess, loginSubmitError } from "../actions/loginActions";
 
@@ -66,25 +74,6 @@ export default (store) => (next) => (action) => {
                     }
                 });
             return;
-        case LOGIN:
-            const token = store.getState().settings.captchaToken;
-            const dataLogin = store.getState().user.loginData;
-            axios({
-                method: "post",
-                url: `${process.env.REACT_APP_API_URL}/users/login`,
-                data: { ...dataLogin, captcha: token },
-            })
-                .then((res) => {
-                    const currentUser = res.data.data;
-                    store.dispatch(loginSubmitSuccess(currentUser));
-                    store.dispatch(updateTokenExp());
-                    store.dispatch(fetchFavoris(currentUser.id));
-                    store.dispatch(fetchLikes(currentUser.id));
-                })
-                .catch((err) => {
-                    store.dispatch(loginSubmitError("Email ou mot de passe incorrect"));
-                });
-            return;
         case LOGOUT:
             httpClient
                 .post(
@@ -104,7 +93,48 @@ export default (store) => (next) => (action) => {
                 .finally((res) => {
                     store.dispatch(logoutSucess());
                 });
-
+      return;
+    case LOGIN:
+      const token = store.getState().settings.captchaToken;
+      const dataLogin = store.getState().user.loginData;
+      axios({
+        method: "post",
+        url: `${process.env.REACT_APP_API_URL}/users/login`,
+        data: { ...dataLogin, captcha: token }
+      })
+        .then(res => {
+          const currentUser = res.data.data;
+          console.log("currentUser", currentUser);
+          store.dispatch(loginSubmitSuccess(currentUser));
+          store.dispatch(checkUserSlug(currentUser.user.slug));
+          store.dispatch(fetchFeedUser());
+          store.dispatch(fetchFavoris(currentUser.id));
+          store.dispatch(fetchLikes(currentUser.id));
+          store.dispatch(updateTokenExp());
+        })
+        .catch(err => {
+          store.dispatch(loginSubmitError("Email ou mot de passe incorrect"));
+        });
+      return;
+    case LOGOUT:
+      httpClient
+        .post(
+          {
+            url: "/users/logout"
+          },
+          store
+        )
+        .then(res => {
+          console.log(res);
+          store.dispatch(logoutSucess());
+        })
+        .catch(err => {
+          console.error(err);
+          store.dispatch(logoutError());
+        })
+        .finally(res => {
+          store.dispatch(logoutSucess());
+        });
             return;
         default:
             return;

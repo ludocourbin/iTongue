@@ -1,19 +1,59 @@
+@import '../../../styles/vars';
 
 .message {
-    height: 78.65vh;
+    height: 76.2vh;
     position: relative;
-    
 
     .ui.fluid.input>input {
         border: none!important;
         border-radius: 0!important;
     }
 
-    &-list {
-        margin: .5em;
+    &_back {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1em 0.5em !important;
+        margin: 0 !important;
+        background-color: $shape-color;
+        margin-bottom: 1.5em !important;
     }
-    &_container {
 
+    &_link__back {
+        width: 50%;
+    }
+
+    &_link__user {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-left: 1em;
+    }
+
+    &_avatar__user {
+        display: block;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        margin-left: .7em;
+    }
+
+    &-list {
+        margin: 1em .5em 2.8em .5em;
+        height: 71.5vh;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+    }
+
+    &_container {
+        border: 0;
+    }
+
+    &_container--right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
     }
 
     &__user {
@@ -21,7 +61,14 @@
         align-items: center;
     }
 
+    &__user--right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
     &-avatar {
+        display: block;
         width: 35px;
         height: 35px;
         border-radius: 50%;
@@ -31,6 +78,51 @@
     &-name {
         font-weight: 600;
         font-size: 1em;
+    }
+
+    &_wrapper {
+        position: relative;
+        margin: .5em 4em .5em 1.2em;
+        width: fit-content;
+        background-color: #d5d3d3;
+        padding: 0.5em 1em 1.2em 1em;
+        border-radius: 0 7px 7px 7px;
+        min-width: 100px;
+        min-height: 40px;
+    }
+
+    &_wrapper--right {
+        position: relative;
+        margin: .5em 1.7em .5em 4em;
+        width: fit-content;
+        background-color: #ffffff;
+        padding: 0.5em 1em 1.2em 1em;
+        border-radius: 7px 0 7px 7px;
+        min-width: 100px;
+        min-height: 40px;
+    }
+
+    &-date {
+        position: absolute;
+        bottom: 0px;
+        right: 1em;
+        font-size: .6em;
+        font-weight: 600;
+    }
+
+    &-text {
+        font-size: 1em;
+    }
+
+    &-date--right {
+        position: absolute;
+        bottom: 0px;
+        font-size: .6em;
+        font-weight: 600;
+    }
+
+    &-text--right {
+        text-align: right;
     }
 
 }

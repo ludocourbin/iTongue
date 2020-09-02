@@ -49,14 +49,12 @@ export default (store) => (next) => (action) => {
                     url: "/best/lastirecords/5",
                 })
                 .then((res) => {
-                    // console.log(res.data.data);
                     store.dispatch(fetchBestIrecordsSuccess(res.data.data));
                 })
                 .catch((err) => {
-                    // console.log(err);
+                    console.error(err);
                     store.dispatch(fetchBestIrecordsError(err));
                 });
-
             return;
         default:
             return;

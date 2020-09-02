@@ -92,3 +92,10 @@ export const setRecordIdComment = (payload) => ({
     type: SET_RECORD_ID_COMMENT,
     payload,
 });
+
+export const SET_COUNT_COMMENT = "SET_COUNT_COMMENT";
+
+export const setCountComment = (payload) => ({
+    type: SET_COUNT_COMMENT,
+    payload,
+});

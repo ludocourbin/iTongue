@@ -167,8 +167,9 @@ export default (state = initialState, action = {}) => {
                 commentSubmitLoading: false,
                 commentsList: [
                     ...state.commentsList,
-                    ...action.payload
-                ]
+                    ...action.payload.commentsList
+                ],
+                allRecordsList: action.payload.allRecordsList,
             };
         case COMMENT_SUBMIT_ERROR:
             return {
@@ -187,7 +188,8 @@ export default (state = initialState, action = {}) => {
         case DELETE_COMMENT_SUCCESS:
             return {
                 ...state,
-                commentsList: [...action.payload]
+                commentsList: [...action.payload.deleteComment],
+                allRecordsList: action.payload.allRecordsList,
             };
         case DELETE_COMMENT_ERROR:
             return {

@@ -192,6 +192,7 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 return map;
             };
 
+            console.log("action.payload: ", action.payload);
             httpClient
                 .get({
                     url: `/users/${action.payload}`,

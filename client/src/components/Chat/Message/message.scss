@@ -89,6 +89,7 @@
         border-radius: 0 7px 7px 7px;
         min-width: 100px;
         min-height: 40px;
+        word-break: break-all;
     }
 
     &_wrapper--right {
@@ -100,6 +101,7 @@
         border-radius: 7px 0 7px 7px;
         min-width: 100px;
         min-height: 40px;
+        word-break: break-all;
     }
 
     &-date {

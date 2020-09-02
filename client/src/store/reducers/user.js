@@ -67,6 +67,10 @@ import {
     SET_COUNT_COMMENT
 } from '../actions/commentActions';
 
+import {
+    SOCKET_SET_RECIPIENT_ID 
+} from "../actions/chatActions";
+
 const initialState = {
     currentUser: {},
     isLogged: false,
@@ -120,6 +124,7 @@ const initialState = {
     /* END EDIT PROFIL */
 
     isUserFollowThisUser : false,
+    socketRecipientId: 0,
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
@@ -520,6 +525,11 @@ export default (state = initialState, action = {}) => {
                 },
                 feedUser: action.payload.feedUser,
             };
+        case SOCKET_SET_RECIPIENT_ID: 
+            return {
+                ...state,
+                socketRecipientId: action.payload,
+            }
         default:
             return state;
     }

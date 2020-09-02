@@ -13,10 +13,12 @@ import statisticsHomeReducer from "./statisticsHomeReducer";
 import ifollowersifollowing from "./ifollowersifollowingReducer";
 import team from './team';
 import likeAndFavorisReducer from "./likeAndFavorisReducer";
+import chatReducer from "./chatReducer";
 
 export default combineReducers({
     settings,
     user,
+    chatReducer,
     expressionsReducer,
     irecords,
     languagesReducer,

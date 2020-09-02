@@ -6,29 +6,49 @@ import { Link } from 'react-router-dom';
 
 const Conversations = (props) => {
 
+    const { 
+        socketSetRecipientId,         
+        fetchAllThreads,
+        allThreads,
+    } = props;
+
+    useEffect(() => {
+        fetchAllThreads();
+    }, [fetchAllThreads])
+
     const sliceText = (text) => {
-        return text.slice(0, 44) + "...";
+        const maxLength = 24;
+        let preview = text.slice(0, maxLength);
+        if(text.length > maxLength){
+            preview += "...";  
+        }
+        return  preview;
     };
 
     return (
         <Layout titlePage='Messages'>
             <div className="conversations">
-                <div className="conversation">
-                    <div className="conversation_container">
-                        <Image  className="conversation-avatar" src="https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/5/6/5/7/aa0d3e447aac8a32fb8c3ae0a52c?v=1599001023114"/>
-                        <div className="conversation_content">
-                            <div className="conversation-name">
-                                Ludovic Courbin
-                            </div>
-                            <div className="conversation-text">
-                                {sliceText("Lorem ipsum dolor, sit amet consectetur adipisicing elit.")}
+
+                { allThreads && allThreads.map(({contact, messages}) => (
+                    <div className="conversation" key={contact.id}>
+                        <div className="conversation_container">
+                            <Image  className="conversation-avatar" src={`${process.env.REACT_APP_FILES_URL}/${contact.avatarUrl}`}/>
+                            <div className="conversation_content">
+                                <div className="conversation-name">
+                                    {contact.firstname} {contact.lastname}
+                                </div>
+                                <div className="conversation-text">
+                                    {sliceText(messages[messages.length - 1].text)}
+                                    {/* Mettre You : / Me : */}
+                                </div>
                             </div>
                         </div>
+                        <Link to={`/messages/${contact.slug}/${contact.id}`} onClick={() => socketSetRecipientId(contact.id)}>
+                            <Icon name="send" size="big" className="conversation-sendicon"/>
+                        </Link>
                     </div>
-                    <Link to="/messages/conversation">
-                        <Icon name="send" size="big" className="conversation-sendicon"/>
-                    </Link>
-                </div>
+                ))}
+
             </div>
         </Layout>
     );

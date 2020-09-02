@@ -2,43 +2,64 @@ import React, { useState, useEffect, useRef } from 'react';
 import Layout from '../../../containers/Layout'
 import './message.scss';
 import { Form, Input, Image, Header, Icon } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { data } from './data';
+import { Link, useParams } from 'react-router-dom';
+import moment from 'moment';
 
-const Message = ({ socketEmitMessage }) => {
+const Message = (props) => {
 
-    let datas = data;
+    const { 
+        socketEmitMessage, 
+        socketEmitTyping, 
+        currentUser, 
+        socketSetRecipientId,
+        socketRecipientId,
+        fetchAllMessages,
+        allMessages,
+        setMessageInAllMessages,
+    } = props;
 
+    const params = useParams();
     const messageListRef = useRef(null);
-
     const [inputValue, setInputValue] = useState("");
-    const [dataMessages, setDataMessages] = useState(data);
 
     useEffect(() => {
         const scrollY = messageListRef.current.scrollHeight;
         messageListRef.current.scrollTo(0, scrollY);
-    }, [dataMessages]);
+    }, [allMessages]);
+
+    useEffect(() => {
+        socketSetRecipientId(params.id);
+    }, [socketSetRecipientId]);
+
+    useEffect(() => {
+        fetchAllMessages();
+    }, [fetchAllMessages]);
 
     const handleChange = (e) => {
         setInputValue(e.target.value)
+        socketEmitTyping({
+            authorName: currentUser.firstname,
+            recipientId: socketRecipientId,
+        });
     };
 
     const handleSubmit = () => {
 
-        setDataMessages([
-            ...dataMessages,
-            {
-                id: datas.length + 1,
-                avatarUrl: "https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/9/e/8/3/1f5e7a08b34c5d49a68544a78bcc?v=1598564994629",
-                text: inputValue,
-                date: "a few second ago",
-                currentUser: true,
-            }
-        ])
+        setMessageInAllMessages({
+            id: Date.now(),
+            createdAt: new Date(),
+            text: inputValue,
+            sender: {
+                id: currentUser.id,
+                avatarUrl: currentUser.avatarUrl,
+            },
+        })
 
         socketEmitMessage({
             text: inputValue,
-            recipient_id: 1,
+            authorName: currentUser.firstname,
+            authorAvatarUrl: currentUser.avatarUrl,
+            recipientId: socketRecipientId,
         });
 
         setInputValue("");
@@ -59,17 +80,18 @@ const Message = ({ socketEmitMessage }) => {
             </Header>
             <div className="message">
                 <div className="message-list" ref={messageListRef}>
-                    { dataMessages  && dataMessages.map(message => (
-                        <div className={`message_container${message.currentUser ? '--right' : ''}`} key={message.id}>
-                            <div className={`message__user${message.currentUser ? '--right' : ''}`}>
-                                <Image  className="message-avatar" src={message.avatarUrl}/>
+                    {allMessages && allMessages.map(message => (
+                        // 
+                        <div className={`message_container${message.sender.id === currentUser.id ? '--right' : ''}`} key={message.id}>
+                            <div className={`message__user${message.sender.id === currentUser.id ? '--right' : ''}`}>
+                                <Image  className="message-avatar" src={`${process.env.REACT_APP_FILES_URL}/${message.sender.avatarUrl}`}/>
                             </div>
-                            <div className={`message_wrapper${message.currentUser ? '--right' : ''}`}>
-                                <div className="message-text" className={`message-text${message.currentUser ? '--right' : ''}`}>
+                            <div className={`message_wrapper${message.sender.id === currentUser.id ? '--right' : ''}`}>
+                                <div className="message-text" className={`message-text${message.sender.id === currentUser.id ? '--right' : ''}`}>
                                     {message.text}
                                 </div>
-                                <div className="message-date" className={`message-date${message.currentUser ? '--right' : ''}`}>
-                                    {message.date}
+                                <div className="message-date" className={`message-date${message.sender.id === currentUser.id ? '--right' : ''}`}>
+                                    {moment(message.createdAt).fromNow()}
                                 </div>
                             </div>
                         </div>

@@ -43,8 +43,6 @@ const LayoutHeader = ({
     //const classUser = isLogged ? " user" : "";
     const classRecording = isRecording ? " modalRecording" : "";
 
-    console.log("visible", visible);
-
     return (
         <div className="main-header">
             <Sidebar.Pushable>

@@ -1,12 +1,23 @@
 import io from 'socket.io-client';
 import { updateTokenExp, updateAccessToken } from '../actions/userActions';
 import { httpClient } from '../../utils';
-import { SOCKET_CONNECT, SOCKET_EMIT_MESSAGE } from '../actions/chatActions'
+import { 
+    SOCKET_CONNECT, 
+    SOCKET_EMIT_MESSAGE, 
+    SOCKET_EMIT_TYPING,
+    FETCH_ALL_THREADS,
+    fetchAllThreadsSuccess,
+    fetchAllThreadsError,
+    FETCH_ALL_MESSAGES,
+    fetchAllMessagesSuccess,
+    fetchAllMessagesError,
+    setMessageInAllMessages,
+} from '../actions/chatActions';
 
 let socket;
 
 export const chatMiddleware = (store) => (next) => (action) => {
-    next(action);
+    
     switch (action.type) {
         case SOCKET_CONNECT:
             getAccessToken(store).then(accessToken => {
@@ -16,8 +27,17 @@ export const chatMiddleware = (store) => (next) => (action) => {
                     }
                 });
 
-                socket.on("message", data => {
-                    console.log(data);
+                socket.on("message", ({ authorId, authorAvatarUrl, text }) => {
+                    console.log("message reçu");
+                    store.dispatch(setMessageInAllMessages({
+                        id: Date.now(),
+                        createdAt: new Date(),
+                        text: text,
+                        sender: {
+                            id: authorId,
+                            avatarUrl: authorAvatarUrl,
+                        }
+                    }));
                 });
 
                 socket.on("typing", data => {
@@ -25,13 +45,19 @@ export const chatMiddleware = (store) => (next) => (action) => {
                 });
 
                 socket.on("disconnect", () => {
-                    store.dispatch({ type: SOCKET_CONNECT });
+                    if (store.getState().user) {
+                        store.dispatch({ type: SOCKET_CONNECT });
+                    }
                 });
 
                 socket.on("error", err => {
-                    console.log(err)
+                    console.log(err);
                 });
-            }).catch(err => { 
+
+                socket.on("serverError", err => {
+                    console.log(err);
+                });
+            }).catch(err => {
                 console.log(err);
             })
             break;
@@ -40,9 +66,47 @@ export const chatMiddleware = (store) => (next) => (action) => {
                 socket.emit("message", action.payload);
             }
             break;
+        case SOCKET_EMIT_TYPING:
+            if (socket) {
+                socket.emit("typing", action.payload);
+            }
+            break;
+        case FETCH_ALL_THREADS:
+
+            const { currentUser } = store.getState().user;
+            httpClient.get({
+                url: `/users/${currentUser.id}/threads`,
+            }, store)
+            .then(res => {
+                store.dispatch(fetchAllThreadsSuccess(res.data.data));
+                console.log("res", res);
+            })
+            .catch(err => {
+                console.error("err", err);
+                store.dispatch(fetchAllThreadsError());
+            });
+            break;
+        case FETCH_ALL_MESSAGES:
+
+            const currUser = store.getState().user.currentUser;
+            const { socketRecipientId } = store.getState().chatReducer;
+
+            httpClient.get({
+                url: `/users/${currUser.id}/threads/${socketRecipientId}`,
+            }, store)
+            .then(res => {
+                store.dispatch(fetchAllMessagesSuccess(res.data.data));
+                console.log("res", res);
+            })
+            .catch(err => {
+                console.error("err", err);
+                store.dispatch(fetchAllMessagesError());
+            });
+            break;
         default:
             break;
     };
+    next(action);
 };
 
 function getAccessToken(store) {

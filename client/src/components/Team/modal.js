@@ -2,6 +2,7 @@ import React from 'react'
 import { Image, Modal, Icon, Flag} from 'semantic-ui-react';
 import './style.scss';
 import { motion } from "framer-motion";
+import creepyface from 'creepyface';
 
 const MyModal = ({
     myAvatar,
@@ -11,6 +12,7 @@ const MyModal = ({
     const thisAvatar = {
         name:"",
         picture:"",
+        creepyface:"",
         desc:"",
         location:"",
         spe:"",
@@ -21,6 +23,7 @@ const MyModal = ({
         case 'ludovic' :
             thisAvatar.name="Ludovic Courbin";
             thisAvatar.picture ="https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/5/6/5/7/aa0d3e447aac8a32fb8c3ae0a52c?v=1598967009884";
+            thisAvatar.creepyface="./creepyface/ludovic/"
             thisAvatar.desc ="A la tête de cette aventure iTongue, Ludovic vit la vie à fond, il ne s'arrête jamais.";
             thisAvatar.location = "Pau, Nouvelle-Aquitaine";
             thisAvatar.spe = "Product Owner / Front-end";
@@ -30,6 +33,7 @@ const MyModal = ({
         case 'quentin' :
             thisAvatar.name="Quentin Lemogodeuc";
             thisAvatar.picture = "https://media-exp1.licdn.com/dms/image/C4E03AQGkvnlOcZm7nA/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=no4zBOPgEux8I0eZaUFu1JdzrhAY4fdtbz3gRBhB-IM";
+            thisAvatar.creepyface="./creepyface/quentin/"
             thisAvatar.desc="Maitre guitariste, Quentin est bohémien."
             thisAvatar.location = "Bordeaux, Aquitaine";
             thisAvatar.spe = "Lead dev Back-end";
@@ -39,6 +43,7 @@ const MyModal = ({
         case 'gautier' :
             thisAvatar.name="Gautier Colasse";
             thisAvatar.picture="https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/9/e/8/3/1f5e7a08b34c5d49a68544a78bcc?v=1598598733917";
+            thisAvatar.creepyface="./creepyface/gautier/"
             thisAvatar.desc="Amateur de motos des bois, Gautier n'a pas froid aux yeux."
             thisAvatar.location = "Lille, Hauts-de-France";
             thisAvatar.spe = "Lead dev Front-end";
@@ -48,6 +53,7 @@ const MyModal = ({
         case 'sacha' :
             thisAvatar.name="Sacha Zacaropoulos"
             thisAvatar.picture="https://media-exp1.licdn.com/dms/image/C5603AQGqAXcak7nJwQ/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=bL6B29ZibHWkKpI2oM8nRRWKeewfdJzjNPxPkWxjnS0";
+            thisAvatar.creepyface="./creepyface/sacha/"
             thisAvatar.desc="Maître lunétier, Sacha voit plus loin que l'être humain lambda.";
             thisAvatar.location = "Nice, PACA";
             thisAvatar.spe = "Git master / Back-end";
@@ -57,6 +63,7 @@ const MyModal = ({
         case 'axel' :
             thisAvatar.name="Axel Le Boucher"
             thisAvatar.picture="https://media-exp1.licdn.com/dms/image/C4D03AQESNZlLPJ0_yQ/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=2vuvNJidAV1t7bccoxhTbqyBU8I6aOExOrvcDGhJr08";
+            thisAvatar.creepyface="./creepyface/axel/"
             thisAvatar.desc="Axel est un petit chenapan, il n'hésite jamais à faire une petite blague."
             thisAvatar.location = "Tours, Centre Val-de-Loire";
             thisAvatar.spe = "Scrum master, Front-end";

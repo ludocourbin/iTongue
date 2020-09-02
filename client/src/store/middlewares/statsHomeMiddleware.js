@@ -18,7 +18,7 @@ export default (store) => (next) => (action) => {
         case FETCH_BEST_USERS:
             httpClient
                 .get({
-                    url: "/best/users/5",
+                    url: "/best/users?limit=5",
                 })
                 .then((res) => {
                     // console.log(res.data.data);
@@ -32,7 +32,7 @@ export default (store) => (next) => (action) => {
         case FETCH_BEST_TRANSLATIONS:
             httpClient
                 .get({
-                    url: "/best/translations/5",
+                    url: "/best/translations?limit=5",
                 })
                 .then((res) => {
                     // console.log(res.data.data);
@@ -46,7 +46,7 @@ export default (store) => (next) => (action) => {
         case FETCH_BEST_IRECORDS:
             httpClient
                 .get({
-                    url: "/best/lastirecords/5",
+                    url: "/best/lastirecords?limit=5",
                 })
                 .then((res) => {
                     store.dispatch(fetchBestIrecordsSuccess(res.data.data));

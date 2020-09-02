@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, Segment, Sidebar } from "semantic-ui-react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 
@@ -24,8 +24,14 @@ const LayoutHeader = ({
     learnedLanguages,
     traductionId,
     taughtLanguages,
+    titlePage, 
     ...props
 }) => {
+
+    useEffect(() => {
+        document.title = `iTongue - ${titlePage}`;
+    }, []);
+
     const [visible, setVisible] = useState(false);
     const { pathname } = useLocation();
 

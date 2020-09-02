@@ -16,7 +16,7 @@ const Feed = ({ fetchFeedUser, feedUser }) => {
     }, [fetchFeedUser]);
 
     return (
-        <Layout>
+        <Layout titlePage='Feed'>
             <div className="feed">
                 <Header size="small" content="Fil d'actualités" className="feed-title" />
                 <div className="feed-list">

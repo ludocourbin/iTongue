@@ -56,7 +56,7 @@ const Message = () => {
             <div className="message">
                 <div className="message-list" ref={messageListRef}>
                     { dataMessages  && dataMessages.map(message => (
-                        <div className={`message_container${message.currentUser ? '--right' : ''}`}>
+                        <div className={`message_container${message.currentUser ? '--right' : ''}`} key={message.id}>
                             <div className={`message__user${message.currentUser ? '--right' : ''}`}>
                                 <Image  className="message-avatar" src={message.avatarUrl}/>
                             </div>

@@ -77,7 +77,7 @@ const Comments = (props) => {
                 </div>
                 <div className={`social-nbrcomment${showComments ? "--active" : ""}`} onClick={handleShowComments}>
                     {/* <Icon name="comments" /> */}
-                    {record && record.commentCount} comments
+                    {`${record && record.commentCount} comment${record.commentCount > 1 ? "s" : ""}`}  
                 </div>
             </div>
             <Transition visible={showComments} animation='fade' duration={500}>

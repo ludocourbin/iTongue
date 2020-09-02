@@ -1,24 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Layout from '../../../containers/Layout';
 import './conversations.scss';
 import { Image, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-const Conversations = () => {
+const Conversations = (props) => {
 
     const sliceText = (text) => {
         return text.slice(0, 44) + "...";
     };
 
     return (
-        <Layout>
+        <Layout titlePage='Messages'>
             <div className="conversations">
                 <div className="conversation">
                     <div className="conversation_container">
-                        <Image  className="conversation-avatar" src="https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/9/e/8/3/1f5e7a08b34c5d49a68544a78bcc?v=1598564994629"/>
+                        <Image  className="conversation-avatar" src="https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/5/6/5/7/aa0d3e447aac8a32fb8c3ae0a52c?v=1599001023114"/>
                         <div className="conversation_content">
                             <div className="conversation-name">
-                                Gautier Colasse
+                                Ludovic Courbin
                             </div>
                             <div className="conversation-text">
                                 {sliceText("Lorem ipsum dolor, sit amet consectetur adipisicing elit.")}

@@ -137,7 +137,7 @@ DROP FUNCTION "get_feed";
 CREATE FUNCTION "get_feed" ("user_id" INT) 
 RETURNS SETOF "record_display_type" AS
 $$
-   SELECT "r".*
+  SELECT "r".*
     FROM "show_records"() "r"
     JOIN "user_user_follow" "f"
       ON ("r"."user"->>'id')::INT = "f"."followed_id"

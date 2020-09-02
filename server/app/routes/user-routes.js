@@ -780,4 +780,8 @@ router.get("/:id(\\d+)/likes", ownerMiddleware, userController.showLikes);
  */
 router.get("/:id(\\d+)/bookmarks", ownerMiddleware, userController.showBookmarks);
 
+router.get("/:id(\\d+)/threads", ownerMiddleware, userController.showThreads);
+
+router.get("/:id(\\d+)/threads/:contactId", ownerMiddleware, userController.showThread);
+
 module.exports = router;

@@ -245,7 +245,7 @@ const dataMapper = {
       values: [userId, contactId]
     };
     const result = await client.query(query);
-    return result.rows;
+    return result.rows[0];
   }
 };
 

@@ -492,6 +492,7 @@ module.exports = {
 
     try {
       const thread = await userDatamapper.getThread(userId, contactId);
+      if (!thread) return next();
       res.json({ data: thread });
     } catch (err) {
       next(err);

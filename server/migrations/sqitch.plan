@@ -17,5 +17,5 @@
 600-create-tables-comments-like-fav 2020-08-31T13:32:09Z Quentin Lemogodeuc <q.lemogodeuc@gmail.com> # Create tables for commenting liking and adding records to favs
 601-record-likes-related-updates 2020-08-31T15:08:33Z sacha-smz <sacha.zacaropoulos@gmail.com> # Function updates related to the new record like feature
 602-functions-comment 2020-08-31T16:02:27Z Quentin Lemogodeuc <q.lemogodeuc@gmail.com> # Add functions to retrieve comments
-700-table-functions-chat 2020-09-01T11:52:31Z sacha-smz <sacha.zacaropoulos@gmail.com> # Tables and functions required by the instant messaging feature
 603-last-irecords 2020-09-01T15:30:32Z Quentin Lemogodeuc <q.lemogodeuc@gmail.com> # drop function add view
+700-table-functions-chat 2020-09-01T11:52:31Z sacha-smz <sacha.zacaropoulos@gmail.com> # Tables and functions required by the instant messaging feature

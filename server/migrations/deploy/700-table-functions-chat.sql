@@ -42,21 +42,18 @@ $$
 
 $$ LANGUAGE SQL STABLE;
 
+CREATE TYPE "thread" AS ("contact" JSON, "messages" JSON);
+
 CREATE FUNCTION "get_thread"("user_id" INT, "contact_id" INT)
-RETURNS SETOF "thread_message" AS
+RETURNS "thread" AS
 $$
 
-  SELECT "m"."id", "m"."text", "m"."created_at",
-         to_json(("su"."id", "su"."email", "su"."firstname", "su"."lastname", "su"."slug", "su"."avatar_url", "su"."created_at")::"plain_user"),
-         to_json(("ru"."id", "ru"."email", "ru"."firstname", "ru"."lastname", "ru"."slug", "ru"."avatar_url", "ru"."created_at")::"plain_user")
-    FROM "message" "m"
-    JOIN "user" "su"
-      ON "m"."sender_id" = "su"."id"
-    JOIN "user" "ru"
-      ON "m"."recipient_id" = "ru"."id"
-   WHERE ("m"."sender_id" = "user_id" AND "m"."recipient_id" = "contact_id")
-      OR ("m"."recipient_id" = "user_id" AND "m"."sender_id" = "contact_id")
-ORDER BY "m"."id";
+   SELECT to_json(("u"."id", "u"."email", "u"."firstname", "u"."lastname", "u"."slug", "u"."avatar_url", "u"."created_at")::"plain_user"),
+          COALESCE("t"."messages", '[]')
+     FROM "user" "u"
+LEFT JOIN "get_threads"("user_id") "t"
+       ON "u"."id" = ("t"."contact"->>'id')::INT
+    WHERE "u"."id" = "contact_id";
 
 $$ LANGUAGE SQL STABLE;
 

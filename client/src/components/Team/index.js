@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './style.scss';
+import './pyro.scss';
 import { Image, Grid } from 'semantic-ui-react';
 import Layout from "../../containers/Layout";
 import MyModal from '../../containers/Team/Modal';
+import { motion } from "framer-motion";
 
 const Team = ({
     // Data du state
@@ -11,19 +13,41 @@ const Team = ({
     toggleModal,
     changeAvatar,
 }) => {
-   
+    
+    const [pyroVisible, setPyroVisible] = useState(false);
+
     const showModal = (evt) => {
+        setPyroVisible(true);
         const { alt } = evt.target;
         changeAvatar(alt);
-        toggleModal();
+        setTimeout(() => {
+            setPyroVisible(false);
+            toggleModal();
+        }, 500);
+        // toggleModal();
         console.log("id : " + alt);
     }
-    
-    console.log("state visible : " + visible)
+
     return (
         <Layout>
-            <div className="team-div"> 
-                <div className="topDiv">
+            { pyroVisible && 
+                <div className="pyro">
+                    <div className="before"></div>
+                    <div className="after"></div>
+                </div>
+            }
+            
+            { !pyroVisible && 
+            <motion.div className="team-div"
+            // initial={{opacity : 0}}
+            // animate= {{ opacity : 1 }}
+            // transition={{delay:1, duration:0.5}}
+            > 
+                <motion.div className="topDiv"
+                // initial={{ x: '-100vw'}}
+                // animate={{ x : 0}}
+                // transition={{delay : 0.3, duration : 1.2}}
+                >
                     <Grid columns={2}>
                         <Grid.Column>
                         <Image
@@ -32,7 +56,6 @@ const Team = ({
                             as: 'a',
                             color: 'orange',
                             content: 'Gautier',
-                            icon: 'user',
                             ribbon: true,
                             }}
                             attached="bottom"
@@ -52,7 +75,6 @@ const Team = ({
                             as: 'a',
                             color: 'orange',
                             content: 'Axel',
-                            icon: 'user',
                             ribbon: true,
                             }}
                             circular
@@ -62,7 +84,7 @@ const Team = ({
                         />
                         </Grid.Column>
                     </Grid>
-                </div>
+                </motion.div>
                     {/* <Image onClick={showModal} id="gautier"
                         src='https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/9/e/8/3/1f5e7a08b34c5d49a68544a78bcc?v=1598598733917'
                         size='small' circular /> */}
@@ -79,7 +101,6 @@ const Team = ({
                             as: 'a',
                             color: 'orange',
                             content: 'Ludovic',
-                            icon: 'user',
                             ribbon: true,
                             }}
                             circular
@@ -90,7 +111,11 @@ const Team = ({
                         </Grid.Column>
                     </Grid>
                 </div>
-                <div className="botDiv"> 
+                <motion.div className="botDiv"
+                // initial={{ x: '100vw'}}
+                // animate={{ x : 0}}
+                // transition={{delay : 0.3, duration : 1.2}}
+                > 
                     {/* <Image onClick={showModal} id="sacha"src='https://media-exp1.licdn.com/dms/image/C5603AQGqAXcak7nJwQ/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=bL6B29ZibHWkKpI2oM8nRRWKeewfdJzjNPxPkWxjnS0' size='small' circular  />  
                     <Image onClick={showModal} id="quentin"src='https://media-exp1.licdn.com/dms/image/C4E03AQGkvnlOcZm7nA/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=no4zBOPgEux8I0eZaUFu1JdzrhAY4fdtbz3gRBhB-IM' size='small' circular  /> */}
                     <Grid columns={2}>
@@ -102,7 +127,6 @@ const Team = ({
                             as: 'a',
                             color: 'orange',
                             content: 'Sacha',
-                            icon: 'user',
                             ribbon: true,
                             }}
                             circular
@@ -120,7 +144,6 @@ const Team = ({
                             as: 'a',
                             color: 'orange',
                             content: 'Quentin',
-                            icon: 'user',
                             ribbon: true,
                             }}
                             circular
@@ -131,9 +154,11 @@ const Team = ({
                         </Grid.Column>
                     </Grid>
                 
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
+            }
             {visible && <MyModal /> } 
+
         </Layout>
     )
 };

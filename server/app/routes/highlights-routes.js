@@ -30,7 +30,7 @@ const router = express.Router();
  *          '404':
  *              description: Not Found
  */
-router.get("/users/:limit(\\d+)", highlightsController.getBestUsers);
+router.get("/users", highlightsController.getBestUsers);
 
 /**
  * @swagger
@@ -58,7 +58,7 @@ router.get("/users/:limit(\\d+)", highlightsController.getBestUsers);
  *          '404':
  *              description: Not Found
  */
-router.get("/translations/:limit(\\d+)", highlightsController.getBestTranslations);
+router.get("/translations", highlightsController.getBestTranslations);
 
 /**
  * @swagger
@@ -86,6 +86,6 @@ router.get("/translations/:limit(\\d+)", highlightsController.getBestTranslation
  *          '404':
  *              description: Not Found
  */
-router.get("/lastirecords/", highlightsController.getLastiRecords);
+router.get("/lastirecords", highlightsController.getLastiRecords);
 
 module.exports = router;

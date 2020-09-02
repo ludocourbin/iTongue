@@ -23,6 +23,6 @@ export default combineReducers({
     statisticsRecuder,
     statisticsHomeReducer,
     ifollowersifollowing,
-    team
+    team,
     likeAndFavorisReducer
 });

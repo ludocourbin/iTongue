@@ -39,14 +39,14 @@ const Team = ({
             
             { !pyroVisible && 
             <motion.div className="team-div"
-            // initial={{opacity : 0}}
-            // animate= {{ opacity : 1 }}
-            // transition={{delay:1, duration:0.5}}
+            initial={{opacity : 0}}
+            animate= {{ opacity : 1 }}
+            transition={{delay:1, duration:0.5}}
             > 
                 <motion.div className="topDiv"
-                // initial={{ x: '-100vw'}}
-                // animate={{ x : 0}}
-                // transition={{delay : 0.3, duration : 1.2}}
+                initial={{ x: '-100vw'}}
+                animate={{ x : 0}}
+                transition={{delay : 0.3, duration : 1.2}}
                 >
                     <Grid columns={2}>
                         <Grid.Column>
@@ -112,9 +112,9 @@ const Team = ({
                     </Grid>
                 </div>
                 <motion.div className="botDiv"
-                // initial={{ x: '100vw'}}
-                // animate={{ x : 0}}
-                // transition={{delay : 0.3, duration : 1.2}}
+                initial={{ x: '100vw'}}
+                animate={{ x : 0}}
+                transition={{delay : 0.3, duration : 1.2}}
                 > 
                     {/* <Image onClick={showModal} id="sacha"src='https://media-exp1.licdn.com/dms/image/C5603AQGqAXcak7nJwQ/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=bL6B29ZibHWkKpI2oM8nRRWKeewfdJzjNPxPkWxjnS0' size='small' circular  />  
                     <Image onClick={showModal} id="quentin"src='https://media-exp1.licdn.com/dms/image/C4E03AQGkvnlOcZm7nA/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=no4zBOPgEux8I0eZaUFu1JdzrhAY4fdtbz3gRBhB-IM' size='small' circular  /> */}

@@ -3663,6 +3663,11 @@ create-react-context@^0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
+creepyface@^7.4.2:
+  version "7.4.2"
+  resolved "https://registry.yarnpkg.com/creepyface/-/creepyface-7.4.2.tgz#559e57925fd4abcb9f98c93fb9ac70a9d1cf51b9"
+  integrity sha512-0hqq75b0njCdvlFvRqSYcaQjBUQzxPBq7nDKV8i2USO46Z8/Qg3gjShzzCt+TUuYrCdu06IkeEipzAgfY2fYVQ==
+
 cross-spawn@7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.1.tgz#0ab56286e0f7c24e153d04cc2aa027e43a9a5d14"

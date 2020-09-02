@@ -4,7 +4,7 @@ module.exports = {
   getBestUsers: async (req, res, next) => {
     const limit = parseInt(req.params.limit, 10);
     try {
-      const bestUsers = await highlightsDatamapper.getBestUsers(query, [limit]);
+      const bestUsers = await highlightsDatamapper.getBestUsers(limit);
       res.json({ data: bestUsers });
     } catch (err) {
       next(err);
@@ -14,7 +14,7 @@ module.exports = {
   getBestTranslations: async (req, res, next) => {
     const limit = parseInt(req.params.limit, 10);
     try {
-      const bestTranslations = await highlightsDatamapper.getBestTranslations(query, [limit]);
+      const bestTranslations = await highlightsDatamapper.getBestTranslations(limit);
       res.json({ data: bestTranslations });
     } catch (err) {
       next(err);

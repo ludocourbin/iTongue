@@ -7,12 +7,14 @@ import {
     FETCH_ALL_MESSAGES_SUCCESS,
     FETCH_ALL_MESSAGES_ERROR,
     SET_MESSAGE_IN_ALL_MESSAGES,
+    SET_USER_IS_TYPING,
 } from "../actions/chatActions";
 
 const initialState = {
-    socketRecipientId: 0,
+    socketRecipientId: {},
     allThreads: [],
     allMessages: [],
+    userTyping: {},
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
@@ -58,6 +60,11 @@ export default (state = initialState, action = {}) => {
                     {...action.payload},
                 ],
             };
+        case SET_USER_IS_TYPING:
+            return {
+                ...state,
+                userTyping: {...action.payload}
+            }
         default:
             return state;
     };

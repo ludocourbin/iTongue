@@ -43,7 +43,7 @@ const Conversations = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <Link to={`/messages/${contact.slug}/${contact.id}`} onClick={() => socketSetRecipientId(contact.id)}>
+                        <Link to={`/messages/${contact.slug}/${contact.id}`} onClick={() => socketSetRecipientId(contact)}>
                             <Icon name="send" size="big" className="conversation-sendicon"/>
                         </Link>
                     </div>

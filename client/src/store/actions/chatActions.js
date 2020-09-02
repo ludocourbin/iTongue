@@ -64,3 +64,10 @@ export const setMessageInAllMessages = (payload) => ({
     type: SET_MESSAGE_IN_ALL_MESSAGES,
     payload,
 });
+
+export const SET_USER_IS_TYPING = "SET_USER_IS_TYPING";
+
+export const setUserIsTyping = (payload) => ({
+    type: SET_USER_IS_TYPING,
+    payload,
+});

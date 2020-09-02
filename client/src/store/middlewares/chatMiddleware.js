@@ -1,9 +1,9 @@
 import io from 'socket.io-client';
 import { updateTokenExp, updateAccessToken } from '../actions/userActions';
 import { httpClient } from '../../utils';
-import { 
-    SOCKET_CONNECT, 
-    SOCKET_EMIT_MESSAGE, 
+import {
+    SOCKET_CONNECT,
+    SOCKET_EMIT_MESSAGE,
     SOCKET_EMIT_TYPING,
     FETCH_ALL_THREADS,
     fetchAllThreadsSuccess,
@@ -12,16 +12,20 @@ import {
     fetchAllMessagesSuccess,
     fetchAllMessagesError,
     setMessageInAllMessages,
+    setUserIsTyping,
 } from '../actions/chatActions';
 
 let socket;
 
+let typing = {};
+
 export const chatMiddleware = (store) => (next) => (action) => {
-    
+
     switch (action.type) {
         case SOCKET_CONNECT:
             getAccessToken(store).then(accessToken => {
                 socket = io(process.env.REACT_APP_API_URL, {
+                    forceNew: true,
                     query: {
                         token: accessToken,
                     }
@@ -38,10 +42,29 @@ export const chatMiddleware = (store) => (next) => (action) => {
                             avatarUrl: authorAvatarUrl,
                         }
                     }));
+
+                    store.dispatch(setUserIsTyping({}));
                 });
 
-                socket.on("typing", data => {
-                    console.log(data);
+                socket.on("typing", ({ authorId, authorName }) => {
+                    console.log(authorName);
+                    const contactId = store.getState().chatReducer.socketRecipientId.id;
+                    console.log({ contactId, authorId });
+                    if (contactId && authorId == contactId) {
+                        store.dispatch(setUserIsTyping({
+                            authorId,
+                            authorName,
+                            typing: true,
+                        }));
+
+                        if (typing[contactId]) {
+                            clearTimeout(typing[contactId]);
+                        }
+                        typing[contactId] = setTimeout(() => {
+                            store.dispatch(setUserIsTyping({}));
+                            delete typing[contactId];
+                        }, 1800);
+                    }
                 });
 
                 socket.on("disconnect", () => {
@@ -63,6 +86,7 @@ export const chatMiddleware = (store) => (next) => (action) => {
             break;
         case SOCKET_EMIT_MESSAGE:
             if (socket) {
+                
                 socket.emit("message", action.payload);
             }
             break;
@@ -77,31 +101,33 @@ export const chatMiddleware = (store) => (next) => (action) => {
             httpClient.get({
                 url: `/users/${currentUser.id}/threads`,
             }, store)
-            .then(res => {
-                store.dispatch(fetchAllThreadsSuccess(res.data.data));
-                console.log("res", res);
-            })
-            .catch(err => {
-                console.error("err", err);
-                store.dispatch(fetchAllThreadsError());
-            });
+                .then(res => {
+                    store.dispatch(fetchAllThreadsSuccess(res.data.data));
+                    console.log("res", res);
+                })
+                .catch(err => {
+                    console.error("err", err);
+                    store.dispatch(fetchAllThreadsError());
+                });
             break;
         case FETCH_ALL_MESSAGES:
 
             const currUser = store.getState().user.currentUser;
             const { socketRecipientId } = store.getState().chatReducer;
 
+            console.log("socketRecipientId", socketRecipientId);
+            
             httpClient.get({
-                url: `/users/${currUser.id}/threads/${socketRecipientId}`,
+                url: `/users/${currUser.id}/threads/${socketRecipientId.id}`,
             }, store)
-            .then(res => {
-                store.dispatch(fetchAllMessagesSuccess(res.data.data));
-                console.log("res", res);
-            })
-            .catch(err => {
-                console.error("err", err);
-                store.dispatch(fetchAllMessagesError());
-            });
+                .then(res => {
+                    store.dispatch(fetchAllMessagesSuccess(res.data.data));
+                    console.log("res", res);
+                })
+                .catch(err => {
+                    console.error("err", err);
+                    store.dispatch(fetchAllMessagesError());
+                });
             break;
         default:
             break;

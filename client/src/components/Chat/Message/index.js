@@ -16,6 +16,7 @@ const Message = (props) => {
         fetchAllMessages,
         allMessages,
         setMessageInAllMessages,
+        userTyping,
     } = props;
 
     const params = useParams();
@@ -28,23 +29,29 @@ const Message = (props) => {
     }, [allMessages]);
 
     useEffect(() => {
-        socketSetRecipientId(params.id);
+        socketSetRecipientId({id: params.id});
     }, [socketSetRecipientId]);
 
     useEffect(() => {
         fetchAllMessages();
     }, [fetchAllMessages]);
 
+    let typing = null;
     const handleChange = (e) => {
         setInputValue(e.target.value)
-        socketEmitTyping({
-            authorName: currentUser.firstname,
-            recipientId: socketRecipientId,
-        });
+        if (typing) {
+            clearTimeout(typing);
+        }
+        typing = setTimeout(() => { 
+            socketEmitTyping({
+                authorName: currentUser.firstname,
+                recipientId: socketRecipientId.id,
+            });
+            typing = null;
+        }, 200);
     };
 
     const handleSubmit = () => {
-
         setMessageInAllMessages({
             id: Date.now(),
             createdAt: new Date(),
@@ -53,17 +60,22 @@ const Message = (props) => {
                 id: currentUser.id,
                 avatarUrl: currentUser.avatarUrl,
             },
-        })
+        });
 
         socketEmitMessage({
             text: inputValue,
             authorName: currentUser.firstname,
             authorAvatarUrl: currentUser.avatarUrl,
-            recipientId: socketRecipientId,
+            recipientId: socketRecipientId.id,
         });
 
         setInputValue("");
     };
+
+    let contact;
+    if (allMessages && allMessages[0]) {
+        contact = allMessages[0].sender.id == currentUser.id ? allMessages[0].recipient : allMessages[0].sender;
+    }
 
     return (
         <Layout>
@@ -72,15 +84,21 @@ const Message = (props) => {
                     <Icon name="chevron circle left" size="small" />
                     Retour aux messages
                 </Link>
-                <Link to={`/user/$`} className="message_link__user">
-                    <div>Ludovic</div>
-                    <Image  className="message_avatar__user" src="https://itongue.s3.eu-west-3.amazonaws.com/uploads/avatars/5/6/5/7/aa0d3e447aac8a32fb8c3ae0a52c?v=1599001023114"/>
+                { contact &&  
+                    <Link to={`/user/${contact.slug}`} className="message_link__user">
+                        <div>
+                            {contact.firstname}
+                        </div>
                     
-                </Link>
+                        <Image  className="message_avatar__user" 
+                        src={process.env.REACT_APP_FILES_URL +"/" + contact.avatarUrl}
+                        />
+                    </Link>
+                }
             </Header>
             <div className="message">
                 <div className="message-list" ref={messageListRef}>
-                    {allMessages && allMessages.map(message => (
+                    {allMessages && allMessages.length && allMessages.map(message => (
                         // 
                         <div className={`message_container${message.sender.id === currentUser.id ? '--right' : ''}`} key={message.id}>
                             <div className={`message__user${message.sender.id === currentUser.id ? '--right' : ''}`}>
@@ -97,6 +115,10 @@ const Message = (props) => {
                         </div>
                     ))}
                  </div>
+                 <div className="message-typing">
+                        
+                        {userTyping.typing ? userTyping.authorName + " est en train d'écrire.." : ""}
+                    </div>
                  <Form onSubmit={handleSubmit}>
                     <Input
                     icon={<Icon name='send' link onClick={handleSubmit} />}

@@ -114,6 +114,15 @@ const Comments = (props) => {
                 </div>
 
                 <div className="social-comments">
+                    <Confirm
+                    className="delete-irecords"
+                    open={confirm}
+                    onCancel={() => setConfirm(false)}
+                    onConfirm={handdleDeleteComment}
+                    content="Vous souhaitez vraiment supprimer votre commentaire ?"
+                    size="mini"
+                    dimmer="blurring"
+                    />
                     { showComments && commentsList && commentsList.map(comment => (
                     
                         <div className="social-comment" key={comment.id}>
@@ -145,13 +154,7 @@ const Comments = (props) => {
                                                 recordId: record.id,
                                             });
                                         }} />
-                                        <Confirm
-                                        open={confirm}
-                                        onCancel={() => setConfirm(false)}
-                                        onConfirm={handdleDeleteComment}
-                                        content="Vous souhaitez vraiment supprimer votre commentaire ?"
-                                        size="tiny"
-                                        />
+
                                     </div>
                                 }
                             </div>

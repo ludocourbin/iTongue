@@ -79,7 +79,6 @@ body {
     position: relative;
 
     .pushable > .pusher:after {
-        
         position: fixed;
         height: 100vh!important;
     }
@@ -91,9 +90,13 @@ body {
     }
 }
 
+.pushable {
+    height: 94vh!important;
+}
 .ui.visible.right.overlay.sidebar {
     margin-top: 57px!important;
     z-index: 1006;
+    height: 87vh!important;
 }
 
 .ui.sidebar {
@@ -101,7 +104,7 @@ body {
 }
 
 .main-header-links {
-    height: 87vh;
+    height: 84vh;
     align-items: flex-start;
     text-align: left;
 

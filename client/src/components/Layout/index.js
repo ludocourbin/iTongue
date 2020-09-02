@@ -43,6 +43,8 @@ const LayoutHeader = ({
     const classUser = isLogged ? " user" : "";
     const classRecording = isRecording ? " modalRecording" : "";
 
+    console.log("visible", visible);
+
     return (
         <div className="main-header">
             <Sidebar.Pushable>
@@ -50,7 +52,7 @@ const LayoutHeader = ({
                     as={Menu}
                     animation="overlay"
                     icon="labeled"
-                    onHide={() => setVisible(!visible)}
+                    onHide={() => setVisible(false)}
                     vertical
                     direction="right"
                     visible={visible}
@@ -108,12 +110,14 @@ const LayoutHeader = ({
                     <Header
                         pathname={pathname}
                         visible={visible}
-                        setVisible={() => setVisible(!visible)}
+                        setVisible={setVisible}
                     />
                     <div className={classMain + classRecording + classUser}>
                         {props.children}
                     </div>
-                    {isRecording ? (
+                </Sidebar.Pusher>
+            </Sidebar.Pushable>
+            {isRecording ? (
                         <Recording
                             selectIrecordToRecord={selectIrecordToRecord}
                             toggleRecording={toggleRecording}
@@ -128,17 +132,14 @@ const LayoutHeader = ({
                             traductionId={traductionId}
                         />
                     ) : null}
-
-                </Sidebar.Pusher>
-            </Sidebar.Pushable>
             {isLogged ? (
-                        <NavigationBottom
-                            toggleRecording={toggleRecording}
-                            selectIrecordToRecord={selectIrecordToRecord}
-                            user={user}
-                            isRecording={isRecording}
-                        />
-                    ) : null}
+                <NavigationBottom
+                    toggleRecording={toggleRecording}
+                    selectIrecordToRecord={selectIrecordToRecord}
+                    user={user}
+                    isRecording={isRecording}
+                />
+            ) : null}
         </div>
     );
 };

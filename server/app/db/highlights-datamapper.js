@@ -17,12 +17,12 @@ const dataMapper = {
     return result.rows;
   },
 
-  getLastiRecords: async () => {
+  getLastiRecords: async limit => {
     const query = {
-      text: 'SELECT * FROM "last_irecords"'
+      text: 'SELECT * FROM "last_irecords" LIMIT $1',
+      values: [limit]
     };
     const results = await client.query(query);
-    console.log(results.rows);
     return results.rows;
   }
 };

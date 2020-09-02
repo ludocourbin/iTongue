@@ -12,11 +12,11 @@ const router = express.Router();
  *        - Highlights
  *      summary: Users with more records
  *      description:
- *        Get users with more iRecords, limiting results by passing INTEGER in path
+ *        Get users with more iRecords, limiting results by passing INTEGER in query
  *      parameters:
  *        - name: limit
  *          description: number of results
- *          in: path
+ *          in: query
  *          type: integer
  *          required: true
  *          example: 3
@@ -40,11 +40,11 @@ router.get("/users/:limit(\\d+)", highlightsController.getBestUsers);
  *        - Highlights
  *      summary: Translations with more records
  *      description:
- *        Get translations with more iRecords, limiting results by passing INTEGER in path
+ *        Get translations with more iRecords, limiting results by passing INTEGER in query
  *      parameters:
  *        - name: limit
  *          description: number of results
- *          in: path
+ *          in: query
  *          type: integer
  *          required: true
  *          example: 4
@@ -62,13 +62,20 @@ router.get("/translations/:limit(\\d+)", highlightsController.getBestTranslation
 
 /**
  * @swagger
- * /best/lastirecords/:
+ * /best/lastirecords/{limit}:
  *  get:
  *      tags:
  *        - Highlights
  *      summary: Last iRecords
  *      description:
- *        Get last iRecords, limiting results by passing INTEGER in path
+ *        Get last iRecords, limiting results by passing INTEGER in query
+ *      parameters:
+ *        - name: limit
+ *          description: number of results
+ *          in: query
+ *          type: integer
+ *          required: true
+ *          example: 4
  *      responses:
  *          '200':
  *              description: OK

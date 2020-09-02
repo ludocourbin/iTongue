@@ -19,6 +19,7 @@ import Login from "../../containers/Login";
 import Admin from "../../containers/Admin/Index";
 import Profil from "../../containers/User/Profil";
 import EditProfil from "../../containers/User/EditProfil";
+import Team from "../../containers/Team/Team";
 import IrecordsPage from "../../containers/IrecordsPage";
 import IusersPage from "../../containers/IusersPage";
 import Search from "../../containers/Search";
@@ -88,7 +89,8 @@ const App = ({ isLogged, setCaptchaToken }) => {
                 <Route exact path="/ifollowers" component={IfollowersiFollowing} />
                 <Route exact path="/ifollowing" component={IfollowersiFollowing} />
                 <Route path="/admin" component={Admin} />
-                <Route exact path="/terms" component={Terms} />
+                <Route exact path ="/terms" component={Terms} />
+                <Route exact path ="/team" component={Team} />
                 <Route>
                     <h1>La page n'existe pas</h1>
                 </Route>

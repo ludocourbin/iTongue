@@ -40,12 +40,19 @@
     }
 
     &-list {
-        margin: .5em;
-        max-height: 72vh;
-        overflow-y: scroll;
+        margin: 1em .5em;
+        height: 71vh;
+        overflow-y: auto;
     }
+
     &_container {
 
+    }
+
+    &_container--right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
     }
 
     &__user {

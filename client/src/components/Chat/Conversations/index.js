@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from '../../../containers/Layout';
 import './conversations.scss';
 import { Image, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 const Conversations = () => {
 
@@ -24,7 +25,9 @@ const Conversations = () => {
                             </div>
                         </div>
                     </div>
-                    <Icon name="send" size="big" className="conversation-sendicon"/>
+                    <Link to="/messages/conversation">
+                        <Icon name="send" size="big" className="conversation-sendicon"/>
+                    </Link>
                 </div>
             </div>
         </Layout>

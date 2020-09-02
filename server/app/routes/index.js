@@ -9,6 +9,7 @@ const translationRouter = require("./translation-routes");
 const adminRouter = require("./admin-routes");
 const recordRouter = require("./record-routes");
 const searchRouter = require("./search-routes");
+const commentRouter = require("./comment-routes");
 
 const notFoundMiddleware = require("../middlewares/not-found-middleware");
 const errorMiddleware = require("../middlewares/error-middleware");
@@ -63,6 +64,8 @@ router.use("/expressions", expressionRouter);
 router.use("/translations", translationRouter);
 
 router.use("/records", recordRouter);
+
+router.use("/comments", commentRouter);
 
 router.use(notFoundMiddleware, errorMiddleware);
 

@@ -40,9 +40,17 @@ module.exports = {
         if (!validToken)
           return next({ statusCode: 403, displayMsg: "Le refresh token n'est plus valide" });
 
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        const payload = {
+          id: user.id,
+          email: user.email,
+          slug: user.slug,
+          isAdmin: user.is_admin
+        };
+
+        const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
           expiresIn: "20m"
         });
+
         res.json({ data: { accessToken } });
       } catch (err) {
         next(err);

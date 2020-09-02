@@ -13,31 +13,18 @@ export default (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
         case FETCH_IFOLLOWERS:
-            const { currentUser } = store.getState().user;
+            const { id } = store.getState().user.userSlugInfos;
 
             httpClient
                 .get(
                     {
-                        url: `/users/${currentUser.id}/followers`,
+                        url: `/users/${id}/followers`,
                     },
                     store
                 )
                 .then((res) => {
-                    console.log(res);
-
-                    /* Currently no followers so I'll use an object to fake it */
-                    //  store.dispatch(fetchIfollowersSuccess(res.data.data))
-
-                    store.dispatch(
-                        fetchIfollowersSuccess([
-                            {
-                                id: "6",
-                                firstname: "Sacha",
-                                lastname: "Zacaropoulos",
-                                slug: "sacha-zacaropoulos",
-                            },
-                        ])
-                    );
+                    // console.log(res);
+                    store.dispatch(fetchIfollowersSuccess(res.data.data));
                 })
                 .catch((_) => {
                     console.log("error");
@@ -48,7 +35,7 @@ export default (store) => (next) => (action) => {
             httpClient
                 .get(
                     {
-                        url: `/users/${store.getState().user.currentUser.id}/followed`,
+                        url: `/users/${store.getState().user.userSlugInfos.id}/followed`,
                     },
                     store
                 )

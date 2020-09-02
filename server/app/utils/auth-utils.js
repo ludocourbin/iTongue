@@ -12,7 +12,6 @@ const utils = {
       id: user.id,
       email: user.email,
       slug: user.slug,
-      avatarUrl: user.avatar_url,
       isAdmin: user.is_admin
     };
 

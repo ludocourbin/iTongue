@@ -2,40 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Dropdown, Input } from "semantic-ui-react";
 import "./userprofil.scss";
 
-const ProfilSearch = ({ records, setRecordsBySearch }) => {
-
-    const [inputSearch, setInputSearch] =useState({ search: '', lang: null });
-
-    const filterSearch = (search, langId) => {
-        const filteredRecords =
-            records &&
-            records.filter((record) => {
-                const regexp = new RegExp(search, "i");
-                return (
-                    (regexp.test(record.translation.text) ||
-                        regexp.test(record.englishTranslation.text)) &&
-                    (!langId || record.translation.language.id === langId)
-                );
-            });
-        return filteredRecords;
-    };
-
-    useEffect(() => {
-        if(inputSearch.search && !inputSearch.lang)  {
-            setRecordsBySearch(filterSearch(inputSearch.search));
-        } else if (inputSearch.search == "" && inputSearch.lang) {
-            setRecordsBySearch(filterSearch(inputSearch.search,inputSearch.lang));
-        } else if (inputSearch.search && inputSearch.lang) {
-            setRecordsBySearch(filterSearch(inputSearch.search,inputSearch.lang));
-        } else {
-            setRecordsBySearch(filterSearch(inputSearch.search));
-        }
-    }, [inputSearch, setRecordsBySearch]);
-
+const ProfilSearch = ({ records, inputSearch, setInputSearch }) => {
     const handdleChange = (e, data) => {
         setInputSearch({
             search: e.target.name === "search" ? e.target.value : inputSearch.search,
-            lang: data.name === "lang" ? data.value : inputSearch.lang
+            lang: data.name === "lang" ? data.value : inputSearch.lang,
         });
     };
 
@@ -56,9 +27,14 @@ const ProfilSearch = ({ records, setRecordsBySearch }) => {
             key: language.id,
             value: language.id,
             text: language.name,
-            flag: language.code,
+            image: `https://www.countryflags.io/${language.code}/flat/32.png`,
         };
     });
+
+    //     <Image
+    //     src={`https://www.countryflags.io/${traduction.flag}/flat/32.png`}
+    //     className="record_flag_image"
+    // />
 
     return (
         <div className="profil-search">

@@ -27,6 +27,8 @@ import {
     fetchFeedUserError,
 } from "../actions/feedActions";
 
+import { fetchFavoris, fetchLikes } from "../actions/likeAndFavorisActions";
+
 import { httpClient } from "../../utils";
 
 export const usersMiddleware = (store) => (next) => (action) => {
@@ -76,6 +78,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 modifylearnedLanguages,
                 password,
                 confirm,
+                followers,
+                followed,
                 ...editProfilData
             } = store.getState().user.editProfilData;
 
@@ -128,9 +132,13 @@ export const usersMiddleware = (store) => (next) => (action) => {
                     store
                 )
                 .then((res) => {
-                    console.log(res);
-                    store.dispatch(editProfilSuccess(finalData));
-                    console.log("finalData", finalData);
+                    store.dispatch(
+                        editProfilSuccess({
+                            editData: finalData,
+                            accessToken: res.data.data.accessToken,
+                            refreshToken: res.data.data.refreshToken,
+                        })
+                    );
 
                     if (res.status === 200) {
                         toast.info("Vos informations ont bien été enregistrées");
@@ -200,6 +208,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
                         ),
                         avatarUrl: `${profilData.avatarUrl}?v=${Date.now()}`,
                     };
+                    store.dispatch(fetchFavoris());
+                    store.dispatch(fetchLikes());
                     store.dispatch(checkUserSlugSuccess(profilUserData));
                 })
                 .catch((err) => {

@@ -1,0 +1,42 @@
+
+.message {
+    height: 78.65vh;
+    position: relative;
+    
+
+    .ui.fluid.input>input {
+        border: none!important;
+        border-radius: 0!important;
+    }
+
+    &-list {
+        margin: .5em;
+    }
+    &_container {
+
+    }
+
+    &__user {
+        display: flex;
+        align-items: center;
+    }
+
+    &-avatar {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+
+    &-name {
+        font-weight: 600;
+        font-size: 1em;
+    }
+
+}
+
+.send-message {
+    position: absolute!important;
+    bottom: 0;
+    width: 100%;
+}

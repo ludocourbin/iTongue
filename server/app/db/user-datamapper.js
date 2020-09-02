@@ -209,7 +209,24 @@ const dataMapper = {
     };
 
     const result = await client.query(query);
-    console.log(result);
+    return result.rows;
+  },
+
+  getLikes: async recordId => {
+    const query = {
+      text: 'SELECT * FROM "get_user_likes"($1)',
+      values: [recordId]
+    };
+    const result = await client.query(query);
+    return result.rows;
+  },
+
+  getBookmarks: async recordId => {
+    const query = {
+      text: 'SELECT * FROM "get_user_bookmarks"($1)',
+      values: [recordId]
+    };
+    const result = await client.query(query);
     return result.rows;
   }
 };

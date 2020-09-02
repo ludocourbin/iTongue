@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import Swipeout from "rc-swipeout";
 import "rc-swipeout/assets/index.css";
@@ -18,7 +18,6 @@ const Irecords = ({
     currentUser,
     deleteIrecord,
 }) => {
-
     if (isMobile && isLogged && currentUser.id === isUserRecord) {
         return (
             <Swipeout
@@ -32,15 +31,16 @@ const Irecords = ({
                 ]}
                 autoClose
                 style={{
-                    height:
+                    minHeight:
                         record.englishTranslation.language.code !==
                         record.translation.language.code
-                            ? "170px"
-                            : "120px",
+                            ? "200px"
+                            : "150px",
                     width: "100%",
                     marginBottom: "33px",
                     boxShadow: "0 1px 1px rgba(0, 0, 0, 0.1)",
                     borderRadius: "10px",
+                    overflow: "inherit",
                 }}
             >
                 <IrecordsComponent

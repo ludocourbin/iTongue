@@ -27,36 +27,62 @@ module.exports = io => {
   });
 
   io.on("connect", async socket => {
-    await storeSocket(socket.user.id, socket.id);
+    try {
+      await storeSocket(socket.user.id, socket.id);
+    } catch (err) {
+      socket.emit("serverError", err);
+      console.log(err);
+    }
 
-    socket.on("message", async ({ text, recipient_id }) => {
+    socket.on("message", async ({ authorName, authorAvatarUrl, text, recipientId }) => {
       messageDatamapper
         .insertOne({
           text,
           sender_id: socket.user.id,
-          recipient_id
+          recipient_id: recipientId
         })
         .catch(err => {
+          socket.emit("serverError", err);
           console.log(err);
         });
 
-      try {
-        io.to(await getSocket(recipient_id)).emit("message", { text, contactId: socket.user.id });
-      } catch (err) {
-        console.log(err);
+      if (socket.user.id != recipientId) {
+        try {
+          io.to(await getSocket(recipientId)).emit("message", {
+            authorId: socket.user.id,
+            authorName,
+            authorAvatarUrl,
+            text
+          });
+        } catch (err) {
+          socket.emit("serverError", err);
+          console.log(err);
+        }
+      } else {
+        socket.emit(
+          "serverError",
+          new Error("Un utilisateur ne peut être à la fois expéditeur et destinataire")
+        );
       }
     });
 
-    socket.on("typing", async ({ recipient_id }) => {
-      try {
-        io.to(await getSocket(recipient_id)).emit("typing", { contactId: socket.user.id });
-      } catch (err) {
-        console.log(err);
+    socket.on("typing", async ({ authorName, recipientId }) => {
+      if (socket.user.id != recipientId) {
+        try {
+          io.to(await getSocket(recipientId)).emit("typing", {
+            authorName,
+            authorId: socket.user.id
+          });
+        } catch (err) {
+          socket.emit("serverError", err);
+          console.log(err);
+        }
       }
     });
 
     socket.on("disconnect", () => {
       removeSocket(socket.user.id).catch(err => {
+        socket.emit("serverError", err);
         console.log(err);
       });
     });

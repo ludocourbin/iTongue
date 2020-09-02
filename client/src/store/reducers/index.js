@@ -11,6 +11,8 @@ import irecords from "./irecords";
 import languagesReducer from "./languagesReducer";
 import statisticsHomeReducer from "./statisticsHomeReducer";
 import ifollowersifollowing from "./ifollowersifollowingReducer";
+import team from './team';
+import likeAndFavorisReducer from "./likeAndFavorisReducer";
 
 export default combineReducers({
     settings,
@@ -21,4 +23,6 @@ export default combineReducers({
     statisticsRecuder,
     statisticsHomeReducer,
     ifollowersifollowing,
+    team,
+    likeAndFavorisReducer
 });

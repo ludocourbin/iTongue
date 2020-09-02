@@ -8,6 +8,7 @@ import authMiddleware from "./middlewares/authMiddleware";
 import expressionsMiddleware from "./middlewares/Admin/expressionsMiddleware";
 import statsHomeMiddleware from "./middlewares/statsHomeMiddleware";
 import ifollowersifollowingMiddleware from "./middlewares/ifollowersifollowingMiddleware";
+import likeAndFavorisMiddleware from "./middlewares/likeAndFavorisMiddleware";
 
 import { irecordsMiddleware } from "./middlewares/irecordsMiddleware";
 import { usersMiddleware } from "./middlewares/usersMiddleware";
@@ -18,7 +19,7 @@ import { followMiddleware } from "./middlewares/followMiddleware";
 // Configuration object for redux-persist
 const persistConfig = {
     key: "root",
-    whitelist: ["user", "loginAdminReducer"],
+    whitelist: ["user", "loginAdminReducer", "likeAndFavorisReducer"],
     storage, // define which storage to use
 };
 // "irecords"
@@ -34,7 +35,8 @@ const enhancers = composeEnhancers(
         statsMiddleware,
         statsHomeMiddleware,
         followMiddleware,
-        ifollowersifollowingMiddleware
+        ifollowersifollowingMiddleware,
+        likeAndFavorisMiddleware
     )
 );
 

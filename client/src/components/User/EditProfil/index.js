@@ -47,7 +47,7 @@ const EditProfil = props => {
   };
 
   return (
-    <Layout>
+    <Layout titlePage="Edit Profil">
       {currentUser.slug !== slug.slug && <Redirect to={`/user/${currentUser.slug}`} />}
       <ToastContainer autoClose={2000} />
       <div className="edit-profil">

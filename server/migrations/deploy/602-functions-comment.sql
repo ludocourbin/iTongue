@@ -2,16 +2,8 @@
 
 BEGIN;
 
-CREATE TYPE "comments_with_user" AS ("id" INT, "text" TEXT, "user" JSON, "createdAt" TIMESTAMPTZ);
-
-CREATE FUNCTION "get_comments"("recordId" INT, "limit" INT)
-RETURNS setof "comments_with_user"
-AS $$
-
-BEGIN
-
-  RETURN QUERY
-  SELECT "r"."id", "r"."text",
+CREATE VIEW "comments_with_user" AS
+  SELECT "r"."id", "r"."text", "r"."record_id" AS "recordId",
          json_build_object(
            'id', "u"."id", 
            'firstname', "u"."firstname", 
@@ -20,13 +12,7 @@ BEGIN
            'avatarUrl', "u"."avatar_url") AS "user",
          "r"."created_at" AS "createdAt"
             FROM "record_comment" "r" 
-            JOIN "user" "u" ON "u"."id" = "r"."user_id"
-          WHERE "record_id" = $1
-        ORDER BY "r"."created_at" DESC
-           LIMIT $2;
-
-END
-
-$$ LANGUAGE plpgsql STABLE;
+       LEFT JOIN "user" "u" ON "u"."id" = "r"."user_id"
+        ORDER BY "r"."created_at" ASC;
 
 COMMIT;

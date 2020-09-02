@@ -50,7 +50,7 @@ const Login = ({
     };
 
     return (
-        <Layout>
+        <Layout titlePage="Login">
             <Container>
                 {loading && <ToastContainer autoClose={2000} />}
                 <Form className="login-form" onSubmit={handleSubmit}>

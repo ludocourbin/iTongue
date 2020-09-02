@@ -28,7 +28,7 @@ const Home = ({
         fetchBestIrecords();
     }, [fetchBestUsers, fetchBestTranslations, fetchBestIrecords]);
     return (
-        <Layout>
+        <Layout titlePage='Home'>
             <ToastContainer autoClose={2000} />
             <Carousel />
             <Container className="homePage">

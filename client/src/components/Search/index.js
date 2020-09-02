@@ -104,7 +104,7 @@ const Search = (props) => {
     ];
 
     return (
-        <Layout>
+        <Layout titlePage="Search">
             <>
                 <div className="search-input">
                     <Input

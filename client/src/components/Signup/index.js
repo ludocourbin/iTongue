@@ -97,7 +97,7 @@ const Signup = ({
     };
 
     return (
-        <Layout>
+        <Layout titlePage="Signup">
             <Container>
                 <Form onSubmit={handleSubmit} size="large" className="signup">
                     <h3 className="signup-title">Inscription</h3>

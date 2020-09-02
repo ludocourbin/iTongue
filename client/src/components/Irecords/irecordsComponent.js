@@ -4,6 +4,7 @@ import { isMobile } from "react-device-detect";
 import AudioPlayer from "../../containers/Audio";
 import HeaderIrecord from "./headerIrecord";
 import { useParams } from "react-router-dom";
+import Comments from "../../containers/Comments";
 
 const Irecord = ({
     record,
@@ -71,7 +72,7 @@ const Irecord = ({
                 {!isMobile && isLogged && currentUser.id === isUserRecord && (
                     <HeaderIrecord user={user}>
                         <Icon
-                            onClick={() => deleteIrecord(record.id)}
+                            onClick={() => setOpen(true)}
                             className="header-irecords__copy-delete"
                             name="trash alternate outline"
                         />
@@ -126,6 +127,7 @@ const Irecord = ({
                     )}
                 </div>
                 <AudioPlayer audio={record} />
+                <Comments user={user} record={record} />
             </Card>
         </div>
     );

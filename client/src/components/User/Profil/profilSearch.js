@@ -3,11 +3,10 @@ import { Dropdown, Input } from "semantic-ui-react";
 import "./userprofil.scss";
 
 const ProfilSearch = ({ records, inputSearch, setInputSearch }) => {
-
     const handdleChange = (e, data) => {
         setInputSearch({
             search: e.target.name === "search" ? e.target.value : inputSearch.search,
-            lang: data.name === "lang" ? data.value : inputSearch.lang
+            lang: data.name === "lang" ? data.value : inputSearch.lang,
         });
     };
 
@@ -28,9 +27,14 @@ const ProfilSearch = ({ records, inputSearch, setInputSearch }) => {
             key: language.id,
             value: language.id,
             text: language.name,
-            flag: language.code,
+            image: `https://www.countryflags.io/${language.code}/flat/32.png`,
         };
     });
+
+    //     <Image
+    //     src={`https://www.countryflags.io/${traduction.flag}/flat/32.png`}
+    //     className="record_flag_image"
+    // />
 
     return (
         <div className="profil-search">

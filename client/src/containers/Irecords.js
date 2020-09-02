@@ -10,6 +10,8 @@ import {
     deleteIrecord,
 } from "../store/actions/irecordsActions";
 
+import { fetchFavoris, fetchLikes } from "../store/actions/likeAndFavorisActions";
+
 const mapStateToProps = (state) => ({
     irecordSelectedId: state.irecords.irecordSelectedId,
     isRecording: state.irecords.isRecording,
@@ -32,6 +34,12 @@ const mapDispatchToProps = (dispatch) => ({
     },
     deleteIrecord: (id) => {
         dispatch(deleteIrecord(id));
+    },
+    fetchFavoris: () => {
+        dispatch(fetchFavoris());
+    },
+    fetchLikes: () => {
+        dispatch(fetchLikes());
     },
 });
 

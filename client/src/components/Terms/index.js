@@ -18,7 +18,7 @@ export default class Terms extends Component {
     const { activeIndex } = this.state
 
     return (
-        <Layout>
+        <Layout titlePage="Terms">
             <Header as='h4' block className="titleTerms">
                 Merci de lire attentivement les présentes modalités d'utilisation du présent site avant de le parcourir. <br />
                 En vous connectant sur ce site, vous acceptez sans réserve les présentes modalités.
@@ -34,11 +34,11 @@ export default class Terms extends Component {
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === 0}>
                 <p>
-                Le site accessible par les url suivants : www.itongue.io est exploité dans le respect de la législation française.
-                L'utilisation de ce site est régie par les présentes conditions générales.
-                En utilisant le site, vous reconnaissez avoir pris connaissance de ces conditions et les avoir acceptées. 
-                Celles-ci pourront êtres modifiées à tout moment et sans préavis par la société iTongue.
-                iTongue ne saurait être tenu pour responsable en aucune manière d’une mauvaise utilisation du service. 
+                  Le site accessible par les url suivants : www.itongue.io est exploité dans le respect de la législation française.
+                  L'utilisation de ce site est régie par les présentes conditions générales.
+                  En utilisant le site, vous reconnaissez avoir pris connaissance de ces conditions et les avoir acceptées. 
+                  Celles-ci pourront êtres modifiées à tout moment et sans préavis par la société iTongue.
+                  iTongue ne saurait être tenu pour responsable en aucune manière d’une mauvaise utilisation du service. 
                 </p>
                 </Accordion.Content>
 
@@ -87,7 +87,7 @@ export default class Terms extends Component {
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === 3}>
                 <p>
-                Vos données personnelles sont confidentielles et ne seront en aucun cas communiquées à des tiers hormis pour la bonne exécution de la prestation.
+                  Vos données personnelles sont confidentielles et ne seront en aucun cas communiquées à des tiers hormis pour la bonne exécution de la prestation.
                 </p>
                 </Accordion.Content>
 
@@ -101,8 +101,9 @@ export default class Terms extends Component {
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === 4}>
                 <p>
-                Pour des besoins de statistiques et d'affichage, le présent site utilise des cookies. Il s'agit de petits fichiers textes stockés sur votre disque dur afin d'enregistrer des données techniques sur votre navigation. 
-                Certaines parties de ce site ne peuvent être fonctionnelle sans l’acceptation de cookies.
+                  Pour des besoins de statistiques et d'affichage, le présent site utilise des cookies. 
+                  Il s'agit de petits fichiers textes stockés sur votre disque dur afin d'enregistrer des données techniques sur votre navigation. 
+                  Certaines parties de ce site ne peuvent être fonctionnelle sans l’acceptation de cookies.
                 </p>
                 </Accordion.Content>
             </Accordion>

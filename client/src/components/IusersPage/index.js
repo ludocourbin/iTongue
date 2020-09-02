@@ -19,7 +19,7 @@ const IusersPage = (props) => {
     }, [fetchAllUsers]);
 
     return (
-        <Layout>
+        <Layout titlePage="iUsers">
             <div className="usersPage">
                 <Header
                     size="small"

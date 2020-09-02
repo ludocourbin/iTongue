@@ -63,6 +63,10 @@ import {
     FETCH_FEED_USER_ERROR,
 } from "../actions/feedActions";
 
+import {
+    SET_COUNT_COMMENT
+} from '../actions/commentActions';
+
 const initialState = {
     currentUser: {},
     isLogged: false,
@@ -79,8 +83,8 @@ const initialState = {
         confirm: "",
     },
     loginData: {
-        email: "",
-        password: "",
+        email: "gautier.colasse@gmail.com",
+        password: "123456",
         stayConnected: true,
     },
     loginErrorMessage: "",
@@ -507,6 +511,15 @@ export default (state = initialState, action = {}) => {
                 feedUserError: "Erreur à la récupération du feed",
             };
 
+        case SET_COUNT_COMMENT:
+            return {
+                ...state,
+                userSlugInfos: {
+                    ...state.userSlugInfos,
+                    records: [...action.payload.userSlugInfos],
+                },
+                feedUser: action.payload.feedUser,
+            };
         default:
             return state;
     }

@@ -27,6 +27,8 @@ import {
     fetchFeedUserError,
 } from "../actions/feedActions";
 
+import { fetchFavoris, fetchLikes } from "../actions/likeAndFavorisActions";
+
 import { httpClient } from "../../utils";
 
 export const usersMiddleware = (store) => (next) => (action) => {
@@ -76,8 +78,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 modifylearnedLanguages,
                 password,
                 confirm,
-                followerCount,
-                followedCount,
+                followers,
+                followed,
                 ...editProfilData
             } = store.getState().user.editProfilData;
 
@@ -130,11 +132,13 @@ export const usersMiddleware = (store) => (next) => (action) => {
                     store
                 )
                 .then((res) => {
-                    store.dispatch(editProfilSuccess({
-                        editData: finalData,
-                        accessToken: res.data.data.accessToken,
-                        refreshToken: res.data.data.refreshToken,
-                    }));
+                    store.dispatch(
+                        editProfilSuccess({
+                            editData: finalData,
+                            accessToken: res.data.data.accessToken,
+                            refreshToken: res.data.data.refreshToken,
+                        })
+                    );
 
                     if (res.status === 200) {
                         toast.info("Vos informations ont bien été enregistrées");
@@ -188,6 +192,7 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 return map;
             };
 
+            console.log("action.payload: ", action.payload);
             httpClient
                 .get({
                     url: `/users/${action.payload}`,
@@ -204,6 +209,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
                         ),
                         avatarUrl: `${profilData.avatarUrl}?v=${Date.now()}`,
                     };
+                    store.dispatch(fetchFavoris());
+                    store.dispatch(fetchLikes());
                     store.dispatch(checkUserSlugSuccess(profilUserData));
                 })
                 .catch((err) => {

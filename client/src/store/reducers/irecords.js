@@ -9,13 +9,31 @@ import {
     FETCH_ALL_RECORDS_SUCCESS,
     FETCH_ALL_RECORDS_ERROR,
     SET_TRANSLATION_ID,
-    FETCH_EXPRESSIONS,
-    FETCH_EXPRESSIONS_ERROR,
-    FETCH_EXPRESSIONS_SUCCESS,
+    FETCH_EXPRESSIONS_USER,
+    FETCH_EXPRESSIONS_ERROR_USER,
+    FETCH_EXPRESSIONS_SUCCESS_USER,
     DELETE_IRECORD,
     DELETE_IRECORD_SUCCESS_IRECORDS_PAGE,
     DELETE_IRECORD_ERROR,
 } from "../actions/irecordsActions";
+
+import {
+    COMMENT_SUBMIT,
+    COMMENT_SUBMIT_SUCCESS,
+    COMMENT_SUBMIT_ERROR,
+    COMMENT_INPUT,
+    DELETE_COMMENT,
+    DELETE_COMMENT_SUCCESS,
+    DELETE_COMMENT_ERROR,
+    UPDATE_COMMENT,
+    UPDATE_COMMENT_SUCCESS,
+    UPDATE_COMMENT_ERROR,
+    FETCH_COMMENTS_BY_RECORD,
+    FETCH_COMMENTS_BY_RECORD_SUCCESS,
+    FETCH_COMMENTS_BY_RECORD_ERROR,
+    SET_RECORD_ID_COMMENT,
+    UPDATE_COMMENT_INPUT,
+} from '../actions/commentActions';
 
 const initialState = {
     irecordSelectedId: null,
@@ -31,6 +49,12 @@ const initialState = {
     errorFetchingExpressions: null,
     irecordDeletedMessage: "",
     irecordDeletedError: "",
+
+    commentInputValue: "",
+    commentSubmitLoading: false,
+    commentsList: [],
+    commentEditInputValue: "",
+    iRecordCommentIdSelect: 0,
 };
 
 export default (state = initialState, action = {}) => {
@@ -89,21 +113,21 @@ export default (state = initialState, action = {}) => {
                 isLoadingAllRecords: false,
                 recordsListError: action.payload,
             };
-        case FETCH_EXPRESSIONS:
+        case FETCH_EXPRESSIONS_USER:
             return {
                 ...state,
                 errorFetchingExpressions: null,
                 allExpressions: [],
                 isLoadingExpressions: true,
             };
-        case FETCH_EXPRESSIONS_SUCCESS:
+        case FETCH_EXPRESSIONS_SUCCESS_USER:
             return {
                 ...state,
                 isLoadingExpressions: false,
                 allExpressions: [...action.payload],
                 errorFetchingExpressions: null,
             };
-        case FETCH_EXPRESSIONS_ERROR:
+        case FETCH_EXPRESSIONS_ERROR_USER:
             return {
                 ...state,
                 allExpressions: [],
@@ -131,7 +155,83 @@ export default (state = initialState, action = {}) => {
                 irecordDeletedMessage: "",
                 irecordDeletedError: "Problème lors de la suppression",
             };
+        case COMMENT_SUBMIT:
+            return {
+                ...state,
+                commentSubmitLoading: true,
+            };
+        case COMMENT_SUBMIT_SUCCESS:
+            return {
+                ...state,
+                commentInputValue: "",
+                commentSubmitLoading: false,
+                commentsList: [
+                    ...state.commentsList,
+                    ...action.payload.commentsList
+                ],
+                allRecordsList: action.payload.allRecordsList,
+            };
+        case COMMENT_SUBMIT_ERROR:
+            return {
+                ...state,
+                commentSubmitLoading: false,
+            };
+        case COMMENT_INPUT:
+            return {
+                ...state,
+                commentInputValue: action.payload,
+            };
+        case DELETE_COMMENT:
+            return {
+                ...state,
+            };
+        case DELETE_COMMENT_SUCCESS:
+            return {
+                ...state,
+                commentsList: [...action.payload.deleteComment],
+                allRecordsList: action.payload.allRecordsList,
+            };
+        case DELETE_COMMENT_ERROR:
+            return {
+                ...state,
+            };
+        case UPDATE_COMMENT:
+            return {
+                ...state,
+            };
+        case UPDATE_COMMENT_SUCCESS:
+            return {
+                ...state,
+                commentsList: action.payload,
+            };
+        case UPDATE_COMMENT_ERROR:
+            return {
+                ...state,
+            };
+        case UPDATE_COMMENT_INPUT:
+            return {
+                ...state,
+                commentEditInputValue: action.payload,
+            };
+        case FETCH_COMMENTS_BY_RECORD:
+            return {
+                ...state,
+            };
+        case FETCH_COMMENTS_BY_RECORD_SUCCESS:
+            return {
+                ...state,
+                commentsList: action.payload,
+            };
+        case FETCH_COMMENTS_BY_RECORD_ERROR:
+            return {
+                ...state,
+            };
+        case SET_RECORD_ID_COMMENT:
+            return {
+                ...state,
+                iRecordCommentIdSelect: action.payload,
+            };
         default:
             return state;
-    }
+    };
 };

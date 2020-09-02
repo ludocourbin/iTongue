@@ -8,15 +8,15 @@ const router = express.Router();
  * @swagger
  * /best/users/{limit}:
  *  get:
- *      tags: 
+ *      tags:
  *        - Highlights
  *      summary: Users with more records
  *      description:
- *        Get users with more iRecords, limiting results by passing INTEGER in path
+ *        Get users with more iRecords, limiting results by passing INTEGER in query
  *      parameters:
  *        - name: limit
  *          description: number of results
- *          in: path
+ *          in: query
  *          type: integer
  *          required: true
  *          example: 3
@@ -36,15 +36,15 @@ router.get("/users/:limit(\\d+)", highlightsController.getBestUsers);
  * @swagger
  * /best/translations/{limit}:
  *  get:
- *      tags: 
+ *      tags:
  *        - Highlights
  *      summary: Translations with more records
  *      description:
- *        Get translations with more iRecords, limiting results by passing INTEGER in path
+ *        Get translations with more iRecords, limiting results by passing INTEGER in query
  *      parameters:
  *        - name: limit
  *          description: number of results
- *          in: path
+ *          in: query
  *          type: integer
  *          required: true
  *          example: 4
@@ -64,15 +64,15 @@ router.get("/translations/:limit(\\d+)", highlightsController.getBestTranslation
  * @swagger
  * /best/lastirecords/{limit}:
  *  get:
- *      tags: 
+ *      tags:
  *        - Highlights
  *      summary: Last iRecords
  *      description:
- *        Get last iRecords, limiting results by passing INTEGER in path
+ *        Get last iRecords, limiting results by passing INTEGER in query
  *      parameters:
  *        - name: limit
  *          description: number of results
- *          in: path
+ *          in: query
  *          type: integer
  *          required: true
  *          example: 4
@@ -86,6 +86,6 @@ router.get("/translations/:limit(\\d+)", highlightsController.getBestTranslation
  *          '404':
  *              description: Not Found
  */
-router.get("/lastirecords/:limit(\\d+)", highlightsController.getLastiRecords);
+router.get("/lastirecords/", highlightsController.getLastiRecords);
 
 module.exports = router;

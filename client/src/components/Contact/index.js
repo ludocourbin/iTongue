@@ -87,7 +87,7 @@ const Contact = () => {
     };
 
     return (
-        <Layout>
+        <Layout titlePage='Contact'>
             <FAQ />
             <div className="contactForm">
                 <Form onSubmit={handleSubmit}>

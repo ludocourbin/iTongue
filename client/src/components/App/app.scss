@@ -2,9 +2,11 @@
 
 body {
     color: $primary-text-color;
-    overflow-x: hidden !important;
+    //overflow-x: hidden !important;
     // background-color: $background-color;
     background-color: #f5f4f4;
+    overflow-y: scroll;
+    height: 100vh!important;
 }
 
 ::-webkit-scrollbar {

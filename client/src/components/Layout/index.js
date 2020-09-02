@@ -45,7 +45,7 @@ const LayoutHeader = ({
 
     return (
         <div className="main-header">
-            <Sidebar.Pushable as={Segment}>
+            <Sidebar.Pushable>
                 <Sidebar
                     as={Menu}
                     animation="overlay"
@@ -128,7 +128,10 @@ const LayoutHeader = ({
                             traductionId={traductionId}
                         />
                     ) : null}
-                    {isLogged ? (
+
+                </Sidebar.Pusher>
+            </Sidebar.Pushable>
+            {isLogged ? (
                         <NavigationBottom
                             toggleRecording={toggleRecording}
                             selectIrecordToRecord={selectIrecordToRecord}
@@ -136,8 +139,6 @@ const LayoutHeader = ({
                             isRecording={isRecording}
                         />
                     ) : null}
-                </Sidebar.Pusher>
-            </Sidebar.Pushable>
         </div>
     );
 };

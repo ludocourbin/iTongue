@@ -22,7 +22,7 @@ body {
 }
 
 .main-content.user {
-    height: calc(100vh - 108px);
+    //height: calc(100vh - 108px);
     padding-top: 54px;
     background-color: #f5f4f4;
 }
@@ -86,12 +86,13 @@ body {
     .pushable>.pusher {
         overflow: auto!important;
         position: inherit!important;
-        
     }
 }
 
 .pushable {
-    height: 94vh!important;
+    //height: 94vh!important;
+    height: 100vh !important;
+    padding: 0 0 2em 0 !important;
 }
 .ui.visible.right.overlay.sidebar {
     margin-top: 57px!important;

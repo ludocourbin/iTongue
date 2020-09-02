@@ -39,8 +39,8 @@ const LayoutHeader = ({
         setVisible(!visible);
         logout();
     };
-    const classMain = "main-content";
-    const classUser = isLogged ? " user" : "";
+    const classMain = "main-content user";
+    //const classUser = isLogged ? " user" : "";
     const classRecording = isRecording ? " modalRecording" : "";
 
     console.log("visible", visible);
@@ -112,7 +112,7 @@ const LayoutHeader = ({
                         visible={visible}
                         setVisible={setVisible}
                     />
-                    <div className={classMain + classRecording + classUser}>
+                    <div className={classMain + classRecording /*+ classUser */}>
                         {props.children}
                     </div>
                 </Sidebar.Pusher>

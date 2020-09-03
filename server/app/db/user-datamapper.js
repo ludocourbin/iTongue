@@ -64,12 +64,12 @@ const dataMapper = {
     }, 'UPDATE "user" SET');
 
     const query = {
-      text: update + ` WHERE "id" = $${fields.length + 1}`,
+      text: update + ` WHERE "id" = $${fields.length + 1} RETURNING *`,
       values: [...Object.values(updates), id]
     };
 
     const result = await client.query(query);
-    return result.rowCount;
+    return result.rows[0];
   },
 
   deleteOne: async id => {

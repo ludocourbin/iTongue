@@ -11,17 +11,22 @@ const utils = {
     const payload = {
       id: user.id,
       email: user.email,
-      slug: user.slug,
       isAdmin: user.is_admin
     };
 
     const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "20m"
     });
+
+    const oldRefreshToken = await getRefreshToken(user);
+    if (oldRefreshToken) {
+      const oldUser = await verifyToken(oldRefreshToken, "refresh");
+      if (oldUser && !["id", "email", "slug", "isAdmin"].some(key => oldUser[key] !== user[key]))
+        return [accessToken, oldRefreshToken];
+    }
+
     const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
-
     await storeRefreshToken(user, refreshToken);
-
     return [accessToken, refreshToken];
   },
 
@@ -104,9 +109,18 @@ function verifyToken(token, type) {
 
 function storeRefreshToken(user, token) {
   return new Promise((resolve, reject) => {
-    redis.client.hmset(redis.prefix + "refresh_tokens", user.id, token, (err, result) => {
+    redis.client.hset(redis.prefix + "refresh_tokens", user.id, token, (err, result) => {
       if (err) return reject(err);
       resolve(result);
+    });
+  });
+}
+
+function getRefreshToken(user) {
+  return new Promise((resolve, reject) => {
+    redis.client.hget(redis.prefix + "refresh_tokens", user.id, (err, token) => {
+      if (err) return reject(err);
+      resolve(token);
     });
   });
 }

@@ -304,14 +304,15 @@ module.exports = {
       if (user.password) {
         user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
       }
-      await userDatamapper.update(user);
+      const updatedUser = await userDatamapper.update(user);
+      if (!updatedUser) return next();
 
       if (!req.user.isAdmin) {
         const oldAccessToken = authUtils.getAccessToken(req);
         await authUtils.invalidateAccessToken(oldAccessToken);
       }
 
-      const [accessToken, refreshToken] = await authUtils.getNewTokenPair(user);
+      const [accessToken, refreshToken] = await authUtils.getNewTokenPair(updatedUser);
 
       res.json({ data: { accessToken, refreshToken } });
     } catch (err) {

@@ -43,7 +43,6 @@ module.exports = {
         const payload = {
           id: user.id,
           email: user.email,
-          slug: user.slug,
           isAdmin: user.isAdmin
         };
 

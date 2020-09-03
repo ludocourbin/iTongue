@@ -44,7 +44,7 @@ module.exports = {
           id: user.id,
           email: user.email,
           slug: user.slug,
-          isAdmin: user.is_admin
+          isAdmin: user.isAdmin
         };
 
         const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {

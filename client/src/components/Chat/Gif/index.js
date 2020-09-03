@@ -5,15 +5,11 @@ import {
   SearchContext, // the context that wraps and connects our components
   SearchContextManager, // the context manager, includes the Context.Provider
 } from '@giphy/react-components';
-import { GiphyFetch } from "@giphy/js-fetch-api";
 import ResizeObserver from "react-resize-observer";
 import './gifComponent.scss';
 
-const giphyFetch = new GiphyFetch("qq2ZufYOdbmXgxdryZnzJQYqeA3GdQd4");
-
 const GifComponennt = ({ handleGifSelect}) => (
-  <SearchContextManager initialTerm='travel' apiKey="qq2ZufYOdbmXgxdryZnzJQYqeA3GdQd4">
-      {/* process.env.REACT_APP_API_GIPHY */}
+  <SearchContextManager initialTerm='travel' apiKey={process.env.REACT_APP_API_GIPHY}>
     <Components  handleGifSelect={handleGifSelect} />
   </SearchContextManager>
 )

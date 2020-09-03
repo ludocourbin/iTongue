@@ -34,46 +34,50 @@ module.exports = io => {
       console.log(err);
     }
 
-    socket.on("message", async ({ authorName, authorAvatarUrl, text, recipientId }) => {
-      messageDatamapper
-        .insertOne({
-          text,
-          sender_id: socket.user.id,
-          recipient_id: recipientId
-        })
-        .catch(err => {
-          socket.emit("serverError", err);
-          console.log(err);
-        });
+    socket.on(
+      "message",
+      async ({ authorFirstname, authorLastname, authorAvatarUrl, text, recipientId }) => {
+        messageDatamapper
+          .insertOne({
+            text,
+            sender_id: socket.user.id,
+            recipient_id: recipientId
+          })
+          .catch(err => {
+            socket.emit("serverError", err);
+            console.log(err);
+          });
 
-      if (socket.user.id != recipientId) {
-        try {
-          const recipientSocketIds = await getSockets(recipientId);
-          const userSocketIds = (await getSockets(socket.user.id)).filter(
-            socketId => socketId != socket.id
-          );
+        if (socket.user.id != recipientId) {
+          try {
+            const recipientSocketIds = await getSockets(recipientId);
+            const userSocketIds = (await getSockets(socket.user.id)).filter(
+              socketId => socketId != socket.id
+            );
 
-          for (const socketId of [...recipientSocketIds, ...userSocketIds]) {
-            io.to(socketId).emit("message", {
-              authorId: socket.user.id,
-              authorName,
-              authorAvatarUrl,
-              text
-            });
+            for (const socketId of [...recipientSocketIds, ...userSocketIds]) {
+              io.to(socketId).emit("message", {
+                authorId: socket.user.id,
+                authorFirstname,
+                authorLastname,
+                authorAvatarUrl,
+                text
+              });
+            }
+          } catch (err) {
+            socket.emit("serverError", err);
+            console.log(err);
           }
-        } catch (err) {
-          socket.emit("serverError", err);
-          console.log(err);
+        } else {
+          socket.emit(
+            "serverError",
+            new Error("Un utilisateur ne peut être à la fois expéditeur et destinataire")
+          );
         }
-      } else {
-        socket.emit(
-          "serverError",
-          new Error("Un utilisateur ne peut être à la fois expéditeur et destinataire")
-        );
       }
-    });
+    );
 
-    socket.on("typing", async ({ authorName, recipientId }) => {
+    socket.on("typing", async ({ authorFirstname, authorLastname, recipientId }) => {
       if (socket.user.id != recipientId) {
         try {
           const recipientSocketIds = await getSockets(recipientId);
@@ -83,7 +87,8 @@ module.exports = io => {
 
           for (const socketId of [...recipientSocketIds, ...userSocketIds]) {
             io.to(socketId).emit("typing", {
-              authorName,
+              authorFirstname,
+              authorLastname,
               authorId: socket.user.id
             });
           }

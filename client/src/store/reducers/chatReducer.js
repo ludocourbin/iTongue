@@ -8,13 +8,20 @@ import {
     FETCH_ALL_MESSAGES_ERROR,
     SET_MESSAGE_IN_ALL_MESSAGES,
     SET_USER_IS_TYPING,
+    EMPTY_ALL_THREADS,
+    EMPTY_ALL_MESSAGES,
+    UPDATE_UNREAD_COUNT,
+    UPDATE_ALL_THREADS_MESSAGES,
 } from "../actions/chatActions";
 
 const initialState = {
     socketRecipient: {},
     allThreads: [],
-    allMessages: {},
+    allMessages: {
+        messages: []
+    },
     userTyping: {},
+    unreadCount: 0,
 };
 export default (state = initialState, action = {}) => {
     switch (action.type) {
@@ -50,7 +57,9 @@ export default (state = initialState, action = {}) => {
         case FETCH_ALL_MESSAGES_ERROR: 
             return {
                 ...state,
-                allMessages: {},
+                allMessages: {
+                    messages: []
+                },
             };
         case SET_MESSAGE_IN_ALL_MESSAGES: 
             return {
@@ -59,15 +68,41 @@ export default (state = initialState, action = {}) => {
                     ...state.allMessages,
                     messages: [
                         ...state.allMessages.messages,
-                        {...action.payload},
-                    ],
+                        {...action.payload}
+                    ]
+                },
+            }; 
+        case EMPTY_ALL_THREADS: {
+             return {
+                 ...state,
+                 allThreads: [],
+             }
+        }
+
+        case EMPTY_ALL_MESSAGES : {
+            return {
+                ...state,
+                allMessages: {
+                    messages: []
                 },
             };
+        };
         case SET_USER_IS_TYPING:
             return {
                 ...state,
                 userTyping: {...action.payload}
             }
+        case UPDATE_UNREAD_COUNT:
+            return {
+                ...state,
+                unreadCount: action.payload,
+            };
+        case UPDATE_ALL_THREADS_MESSAGES:
+            return {
+                ...state,
+                allThreads: [...action.payload]
+            };
+
         default:
             return state;
     };

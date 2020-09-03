@@ -23,7 +23,7 @@ const IusersPage = (props) => {
             <div className="usersPage">
                 <Header
                     size="small"
-                    content="Les derniers utilisateurs"
+                    content="Lastests iUsers"
                     className="title"
                 />
                 <div className="users-list">

@@ -29,7 +29,7 @@ const Team = ({
     }
 
     return (
-        <Layout>
+        <Layout titlePage="Team">
             { pyroVisible && 
                 <div className="pyro">
                     <div className="before"></div>

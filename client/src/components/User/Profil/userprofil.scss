@@ -70,7 +70,7 @@
                 .icon-settings {
                     //margin-left: 1.5em;
                 }
-*/
+                */
             }
 
             &__second-row {
@@ -178,6 +178,10 @@
         margin: 0 auto;
     }
 
+    .ui.icon.input  {
+        width: 70%;
+    }
+
     .ui.icon.input > input {
         border-radius: 0 !important;
         border: none !important;
@@ -187,16 +191,17 @@
     .ui.selection.dropdown {
         min-width: 10em;
         border: none;
+        width: 30%;
         //box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2) !important;
     }
 
     .ui.image {
         display: block;
-        padding: 0.3em;
+        //padding: 0.3em;
         background-color: #ffffff;
-        margin-right: 0.3em;
-        max-width: 35px;
-        max-height: 35px;
+        //margin-right: 0.3em;
+        max-width: 25px;
+        max-height: 25px;
         border-radius: 50%;
     }
 }

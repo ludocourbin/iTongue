@@ -10,9 +10,9 @@ const Favoris = ({ favorisUser, fetchFavoris }) => {
         fetchFavoris();
     }, [fetchFavoris]);
     return (
-        <Layout>
+        <Layout titlePage="Bookmarks">
             <div className="feed">
-                <Header size="small" content="Vos Favoris" className="feed-title" />
+                <Header size="small" content="Bookmarks" className="feed-title" />
 
                 <div className="feed-list">
                     {favorisUser.length > 0 ? (

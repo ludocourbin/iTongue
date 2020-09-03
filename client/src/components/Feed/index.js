@@ -18,7 +18,7 @@ const Feed = ({ fetchFeedUser, feedUser }) => {
     return (
         <Layout titlePage='Feed'>
             <div className="feed">
-                <Header size="small" content="Fil d'actualités" className="feed-title" />
+                <Header size="small" content="Feed" className="feed-title" />
                 <div className="feed-list">
                     {feedUser &&
                         feedUser.map((record) => (

@@ -159,7 +159,7 @@ const Comments = (props) => {
                             </div>
                             <div className="social-comment_containerRight">
                                 <div className="social-comment_wrapper">
-                                    <div className="social-comment_name">{comment.user.firstname} {comment.user.lastname} {currentUser.isAdmin && <Icon name="check circle" />}</div>
+                                    <div className="social-comment_name">{comment.user.firstname} {comment.user.lastname} {comment.user.isAdmin && <Icon name="check circle" />}</div>
                                     <div className="social-comment_date">{moment(comment.createdAt).fromNow()}</div>
                                 </div>
                                 <div className="social-comment_text">

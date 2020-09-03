@@ -1,7 +1,7 @@
 @import '../../../styles/vars';
 
 .message {
-    height: 76.2vh;
+    //height: 76.2vh;
     position: relative;
 
     .ui.fluid.input>input {
@@ -40,8 +40,13 @@
     }
 
     &-list {
-        margin: 1em .5em 2.8em .5em;
-        height: 71.5vh;
+        margin: 1em .5em .5em .5em;
+        height: 68.7vh;
+        /*
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        */
         overflow-y: auto;
         scroll-behavior: smooth;
         position: relative;
@@ -108,9 +113,9 @@
     &-date {
         position: absolute;
         bottom: 0px;
-        right: 1em;
+        left: 2em;
         font-size: .6em;
-        font-weight: 600;
+        // font-weight: 600;
     }
 
     &-text {
@@ -120,8 +125,9 @@
     &-date--right {
         position: absolute;
         bottom: 0px;
+        right: 2em;
         font-size: .6em;
-        font-weight: 600;
+        // font-weight: 600;
     }
 
     &-text--right {
@@ -129,15 +135,101 @@
     }
 
     &-typing {
-        position: absolute;
-        bottom: 39px;
-        left: 8px;
+        margin-left: .3em;
+        margin-bottom: .3em;
+        display: flex;
+        justify-content: space-evenly;
+        align-content: flex-start;
+        align-items: baseline;
+        width: 100px;
+        font-size: .8em;
     }
-
 }
 
 .send-message {
+    /*
     position: absolute!important;
     bottom: 0;
+    */
     width: 100%;
+}
+
+.typing-loader_wrapper{
+    width: 10px;
+    display: block;
+}
+
+.typing-loader{
+    
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    position: relative;
+    padding: 3px;
+    -webkit-animation: line 1s linear infinite alternate;
+   -moz-animation: line 1s linear infinite alternate;
+   animation: line 1s linear infinite alternate;
+}
+
+@-webkit-keyframes line{
+    0%{
+       
+        background-color: rgba(0,0,0, 1);
+        box-shadow: 12px 0px 0px 0px rgba(0,0,0,0.2), 
+                    24px 0px 0px 0px rgba(0,0,0,0.2);
+                    
+      }
+    25%{ 
+            background-color: rgba(0,0,0, 0.4);
+            box-shadow: 12px 0px 0px 0px rgba(0,0,0,2), 
+                    24px 0px 0px 0px rgba(0,0,0,0.2);
+                    
+    }
+    75%{ background-color: rgba(0,0,0, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(0,0,0,0.2), 
+                    24px 0px 0px 0px rgba(0,0,0,2);
+                   
+      }
+}
+
+@-moz-keyframes line{
+    0%{
+       
+        background-color: rgba(0,0,0, 1);
+        box-shadow: 12px 0px 0px 0px rgba(0,0,0,0.2), 
+                    24px 0px 0px 0px rgba(0,0,0,0.2);
+                    
+      }
+    25%{ 
+            background-color: rgba(0,0,0, 0.4);
+            box-shadow: 12px 0px 0px 0px rgba(0,0,0,2), 
+                    24px 0px 0px 0px rgba(0,0,0,0.2);
+                    
+    }
+    75%{ background-color: rgba(0,0,0, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(0,0,0,0.2), 
+                    24px 0px 0px 0px rgba(0,0,0,2);
+                   
+      }
+}
+
+@keyframes line{
+    0%{
+       
+        background-color: rgba(0,0,0, 1);
+        box-shadow: 12px 0px 0px 0px rgba(0,0,0,0.2), 
+                    24px 0px 0px 0px rgba(0,0,0,0.2);
+                    
+      }
+    25%{ 
+            background-color: rgba(0,0,0, 0.4);
+            box-shadow: 12px 0px 0px 0px rgba(0,0,0,2), 
+                    24px 0px 0px 0px rgba(0,0,0,0.2);
+                    
+    }
+    75%{ background-color: rgba(0,0,0, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(0,0,0,0.2), 
+                    24px 0px 0px 0px rgba(0,0,0,2);
+                   
+      }
 }

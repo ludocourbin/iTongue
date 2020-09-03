@@ -2,6 +2,16 @@
 @import "../../styles/mixin";
 
 .login {
+
+    .message_errors{
+       
+    }
+
+    .ui.message {
+        border: 0!important;
+        box-shadow: none;
+    }
+
     &-form {
         margin-top: 20px;
         height: calc(100vh - 105px);

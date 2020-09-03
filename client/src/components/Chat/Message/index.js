@@ -17,7 +17,7 @@ const Message = (props) => {
         allMessages,
         setMessageInAllMessages,
         userTyping,
-        userSlugInfos,
+        emptyAllMessages
     } = props;
 
     const params = useParams();
@@ -31,10 +31,18 @@ const Message = (props) => {
 
     useEffect(() => {
         socketSetRecipient({ id: params.id });
+        
+        return () => {
+            socketSetRecipient({});
+        }
     }, [socketSetRecipient]);
 
     useEffect(() => {
         fetchAllMessages();
+        
+        return () => {
+            emptyAllMessages();
+        };
     }, [fetchAllMessages]);
 
     let typing = null;
@@ -45,7 +53,8 @@ const Message = (props) => {
         }
         typing = setTimeout(() => {
             socketEmitTyping({
-                authorName: currentUser.firstname,
+                authorFirstname: currentUser.firstname,
+                authorLastName: currentUser.lastname,
                 recipientId: socketRecipient.id,
             });
             typing = null;
@@ -67,7 +76,8 @@ const Message = (props) => {
 
         socketEmitMessage({
             text: inputValue,
-            authorName: currentUser.firstname,
+            authorFirstname: currentUser.firstname,
+            authorLastname: currentUser.lastname,
             authorAvatarUrl: currentUser.avatarUrl,
             recipientId: socketRecipient.id,
             recipientAvatarUrl: contact.avatarUrl
@@ -77,7 +87,7 @@ const Message = (props) => {
     };
 
     return (
-        <Layout>
+        <Layout titlePage={`Chat - ${contact && contact.firstname}`}>
             <Header size="tiny" className="message_back">
                 <Link to='/messages' className="message_link__back">
                     <Icon name="chevron circle left" size="small" />
@@ -90,7 +100,11 @@ const Message = (props) => {
                         </div>
 
                         <Image className="message_avatar__user"
-                            src={process.env.REACT_APP_FILES_URL + "/" + contact.avatarUrl}
+                            src={
+                                !contact.avatarUrl
+                                  ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                                  : process.env.REACT_APP_FILES_URL + "/" + contact.avatarUrl
+                              }
                         />
                     </Link>
                 }
@@ -100,7 +114,14 @@ const Message = (props) => {
                     {allMessages.messages && allMessages.messages.map(message => (
                         <div className={`message_container${message.sender.id === currentUser.id ? '--right' : ''}`} key={message.id}>
                             <div className={`message__user${message.sender.id === currentUser.id ? '--right' : ''}`}>
-                                <Image className="message-avatar" src={`${process.env.REACT_APP_FILES_URL}/${message.sender.avatarUrl}`} />
+                                <Image 
+                                className="message-avatar" 
+                                src={
+                                    !message.sender.avatarUrl
+                                      ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                                      : process.env.REACT_APP_FILES_URL + "/" + message.sender.avatarUrl
+                                  }
+                                />
                             </div>
                             <div className={`message_wrapper${message.sender.id === currentUser.id ? '--right' : ''}`}>
                                 <div className="message-text" className={`message-text${message.sender.id === currentUser.id ? '--right' : ''}`}>
@@ -114,7 +135,16 @@ const Message = (props) => {
                     ))}
                 </div>
                 <div className="message-typing">
-                    {userTyping.typing ? userTyping.authorName + " est en train d'écrire.." : ""}
+                    {userTyping.typing ?
+                        <>
+                            <strong>{userTyping.authorFirstname + " écrit"}</strong>
+                            <div className="typing-loader_wrapper">
+                                <div className="typing-loader"></div>
+                            </div>
+                        </>
+                        :
+                        ""
+                    }
                 </div>
                 <Form onSubmit={handleSubmit}>
                     <Input

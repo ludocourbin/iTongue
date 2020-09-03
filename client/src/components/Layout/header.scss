@@ -173,3 +173,16 @@ body {
         color: $primary-color !important;
     }
 }
+
+.message_dot {
+    position: relative;
+
+    &__label {
+        position: absolute;
+        right: -4px;
+        bottom: 10px;
+    }
+    .ui.label, .ui.labels .label {
+        font-size: 0.657143rem;
+    }
+}

@@ -6,6 +6,7 @@ import {
     socketSetRecipient,
     fetchAllMessages,
     setMessageInAllMessages,
+    emptyAllMessages,
 } from "../../store/actions/chatActions";
 
 const mapStateToProps = (state) => ({
@@ -31,6 +32,9 @@ const mapDispatchToProps = dispatch => ({
     },
     setMessageInAllMessages: (messageObj) => {
         dispatch(setMessageInAllMessages(messageObj));
+    },
+    emptyAllMessages: () => {
+        dispatch(emptyAllMessages());
     },
 });
 

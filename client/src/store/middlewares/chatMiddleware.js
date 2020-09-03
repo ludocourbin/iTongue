@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import { updateTokenExp, updateAccessToken } from '../actions/userActions';
 import { httpClient } from '../../utils';
+import { toast } from "react-toastify";
 import {
     SOCKET_CONNECT,
     SOCKET_EMIT_MESSAGE,
@@ -13,6 +14,8 @@ import {
     fetchAllMessagesError,
     setMessageInAllMessages,
     setUserIsTyping,
+    updateUnreadCount,
+    updateAllThreadsMessages,
 } from '../actions/chatActions';
 
 let socket;
@@ -31,32 +34,67 @@ export const chatMiddleware = (store) => (next) => (action) => {
                     }
                 });
 
-                socket.on("message", ({ authorId, authorAvatarUrl, text, recipientAvatarUrl}) => {
-                    console.log("message reçu");
-                    store.dispatch(setMessageInAllMessages({
-                        id: Date.now(),
-                        createdAt: new Date(),
-                        text: text,
-                        sender: {
-                            id: authorId,
-                            avatarUrl: authorAvatarUrl,
-                        },
-                        recipient: {
-                            avatarUrl: recipientAvatarUrl
-                        }
-                    }));
+                socket.on("message", ({ authorId, authorFirstname, authorLastname, authorAvatarUrl, text, recipientAvatarUrl }) => {
+                    const currentUsr = store.getState().user.currentUser;
+                    const contact = store.getState().chatReducer.allMessages.contact;
+                    if (contact && (authorId == contact.id || authorId == currentUsr.id)) {
+                        store.dispatch(setMessageInAllMessages({
+                            id: Date.now(),
+                            createdAt: new Date(),
+                            text: text,
+                            sender: {
+                                id: authorId,
+                                avatarUrl: authorAvatarUrl,
+                            },
+                            recipient: {
+                                avatarUrl: recipientAvatarUrl
+                            }
+                        }));
 
-                    store.dispatch(setUserIsTyping({}));
+                        // ici je compte les messages non lus de la personne du chat courant
+                        // et je les décrementes du unreadCount
+
+                        store.dispatch(setUserIsTyping({}));
+                    } else {
+                        const { unreadCount, allThreads } = store.getState().chatReducer;
+                        toast.info(`Nouveau message de ${authorFirstname}`);
+                        if (unreadCount < 99) {
+                            store.dispatch(updateUnreadCount(unreadCount + 1));
+                        }
+
+                        if (allThreads) {
+                            const newThreads = [];
+                            for (const thread of allThreads) {
+                                newThreads.push({ ...thread });
+                            }
+
+                            const threadIndex = newThreads.findIndex(thread => thread.contact.id == authorId);
+
+                            if (threadIndex > -1) {
+                                newThreads[threadIndex].messages.push({ text, sender: { id: authorId } });
+                                newThreads[threadIndex].latest = new Date();
+                            } else {
+                                newThreads.push({
+                                    contact: {
+                                        id: authorId,
+                                        avatarUrl: authorAvatarUrl,
+                                        firstname: authorFirstname,
+                                        lastname: authorLastname
+                                    }, messages: [{ text, sender: { id: authorId } }], latest: new Date()
+                                });
+                            }
+                            store.dispatch(updateAllThreadsMessages(newThreads));
+                        }
+                    }
                 });
 
-                socket.on("typing", ({ authorId, authorName }) => {
-                    console.log(authorName);
+                socket.on("typing", ({ authorId, authorFirstname }) => {
                     const contactId = store.getState().chatReducer.socketRecipient.id;
                     console.log({ contactId, authorId });
                     if (contactId && authorId == contactId) {
                         store.dispatch(setUserIsTyping({
                             authorId,
-                            authorName,
+                            authorFirstname,
                             typing: true,
                         }));
 
@@ -89,7 +127,7 @@ export const chatMiddleware = (store) => (next) => (action) => {
             break;
         case SOCKET_EMIT_MESSAGE:
             if (socket) {
-                
+
                 socket.emit("message", action.payload);
             }
             break;
@@ -105,7 +143,16 @@ export const chatMiddleware = (store) => (next) => (action) => {
                 url: `/users/${currentUser.id}/threads`,
             }, store)
                 .then(res => {
-                    store.dispatch(fetchAllThreadsSuccess(res.data.data));
+                    const threads = res.data.data;
+                    store.dispatch(fetchAllThreadsSuccess(threads));
+
+                    const unreadCount = threads.reduce((count, thread) => {
+                        if (count < 99)
+                            return count + thread.messages.filter(message => message.recipient.id == currentUser.id && !message.read).length;
+                    }, 0);
+
+                    store.dispatch(updateUnreadCount(unreadCount));
+
                     console.log("res", res);
                 })
                 .catch(err => {
@@ -113,18 +160,19 @@ export const chatMiddleware = (store) => (next) => (action) => {
                     store.dispatch(fetchAllThreadsError());
                 });
             break;
+
         case FETCH_ALL_MESSAGES:
 
             const currUser = store.getState().user.currentUser;
-            const { socketRecipient } = store.getState().chatReducer;
+            const { socketRecipient, unreadCount } = store.getState().chatReducer;
 
-            console.log("socketRecipient", socketRecipient);
-            
             httpClient.get({
                 url: `/users/${currUser.id}/threads/${socketRecipient.id}`,
             }, store)
                 .then(res => {
-                    store.dispatch(fetchAllMessagesSuccess(res.data.data));
+                    const thread = res.data.data;
+                    store.dispatch(fetchAllMessagesSuccess(thread));
+                    store.dispatch(updateUnreadCount(unreadCount - thread.newMessages))
                     console.log("res", res);
                 })
                 .catch(err => {

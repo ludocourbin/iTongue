@@ -37,8 +37,6 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 
     const [slugName, setSlugName] = useState({});
 
-    console.log("userSlugInfos", userSlugInfos);
-
     let slug = useParams();
 
     useEffect(() => {

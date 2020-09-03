@@ -6,11 +6,12 @@
   height:100%;
   padding: 0 15px;
   overflow:hidden
+  h3{
+    display:flex;
+    justify-content: center;
+  }
 }
-h3{
-  display:flex;
-  justify-content: center;
-}
+
 .topDiv {
     display:flex;
     width:100%;

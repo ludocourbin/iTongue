@@ -25,6 +25,8 @@ export const socketSetRecipient = (payload) => ({
 export const FETCH_ALL_THREADS = "FETCH_ALL_THREADS";
 export const FETCH_ALL_THREADS_SUCCESS = "FETCH_ALL_THREADS_SUCCESS";
 export const FETCH_ALL_THREADS_ERROR = "FETCH_ALL_THREADS_ERROR";
+export const EMPTY_ALL_THREADS = 'EMPTY_ALL_THREADS';
+export const UPDATE_UNREAD_COUNT = "UPDATE_UNREAD_COUNT";
 
 export const fetchAllThreads = () => ({
     type: FETCH_ALL_THREADS,
@@ -39,10 +41,26 @@ export const fetchAllThreadsError = (payload) => ({
     type: FETCH_ALL_THREADS_ERROR,
     payload,
 });
+export const emptyAllThreads = () => ({
+    type: EMPTY_ALL_THREADS,
+});
+
+export const updateUnreadCount = (payload) => ({
+    type: UPDATE_UNREAD_COUNT,
+    payload,
+});
+
+export const UPDATE_ALL_THREADS_MESSAGES = "UPDATE_ALL_THREADS_MESSAGES";
+
+export const updateAllThreadsMessages = (payload) => ({
+    type: UPDATE_ALL_THREADS_MESSAGES,
+    payload,
+});
 
 export const FETCH_ALL_MESSAGES = "FETCH_ALL_MESSAGES";
 export const FETCH_ALL_MESSAGES_SUCCESS = "FETCH_ALL_MESSAGES_SUCCESS";
 export const FETCH_ALL_MESSAGES_ERROR = "FETCH_ALL_MESSAGES_ERROR";
+export const EMPTY_ALL_MESSAGES = "EMPTY_ALL_MESSAGES";
 
 export const fetchAllMessages = () => ({
     type: FETCH_ALL_MESSAGES,
@@ -56,6 +74,10 @@ export const fetchAllMessagesSuccess = (payload) => ({
 export const fetchAllMessagesError = (payload) => ({
     type: FETCH_ALL_MESSAGES_ERROR,
     payload,
+});
+
+export const emptyAllMessages = () => ({
+    type: EMPTY_ALL_MESSAGES,
 });
 
 export const SET_MESSAGE_IN_ALL_MESSAGES = "SET_MESSAGE_IN_ALL_MESSAGES";

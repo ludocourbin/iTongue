@@ -25,6 +25,7 @@ const mapStateToProps = (state) => ({
     traductionId: state.irecords.languageId,
     learnedLanguages: state.user.currentUser.learnedLanguages,
     taughtLanguages: state.user.currentUser.taughtLanguages,
+    unreadCount: state.chatReducer.unreadCount,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -54,7 +54,7 @@ const Login = ({
             <Container>
                 {loading && <ToastContainer autoClose={2000} />}
                 <Form className="login-form" onSubmit={handleSubmit}>
-                    <h3 className="login-title"> Connectez-vous</h3>
+                    <h3 className="login-title">Login</h3>
                     <Form.Field
                         control={Input}
                         label="Email"
@@ -67,7 +67,7 @@ const Login = ({
                     />
                     <Form.Field
                         control={Input}
-                        label="Mot de passe"
+                        label="Password"
                         type={showPassword ? "text" : "password"}
                         width={16}
                         name="password"
@@ -91,7 +91,7 @@ const Login = ({
                         />
                     </Form.Field>
                     {loginErrorMessage && (
-                        <Message content={loginErrorMessage} />
+                        <Message content={loginErrorMessage} className="message_errors" />
                     )}
 
                     <Button

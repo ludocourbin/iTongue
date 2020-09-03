@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 /* Components */
 
@@ -60,6 +61,7 @@ const App = ({ isLogged, setCaptchaToken, user, socketConnect }) => {
 
     return (
         <div className="App">
+            <ToastContainer autoClose={2000} />
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route
@@ -90,8 +92,16 @@ const App = ({ isLogged, setCaptchaToken, user, socketConnect }) => {
                     path="/favoris"
                     render={() => (isLogged ? <Favoris /> : <Redirect to="/login" />)}
                 />
-                <Route exact path="/messages" component={Conversations} />
-                <Route exact path="/messages/:slug/:id" component={Message} />
+                <Route
+                    exact
+                    path="/messages"
+                    render={() => (isLogged ? <Conversations /> : <Redirect to="/login" />)}
+                />
+                <Route
+                    exact
+                    path="/messages/:slug/:id"
+                    render={() => (isLogged ? <Message /> : <Redirect to="/login" />)}
+                />
                 <Route exact path="/ifollowers" component={IfollowersiFollowing} />
                 <Route exact path="/ifollowing" component={IfollowersiFollowing} />
                 <Route path="/admin" component={Admin} />

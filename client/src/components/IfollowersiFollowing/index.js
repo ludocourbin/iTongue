@@ -20,7 +20,7 @@ const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow }) 
     };
 
     return (
-        <Layout>
+        <Layout titlePage="Follows">
             <div className="ifollowersiFollowing">
                 <Header size="tiny" className="ifollowersiFollowing-profil_back">
                     <Link to={`/user/${userSlugInfos.slug}`}>

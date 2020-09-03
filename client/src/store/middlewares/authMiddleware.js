@@ -58,7 +58,7 @@ export default (store) => (next) => (action) => {
                                 store.dispatch(updateTokenExp());
                                 store.dispatch(socketConnect());
                                 toast.success(`Bienvenue ${currentUser.user.firstname}`);
-                                store.dispatch(fetchFavoris(currentUser.id));
+                               store.dispatch(fetchFavoris(currentUser.id));
                                 store.dispatch(fetchLikes(currentUser.id));
                             })
                             .catch((err) => {

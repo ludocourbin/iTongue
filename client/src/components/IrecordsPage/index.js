@@ -20,7 +20,7 @@ const IrecordsPage = (props) => {
     return (
         <Layout titlePage="iRecords">
             <div className="irecordsPage">
-                <Header size="small" content="Les derniers iRecords" className="title" />
+                <Header size="small" content="Lastests iRecords" className="title" />
                 <div className="irecords-list">
                     {allRecordsList &&
                         allRecordsList.map((recordUser) => {

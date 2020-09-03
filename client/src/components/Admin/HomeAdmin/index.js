@@ -55,9 +55,9 @@ const HomeAdmin = ({ fetchStats, stats }) => {
                 <div className="home-admin_container">
                     <Segment className="home-admin_container stats-left">
                     <Header size="medium" content="Derniers utilisateurs inscrits"/>
-                        { recentUsers && recentUsers.map(user => (
+                        {/* { recentUsers && recentUsers.map(user => (
                             <MemberCard user={user}/>
-                        ))}
+                        ))} */}
                     </Segment>
 
                     <Segment className="home-admin_container stats-right">

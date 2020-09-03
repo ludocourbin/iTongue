@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Icon, Sticky } from "semantic-ui-react";
+import { Icon, Sticky, Label } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 
 const NavigationBottom = ({
@@ -7,6 +7,7 @@ const NavigationBottom = ({
     toggleRecording,
     isRecording,
     selectIrecordToRecord,
+    unreadCount,
 }) => {
     const stickyRef = useRef(null);
     const classNameRecordIcon = isRecording
@@ -48,11 +49,14 @@ const NavigationBottom = ({
                     <Icon className={classNameRecordIcon} name="microphone" size="big" />
                 </div>
                 <NavLink to="/messages" activeClassName="active-navbottom">
-                    <Icon
-                        className="header-icon navigationBottom-items"
-                        name="envelope"
-                        size="big"
-                    />
+                    <div className="message_dot">
+                        <Icon
+                            className="header-icon navigationBottom-items"
+                            name="envelope"
+                            size="big"
+                        />
+                        { unreadCount >= 1 && <Label circular color={"red"} content={unreadCount} className="message_dot__label"/> }
+                    </div>
                 </NavLink>
                 <NavLink to="/favoris" activeClassName="active-navbottom">
                     <Icon

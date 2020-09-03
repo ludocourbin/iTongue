@@ -24,7 +24,8 @@ const LayoutHeader = ({
     learnedLanguages,
     traductionId,
     taughtLanguages,
-    titlePage, 
+    titlePage,
+    unreadCount,
     ...props
 }) => {
 
@@ -59,7 +60,7 @@ const LayoutHeader = ({
                     <div className="main-header-links">
                         <div className="container">
                             <NavLink exact className="main-header-links__item" to={"/"}>
-                                Accueil
+                                Home
                             </NavLink>
                             <NavLink className="main-header-links__item" to={"/irecords"}>
                                 iRecords
@@ -71,7 +72,7 @@ const LayoutHeader = ({
                         {isLogged ? (
                             <div onClick={handleLogout} className="container">
                                 <Link to="/" className="main-header-links__item">
-                                    Se déconnecter
+                                    Logout
                                 </Link>
                             </div>
                         ) : (
@@ -80,13 +81,13 @@ const LayoutHeader = ({
                                     className="main-header-links__item"
                                     to={"/login"}
                                 >
-                                    Connexion
+                                    Login
                                 </NavLink>
                                 <NavLink
                                     className="main-header-links__item"
                                     to={"/signup"}
                                 >
-                                    Inscription
+                                    Signup
                                 </NavLink>
                             </div>
                         )}
@@ -99,7 +100,7 @@ const LayoutHeader = ({
                                 Contact/FAQ
                             </NavLink>
                             <NavLink className="main-header-links__item" to={"/terms"}>
-                                Mentions Légales
+                                Terms
                             </NavLink>
                         </div>
                     </div>
@@ -136,6 +137,7 @@ const LayoutHeader = ({
                     selectIrecordToRecord={selectIrecordToRecord}
                     user={user}
                     isRecording={isRecording}
+                    unreadCount={unreadCount}
                 />
             ) : null}
         </div>

@@ -112,7 +112,7 @@ const Search = (props) => {
                         iconPosition="left"
                         onClick={() => setIsFocus(true)}
                         className="search-input-item"
-                        placeholder="Rechercher"
+                        placeholder="Search"
                         onChange={(e) => setKeyword(e.target.value)}
                     />
                     {isFocus && (
@@ -121,7 +121,7 @@ const Search = (props) => {
                             color="black"
                             onClick={() => setIsFocus(false)}
                         >
-                            Annuler
+                            Cancel
                         </Button>
                     )}
                 </div>
@@ -129,7 +129,7 @@ const Search = (props) => {
                 <div className="search-container">
                     <Header
                         size="small"
-                        content="Les derniers iRecords"
+                        content="Lastests iRecords"
                         className="title"
                     />
                     {!isFocus && isLoadingallUsers && <Placeholder />}

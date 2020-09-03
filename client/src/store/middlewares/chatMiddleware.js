@@ -51,9 +51,6 @@ export const chatMiddleware = (store) => (next) => (action) => {
                             }
                         }));
 
-                        // ici je compte les messages non lus de la personne du chat courant
-                        // et je les décrementes du unreadCount
-
                         store.dispatch(setUserIsTyping({}));
                     } else {
                         const { unreadCount, allThreads } = store.getState().chatReducer;

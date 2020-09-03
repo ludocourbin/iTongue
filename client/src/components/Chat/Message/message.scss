@@ -96,6 +96,10 @@
         min-width: 100px;
         min-height: 40px;
         word-break: break-word;
+
+        .giphy-gif-img {
+            max-width: 200px;
+        }
     }
 
     &_wrapper--right {
@@ -108,6 +112,10 @@
         min-width: 100px;
         min-height: 40px;
         word-break: break-word;
+        
+        .giphy-gif-img {
+            max-width: 200px;
+        }
     }
 
     &-date {
@@ -145,6 +153,20 @@
         font-size: .8em;
     }
 }
+
+.message-form_container {
+
+}
+
+.gifselect_container {
+    width: 100%;
+}
+
+.giphy-attribution {
+    display: none !important;
+}
+
+
 
 .send-message {
     /*

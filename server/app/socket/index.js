@@ -48,12 +48,15 @@ module.exports = io => {
 
       if (socket.user.id != recipientId) {
         try {
-          io.to(await getSocket(recipientId)).emit("message", {
-            authorId: socket.user.id,
-            authorName,
-            authorAvatarUrl,
-            text
-          });
+          const socketIds = await getSockets(recipientId);
+          for (const socketId of socketIds) {
+            io.to(socketId).emit("message", {
+              authorId: socket.user.id,
+              authorName,
+              authorAvatarUrl,
+              text
+            });
+          }
         } catch (err) {
           socket.emit("serverError", err);
           console.log(err);
@@ -69,10 +72,13 @@ module.exports = io => {
     socket.on("typing", async ({ authorName, recipientId }) => {
       if (socket.user.id != recipientId) {
         try {
-          io.to(await getSocket(recipientId)).emit("typing", {
-            authorName,
-            authorId: socket.user.id
-          });
+          const socketIds = await getSockets(recipientId);
+          for (const socketId of socketIds) {
+            io.to(socketId).emit("typing", {
+              authorName,
+              authorId: socket.user.id
+            });
+          }
         } catch (err) {
           socket.emit("serverError", err);
           console.log(err);
@@ -81,7 +87,7 @@ module.exports = io => {
     });
 
     socket.on("disconnect", () => {
-      removeSocket(socket.user.id).catch(err => {
+      removeSocket(socket.user.id, socket.id).catch(err => {
         socket.emit("serverError", err);
         console.log(err);
       });
@@ -89,27 +95,27 @@ module.exports = io => {
   });
 };
 
-function getSocket(contactId) {
+function getSockets(contactId) {
   return new Promise((resolve, reject) => {
-    redis.client.hget(redis.prefix + "active_sockets", contactId, (err, socketId) => {
+    redis.client.smembers(redis.prefix + "active_socket:" + contactId, (err, socketIds) => {
       if (err) return reject(err);
-      resolve(socketId);
+      resolve(socketIds);
     });
   });
 }
 
 function storeSocket(userId, socketId) {
   return new Promise((resolve, reject) => {
-    redis.client.hmset(redis.prefix + "active_sockets", userId, socketId, (err, result) => {
+    redis.client.sadd(redis.prefix + "active_socket:" + userId, socketId, (err, result) => {
       if (err) return reject(err);
       resolve(result);
     });
   });
 }
 
-function removeSocket(userId) {
+function removeSocket(userId, socketId) {
   return new Promise((resolve, reject) => {
-    redis.client.hdel(redis.prefix + "active_sockets", userId, (err, result) => {
+    redis.client.srem(redis.prefix + "active_socket:" + userId, socketId, (err, result) => {
       if (err) return reject(err);
       resolve(result);
     });

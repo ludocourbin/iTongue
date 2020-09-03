@@ -22,6 +22,7 @@
     "rc-swipeout": "^2.0.11",
     "react": "^16.13.1",
     "react-animated-css": "^1.2.1",
+    "react-creepyface": "^7.4.2",
     "react-device-detect": "^1.13.1",
     "react-dom": "^16.13.1",
     "react-mic": "^12.4.6",

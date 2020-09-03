@@ -48,8 +48,12 @@ module.exports = io => {
 
       if (socket.user.id != recipientId) {
         try {
-          const socketIds = await getSockets(recipientId);
-          for (const socketId of socketIds) {
+          const recipientSocketIds = await getSockets(recipientId);
+          const userSocketIds = (await getSockets(socket.user.id)).filter(
+            socketId => socketId != socket.id
+          );
+
+          for (const socketId of [...recipientSocketIds, ...userSocketIds]) {
             io.to(socketId).emit("message", {
               authorId: socket.user.id,
               authorName,
@@ -72,8 +76,12 @@ module.exports = io => {
     socket.on("typing", async ({ authorName, recipientId }) => {
       if (socket.user.id != recipientId) {
         try {
-          const socketIds = await getSockets(recipientId);
-          for (const socketId of socketIds) {
+          const recipientSocketIds = await getSockets(recipientId);
+          const userSocketIds = (await getSockets(socket.user.id)).filter(
+            socketId => socketId != socket.id
+          );
+
+          for (const socketId of [...recipientSocketIds, ...userSocketIds]) {
             io.to(socketId).emit("typing", {
               authorName,
               authorId: socket.user.id

@@ -301,7 +301,8 @@ module.exports = {
     try {
       await userDatamapper.syncLanguages([...learnedLanguagesInserts, ...taughtLanguagesInserts]);
 
-      if (user.password) {
+      const hasNewPassword = "password" in user && user.password !== "";
+      if (hasNewPassword) {
         user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
       }
       const updatedUser = await userDatamapper.update(user);
@@ -312,7 +313,9 @@ module.exports = {
         await authUtils.invalidateAccessToken(oldAccessToken);
       }
 
-      const [accessToken, refreshToken] = await authUtils.getNewTokenPair(updatedUser);
+      const accessToken = authUtils.accessToken(updatedUser);
+      const needsUpdate = user.email || hasNewPassword;
+      const refreshToken = await authUtils.refreshToken(updatedUser, needsUpdate);
 
       res.json({ data: { accessToken, refreshToken } });
     } catch (err) {
@@ -509,7 +512,8 @@ module.exports = {
       });
 
       if (user && (await bcrypt.compare(password, user.password))) {
-        const [accessToken, refreshToken] = await authUtils.getNewTokenPair(user);
+        const accessToken = authUtils.accessToken(user);
+        const refreshToken = await authUtils.refreshToken(user);
 
         const keyMap = {
           avatar_url: "avatarUrl",

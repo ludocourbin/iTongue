@@ -5,9 +5,8 @@ module.exports = async (req, res, next) => {
   const secretKey = process.env.RECAPTCHA_SECRET;
   const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`;
 
-  if (!captcha) {
-    return res.status(400).json({ errors: { msg: "Le token reCaptcha est manquant ou invalide" } });
-  }
+  if (!captcha)
+    return next({ statusCode: 400, displayMsg: "Le token reCaptcha est manquant ou invalide" });
 
   try {
     const verified = await fetch(verifyUrl, { method: "POST" });

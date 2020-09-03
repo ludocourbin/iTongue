@@ -7,27 +7,20 @@ const utils = {
     return authHeader && authHeader.split(" ")[1];
   },
 
-  getNewTokenPair: async user => {
-    const payload = {
-      id: user.id,
-      email: user.email,
-      isAdmin: user.is_admin
-    };
-
-    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+  accessToken: user =>
+    jwt.sign(payload(user), process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "20m"
-    });
+    }),
 
-    const oldRefreshToken = await getRefreshToken(user);
-    if (oldRefreshToken) {
-      const oldUser = await verifyToken(oldRefreshToken, "refresh");
-      if (oldUser && !["id", "email", "slug", "isAdmin"].some(key => oldUser[key] !== user[key]))
-        return [accessToken, oldRefreshToken];
+  refreshToken: async (user, needsUpdate) => {
+    if (!needsUpdate) {
+      const oldRefreshToken = await getRefreshToken(user);
+      if (oldRefreshToken) return oldRefreshToken;
     }
 
-    const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
+    const refreshToken = jwt.sign(payload(user), process.env.REFRESH_TOKEN_SECRET);
     await storeRefreshToken(user, refreshToken);
-    return [accessToken, refreshToken];
+    return refreshToken;
   },
 
   isBlacklistedToken: token => {
@@ -123,6 +116,14 @@ function getRefreshToken(user) {
       resolve(token);
     });
   });
+}
+
+function payload(user) {
+  return {
+    id: user.id,
+    email: user.email,
+    isAdmin: user.is_admin
+  };
 }
 
 module.exports = utils;

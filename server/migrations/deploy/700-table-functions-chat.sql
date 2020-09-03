@@ -43,18 +43,21 @@ $$
 
 $$ LANGUAGE SQL STABLE;
 
-CREATE TYPE "thread" AS ("contact" JSON, "messages" JSON);
+CREATE TYPE "thread" AS ("contact" JSON, "messages" JSON, "newMessages" INT);
 
 CREATE FUNCTION "get_thread"("user_id" INT, "contact_id" INT)
 RETURNS "thread" AS
 $$
-   UPDATE "message"
-      SET "read" = TRUE
-    WHERE "recipient_id" = "user_id"
-      AND "sender_id" = "contact_id";
-
+     WITH "updated_rows"
+       AS(UPDATE "message"
+             SET "read" = TRUE
+           WHERE "read" = FALSE
+             AND "recipient_id" = "user_id"
+             AND "sender_id" = "contact_id"
+       RETURNING 1)
    SELECT to_json(("u"."id", "u"."email", "u"."firstname", "u"."lastname", "u"."slug", "u"."avatar_url", "u"."created_at")::"plain_user"),
-          COALESCE("t"."messages", '[]')
+          COALESCE("t"."messages", '[]'),
+          (SELECT COUNT(*) FROM "updated_rows")::INT
      FROM "user" "u"
 LEFT JOIN "get_threads"("user_id") "t"
        ON "u"."id" = ("t"."contact"->>'id')::INT

@@ -13,12 +13,22 @@ import Statistics from "../Statistics";
 
 /* Style */
 import "./userprofil.scss";
-import ProfilPlaceholder from "../../Placeholder/profilPlaceHolder";
 
-const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfos, emptyCheckUserSlug }) => {
+const UserProfil = (props) => {
+    
+    const { 
+        currentUser, 
+        editProfilAvatar, 
+        checkUserSlug, 
+        userSlugInfos, 
+        emptyCheckUserSlug, 
+        checkUserSlugLoading, 
+        userSlugUndefined, 
+        selectedUserToFetchSubscriptions 
+    } = props;
     
     const [isUserAccount, setIsUserAccount] = useState(false);
-    
+    const [slugEvenSlugInfos, setSlugEvenSlugInfos] = useState(false);
     const [inputSearch, setInputSearch] = useState({ search: "", lang: null });
     
     const {
@@ -31,22 +41,25 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
         records,
         learnedLanguages,
         taughtLanguages,
-        checkUserSlugLoading,
         followers,
         followed,
+
     } = userSlugInfos;
 
     const [slugName, setSlugName] = useState({});
 
     let slug = useParams();
+        
+    // const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        // store: loadingComponent: {"name": true}
+        // setLoading("profil");
         checkUserSlug(slug.slug);
-        /*
+
         return () => {
             emptyCheckUserSlug();
         }
-        */
     }, [slug.slug, checkUserSlug]);
 
     useEffect(() => {
@@ -56,7 +69,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                 lastname: userSlugInfos.lastname,
             })
         }
-    }, [userSlugInfos])
+    }, [userSlugInfos]);
 
     
     useEffect(() => {
@@ -88,9 +101,11 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
     return (
         <Layout>
             <ToastContainer autoClose={2000} />
-            {currentUser.slug && !userSlugInfos.slug && (
+
+            {/* {!checkUserSlugLoading && currentUser.slug && !userSlugInfos.slug && (
                 <Redirect to={`/user/${currentUser.slug}`} />
-            )}
+            )} */}
+
             {!currentUser && !userSlugInfos.slug && <Redirect to={`/`} />}
 
             <div className="user-profil">
@@ -98,7 +113,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                     {/* <ProfilPlaceholder /> */}
                     <div className="container_left">
                         <div className="container_left__container">
-                            {checkUserSlugLoading ? 
+                            {checkUserSlugLoading && userSlugInfos ? 
                                 <Placeholder>
                                     <Placeholder.Image/>
                                 </Placeholder>
@@ -114,7 +129,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                         <Follow userSlugInfos={userSlugInfos} />
                     </div>
                     <div className="container_right">
-                        {checkUserSlugLoading ? 
+                        {checkUserSlugLoading && userSlugInfos ? 
                                 <Placeholder>
                                     <Placeholder.Line length="full"/>
                                 </Placeholder>
@@ -122,7 +137,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                 <div className="container_right__first-row">
                                 
                                     <span className="user-title">
-                                        {firstname || "Utilisateur"} {lastname || "Inconnu"}
+                                        {firstname || "Unknown"} {lastname || "user"}
                                     </span>
                                 
                                     {isAdmin && <Icon name="check circle" />}
@@ -197,9 +212,12 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                             :
                         <div className="container_right__third-row">
                             <Statistics
-                                totalRecords={records ? records.length : 0}
-                                totalFollower={followers ? followers.length : 0}
-                                totalFollowed={followed ? followed.length : 0}
+                            selectedUserToFetchSubscriptions={selectedUserToFetchSubscriptions}
+                            userId={id}
+                            userSlug={userSlugInfos.slug}
+                            totalRecords={records ? records.length : 0}
+                            totalFollower={followers ? followers.length : 0}
+                            totalFollowed={followed ? followed.length : 0}
                             />
                         </div>
                         }

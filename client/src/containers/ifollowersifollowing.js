@@ -14,6 +14,7 @@ const mapStateToProps = (state) => ({
     isLoadingAllFollowing: state.ifollowersifollowing.isLoadingAllFollowing,
     currentUser: state.user.currentUser,
     userSlugInfos: state.user.userSlugInfos,
+    selectedUserToFetchSubscriptions: state.ifollowersifollowing.selectedUserIdToFetchSubscriptions, 
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -32,6 +33,8 @@ const mapDispatchToProps = (dispatch) => ({
     checkIfUserFollow: (userSlug) => {
         dispatch(checkIfUserFollow(userSlug));
     },
+
+   
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IfollowersiFollowing);

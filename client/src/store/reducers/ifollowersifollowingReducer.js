@@ -5,9 +5,11 @@ import {
     FETCH_IFOLLOWING,
     FETCH_IFOLLOWING_SUCCESS,
     FETCH_IFOLLOWING_ERROR,
+    SET_SELECTED_USER_TO_FETCH_SUBSCRIPTIONS
 } from "../actions/ifollowersifollowingActions";
 
 const initialState = {
+    selectedUserIdToFetchSubscriptions: {},
     allFollowers: [],
     isLoadingAllFollowers: false,
     allFollowing: [],
@@ -50,6 +52,11 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 isLoadingAllFollowing: false,
                 allFollowing: [],
+            };
+        case SET_SELECTED_USER_TO_FETCH_SUBSCRIPTIONS:
+            return {
+                ...state,
+                selectedUserIdToFetchSubscriptions: {...action.payload}
             };
         default:
             return state;

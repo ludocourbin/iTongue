@@ -7,6 +7,7 @@ import {
     CHECK_USER_SLUG,
     checkUserSlugSuccess,
     checkUserSlugError,
+    userSlugIsUndefined,
 } from "../actions/userActions";
 
 import {
@@ -215,6 +216,14 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 .catch((err) => {
                     store.dispatch(checkUserSlugError(/* */));
                     console.error(err);
+                    console.log(err.response.status);
+
+                    const statusCode = err.response.status;
+
+                    if(statusCode === 404) {
+                        userSlugIsUndefined();
+                    }
+                    
                 });
             break;
         }

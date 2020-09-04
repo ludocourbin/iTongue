@@ -9,8 +9,12 @@ import Placeholder from "../Placeholder";
 
 import "./ifollowersiFollowing.scss";
 
-const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow }) => {
+const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow,fetchIfollowers,fetchIfollowing}) => {
     const { pathname } = useLocation();
+    useEffect(() => {
+        fetchIfollowers() 
+        fetchIfollowing()
+    }, [fetchIfollowers,fetchIfollowing])
 
     const { followed, followers } = userSlugInfos;
 
@@ -18,6 +22,8 @@ const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow }) 
     const handleItemClick = (e, { name }) => {
         setActiveItem(name);
     };
+
+
 
     return (
         <Layout titlePage="Follows">

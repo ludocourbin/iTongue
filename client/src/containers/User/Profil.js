@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import Profil from "../../components/User/Profil";
 import { fetchAllUsers, checkUserSlug, emptyCheckUserSlug } from '../../store/actions/userActions';
 import { editProfilAvatar } from '../../store/actions/editProfilActions';
+import {setSelectedUserToFetchSubscriptions} from '../../store/actions/ifollowersifollowingActions'
 
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,
@@ -10,6 +11,7 @@ const mapStateToProps = (state) => ({
     isLoadingallUsers: state.user.isLoadingallUsers,
     userSlugInfos: state.user.userSlugInfos,
     checkUserSlugLoading: state.user.checkUserSlugLoading,
+    userSlugUndefined: state.user.userSlugUndefined,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -25,6 +27,9 @@ const mapDispatchToProps = (dispatch) => ({
     emptyCheckUserSlug: () => {
         dispatch(emptyCheckUserSlug());
     },
+    setSelectedUserToFetchSubscriptions: (userObj) => {
+        dispatch(setSelectedUserToFetchSubscriptions(userObj))
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profil);

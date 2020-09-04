@@ -60,6 +60,7 @@ export const CHECK_USER_SLUG = "CHECK_USER_SLUG";
 export const CHECK_USER_SLUG_SUCCESS = "CHECK_USER_SLUG_SUCCESS";
 export const CHECK_USER_SLUG_ERROR = "CHECK_USER_SLUG_ERROR";
 export const EMPTY_CHECK_USER_SLUG = "EMPTY_CHECK_USER_SLUG";
+export const USERSLUG_IS_UNDEFINED = "USERSLUG_IS_UNDEFINED";
 
 export const checkUserSlug = (payload) => ({
     type: CHECK_USER_SLUG,
@@ -78,6 +79,10 @@ export const checkUserSlugError = (payload) => ({
 
 export const emptyCheckUserSlug = () => ({
     type: EMPTY_CHECK_USER_SLUG,
+});
+
+export const userSlugIsUndefined = () => ({
+    type: USERSLUG_IS_UNDEFINED,
 });
 
 /* JWT Update token EXP */

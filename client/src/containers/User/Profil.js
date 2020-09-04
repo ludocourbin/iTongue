@@ -1,8 +1,11 @@
 import { connect } from "react-redux";
 import Profil from "../../components/User/Profil";
-import { fetchAllUsers, checkUserSlug, emptyCheckUserSlug } from '../../store/actions/userActions';
-import { editProfilAvatar } from '../../store/actions/editProfilActions';
-import {setSelectedUserToFetchSubscriptions} from '../../store/actions/ifollowersifollowingActions'
+import {
+    fetchAllUsers,
+    checkUserSlug,
+    emptyCheckUserSlug,
+} from "../../store/actions/userActions";
+import { editProfilAvatar } from "../../store/actions/editProfilActions";
 
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,
@@ -27,9 +30,6 @@ const mapDispatchToProps = (dispatch) => ({
     emptyCheckUserSlug: () => {
         dispatch(emptyCheckUserSlug());
     },
-    setSelectedUserToFetchSubscriptions: (userObj) => {
-        dispatch(setSelectedUserToFetchSubscriptions(userObj))
-    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profil);

@@ -9,38 +9,50 @@ import Placeholder from "../Placeholder";
 
 import "./ifollowersiFollowing.scss";
 
-const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow,fetchIfollowers,fetchIfollowing}) => {
+const IfollowersiFollowing = ({
+    currentUser,
+    userSlugInfos,
+    follow,
+    unFollow,
+    fetchIfollowers,
+    fetchIfollowing,
+    allFollowers,
+    allFollowing,
+    setSelectedUserToFetchSubscriptions,
+    selectedUserToFetchSubscriptions,
+}) => {
     const { pathname } = useLocation();
     useEffect(() => {
-        fetchIfollowers() 
-        fetchIfollowing()
-    }, [fetchIfollowers,fetchIfollowing])
+        fetchIfollowers();
+        fetchIfollowing();
 
-    const { followed, followers } = userSlugInfos;
+        return () => {
+            setSelectedUserToFetchSubscriptions({});
+        };
+    }, [fetchIfollowers, fetchIfollowing]);
 
     const [activeItem, setActiveItem] = useState(pathname.substring(1));
     const handleItemClick = (e, { name }) => {
         setActiveItem(name);
     };
 
-
-
     return (
         <Layout titlePage="Follows">
             <div className="ifollowersiFollowing">
                 <Header size="tiny" className="ifollowersiFollowing-profil_back">
-                    <Link to={`/user/${userSlugInfos.slug}`}>
+                    <Link to={`/user/${selectedUserToFetchSubscriptions.userSlug}`}>
                         <Icon name="chevron circle left" size="small" />
                         Retour au profil
                     </Link>
                 </Header>
+
                 <Menu className="ifollowersiFollowing-menu" pointing secondary>
                     <Menu.Item
                         className="ifollowersiFollowing-menu__item"
                         name="ifollowers"
                         children={
                             <Header size="small">
-                                {followers ? followers.length : 0} iFollowers
+                                {allFollowers ? allFollowers.length : 0} iFollowers
                             </Header>
                         }
                         active={activeItem === "ifollowers"}
@@ -51,7 +63,7 @@ const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow,fet
                         name="ifollowing"
                         children={
                             <Header size="small">
-                                {followed ? followed.length : 0} iFollowing
+                                {allFollowing ? allFollowing.length : 0} iFollowing
                             </Header>
                         }
                         active={activeItem === "ifollowing"}
@@ -59,13 +71,13 @@ const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow,fet
                     />
                 </Menu>
             </div>
-
+            {(!allFollowers || !allFollowing) && <Placeholder />}
             {activeItem === "ifollowing" ? (
-                followed ? (
-                    followed.map((following) => (
+                allFollowing ? (
+                    allFollowing.map((following) => (
                         <Following
                             key={following.id}
-                            allFollowing={followed}
+                            allFollowing={allFollowing}
                             user={following}
                             currentUser={currentUser}
                             currentUserId={currentUser.id}
@@ -77,11 +89,11 @@ const IfollowersiFollowing = ({ currentUser, userSlugInfos, follow, unFollow,fet
                 ) : (
                     <div className="">you don't follow anyone</div>
                 )
-            ) : followers ? (
-                followers.map((follower) => (
+            ) : allFollowers ? (
+                allFollowers.map((follower) => (
                     <Followers
                         key={follower.id}
-                        allFollowing={followed}
+                        allFollowing={allFollowing}
                         currentUserId={currentUser.id}
                         currentUser={currentUser}
                         userSlugId={userSlugInfos.id}

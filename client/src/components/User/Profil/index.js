@@ -6,31 +6,29 @@ import Irecords from "../../../containers/Irecords";
 import UpdateAvatar from "../../../containers/User/UpdateAvatar";
 import ProfilSearch from "../../../containers/User/ProfilSearch";
 import Follow from "../../../containers/User/Follow";
+import Statistics from "../../../containers/User/statistics";
 
 /* Components */
 import { Segment, Image, Icon, Placeholder } from "semantic-ui-react";
-import Statistics from "../Statistics";
 
 /* Style */
 import "./userprofil.scss";
 
 const UserProfil = (props) => {
-    
-    const { 
-        currentUser, 
-        editProfilAvatar, 
-        checkUserSlug, 
-        userSlugInfos, 
-        emptyCheckUserSlug, 
-        checkUserSlugLoading, 
-        userSlugUndefined, 
-        selectedUserToFetchSubscriptions 
+    const {
+        currentUser,
+        editProfilAvatar,
+        checkUserSlug,
+        userSlugInfos,
+        emptyCheckUserSlug,
+        checkUserSlugLoading,
+        userSlugUndefined,
     } = props;
-    
+
     const [isUserAccount, setIsUserAccount] = useState(false);
     const [slugEvenSlugInfos, setSlugEvenSlugInfos] = useState(false);
     const [inputSearch, setInputSearch] = useState({ search: "", lang: null });
-    
+
     const {
         id,
         avatarUrl,
@@ -43,13 +41,12 @@ const UserProfil = (props) => {
         taughtLanguages,
         followers,
         followed,
-
     } = userSlugInfos;
 
     const [slugName, setSlugName] = useState({});
 
     let slug = useParams();
-        
+
     // const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -59,21 +56,22 @@ const UserProfil = (props) => {
 
         return () => {
             emptyCheckUserSlug();
-        }
+        };
     }, [slug.slug, checkUserSlug]);
 
     useEffect(() => {
-        if(slug.slug === userSlugInfos.slug) {
+        if (slug.slug === userSlugInfos.slug) {
             setSlugName({
                 firstname: userSlugInfos.firstname,
                 lastname: userSlugInfos.lastname,
-            })
+            });
         }
     }, [userSlugInfos]);
 
-    
     useEffect(() => {
-        document.title = `iTongue - ${slugName.firstname ? slugName.firstname + " " + slugName.lastname : ""}`;
+        document.title = `iTongue - ${
+            slugName.firstname ? slugName.firstname + " " + slugName.lastname : ""
+        }`;
     }, [slugName]);
 
     useEffect(() => {
@@ -113,138 +111,137 @@ const UserProfil = (props) => {
                     {/* <ProfilPlaceholder /> */}
                     <div className="container_left">
                         <div className="container_left__container">
-                            {checkUserSlugLoading && userSlugInfos ? 
+                            {checkUserSlugLoading && userSlugInfos ? (
                                 <Placeholder>
-                                    <Placeholder.Image/>
+                                    <Placeholder.Image />
                                 </Placeholder>
-                                :
+                            ) : (
                                 <UpdateAvatar
-                                avatarUrl={avatarUrl}
-                                isUserAccount={isUserAccount}
-                                editProfilAvatar={editProfilAvatar}
-                                checkUserSlugLoading={checkUserSlugLoading}
-                            />
-                            }
+                                    avatarUrl={avatarUrl}
+                                    isUserAccount={isUserAccount}
+                                    editProfilAvatar={editProfilAvatar}
+                                    checkUserSlugLoading={checkUserSlugLoading}
+                                />
+                            )}
                         </div>
                         <Follow userSlugInfos={userSlugInfos} />
                     </div>
                     <div className="container_right">
-                        {checkUserSlugLoading && userSlugInfos ? 
-                                <Placeholder>
-                                    <Placeholder.Line length="full"/>
-                                </Placeholder>
-                            :
-                                <div className="container_right__first-row">
-                                
-                                    <span className="user-title">
-                                        {firstname || "Unknown"} {lastname || "user"}
-                                    </span>
-                                
-                                    {isAdmin && <Icon name="check circle" />}
-                                    {isUserAccount && currentUser ?
-                                        <Link to={`/user/${slug.slug}/edit`}>
-                                            <Icon
-                                                name="setting"
-                                                style={{ color: "#fe734c" }}
-                                                className="icon-settings"
-                                            />
-                                        </Link>
-                                        :
-                                        <Link to={`/messages/${slug.slug}/${userSlugInfos.id}`}>
+                        {checkUserSlugLoading && userSlugInfos ? (
+                            <Placeholder>
+                                <Placeholder.Line length="full" />
+                            </Placeholder>
+                        ) : (
+                            <div className="container_right__first-row">
+                                <span className="user-title">
+                                    {firstname || "Unknown"} {lastname || "user"}
+                                </span>
+
+                                {isAdmin && <Icon name="check circle" />}
+                                {isUserAccount && currentUser ? (
+                                    <Link to={`/user/${slug.slug}/edit`}>
+                                        <Icon
+                                            name="setting"
+                                            style={{ color: "#fe734c" }}
+                                            className="icon-settings"
+                                        />
+                                    </Link>
+                                ) : (
+                                    <Link
+                                        to={`/messages/${slug.slug}/${userSlugInfos.id}`}
+                                    >
                                         <Icon
                                             name="send"
                                             style={{ color: "#fe734c" }}
                                             className="icon-message"
                                         />
-                                        </Link>
-                                    }
-                                </div>
-                            }
+                                    </Link>
+                                )}
+                            </div>
+                        )}
 
-                        {checkUserSlugLoading ? 
-                                <Placeholder>
-                                    <Placeholder.Line length="full"/>
-                                </Placeholder>
-                            :
+                        {checkUserSlugLoading ? (
+                            <Placeholder>
+                                <Placeholder.Line length="full" />
+                            </Placeholder>
+                        ) : (
                             <div className="container_right__second-row">
                                 <div className="second-row_iteach">
                                     <div className="title">iTeach</div>
                                     <div className="flags">
-                                    
                                         {taughtLanguages &&
-                                        taughtLanguages.map(
-                                            (language, index) =>
-                                                index < 4 && (
-                                                    <Image
-                                                        key={index}
-                                                        src={`https://www.countryflags.io/${language.code}/flat/32.png`}
-                                                        className="flag_image"
-                                                    />
-                                                )
-                                        )}
+                                            taughtLanguages.map(
+                                                (language, index) =>
+                                                    index < 4 && (
+                                                        <Image
+                                                            key={index}
+                                                            src={`https://www.countryflags.io/${language.code}/flat/32.png`}
+                                                            className="flag_image"
+                                                        />
+                                                    )
+                                            )}
                                     </div>
                                 </div>
-                            <div className="second-row_ilearn">
-                                <div className="title">iLearn</div>
-                                <div className="flags">
-                                    {learnedLanguages &&
-                                        learnedLanguages.map(
-                                            (language, index) =>
-                                                index < 4 && (
-                                                    <Image
-                                                        key={index}
-                                                        src={`https://www.countryflags.io/${language.code}/flat/32.png`}
-                                                        className="flag_image"
-                                                    />
-                                                )
-                                        )}
-                                    <Placeholder>
-                                        <Placeholder.Line length="full"/>
-                                    </Placeholder>
+                                <div className="second-row_ilearn">
+                                    <div className="title">iLearn</div>
+                                    <div className="flags">
+                                        {learnedLanguages &&
+                                            learnedLanguages.map(
+                                                (language, index) =>
+                                                    index < 4 && (
+                                                        <Image
+                                                            key={index}
+                                                            src={`https://www.countryflags.io/${language.code}/flat/32.png`}
+                                                            className="flag_image"
+                                                        />
+                                                    )
+                                            )}
+                                        <Placeholder>
+                                            <Placeholder.Line length="full" />
+                                        </Placeholder>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        }
-                        {checkUserSlugLoading ? 
-                                <Placeholder>
-                                    <Placeholder.Line length="full"/>
-                                </Placeholder>
-                            :
-                        <div className="container_right__third-row">
-                            <Statistics
-                            selectedUserToFetchSubscriptions={selectedUserToFetchSubscriptions}
-                            userId={id}
-                            userSlug={userSlugInfos.slug}
-                            totalRecords={records ? records.length : 0}
-                            totalFollower={followers ? followers.length : 0}
-                            totalFollowed={followed ? followed.length : 0}
-                            />
-                        </div>
-                        }
+                        )}
+                        {checkUserSlugLoading ? (
+                            <Placeholder>
+                                <Placeholder.Line length="full" />
+                            </Placeholder>
+                        ) : (
+                            <div className="container_right__third-row">
+                                <Statistics
+                                    userId={id}
+                                    userSlug={userSlugInfos.slug}
+                                    totalRecords={records ? records.length : 0}
+                                    totalFollower={followers ? followers.length : 0}
+                                    totalFollowed={followed ? followed.length : 0}
+                                />
+                            </div>
+                        )}
                     </div>
                 </Segment>
-                
-                    <div className="container_bio">
-                        {checkUserSlugLoading ? 
-                            <Placeholder>
-                                <Placeholder.Line length="full"/>
-                            </Placeholder>
-                        :
-                            bio && (
-                                <p>
-                                    <strong>« </strong> {bio} <strong> »</strong>
-                                </p>
-                            )
-                        }
-                    </div>
-                
+
+                <div className="container_bio">
+                    {checkUserSlugLoading ? (
+                        <Placeholder>
+                            <Placeholder.Line length="full" />
+                        </Placeholder>
+                    ) : (
+                        bio && (
+                            <p>
+                                <strong>« </strong> {bio} <strong> »</strong>
+                            </p>
+                        )
+                    )}
+                </div>
+
                 <div className="user-profil_feed">
                     <ProfilSearch
                         records={records}
                         inputSearch={inputSearch}
                         setInputSearch={setInputSearch}
                     />
-                    {filteredRecords && filteredRecords.length ? 
+                    {filteredRecords && filteredRecords.length ? (
                         filteredRecords.map((audio, key) => (
                             <Irecords
                                 key={key}
@@ -253,19 +250,15 @@ const UserProfil = (props) => {
                                 isUserRecord={id}
                             />
                         ))
-                    :  (
-                            <>
-                                <div className="user-profil_feed__norecords">
-                                    <Icon
-                                        name="microphone slash"
-                                        size="big"
-                                        circular
-                                    />
-                                    <div className="norecords-informations">
-                                        Aucun iRecord.
-                                    </div>
+                    ) : (
+                        <>
+                            <div className="user-profil_feed__norecords">
+                                <Icon name="microphone slash" size="big" circular />
+                                <div className="norecords-informations">
+                                    Aucun iRecord.
                                 </div>
-                            </>
+                            </div>
+                        </>
                     )}
                 </div>
             </div>

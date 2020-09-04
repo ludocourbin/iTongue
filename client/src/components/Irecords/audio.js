@@ -19,7 +19,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
     const progress = useRef(null);
 
     const [playing, setPlaying] = useState(false);
-    const [currentTime, setCurrentTime] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0.0001);
     const [duration, setDuration] = useState(0);
     const [percent, setPercent] = useState(0);
     const [mouseDown, setMouseDown] = useState(false);
@@ -30,7 +30,6 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
 
         if (!playing) {
             audioRef.current.play();
-
             setIrecordSelectedId(id);
         } else {
             audioRef.current.pause();
@@ -48,7 +47,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
     };
 
     const handleStop = () => {
-        audioRef.current.currentTime = 0.0;
+        audioRef.current.currentTime = 0.0001;
         setPlaying(false);
         audioRef.current.pause();
     };
@@ -83,34 +82,26 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
     };
     */
     const handleDuration = async () => {
-        if (audio.blob) {
-            const duration = await getBlobDuration(audio.blob);
-            setDisplayCurrentTime(true);
-            setDuration(duration);
-        } else {
-            while (audioRef.current.duration === Infinity) {
-                await new Promise((r) => setTimeout(r, 10));
-                audioRef.current.currentTime = 10000000 * Math.random();
-            }
-            audioRef.current.currentTime = 0.0;
-            setDisplayCurrentTime(true);
-            let duration = audioRef.current.duration;
-            setDuration(duration);
-        }
+        // console.log({ src: audioRef.current.src, duration: audioRef.current.duration });
+        // console.log({ audio });
+        // if (audio.blob) {
+        //     const duration = await getBlobDuration(audio.blob);
+        //     setDisplayCurrentTime(true);
+        //     setDuration(duration);
+        // } else {
+        //     while (audioRef.current.duration === Infinity) {
+        //         await new Promise((r) => setTimeout(r, 10));
+        //         audioRef.current.currentTime = 10000000 * Math.random();
+        //     }
+        //     audioRef.current.currentTime = 0.0001;
+        //     setDisplayCurrentTime(true);
+        //     let duration = audioRef.current.duration;
+        //     setDuration(duration);
+        // }
     };
 
     return (
-        <Card.Content className="audioRecorder" /*textAlign="left"*/>
-            {/*
-            audioRecorder-player flex
-              bouton stop
-              bouton play
-              jauge flex-grow 1 flex-column
-                jauge elle-même w100
-                temps 100 flex space between
-                  debut
-                  fin
-          */}
+        <Card.Content className="audioRecorder">
             <div className="audioRecorder-player">
                 <Icon
                     circular
@@ -134,11 +125,8 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
                     onMouseUp={() => setMouseDown(false)}
                     onMouseDown={() => setMouseDown(true)}
                 >
-                    <Progress
-                        percent={percent}
-                        className={playing ? "orange" : null}
-                    />
-                    <div className='audioRecorder-player_time'>
+                    <Progress percent={percent} className={playing ? "orange" : null} />
+                    <div className="audioRecorder-player_time">
                         <p className="played">{sToTime(currentTime)}</p>
                         <p className="total">{sToTime(duration)}</p>
                     </div>
@@ -153,15 +141,13 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
                             ? `${process.env.REACT_APP_FILES_URL}/${audio.url}`
                             : audio
                     }
-                    onLoadedData={handleDuration}
+                    onCanPlayThrough={handleDuration}
                     onTimeUpdate={() => {
                         setCurrentTime(audioRef.current.currentTime);
                     }}
-                    preload="auto"
+                    // preload="auto"
                 />
-
             </div>
-
         </Card.Content>
     );
 };

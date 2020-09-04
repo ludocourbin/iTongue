@@ -13,7 +13,9 @@ export default (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
         case FETCH_IFOLLOWERS:
-            const { id } = store.getState().user.userSlugInfos;
+            // const { id } = store.getState().user.userSlugInfos;
+            const id = store.getState().ifollowersifollowing
+                .selectedUserIdToFetchSubscriptions.userId;
 
             httpClient
                 .get(
@@ -35,7 +37,10 @@ export default (store) => (next) => (action) => {
             httpClient
                 .get(
                     {
-                        url: `/users/${store.getState().user.userSlugInfos.id}/followed`,
+                        url: `/users/${
+                            store.getState().ifollowersifollowing
+                                .selectedUserIdToFetchSubscriptions.userId
+                        }/followed`,
                     },
                     store
                 )

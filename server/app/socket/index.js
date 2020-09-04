@@ -37,19 +37,14 @@ module.exports = io => {
     socket.on(
       "message",
       async ({ authorFirstname, authorLastname, authorAvatarUrl, text, recipientId }) => {
-        messageDatamapper
-          .insertOne({
+        try {
+          const dbMessage = await messageDatamapper.insertOne({
             text,
             sender_id: socket.user.id,
             recipient_id: recipientId
-          })
-          .catch(err => {
-            socket.emit("serverError", err);
-            console.log(err);
           });
 
-        if (socket.user.id != recipientId) {
-          try {
+          if (socket.user.id != recipientId) {
             const recipientSocketIds = await getSockets(recipientId);
             const userSocketIds = (await getSockets(socket.user.id)).filter(
               socketId => socketId != socket.id
@@ -57,6 +52,7 @@ module.exports = io => {
 
             for (const socketId of [...recipientSocketIds, ...userSocketIds]) {
               io.to(socketId).emit("message", {
+                messageId: dbMessage.id,
                 authorId: socket.user.id,
                 authorFirstname,
                 authorLastname,
@@ -64,18 +60,25 @@ module.exports = io => {
                 text
               });
             }
-          } catch (err) {
-            socket.emit("serverError", err);
-            console.log(err);
+          } else {
+            socket.emit(
+              "serverError",
+              new Error("Un utilisateur ne peut être à la fois expéditeur et destinataire")
+            );
           }
-        } else {
-          socket.emit(
-            "serverError",
-            new Error("Un utilisateur ne peut être à la fois expéditeur et destinataire")
-          );
+        } catch (err) {
+          socket.emit("serverError", err);
+          console.log(err);
         }
       }
     );
+
+    socket.on("read", messageId => {
+      messageDatamapper.setRead(messageId).catch(err => {
+        socket.emit("serverError", err);
+        console.log(err);
+      });
+    });
 
     socket.on("typing", async ({ authorFirstname, authorLastname, recipientId }) => {
       if (socket.user.id != recipientId) {

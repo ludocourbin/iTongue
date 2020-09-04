@@ -19,7 +19,7 @@ const dataMapper = {
 
   getLastiRecords: async limit => {
     const query = {
-      text: 'SELECT * FROM "last_irecords" LIMIT $1',
+      text: 'SELECT * FROM "show_records"() LIMIT $1',
       values: [limit]
     };
     const results = await client.query(query);

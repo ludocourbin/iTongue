@@ -18,6 +18,7 @@ import {
     EMPTY_CHECK_USER_SLUG,
     UPDATE_TOKEN_EXP,
     UPDATE_ACCESS_TOKEN,
+    USERSLUG_IS_UNDEFINED,
 } from "../actions/userActions";
 
 import {
@@ -101,6 +102,7 @@ const initialState = {
     /* EDIT PROFIL */
     allUsersList: [],
     userSlugInfos: {},
+    userSlugUndefined: false,
     checkUserSlugLoading: false,
     isLoadingallUsers: false,
     usersListError: "",
@@ -379,6 +381,7 @@ export default (state = initialState, action = {}) => {
                     ...action.payload,
                 },
                 checkUserSlugLoading: false,
+                userSlugUndefined: false,
             };
         case CHECK_USER_SLUG_ERROR:
             return {
@@ -389,6 +392,11 @@ export default (state = initialState, action = {}) => {
             return {
                 ...state,
                 userSlugInfos: {},
+            };
+        case USERSLUG_IS_UNDEFINED:
+            return {
+                ...state,
+                userSlugUndefined: true,
             };
         case EDIT_PROFIL_SLUG:
             return {

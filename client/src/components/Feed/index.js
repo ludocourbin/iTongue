@@ -21,7 +21,7 @@ const Feed = ({ fetchFeedUser, feedUser }) => {
             <div className="feed">
                 <Header size="small" content="Feed" className="feed-title" />
                 <div className="feed-list">
-                    {!feedUser ?
+                    {feedUser ?
                         feedUser.map((record) => (
                             <Irecords
                                 key={record.id}

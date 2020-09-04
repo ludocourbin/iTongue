@@ -27,3 +27,11 @@ export const fetchIfollowingSuccess = (payload) => ({
 export const fetchIfollowingError = () => ({
     type: FETCH_IFOLLOWING_ERROR,
 });
+
+export const SET_SELECTED_USER_TO_FETCH_SUBSCRIPTIONS = "SET_SELECTED_USER_TO_FETCH_SUBSCRIPTIONS"
+
+export const setSelectedUserToFetchSubscriptions = (payload) => ({
+    type: SET_SELECTED_USER_TO_FETCH_SUBSCRIPTIONS,
+    payload
+})
+

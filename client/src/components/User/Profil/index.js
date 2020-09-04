@@ -13,12 +13,21 @@ import Statistics from "../Statistics";
 
 /* Style */
 import "./userprofil.scss";
-import ProfilPlaceholder from "../../Placeholder/profilPlaceHolder";
 
-const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfos, emptyCheckUserSlug }) => {
+const UserProfil = (props) => {
+    
+    const { 
+        currentUser, 
+        editProfilAvatar, 
+        checkUserSlug, 
+        userSlugInfos, 
+        emptyCheckUserSlug, 
+        checkUserSlugLoading, 
+        userSlugUndefined, 
+        selectedUserToFetchSubscriptions 
+    } = props;
     
     const [isUserAccount, setIsUserAccount] = useState(false);
-    
     const [inputSearch, setInputSearch] = useState({ search: "", lang: null });
     
     const {
@@ -31,7 +40,6 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
         records,
         learnedLanguages,
         taughtLanguages,
-        checkUserSlugLoading,
         followers,
         followed,
     } = userSlugInfos;
@@ -42,11 +50,9 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 
     useEffect(() => {
         checkUserSlug(slug.slug);
-        /*
         return () => {
             emptyCheckUserSlug();
         }
-        */
     }, [slug.slug, checkUserSlug]);
 
     useEffect(() => {
@@ -56,7 +62,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                 lastname: userSlugInfos.lastname,
             })
         }
-    }, [userSlugInfos])
+    }, [userSlugInfos]);
 
     
     useEffect(() => {
@@ -85,12 +91,27 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
             );
         });
 
+    const RecordPlaceholder = () => {
+        const array = [1,2,3];
+        return (
+            array.map(i => (
+            <div className="profil-records_placeholder">
+                <Placeholder fluid >
+                    <Placeholder.Header image>
+                        <Placeholder.Line length='medium' />
+                        <Placeholder.Line length='medium' />
+                        <Placeholder.Line length='medium' />
+                    </Placeholder.Header>
+                </Placeholder>
+                </div>
+            ))
+        );
+    };
+    
     return (
         <Layout>
             <ToastContainer autoClose={2000} />
-            {currentUser.slug && !userSlugInfos.slug && (
-                <Redirect to={`/user/${currentUser.slug}`} />
-            )}
+
             {!currentUser && !userSlugInfos.slug && <Redirect to={`/`} />}
 
             <div className="user-profil">
@@ -98,7 +119,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                     {/* <ProfilPlaceholder /> */}
                     <div className="container_left">
                         <div className="container_left__container">
-                            {checkUserSlugLoading ? 
+                            {checkUserSlugLoading && userSlugInfos && !userSlugUndefined ? 
                                 <Placeholder>
                                     <Placeholder.Image/>
                                 </Placeholder>
@@ -111,10 +132,10 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                             />
                             }
                         </div>
-                        <Follow userSlugInfos={userSlugInfos} />
+                        {!userSlugUndefined && <Follow userSlugInfos={userSlugInfos} />}
                     </div>
                     <div className="container_right">
-                        {checkUserSlugLoading ? 
+                        {checkUserSlugLoading && userSlugInfos && !userSlugUndefined ? 
                                 <Placeholder>
                                     <Placeholder.Line length="full"/>
                                 </Placeholder>
@@ -122,7 +143,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                 <div className="container_right__first-row">
                                 
                                     <span className="user-title">
-                                        {firstname || "Utilisateur"} {lastname || "Inconnu"}
+                                        {userSlugUndefined ? "Unknown" : firstname } {userSlugUndefined ? "user" : lastname }
                                     </span>
                                 
                                     {isAdmin && <Icon name="check circle" />}
@@ -135,7 +156,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                             />
                                         </Link>
                                         :
-                                        <Link to={`/messages/${slug.slug}/${userSlugInfos.id}`}>
+                                        !userSlugUndefined && <Link to={`/messages/${slug.slug}/${userSlugInfos.id}`}>
                                         <Icon
                                             name="send"
                                             style={{ color: "#fe734c" }}
@@ -146,8 +167,9 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                 </div>
                             }
 
-                        {checkUserSlugLoading ? 
+                        {checkUserSlugLoading && userSlugInfos && !userSlugUndefined ? 
                                 <Placeholder>
+                                    <Placeholder.Line length="full"/>
                                     <Placeholder.Line length="full"/>
                                 </Placeholder>
                             :
@@ -183,23 +205,23 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                                     />
                                                 )
                                         )}
-                                    <Placeholder>
-                                        <Placeholder.Line length="full"/>
-                                    </Placeholder>
                                 </div>
                             </div>
                         </div>
                         }
-                        {checkUserSlugLoading ? 
+                        {checkUserSlugLoading && userSlugInfos && !userSlugUndefined ? 
                                 <Placeholder>
                                     <Placeholder.Line length="full"/>
                                 </Placeholder>
                             :
                         <div className="container_right__third-row">
                             <Statistics
-                                totalRecords={records ? records.length : 0}
-                                totalFollower={followers ? followers.length : 0}
-                                totalFollowed={followed ? followed.length : 0}
+                            selectedUserToFetchSubscriptions={selectedUserToFetchSubscriptions}
+                            userId={id}
+                            userSlug={userSlugInfos.slug}
+                            totalRecords={records ? records.length : 0}
+                            totalFollower={followers ? followers.length : 0}
+                            totalFollowed={followed ? followed.length : 0}
                             />
                         </div>
                         }
@@ -207,7 +229,7 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                 </Segment>
                 
                     <div className="container_bio">
-                        {checkUserSlugLoading ? 
+                        {checkUserSlugLoading && userSlugInfos && !userSlugUndefined ? 
                             <Placeholder>
                                 <Placeholder.Line length="full"/>
                             </Placeholder>
@@ -226,29 +248,34 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                         inputSearch={inputSearch}
                         setInputSearch={setInputSearch}
                     />
-                    {filteredRecords && filteredRecords.length ? 
-                        filteredRecords.map((audio, key) => (
-                            <Irecords
-                                key={key}
-                                record={audio}
-                                user={userSlugInfos}
-                                isUserRecord={id}
-                            />
-                        ))
-                    :  (
-                            <>
-                                <div className="user-profil_feed__norecords">
-                                    <Icon
-                                        name="microphone slash"
-                                        size="big"
-                                        circular
+                    {checkUserSlugLoading && userSlugInfos && !userSlugUndefined ? 
+                        
+                       <RecordPlaceholder />
+                       
+                        :
+                            filteredRecords && filteredRecords.length ? 
+                                filteredRecords.map((audio, key) => (
+                                    <Irecords
+                                        key={key}
+                                        record={audio}
+                                        user={userSlugInfos}
+                                        isUserRecord={id}
                                     />
-                                    <div className="norecords-informations">
-                                        Aucun iRecord.
-                                    </div>
-                                </div>
-                            </>
-                    )}
+                                ))
+                            :  (
+                                    <>
+                                        <div className="user-profil_feed__norecords">
+                                            <Icon
+                                                name="microphone slash"
+                                                size="big"
+                                                circular
+                                            />
+                                            <div className="norecords-informations">
+                                                Aucun iRecord.
+                                            </div>
+                                        </div>
+                                    </>
+                            )}
                 </div>
             </div>
         </Layout>

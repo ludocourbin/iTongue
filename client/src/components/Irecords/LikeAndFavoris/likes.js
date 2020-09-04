@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Icon } from "semantic-ui-react";
 // import './Likes.scss';
 
-const Likes = ({ record, addLikes, unlikes, likesUser }) => {
+const Likes = ({ record, addLikes, unlikes, likesUser,isLogged }) => {
     const isLike = likesUser.find((likes) => likes.id === record.id);
 
     const [isLiked, setIsLiked] = useState(null);
@@ -22,7 +22,7 @@ const Likes = ({ record, addLikes, unlikes, likesUser }) => {
         }
     };
     return (
-        <div onClick={handleLikes}>
+        <div onClick={() => isLogged && handleLikes()}>
             <Icon className={`${isLiked ? "isFavorite " : ""}likes`} name="thumbs up" />
             {record && record.likeCount}
         </div>

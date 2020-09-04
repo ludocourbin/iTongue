@@ -8,32 +8,34 @@ import {
 import ResizeObserver from "react-resize-observer";
 import './gifComponent.scss';
 
-const GifComponennt = ({ handleGifSelect}) => (
+const GifComponennt = ({ handleGifSelect, gifVisible}) => (
   <SearchContextManager initialTerm='travel' apiKey={process.env.REACT_APP_API_GIPHY}>
-    <Components  handleGifSelect={handleGifSelect} />
+    <Components  handleGifSelect={handleGifSelect} gifVisible={gifVisible} />
   </SearchContextManager>
-)
+);
 
-const Components = ({handleGifSelect}) => {
+const Components = ({handleGifSelect, gifVisible}) => {
 
   const { fetchGifs, searchKey } = useContext(SearchContext);
   const [width, setWidth] = useState(window.innerWidth);
 
   return (
-    <div className="gifcomponent">
-   
-      <SearchBar />
-     
-      <ResizeObserver
-        onResize={({ width }) => {
-          setWidth(width);
-        }}
-      />
-      <Grid key={searchKey} onGifClick={(gif, e) => {
-        e.preventDefault();
-        handleGifSelect(gif);
-      }} noLink={true} columns={3} width={width} fetchGifs={fetchGifs} />
-    </div>
+    <>
+    { gifVisible && 
+      <div className="gifcomponent">
+        <SearchBar />
+        <ResizeObserver
+          onResize={({ width }) => {
+            setWidth(width);
+          }}
+        />
+        <Grid key={searchKey} onGifClick={(gif, e) => {
+          e.preventDefault();
+          handleGifSelect(gif);
+        }} noLink={true} columns={3} width={width} fetchGifs={fetchGifs} />
+      </div>
+    }
+    </>
   )
 };
 

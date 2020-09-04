@@ -1,12 +1,40 @@
 @import '../../../styles/vars';
 
+.messages-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 .message {
-    //height: 76.2vh;
     position: relative;
 
     .ui.fluid.input>input {
         border: none!important;
         border-radius: 0!important;
+    };
+
+    &-form_btns {
+        display: flex;
+        width: 100%;
+        
+        &__label {
+            width: 25%;
+            
+        }
+
+        &__submit {
+            width: 75%;
+        }
+
+        .ui.label {
+            line-height: 2em !important;
+            cursor: pointer;
+        }
+
+        .ui.form {
+            width: 100%;
+        }
     }
 
     &_back {
@@ -16,7 +44,7 @@
         padding: 1em 0.5em !important;
         margin: 0 !important;
         background-color: $shape-color;
-        margin-bottom: 1.5em !important;
+        //margin-bottom: 1.5em !important;
     }
 
     &_link__back {
@@ -40,12 +68,13 @@
     }
 
     &-list {
-        margin: 1em .5em .5em .5em;
+        //margin: 0 .5em;
         height: 68.7vh;
+        flex-grow: 1;
         /*
         display: flex;
         flex-direction: column;
-        flex-grow: 1;
+        
         */
         overflow-y: auto;
         scroll-behavior: smooth;
@@ -54,6 +83,7 @@
 
     &_container {
         border: 0;
+        padding: 0 .5em;
     }
 
     &_container--right {
@@ -139,7 +169,7 @@
     }
 
     &-text--right {
-        text-align: right;
+        padding-left: 2em;
     }
 
     &-typing {
@@ -254,4 +284,13 @@
                     24px 0px 0px 0px rgba(0,0,0,2);
                    
       }
+}
+
+.css-1p3nsop {
+    background-color: #f5f4f46e!important;
+    font-size: 13px!important;
+}
+
+.css-1oi4414 {
+    background: #0000008c!important;
 }

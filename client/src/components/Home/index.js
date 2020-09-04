@@ -2,14 +2,17 @@ import React, { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import { Header, Grid, GridColumn, Image, Container, Flag } from "semantic-ui-react";
 import Recording from "../../assets/recording.png";
+
 import Irecords from "../../assets/iRecords.png";
 import Profil from "../../assets/profil.png";
 
 import "./home.scss";
 
 /* Components */
+import MembersCard from "../MembersCard";
 import Layout from "../../containers/Layout";
 import Carousel from "./carousel";
+
 
 /* Containers */
 import IrecordsComponent from "../../containers/Irecords";
@@ -27,6 +30,7 @@ const Home = ({
         fetchBestTranslations();
         fetchBestIrecords();
     }, [fetchBestUsers, fetchBestTranslations, fetchBestIrecords]);
+ 
     return (
         <Layout titlePage='Home'>
             <ToastContainer autoClose={2000} />
@@ -87,31 +91,8 @@ const Home = ({
                     content="Les iTeachers les plus actifs par langue"
                 />
                 {bestUsers &&
-                    bestUsers.map((user, index) => (
-                        <div key={index} className="users">
-                            <p>{index + 1}</p>
-
-                            <Image
-                                className="users-avatar"
-                                src={
-                                    user.avatarUrl
-                                        ? `${process.env.REACT_APP_FILES_URL}/${user.avatarUrl}`
-                                        : "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
-                                }
-                                alt="avatar itongue"
-                                avatar
-                                size="mini"
-                            />
-
-                            <p>
-                                {user.firstname} {user.lastname}
-                            </p>
-
-                            <p className="users-country">
-                                <Flag name={user.languageMostTaught.code} />
-                            </p>
-                            <p className="users-records">{user.iRecords} iRecords</p>
-                        </div>
+                    bestUsers.map((user) => (      
+                     <MembersCard user={user} key={user.id} />
                     ))}
 
                 <Header
@@ -161,3 +142,30 @@ const Home = ({
 };
 
 export default Home;
+
+
+
+// <div key={index} className="users">
+//                             <p>{index + 1}</p>
+
+//                             <Image
+//                                 className="users-avatar"
+//                                 src={
+//                                     user.avatarUrl
+//                                         ? `${process.env.REACT_APP_FILES_URL}/${user.avatarUrl}`
+//                                         : "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+//                                 }
+//                                 alt="avatar itongue"
+//                                 avatar
+//                                 size="mini"
+//                             />
+
+//                             <p>
+//                                 {user.firstname} {user.lastname}
+//                             </p>
+
+//                             <p className="users-country">
+//                                 <Flag name={user.languageMostTaught.code} />
+//                             </p>
+//                             <p className="users-records">{user.iRecords} iRecords</p>
+//                         </div>

@@ -2,9 +2,14 @@
 
 body {
     color: $primary-text-color;
-    background-color: #f5f4f4;
+    background-color: lighten($color: #f5f4f4, $amount: 3%) !important;
     overflow-y: scroll;
     height: 100vh!important;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: $primary-color !important;
 }
 
 ::-webkit-scrollbar {
@@ -33,6 +38,13 @@ a {
     animation: fadeOut 4s forwards;
     pointer-events: none;
   }
+
+.bold {
+    font-weight: 600;
+}
+
+
+
 
 //   input[type="color"],
 // input[type="date"],

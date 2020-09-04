@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import Profil from "../../components/User/Profil";
-import { fetchAllUsers, checkUserSlug } from '../../store/actions/userActions';
+import { fetchAllUsers, checkUserSlug, emptyCheckUserSlug } from '../../store/actions/userActions';
 import { editProfilAvatar } from '../../store/actions/editProfilActions';
 
 const mapStateToProps = (state) => ({
@@ -21,6 +21,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     checkUserSlug: (slug) => {
         dispatch(checkUserSlug(slug));
+    },
+    emptyCheckUserSlug: () => {
+        dispatch(emptyCheckUserSlug());
     },
 });
 

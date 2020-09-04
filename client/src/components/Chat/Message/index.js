@@ -1,13 +1,17 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import Layout from '../../../containers/Layout'
-import './message.scss';
-import { Form, Input, Image, Header, Icon } from 'semantic-ui-react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import moment from 'moment';
+
+/* Components */
+import { Form, Input, Image, Header, Icon, Label } from 'semantic-ui-react';
 import GifComponennt from '../Gif';
-import {
-    Gif,
-} from '@giphy/react-components';
+import { Gif } from '@giphy/react-components';
+
+/* Containers */
+import Layout from '../../../containers/Layout'
+
+/* Styles */
+import './message.scss';
 
 const Message = (props) => {
 
@@ -27,9 +31,11 @@ const Message = (props) => {
     const params = useParams();
     const messageListRef = useRef(null);
     const [inputValue, setInputValue] = useState("");
+    const [gifVisible, setGifVisible] = useState(false);
 
     useEffect(() => {
         const scrollY = messageListRef.current.scrollHeight;
+        console.log("scrollY", scrollY);
         messageListRef.current.scrollTo(0, scrollY);
     }, [allMessages]);
 
@@ -97,12 +103,12 @@ const Message = (props) => {
         handleNewMessage(JSON.stringify(gif))
     };
 
-
     /* Récupère l'objet de message pour vérifier si c'est un gif ou du text   */
     const getContent = text => {
         try {
             const content = JSON.parse(text);
-            return content.type === "gif" && <Gif gif={content} />;
+            if (content.type !== "gif") throw (new Error("Not a gif"));
+            return <Gif gif={content} />;
         } catch (err) {
             return text;
         }
@@ -110,80 +116,85 @@ const Message = (props) => {
 
     return (
         <Layout titlePage={`Chat - ${contact && contact.firstname}`}>
-            <Header size="tiny" className="message_back">
-                <Link to='/messages' className="message_link__back">
-                    <Icon name="chevron circle left" size="small" />
-                    Retour aux messages
-                </Link>
-                {contact &&
-                    <Link to={`/user/${contact.slug}`} className="message_link__user">
-                        <div>
-                            {contact.firstname}
-                        </div>
-
-                        <Image className="message_avatar__user"
-                            src={
-                                !contact.avatarUrl
-                                    ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
-                                    : process.env.REACT_APP_FILES_URL + "/" + contact.avatarUrl
-                            }
-                        />
+            <div className="messages-container">
+                <Header size="tiny" className="message_back">
+                    <Link to='/messages' className="message_link__back">
+                        <Icon name="chevron circle left" size="small" />
+                        Retour aux messages
                     </Link>
-                }
-            </Header>
-            <div className="message">
-                <div className="message-list" ref={messageListRef}>
-                    {allMessages.messages && allMessages.messages.map(message => (
-                        <div className={`message_container${message.sender.id === currentUser.id ? '--right' : ''}`} key={message.id}>
-                            <div className={`message__user${message.sender.id === currentUser.id ? '--right' : ''}`}>
-                                <Image
-                                    className="message-avatar"
-                                    src={
-                                        !message.sender.avatarUrl
-                                            ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
-                                            : process.env.REACT_APP_FILES_URL + "/" + message.sender.avatarUrl
-                                    }
-                                />
+                    {contact &&
+                        <Link to={`/user/${contact.slug}`} className="message_link__user">
+                            <div>
+                                {contact.firstname}
                             </div>
-                            <div className={`message_wrapper${message.sender.id === currentUser.id ? '--right' : ''}`}>
-                                <div className="message-text" className={`message-text${message.sender.id === currentUser.id ? '--right' : ''}`}>
-                                    {getContent(message.text)}
-                                </div>
-                                <div className="message-date" className={`message-date${message.sender.id === currentUser.id ? '--right' : ''}`}>
-                                    {moment(message.createdAt).fromNow()}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="message-typing">
-                    {userTyping.typing ?
-                        <>
-                            <strong>{userTyping.authorFirstname + " écrit"}</strong>
-                            <div className="typing-loader_wrapper">
-                                <div className="typing-loader"></div>
-                            </div>
-                        </>
-                        :
-                        ""
+
+                            <Image className="message_avatar__user"
+                                src={
+                                    !contact.avatarUrl
+                                        ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                                        : process.env.REACT_APP_FILES_URL + "/" + contact.avatarUrl
+                                }
+                            />
+                        </Link>
                     }
-                </div>
-                <div className="message-form_container">
-                    <Form onSubmit={handleSubmit}>
-                        <Input
-                            icon={<Icon name='send' link onClick={handleSubmit} />}
-                            fluid
-                            className="send-message"
-                            placeholder="Type your message here"
-                            onChange={handleChange}
-                            value={inputValue}
-                        />
-                    </Form>
-                    <div className="gifselect_container">
-                        <GifComponennt handleGifSelect={handleGifSelect} />
+                </Header>
+                    <div className="message-list" ref={messageListRef}>
+                        {allMessages.messages && allMessages.messages.map(message => (
+                            <div className={`message_container${message.sender.id === currentUser.id ? '--right' : ''}`} key={message.id}>
+                                <div className={`message__user${message.sender.id === currentUser.id ? '--right' : ''}`}>
+                                    <Image
+                                        className="message-avatar"
+                                        src={
+                                            !message.sender.avatarUrl
+                                                ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                                                : process.env.REACT_APP_FILES_URL + "/" + message.sender.avatarUrl
+                                        }
+                                    />
+                                </div>
+                                <div className={`message_wrapper${message.sender.id === currentUser.id ? '--right' : ''}`}>
+                                    <div className="message-text" className={`message-text${message.sender.id === currentUser.id ? '--right' : ''}`}>
+                                        {getContent(message.text)}
+                                    </div>
+                                    <div className="message-date" className={`message-date${message.sender.id === currentUser.id ? '--right' : ''}`}>
+                                        {moment(message.createdAt).fromNow()}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="message-typing">
+                        {userTyping.typing ?
+                            <>
+                                <strong>{userTyping.authorFirstname + " écrit"}</strong>
+                                <div className="typing-loader_wrapper">
+                                    <div className="typing-loader"></div>
+                                </div>
+                            </>
+                            :
+                            ""
+                        }
+                    </div>
+                    <div className="message-form_container">
+                        <div className="message-form_btns">
+                            <Label size="small" className="message-forms_btn__label" onClick={() => setGifVisible(!gifVisible)}>
+                                GIF
+                            </Label>
+                            <Form onSubmit={handleSubmit} className="message-forms_btn__submit">
+                                <Input
+                                    icon={<Icon name='send' link onClick={handleSubmit} />}
+                                    fluid
+                                    className="send-message"
+                                    placeholder="Type your message here"
+                                    onChange={handleChange}
+                                    value={inputValue}
+                                />
+                            </Form>
+                        </div>
+                        <div className="gifselect_container">
+                            <GifComponennt handleGifSelect={handleGifSelect} gifVisible={gifVisible} />
+                        </div>
                     </div>
                 </div>
-            </div>
         </Layout>
     );
 };

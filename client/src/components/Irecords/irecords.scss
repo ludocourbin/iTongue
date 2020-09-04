@@ -15,6 +15,9 @@
   margin-bottom: 20px !important;
   position: relative;
   width: 100% !important;
+  max-width: 500px !important;
+
+  margin: 0 auto !important;
   //box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2) !important;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) !important;
   border-radius: 10px !important;
@@ -33,6 +36,7 @@
   
   &-container {
     width: 100vw !important;
+  
     
     .separator {
       border: 1px solid rgba(0, 0, 0, 0.116);

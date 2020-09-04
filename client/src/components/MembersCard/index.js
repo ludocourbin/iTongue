@@ -24,13 +24,14 @@ const MemberCard = ({ user }) => (
                         {user.firstname} {user.lastname}
                     </Header>
                     <p className="records">
-                        {user.records ? user.records.length : 0} iRecords
+                        {(user.records && user.records.length) || user.iRecords || 0} iRecords
+                    
                     </p>
                 </div>
             </div>
 
             <div className="member-card_right">
-                {user.taughtLanguages &&
+                {user.taughtLanguages ?
                     user.taughtLanguages.map((language, index) => {
                         return (
                             index < 3 && (
@@ -41,7 +42,10 @@ const MemberCard = ({ user }) => (
                                 />
                             )
                         );
-                    })}
+                    }) :  <Image 
+                    src={`https://www.countryflags.io/${user.languageMostTaught.code}/flat/32.png`}
+                    className="membercard_flag_image"
+                />}
             </div>
         </div>
     </Link>

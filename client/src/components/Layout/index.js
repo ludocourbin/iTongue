@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Segment, Sidebar } from "semantic-ui-react";
+import { Menu, Segment, Sidebar,Icon } from "semantic-ui-react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 
 import Header from "./menu";
@@ -45,10 +45,32 @@ const LayoutHeader = ({
     const classRecording = isRecording ? " modalRecording" : "";
 
     return (
-        <div className="main-header">
-            <Sidebar.Pushable>
-                <Sidebar
+        <>
+            <Sidebar.Pushable>       
+                <Sidebar.Pusher className="main main-container" dimmed={visible}>
+                    <Header
+                        pathname={pathname}
+                        visible={visible}
+                        setVisible={setVisible}
+                    />   
+                       <div className="main-content" className={classMain  /*classRecording*/ /*+ classUser */}>
+                        {props.children}                               
+                     </div>
+
+                     {isLogged ? (
+                        <NavigationBottom
+                            toggleRecording={toggleRecording}
+                            selectIrecordToRecord={selectIrecordToRecord}
+                            user={user}
+                            isRecording={isRecording}
+                            unreadCount={unreadCount}
+                        />
+                    ) : null}
+                    
+                    <Sidebar
                     as={Menu}
+                    id="main-sidebar"
+                    className="main-sidebar"
                     animation="overlay"
                     icon="labeled"
                     onHide={() => setVisible(false)}
@@ -58,7 +80,10 @@ const LayoutHeader = ({
                     width="thin"
                 >
                     <div className="main-header-links">
-                        <div className="container">
+                        <div className="container first-container">
+                        <div className="main-header-links__burger" onClick={() => setVisible(!visible)}>
+                        <Icon className="header-nav__icon" name="close" size="big" />
+                    </div>
                             <NavLink exact className="main-header-links__item" to={"/"}>
                                 Home
                             </NavLink>
@@ -105,42 +130,24 @@ const LayoutHeader = ({
                         </div>
                     </div>
                 </Sidebar>
-                <Sidebar.Pusher className="main" dimmed={visible}>
-                    <Header
-                        pathname={pathname}
-                        visible={visible}
-                        setVisible={setVisible}
-                    />
-                    <div className={classMain + classRecording /*+ classUser */}>
-                        {props.children}
-                    </div>
                 </Sidebar.Pusher>
             </Sidebar.Pushable>
             {isRecording ? (
-                        <Recording
-                            selectIrecordToRecord={selectIrecordToRecord}
-                            toggleRecording={toggleRecording}
-                            audio={recording}
-                            setTranslationId={setTranslationId}
-                            sendIrecordsRecorded={sendIrecordsRecorded}
-                            loading={loading}
-                            allExpressions={allExpressions}
-                            fetchAllExpressions={fetchAllExpressions}
-                            learnedLanguages={learnedLanguages}
-                            taughtLanguages={taughtLanguages}
-                            traductionId={traductionId}
-                        />
-                    ) : null}
-            {isLogged ? (
-                <NavigationBottom
-                    toggleRecording={toggleRecording}
+                <Recording
                     selectIrecordToRecord={selectIrecordToRecord}
-                    user={user}
-                    isRecording={isRecording}
-                    unreadCount={unreadCount}
+                    toggleRecording={toggleRecording}
+                    audio={recording}
+                    setTranslationId={setTranslationId}
+                    sendIrecordsRecorded={sendIrecordsRecorded}
+                    loading={loading}
+                    allExpressions={allExpressions}
+                    fetchAllExpressions={fetchAllExpressions}
+                    learnedLanguages={learnedLanguages}
+                    taughtLanguages={taughtLanguages}
+                    traductionId={traductionId}
                 />
             ) : null}
-        </div>
+        </>  
     );
 };
 

@@ -21,7 +21,7 @@ const Statistics = (props) => {
                 </Statistic.Label>
             </Statistic>
 
-            <Statistic style={{ position: "relative", left: "5px" }}>
+            <Statistic>
                 <Statistic.Value>{totalFollowed}</Statistic.Value>
                 <Statistic.Label>
                     <NavLink to="/ifollowing">iFollowing</NavLink>

@@ -7,11 +7,12 @@ import moment from 'moment';
 
 const Conversations = (props) => {
 
-    const { 
-        socketSetRecipient,         
+    const {
+        socketSetRecipient,
         fetchAllThreads,
         allThreads,
-        emptyAllThreads
+        emptyAllThreads,
+        currentUser,
     } = props;
 
     useEffect(() => {
@@ -24,34 +25,49 @@ const Conversations = (props) => {
     const sliceText = (text) => {
         const maxLength = 24;
         let preview = text.slice(0, maxLength);
-        if(text.length > maxLength){
-            preview += "...";  
+        if (text.length > maxLength) {
+            preview += "...";
         }
-        return  preview;
+        return preview;
+    };
+
+    const getContent = text => {
+        try {
+            const content = JSON.parse(text);
+            if (content.type !== "gif") throw (new Error("Not a gif"));
+            return "sent a GIF";
+        } catch (err) {
+            return text;
+        }
+    };
+
+    const getSubject = (sender) => {
+        if (currentUser.id === sender.id)
+            return "You : ";
     };
 
     return (
         <Layout titlePage='Messages'>
             <div className="conversations">
 
-                { allThreads && allThreads.map(({contact, messages, latest}) => (
-                    <div 
-                    className={`conversation ${messages.some(message => !message.read && contact.id == message.sender.id) && "active"
-                    }`}
-                    key={contact.id}
+                {allThreads && allThreads.map(({ contact, messages, latest }) => (
+                    <div
+                        className={`conversation ${messages.some(message => !message.read && contact.id == message.sender.id) && "active"
+                            }`}
+                        key={contact.id}
                     >
                         <div className="conversation_container">
                             <div className="conversation_avatar__container">
-                                <Link  to={`user/${contact.slug}`}>
+                                <Link to={`user/${contact.slug}`}>
                                     <Image className="conversation-avatar"
-                                    src={
-                                        !contact.avatarUrl
-                                        ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
-                                        : process.env.REACT_APP_FILES_URL + "/" + contact.avatarUrl
-                                    }
+                                        src={
+                                            !contact.avatarUrl
+                                                ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                                                : process.env.REACT_APP_FILES_URL + "/" + contact.avatarUrl
+                                        }
                                     />
-                                    { messages.some(message => !message.read && contact.id == message.sender.id) &&
-                                        <Label circular empty className="conversation-unread"/>
+                                    {messages.some(message => !message.read && contact.id == message.sender.id) &&
+                                        <Label circular empty className="conversation-unread" />
                                     }
                                 </Link>
 
@@ -61,8 +77,8 @@ const Conversations = (props) => {
                                     {contact.firstname} {contact.lastname}
                                 </div>
                                 <div className="conversation-text">
-                                    {sliceText(messages[messages.length - 1].text)}
-                                    {/* Mettre You : / Me : */}
+                                    <span className="bold">{getSubject(messages[messages.length - 1].sender)}</span>
+                                    {sliceText(getContent(messages[messages.length - 1].text))}
                                 </div>
                                 <div className="conversation-date">
                                     {moment(latest).fromNow()}
@@ -70,7 +86,7 @@ const Conversations = (props) => {
                             </div>
                         </div>
                         <Link to={`/messages/${contact.slug}/${contact.id}`} onClick={() => socketSetRecipient(contact)}>
-                            <Icon name="send" size="big" className="conversation-sendicon"/>
+                            <Icon name="send" size="big" className="conversation-sendicon" />
                         </Link>
                     </div>
                 ))}

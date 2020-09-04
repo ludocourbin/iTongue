@@ -9,49 +9,40 @@
 
     &-player {
         display: flex;
-        justify-content: center;
-        padding: .6em;
-        padding-top: .8em;
+        align-items: center;
+        padding: 1em 1.6em .5em 1.6em;
         background-color: #cecccc36!important;
         //box-shadow: 0 3px 3px rgba(0, 0, 0, 0.219);
         width: 90%;
-        border-radius: 15px;
+        border-radius: 1.6em;
         margin: 0 auto;
 
-        &_container {
-            width: 93%;
+        &_progress {
+            position: relative;
+            top: 0.44em;
+            margin-left: 0.5em;
+            flex-grow: 1;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            align-content: center;
+            flex-direction: column;
         }
 
-        &_containerbtn {
+        &_time {
             display: flex;
+            padding: 0 0.3em;
             justify-content: space-between;
-            width: 56px;
         }
 
         &_btn {
             background-color: #cac7c7;
             color: $background-items;
+            margin-right: 1em !important;
             border: 0!important;
         }
     }
 
-
-
-    .icon {
-        position: relative;
-        top: -3px;
-    }
-
     i.circular.icon {
-        box-shadow: none;
-        font-size: .8em;
-        line-height: 1.2!important;
-        padding: .5em 0 0.5em 0em!important;
-        
+       width: 32px !important;
+       height: 22.5px !important; 
     }
 
     .ui.progress .bar {
@@ -64,7 +55,7 @@
 
     .progress {
         height: 10px;
-        margin-left: 5px !important;
+        margin-left: 0px !important;
        // margin-right: 10px !important;
         margin-bottom: 4px !important;
         width: 100%;
@@ -73,23 +64,13 @@
         }
     }
 
-    .played {
-        position: absolute;
-        top: 27px;
-        left: 112px;
+    .played,
+    .total {      
         font-size: 0.6rem;
         font-weight: 600;
         color: #6f6d6d;
     }
 
-    .total {
-        position: absolute;
-        top: 27px;
-        right: 47px;
-        font-size: 0.6rem;
-        font-weight: 600;
-        color: #6f6d6d;
-    }
 
     .icon {
         cursor: pointer;

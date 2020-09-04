@@ -31,11 +31,6 @@ const ProfilSearch = ({ records, inputSearch, setInputSearch }) => {
         };
     });
 
-    //     <Image
-    //     src={`https://www.countryflags.io/${traduction.flag}/flat/32.png`}
-    //     className="record_flag_image"
-    // />
-
     return (
         <div className="profil-search">
             <Input

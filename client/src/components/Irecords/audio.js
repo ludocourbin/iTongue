@@ -81,7 +81,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
             setDuration(audioRef.current.duration);
         }
     };
-*/
+    */
     const handleDuration = async () => {
         if (audio.blob) {
             const duration = await getBlobDuration(audio.blob);
@@ -98,57 +98,70 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
             setDuration(duration);
         }
     };
+
     return (
         <Card.Content className="audioRecorder" /*textAlign="left"*/>
+            {/*
+            audioRecorder-player flex
+              bouton stop
+              bouton play
+              jauge flex-grow 1 flex-column
+                jauge elle-même w100
+                temps 100 flex space between
+                  debut
+                  fin
+          */}
             <div className="audioRecorder-player">
-                <div className="audioRecorder-player_container">
-                    <audio
-                        id={id}
-                        ref={audioRef}
-                        type="audio/mpeg"
-                        src={
-                            audio.url
-                                ? `${process.env.REACT_APP_FILES_URL}/${audio.url}`
-                                : audio
-                        }
-                        onLoadedData={handleDuration}
-                        onTimeUpdate={() => {
-                            setCurrentTime(audioRef.current.currentTime);
-                        }}
-                        preload="auto"
+                <Icon
+                    circular
+                    className="audioRecorder-player_btn stopBtn"
+                    onClick={handleStop}
+                    name="stop"
+                />
+                <Icon
+                    circular
+                    className="audioRecorder-player_btn playBtn"
+                    onClick={togglePlaying}
+                    name={playing ? "pause" : "play"}
+                />
+
+                <div
+                    className="audioRecorder-player_progress"
+                    style={{ cursor: "ew-resize", width: "75%" }}
+                    ref={progress}
+                    onClick={scrub}
+                    onMouseMove={(e) => mouseDown && scrub(e)}
+                    onMouseUp={() => setMouseDown(false)}
+                    onMouseDown={() => setMouseDown(true)}
+                >
+                    <Progress
+                        percent={percent}
+                        className={playing ? "orange" : null}
                     />
-                    <div className="audioRecorder-player_containerbtn">
-                        <Icon
-                            circular
-                            className="audioRecorder-player_btn"
-                            onClick={handleStop}
-                            name="stop"
-                        />
-                        <Icon
-                            circular
-                            className="audioRecorder-player_btn"
-                            onClick={togglePlaying}
-                            name={playing ? "pause" : "play"}
-                        />
-                    </div>
-                    <div
-                        className="audioRecorder-player_progress"
-                        style={{ cursor: "ew-resize", width: "75%" }}
-                        ref={progress}
-                        onClick={scrub}
-                        onMouseMove={(e) => mouseDown && scrub(e)}
-                        onMouseUp={() => setMouseDown(false)}
-                        onMouseDown={() => setMouseDown(true)}
-                    >
-                        <Progress
-                            percent={percent}
-                            className={playing ? "orange" : null}
-                        />
+                    <div className='audioRecorder-player_time'>
+                        <p className="played">{sToTime(currentTime)}</p>
+                        <p className="total">{sToTime(duration)}</p>
                     </div>
                 </div>
-                <p className="played">{sToTime(currentTime)}</p>
-                <p className="total">{sToTime(duration)}</p>
+
+                <audio
+                    id={id}
+                    ref={audioRef}
+                    type="audio/mpeg"
+                    src={
+                        audio.url
+                            ? `${process.env.REACT_APP_FILES_URL}/${audio.url}`
+                            : audio
+                    }
+                    onLoadedData={handleDuration}
+                    onTimeUpdate={() => {
+                        setCurrentTime(audioRef.current.currentTime);
+                    }}
+                    preload="auto"
+                />
+
             </div>
+
         </Card.Content>
     );
 };

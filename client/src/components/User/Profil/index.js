@@ -8,13 +8,14 @@ import ProfilSearch from "../../../containers/User/ProfilSearch";
 import Follow from "../../../containers/User/Follow";
 
 /* Components */
-import { Segment, Image, Icon } from "semantic-ui-react";
+import { Segment, Image, Icon, Placeholder } from "semantic-ui-react";
 import Statistics from "../Statistics";
 
 /* Style */
 import "./userprofil.scss";
+import ProfilPlaceholder from "../../Placeholder/profilPlaceHolder";
 
-const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfos }) => {
+const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfos, emptyCheckUserSlug }) => {
     
     const [isUserAccount, setIsUserAccount] = useState(false);
     
@@ -41,6 +42,11 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
 
     useEffect(() => {
         checkUserSlug(slug.slug);
+        /*
+        return () => {
+            emptyCheckUserSlug();
+        }
+        */
     }, [slug.slug, checkUserSlug]);
 
     useEffect(() => {
@@ -86,48 +92,71 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                 <Redirect to={`/user/${currentUser.slug}`} />
             )}
             {!currentUser && !userSlugInfos.slug && <Redirect to={`/`} />}
+
             <div className="user-profil">
                 <Segment className="user-profil_header">
+                    {/* <ProfilPlaceholder /> */}
                     <div className="container_left">
                         <div className="container_left__container">
-                            <UpdateAvatar
+                            {checkUserSlugLoading ? 
+                                <Placeholder>
+                                    <Placeholder.Image/>
+                                </Placeholder>
+                                :
+                                <UpdateAvatar
                                 avatarUrl={avatarUrl}
                                 isUserAccount={isUserAccount}
                                 editProfilAvatar={editProfilAvatar}
                                 checkUserSlugLoading={checkUserSlugLoading}
                             />
+                            }
                         </div>
                         <Follow userSlugInfos={userSlugInfos} />
                     </div>
                     <div className="container_right">
-                        <div className="container_right__first-row">
-                            <span className="user-title">
-                                {firstname || "Utilisateur"} {lastname || "Inconnu"}
-                            </span>
-                            {isAdmin && <Icon name="check circle" />}
-                            {isUserAccount && currentUser ?
-                                <Link to={`/user/${slug.slug}/edit`}>
-                                    <Icon
-                                        name="setting"
-                                        style={{ color: "#fe734c" }}
-                                        className="icon-settings"
-                                    />
-                                </Link>
-                                :
-                                <Link to={`/messages/${slug.slug}/${userSlugInfos.id}`}>
-                                <Icon
-                                    name="send"
-                                    style={{ color: "#fe734c" }}
-                                    className="icon-message"
-                                />
-                                </Link>
+                        {checkUserSlugLoading ? 
+                                <Placeholder>
+                                    <Placeholder.Line length="full"/>
+                                </Placeholder>
+                            :
+                                <div className="container_right__first-row">
+                                
+                                    <span className="user-title">
+                                        {firstname || "Utilisateur"} {lastname || "Inconnu"}
+                                    </span>
+                                
+                                    {isAdmin && <Icon name="check circle" />}
+                                    {isUserAccount && currentUser ?
+                                        <Link to={`/user/${slug.slug}/edit`}>
+                                            <Icon
+                                                name="setting"
+                                                style={{ color: "#fe734c" }}
+                                                className="icon-settings"
+                                            />
+                                        </Link>
+                                        :
+                                        <Link to={`/messages/${slug.slug}/${userSlugInfos.id}`}>
+                                        <Icon
+                                            name="send"
+                                            style={{ color: "#fe734c" }}
+                                            className="icon-message"
+                                        />
+                                        </Link>
+                                    }
+                                </div>
                             }
-                        </div>
-                        <div className="container_right__second-row">
-                            <div className="second-row_iteach">
-                                <div className="title">iTeach</div>
-                                <div className="flags">
-                                    {taughtLanguages &&
+
+                        {checkUserSlugLoading ? 
+                                <Placeholder>
+                                    <Placeholder.Line length="full"/>
+                                </Placeholder>
+                            :
+                            <div className="container_right__second-row">
+                                <div className="second-row_iteach">
+                                    <div className="title">iTeach</div>
+                                    <div className="flags">
+                                    
+                                        {taughtLanguages &&
                                         taughtLanguages.map(
                                             (language, index) =>
                                                 index < 4 && (
@@ -138,8 +167,8 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                                     />
                                                 )
                                         )}
+                                    </div>
                                 </div>
-                            </div>
                             <div className="second-row_ilearn">
                                 <div className="title">iLearn</div>
                                 <div className="flags">
@@ -154,9 +183,18 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                                     />
                                                 )
                                         )}
+                                    <Placeholder>
+                                        <Placeholder.Line length="full"/>
+                                    </Placeholder>
                                 </div>
                             </div>
                         </div>
+                        }
+                        {checkUserSlugLoading ? 
+                                <Placeholder>
+                                    <Placeholder.Line length="full"/>
+                                </Placeholder>
+                            :
                         <div className="container_right__third-row">
                             <Statistics
                                 totalRecords={records ? records.length : 0}
@@ -164,15 +202,24 @@ const UserProfil = ({ currentUser, editProfilAvatar, checkUserSlug, userSlugInfo
                                 totalFollowed={followed ? followed.length : 0}
                             />
                         </div>
+                        }
                     </div>
                 </Segment>
-                <div className="container_bio">
-                    {bio && (
-                        <p>
-                            <strong>« </strong> {bio} <strong> »</strong>
-                        </p>
-                    )}
-                </div>
+                
+                    <div className="container_bio">
+                        {checkUserSlugLoading ? 
+                            <Placeholder>
+                                <Placeholder.Line length="full"/>
+                            </Placeholder>
+                        :
+                            bio && (
+                                <p>
+                                    <strong>« </strong> {bio} <strong> »</strong>
+                                </p>
+                            )
+                        }
+                    </div>
+                
                 <div className="user-profil_feed">
                     <ProfilSearch
                         records={records}

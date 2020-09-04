@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 /* Components */
-import { Icon, Image, Transition, Form, TextArea, Confirm } from "semantic-ui-react";
+import { Icon, Image, Transition, Form, TextArea, Confirm, Placeholder } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import FavorisAndLikes from "../../../containers/LikeAndFavoris";
 
 /* Style */
 import "./comments.scss";
+import CommentPlaceholder from "../../Placeholder/commentPlaceholder";
 
 const Comments = (props) => {
     const {
@@ -24,6 +25,7 @@ const Comments = (props) => {
         commentEditInputValue,
         commentInputValue,
         commentSubmitLoading,
+        fetchCommentLoading,
         setRecordIdComment, // redux
         iRecordCommentIdSelect, // store
     } = props;
@@ -58,7 +60,10 @@ const Comments = (props) => {
 
     const handleShowComments = () => {
         setShowComments(!showComments);
-        fetchCommentsByRecord(record.id);
+        if(!showComments) {
+            fetchCommentsByRecord(record.id);
+        }
+        
         setRecordIdComment(record.id);
     };
 
@@ -72,7 +77,7 @@ const Comments = (props) => {
         <div className="social">
             <div className="social-interraction">
                 <div className="social-nbrlike">
-                    <FavorisAndLikes record={record} />
+                    <FavorisAndLikes isLogged={isLogged} record={record} />
                 </div>
                 <div className={`social-nbrcomment${showComments ? "--active" : ""}`} onClick={handleShowComments}>
                     {/* <Icon name="comments" /> */}
@@ -122,7 +127,11 @@ const Comments = (props) => {
                     size="mini"
                     dimmer="blurring"
                     />
-                    { showComments && commentsList && commentsList.map(comment => (
+
+                    { fetchCommentLoading ? 
+                        <CommentPlaceholder />
+                    : 
+                     showComments && commentsList && commentsList.map(comment => (
                     
                         <div className="social-comment" key={comment.id}>
                             <div className="social-comment_containerLeft">
@@ -197,7 +206,8 @@ const Comments = (props) => {
 
                             </div>
                         </div>
-                        ))}
+                        ))
+                        }
                     </div>
                 </>
             </Transition>

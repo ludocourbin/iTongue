@@ -6,39 +6,66 @@
 @import url("https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Acme&display=swap");
 
-body {
-    overflow-y: scroll;
-    height: 100vh!important;
+
+
+.pushable {
+    max-width: 992px;
+    margin: 0 auto;
+    background-color: $background-color !important;
 }
 
-.main {
-    background-color: $background-color !important;
-    max-height: 98vh;
+.main-container {
+    max-height: 100vh;
+    height: 100vh;
+    position: relative;
+    display:flex;
+    flex-direction:column; 
 
-    &-content {
-        height: calc(100vh - 54px);
-        
+    .pushable > .pusher:after {
+        position: fixed;
+        height: 100vh!important;
+    }
+
+    .pushable > .pusher {
+        overflow: auto!important;
+        position: inherit!important;
     }
 }
 
-.main-content.user {
-    //height: calc(100vh - 108px);
-    padding-top: 54px;
-    background-color: #f5f4f4;
+
+.main {
+    max-height: 98vh;
+
+    &-content {
+        flex-grow: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background-color: #f5f4f4;
+    }
 }
 
-.main-content.modalRecording.user {
-    height: calc(100vh - 348px);
+@media(min-width: 768px){
+    .main-content {
+        padding: 0 1.5rem;
+    }
+
+    .carousel {
+        margin: 0 -1.5rem;
+    }
 }
 
+#main-sidebar {
+    height: 100vh !important;
+    z-index: 1010;
+}
+
+// Liens sur le côté droits ( Login, Logout, etc ... ) 
 .header-nav {
     @include flex-alignCenter;
     padding: 2em 0.8em;
     height: 54px;
-    z-index: 9999;
     border-bottom: 1px solid #f9ecec;
     background-color: #ffffff !important;
-    position: fixed;
     top: 0;
     width: 100%;
 
@@ -70,34 +97,16 @@ body {
         // font-family: "Capriola", sans-serif;
         letter-spacing: 0.12em;
         font-size: 1.8em;
+        cursor: pointer;
     }
 }
 
-.main-header {
-    max-height: 100vh;
-    height: 100vh;
-    position: relative;
 
-    .pushable > .pusher:after {
-        position: fixed;
-        height: 100vh!important;
-    }
-
-    .pushable>.pusher {
-        overflow: auto!important;
-        position: inherit!important;
-    }
-}
 
 .pushable {
     //height: 94vh!important;
     height: 100vh !important;
     padding: 0 0 2em 0 !important;
-}
-.ui.visible.right.overlay.sidebar {
-    margin-top: 57px!important;
-    z-index: 1006;
-    height: 87vh!important;
 }
 
 .ui.sidebar {
@@ -105,7 +114,7 @@ body {
 }
 
 .main-header-links {
-    height: 84vh;
+    height: 97% !important;
     align-items: flex-start;
     text-align: left;
 
@@ -114,6 +123,17 @@ body {
 
     .container {
         @include flex-column;
+    }
+
+    .first-container{
+        margin-top: 35px
+    }
+
+    &__burger {
+        position: absolute;
+        right: 2.5px;
+        top: 5px;
+        padding: 10px;
     }
 
     &__item {
@@ -151,13 +171,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: fixed;
+    // position: fixed;
     width: 100%;
-    bottom: 0;
+    // bottom: 0;
     border-top: 1px solid #f9ecec;
     background-color: $background-items;
-    z-index: 9999;
-    margin-top: 100px !important;
+    z-index: 10;
+    // margin-top: 100px !important;
 
     &-items {
         margin-left: 10px !important;
@@ -186,3 +206,6 @@ body {
         font-size: 0.657143rem;
     }
 }
+
+
+

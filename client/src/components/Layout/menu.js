@@ -18,7 +18,10 @@ const Header = ({ setVisible, visible, pathname, ...props }) => {
                     size="big"
                 />
             </Link>
-            <h1 className="header-nav__title">iTongue</h1>
+            <Link to="/">
+                <h1 className="header-nav__title">iTongue</h1>
+            </Link>
+            
             <div onClick={() => setVisible(!visible)}>
                 <Icon className="header-nav__icon" name="sidebar" size="big" />
             </div>

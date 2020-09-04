@@ -17,6 +17,10 @@
         box-shadow: none;
     }
 
+    .ui.three.statistics {
+        //margin: 0!important;
+    }
+
     .ui.mini.statistics .statistic > .value {
         font-size: 1rem !important;
         font-weight: 600 !important;
@@ -32,7 +36,7 @@
         align-items: flex-start;
         align-content: center;
         width: 100%;
-        height: 190px;
+        min-height: 190px;
         overflow-x: hidden;
         padding: 1em !important;
         padding-top: 2em !important;

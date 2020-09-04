@@ -3,7 +3,7 @@ import { Icon } from "semantic-ui-react";
 
 // import './Favoris.scss';
 
-const Favoris = ({ addFavoris, unFavoris, record, favorisUser }) => {
+const Favoris = ({ addFavoris, unFavoris, record, favorisUser,isLogged }) => {
     const isFavorite = favorisUser.find((favoris) => favoris.id === record.id);
     const [isFavoris, setIsFavoris] = useState(null);
 
@@ -23,7 +23,7 @@ const Favoris = ({ addFavoris, unFavoris, record, favorisUser }) => {
     };
     return (
         <div
-            onClick={handleAddFavoris}
+            onClick={() => isLogged && handleAddFavoris()}
             className={`${isFavoris ? "isFavorite " : ""}favoris`}
         >
             <Icon name="favorite" />

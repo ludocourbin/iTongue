@@ -55,6 +55,7 @@ const initialState = {
     commentsList: [],
     commentEditInputValue: "",
     iRecordCommentIdSelect: 0,
+    fetchCommentLoading: false,
 };
 
 export default (state = initialState, action = {}) => {
@@ -216,15 +217,18 @@ export default (state = initialState, action = {}) => {
         case FETCH_COMMENTS_BY_RECORD:
             return {
                 ...state,
+                fetchCommentLoading: true,
             };
         case FETCH_COMMENTS_BY_RECORD_SUCCESS:
             return {
                 ...state,
                 commentsList: action.payload,
+                fetchCommentLoading: false,
             };
         case FETCH_COMMENTS_BY_RECORD_ERROR:
             return {
                 ...state,
+                fetchCommentLoading: false,
             };
         case SET_RECORD_ID_COMMENT:
             return {

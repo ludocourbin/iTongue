@@ -19,7 +19,6 @@ import {
 } from '../actions/chatActions';
 
 let socket;
-
 let typing = {};
 
 export const chatMiddleware = (store) => (next) => (action) => {
@@ -34,7 +33,7 @@ export const chatMiddleware = (store) => (next) => (action) => {
                     }
                 });
 
-                socket.on("message", ({ authorId, authorFirstname, authorLastname, authorAvatarUrl, text, recipientAvatarUrl }) => {
+                socket.on("message", ({ messageId, authorId, authorFirstname, authorLastname, authorAvatarUrl, text, recipientAvatarUrl }) => {
                     const currentUsr = store.getState().user.currentUser;
                     const contact = store.getState().chatReducer.allMessages.contact;
                     if (contact && (authorId == contact.id || authorId == currentUsr.id)) {
@@ -50,6 +49,10 @@ export const chatMiddleware = (store) => (next) => (action) => {
                                 avatarUrl: recipientAvatarUrl
                             }
                         }));
+
+                        if (authorId == contact.id) {
+                            socket.emit("read", messageId);
+                        }
 
                         store.dispatch(setUserIsTyping({}));
                     } else {
@@ -205,5 +208,5 @@ function getAccessToken(store) {
         }).catch(err => {
             reject(err);
         });
-    })
-}
+    });
+};

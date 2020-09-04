@@ -9,6 +9,7 @@ import {
 const mapStateToProps = (state) => ({
     allThreads: state.chatReducer.allThreads,
     unreadCount: state.chatReducer.unreadCount,
+    currentUser: state.user.currentUser,
 });
 
 const mapDispatchToProps = dispatch => ({

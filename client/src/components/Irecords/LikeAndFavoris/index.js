@@ -11,6 +11,7 @@ const LikeAndFavoris = ({
     unlikes,
     favorisUser,
     likesUser,
+    isLogged
 }) => {
     return (
         <div className="likeandfavoris">
@@ -19,12 +20,14 @@ const LikeAndFavoris = ({
                 record={record}
                 addLikes={addLikes}
                 unlikes={unlikes}
+                isLogged={isLogged}
             />
             <Favoris
                 favorisUser={favorisUser}
                 record={record}
                 unFavoris={unFavoris}
                 addFavoris={addFavoris}
+                isLogged={isLogged}
             />
         </div>
     );

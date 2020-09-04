@@ -18,6 +18,7 @@ const mapStateToProps = (state) => ({
     commentEditInputValue: state.irecords.commentEditInputValue,
     isLogged: state.user.isLogged,
     currentUser: state.user.currentUser,
+    fetchCommentLoading: state.irecords.fetchCommentLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({

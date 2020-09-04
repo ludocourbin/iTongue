@@ -15,6 +15,7 @@ import {
     CHECK_USER_SLUG,
     CHECK_USER_SLUG_SUCCESS,
     CHECK_USER_SLUG_ERROR,
+    EMPTY_CHECK_USER_SLUG,
     UPDATE_TOKEN_EXP,
     UPDATE_ACCESS_TOKEN,
 } from "../actions/userActions";
@@ -380,6 +381,11 @@ export default (state = initialState, action = {}) => {
                 checkUserSlugLoading: false,
             };
         case CHECK_USER_SLUG_ERROR:
+            return {
+                ...state,
+                userSlugInfos: {},
+            };
+        case EMPTY_CHECK_USER_SLUG:
             return {
                 ...state,
                 userSlugInfos: {},

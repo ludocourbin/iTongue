@@ -21,7 +21,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
 
   const [playing, setPlaying] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
-  
+
   const togglePlaying = () => {
     setPlaying(!playing);
 
@@ -71,7 +71,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
   const sToTime = t => {
     const min = Math.floor(t / 60);
     const sec = Math.floor(t % 60);
-    const ms = Math.round(1000 * (t - min * 60 - sec));
+    const ms = Math.round(1000 * (t % 1));
     return padZero(min) + ":" + padZero(sec) + ":" + padMs(ms);
   };
 

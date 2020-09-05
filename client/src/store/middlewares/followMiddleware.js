@@ -16,7 +16,7 @@ export const followMiddleware = (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
         case FOLLOW: 
-            const { id } = store.getState().user.currentUser;
+            const { id, email, firstname, slug, avatarUrl } = store.getState().user.currentUser;
             httpClient
                 .post({
                     url: `/users/${id}/follow`,
@@ -25,24 +25,35 @@ export const followMiddleware = (store) => (next) => (action) => {
                     }
                 }, store)
                 .then((res) => {
-                    console.log(res);
-                    store.dispatch(followSuccess());
+                    const data = {
+                        id: id,
+                        email: email,
+                        firstname: firstname,
+                        slug: slug,
+                        avatarUrl: avatarUrl,
+                    }
+                    store.dispatch(followSuccess(data));
                 })
                 .catch((err) => {
                     console.error(err);
-                    //console.log(err.response.data);
                     store.dispatch(followError());
                 });
             break;
         case UNFOLLOW:
             const curUserId = store.getState().user.currentUser.id;
+            const userSlugInfos = store.getState().user.userSlugInfos;
             httpClient
                 .delete({
                     url: `/users/${curUserId}/follow/${action.payload}`,
                 }, store)
                 .then((res) => {
                     console.log(res);
-                    store.dispatch(unFollowSuccess(false));
+                    
+                    const map = userSlugInfos.followers.filter(follower => follower.id !== curUserId);
+                    store.dispatch(unFollowSuccess({
+                        followersUpdate: map,
+                        isUserFollowThisUser: false,
+                    }));
                 })
                 .catch((err) => {
                     console.error(err);

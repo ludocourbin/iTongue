@@ -470,6 +470,10 @@ export default (state = initialState, action = {}) => {
                 isUserFollowThisUser: true,
                 userSlugInfos: {
                     ...state.userSlugInfos,
+                    followers: [
+                        ...state.userSlugInfos.followers,
+                        action.payload
+                    ],
                     followerCount: state.userSlugInfos.followerCount + 1,
                 }
             };    
@@ -484,9 +488,10 @@ export default (state = initialState, action = {}) => {
         case UNFOLLOW_SUCCESS:
             return {
                 ...state,
-                isUserFollowThisUser: action.payload,
+                isUserFollowThisUser: action.payload.isUserFollowThisUser,
                 userSlugInfos: {
                     ...state.userSlugInfos,
+                    followers: [...action.payload.followersUpdate],
                     followerCount: state.userSlugInfos.followerCount - 1,
                 }
             };    

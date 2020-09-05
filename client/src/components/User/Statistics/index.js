@@ -5,7 +5,7 @@ import "./statistics.scss";
 import { NavLink } from "react-router-dom";
 
 const Statistics = (props) => {
-    const { totalRecords, totalFollower, totalFollowed,selectedUserToFetchSubscriptions,userId,userSlug } = props;
+    const { totalRecords, totalFollower, totalFollowed, selectedUserToFetchSubscriptions, userId, userSlug } = props;
     return (
         <Statistic.Group widths="three" size="mini" className="statistics-group">
             <Statistic>

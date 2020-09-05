@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, Redirect } from "react-router-dom";
+
+
+/* Components */
+import { Segment, Image, Icon, Placeholder } from "semantic-ui-react";
+import Statistics from "../Statistics";
 import { ToastContainer } from "react-toastify";
+
+/* Containers */
 import Layout from "../../../containers/Layout";
 import Irecords from "../../../containers/Irecords";
 import UpdateAvatar from "../../../containers/User/UpdateAvatar";
 import ProfilSearch from "../../../containers/User/ProfilSearch";
 import Follow from "../../../containers/User/Follow";
 
-/* Components */
-import { Segment, Image, Icon, Placeholder } from "semantic-ui-react";
-import Statistics from "../Statistics";
 
 /* Style */
 import "./userprofil.scss";
@@ -28,7 +32,6 @@ const UserProfil = (props) => {
     } = props;
     
     const [isUserAccount, setIsUserAccount] = useState(false);
-    const [slugEvenSlugInfos, setSlugEvenSlugInfos] = useState(false);
     const [inputSearch, setInputSearch] = useState({ search: "", lang: null });
     
     const {
@@ -50,11 +53,7 @@ const UserProfil = (props) => {
 
     let slug = useParams();
         
-    // const [loading, setLoading] = useState(false);
-
     useEffect(() => {
-        // store: loadingComponent: {"name": true}
-        // setLoading("profil");
         checkUserSlug(slug.slug);
         return () => {
             emptyCheckUserSlug();
@@ -101,7 +100,7 @@ const UserProfil = (props) => {
         const array = [1,2,3];
         return (
             array.map(i => (
-            <div className="profil-records_placeholder">
+            <div className="profil-records_placeholder" key={i}>
                 <Placeholder fluid >
                     <Placeholder.Header image>
                         <Placeholder.Line length='medium' />
@@ -113,7 +112,7 @@ const UserProfil = (props) => {
             ))
         );
     };
-    
+
     return (
         <Layout>
             <ToastContainer autoClose={2000} />

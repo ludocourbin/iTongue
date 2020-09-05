@@ -36,12 +36,12 @@ const Message = (props) => {
     useEffect(() => {
         const scrollY = messageListRef.current.scrollHeight;
         console.log("scrollY", scrollY);
+        console.log("messageListRef", messageListRef);
         messageListRef.current.scrollTo(0, scrollY);
     }, [allMessages]);
 
     useEffect(() => {
         socketSetRecipient({ id: params.id });
-
         return () => {
             socketSetRecipient({});
         }
@@ -49,7 +49,6 @@ const Message = (props) => {
 
     useEffect(() => {
         fetchAllMessages();
-
         return () => {
             emptyAllMessages();
         };
@@ -108,7 +107,7 @@ const Message = (props) => {
         try {
             const content = JSON.parse(text);
             if (content.type !== "gif") throw (new Error("Not a gif"));
-            return <Gif gif={content} />;
+            return <Gif gif={content} width='200' height='200' />;
         } catch (err) {
             return text;
         }

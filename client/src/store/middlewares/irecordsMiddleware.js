@@ -194,7 +194,7 @@ export const irecordsMiddleware = store => next => action => {
               return record;
             });
             
-            const userSlugInfosUpdateCount = userSlugInfos.records.map(record => {
+            const userSlugInfosUpdateCount = userSlugInfos.records && userSlugInfos.records.map(record => {
               if (record.id === recordId) {
                 return {
                   ...record,
@@ -215,7 +215,7 @@ export const irecordsMiddleware = store => next => action => {
             });
 
             store.dispatch(setCountComment({
-              userSlugInfos: userSlugInfosUpdateCount,
+              userSlugInfos: userSlugInfos.records ? userSlugInfosUpdateCount : [],
               feedUser: feedUserUpdateCount,
             }));
 

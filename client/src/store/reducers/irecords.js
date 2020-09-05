@@ -8,6 +8,7 @@ import {
   FETCH_ALL_RECORDS,
   FETCH_ALL_RECORDS_SUCCESS,
   FETCH_ALL_RECORDS_ERROR,
+  EMPTY_RECORDS_LIST,
   SET_TRANSLATION_ID,
   FETCH_EXPRESSIONS_USER,
   FETCH_EXPRESSIONS_ERROR_USER,
@@ -113,6 +114,11 @@ export default (state = initialState, action = {}) => {
         ...state,
         isLoadingAllRecords: false,
         recordsListError: action.payload
+      };
+    case EMPTY_RECORDS_LIST:
+      return {
+        ...state,
+        allRecordsList: null
       };
     case FETCH_EXPRESSIONS_USER:
       return {

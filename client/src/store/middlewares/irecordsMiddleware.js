@@ -5,6 +5,7 @@ import {
   FETCH_ALL_RECORDS,
   sendIrecordSuccessIrecordsPage,
   sendIrecordSuccessUserProfile,
+  sendIrecordSuccessHomePage,
   sendIrecordsError,
   fetchAllRecordsSuccess,
   fetchAllRecordsError,
@@ -14,7 +15,8 @@ import {
   DELETE_IRECORD,
   deleteIrecordSuccessIrecordsPage,
   deleteIrecordSuccessUserProfile,
-  deleteIrecordError
+  deleteIrecordError,
+  deleteIrecordSuccessHomePage
 } from "../actions/irecordsActions";
 
 import {
@@ -68,6 +70,7 @@ export const irecordsMiddleware = store => next => action => {
 
               const userInfo = store.getState().user.userSlugInfos;
               const irecords = store.getState().irecords;
+              const statistics = store.getState().statisticsHomeReducer;
 
               if (userInfo && userInfo.records) {
                 removeOldRecord(record, userInfo.records);
@@ -77,6 +80,9 @@ export const irecordsMiddleware = store => next => action => {
                 store.dispatch(
                   sendIrecordSuccessIrecordsPage([record, ...irecords.allRecordsList])
                 );
+              } else if (statistics && statistics.bestIrecords) {
+                removeOldRecord(record, statistics.bestIrecords);
+                store.dispatch(sendIrecordSuccessHomePage([record, ...statistics.bestIrecords]));
               }
             })
             .catch(err => {
@@ -146,13 +152,19 @@ export const irecordsMiddleware = store => next => action => {
         .then(() => {
           const userInfo = store.getState().user.userSlugInfos;
           const irecords = store.getState().irecords;
+          const statistics = store.getState().statisticsHomeReducer;
 
-          if (userInfo && userInfo.records) {
-            removeOldRecord({ id: action.payload }, userInfo.records);
+          const record = { id: action.payload };
+
+          if (userInfo && userInfo.records && userInfo.records.length) {
+            removeOldRecord(record, userInfo.records);
             store.dispatch(deleteIrecordSuccessUserProfile(userInfo.records));
-          } else if (irecords && irecords.allRecordsList) {
-            removeOldRecord({ id: action.payload }, irecords.allRecordsList);
+          } else if (irecords && irecords.allRecordsList && irecords.allRecordsList.length) {
+            removeOldRecord(record, irecords.allRecordsList);
             store.dispatch(deleteIrecordSuccessIrecordsPage(irecords.allRecordsList));
+          } else if (statistics && statistics.bestIrecords) {
+            removeOldRecord(record, statistics.bestIrecords);
+            store.dispatch(deleteIrecordSuccessHomePage(statistics.bestIrecords));
           }
         })
         .catch(() => {

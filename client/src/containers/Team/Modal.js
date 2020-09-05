@@ -4,19 +4,17 @@ import { connect } from "react-redux";
 import Modal from "../../components/Team/modal";
 
 /* Action */
-import {
-    toggleModal,
-} from "../../store/actions/modalActions";
+import { toggleModal, setPyroVisible } from "../../store/actions/settingsActions";
 
 const mapStateToProps = (state) => ({
-    myAvatar : state.team.myAvatar,
-    visible : state.team.visible
+    myAvatar: state.team.myAvatar,
+    // visible: state.team.visible,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    toggleModal: () => {
-        dispatch(toggleModal());
-    },  
+    setPyroVisible: (payload) => {
+        dispatch(setPyroVisible(payload));
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);

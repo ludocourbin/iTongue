@@ -1,50 +1,51 @@
 @import "../../styles/vars";
 
 body {
-    color: $primary-text-color;
-    background-color: lighten($color: #f5f4f4, $amount: 3%) !important;
-    overflow-y: scroll;
-    height: 100vh!important;
+  color: $primary-text-color;
+  background-color: lighten($color: #f5f4f4, $amount: 3%) !important;
+  overflow-y: scroll;
+  height: 100vh !important;
 }
 
 * {
-    scrollbar-width: thin;
-    scrollbar-color: $primary-color !important;
+  scrollbar-width: thin;
+  scrollbar-color: $primary-color !important;
+}
+
+.d-none {
+  display: none !important;
 }
 
 ::-webkit-scrollbar {
-    width: 2px !important; /* Remove scrollbar space */
-    background: transparent !important; /* Optional: just make scrollbar invisible */
+  width: 2px !important; /* Remove scrollbar space */
+  background: transparent !important; /* Optional: just make scrollbar invisible */
 }
 
 ::-webkit-scrollbar-thumb {
-    background: $primary-color !important;
+  background: $primary-color !important;
 }
 
 a {
-    color: $primary-text-color !important;
+  color: $primary-text-color !important;
 }
 
 @keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-.grecaptcha-badge {
-    animation: fadeOut 4s forwards;
-    pointer-events: none;
+  from {
+    opacity: 1;
   }
 
-.bold {
-    font-weight: 600;
+  to {
+    opacity: 0;
+  }
+}
+.grecaptcha-badge {
+  animation: fadeOut 4s forwards;
+  pointer-events: none;
 }
 
-
-
+.bold {
+  font-weight: 600;
+}
 
 //   input[type="color"],
 // input[type="date"],

@@ -30,6 +30,9 @@ const mapDispatchToProps = (dispatch) => ({
     emptyCheckUserSlug: () => {
         dispatch(emptyCheckUserSlug());
     },
+    setSelectedUserToFetchSubscriptions: (userObj) => {
+        dispatch(setSelectedUserToFetchSubscriptions(userObj))
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profil);

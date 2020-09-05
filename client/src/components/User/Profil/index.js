@@ -41,11 +41,14 @@ const UserProfil = (props) => {
         taughtLanguages,
         followers,
         followed,
+
     } = userSlugInfos;
 
     const [slugName, setSlugName] = useState({});
 
     let slug = useParams();
+        
+    // const [loading, setLoading] = useState(false);
 
     // const [loading, setLoading] = useState(false);
 

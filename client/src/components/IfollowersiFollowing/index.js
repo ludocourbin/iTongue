@@ -9,6 +9,7 @@ import Placeholder from "../Placeholder";
 
 import "./ifollowersiFollowing.scss";
 
+
 const IfollowersiFollowing = ({
     currentUser,
     userSlugInfos,
@@ -35,6 +36,8 @@ const IfollowersiFollowing = ({
     const handleItemClick = (e, { name }) => {
         setActiveItem(name);
     };
+
+
 
     return (
         <Layout titlePage="Follows">

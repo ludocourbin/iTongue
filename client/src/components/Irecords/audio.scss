@@ -36,7 +36,7 @@
     background-color: #cac7c7;
     color: $background-items;
     border: 0 !important;
-    padding: 12px 12px;
+    padding: 10px 10px;
     border-radius: 18px;
     margin-right: 0.8em;
 
@@ -49,13 +49,21 @@
 
       &--play {
         position: relative;
-        left: 2px;
+        left: 1.5px;
         transform: scale(1.15);
         width: 0;
         height: 0;
         border-top: 6px solid transparent;
         border-bottom: 6px solid transparent;
         border-left: 12px solid white;
+      }
+
+      &--pause {
+        transform: scale(1.15);
+        width: 12px;
+        height: 12px;
+        border-left: 4px solid white;
+        border-right: 4px solid white;
       }
     }
   }

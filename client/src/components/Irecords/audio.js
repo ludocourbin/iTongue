@@ -98,7 +98,11 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
             </button>
 
             <button className="audioRecorder-btn stopBtn" onClick={togglePlaying}>
-              <div className="audioRecorder-btn__icon audioRecorder-btn__icon--play"></div>
+              <div
+                className={
+                  "audioRecorder-btn__icon audioRecorder-btn__icon--" + (playing ? "pause" : "play")
+                }
+              ></div>
             </button>
 
             <div

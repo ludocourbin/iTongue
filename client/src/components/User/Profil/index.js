@@ -28,6 +28,7 @@ const UserProfil = (props) => {
     } = props;
     
     const [isUserAccount, setIsUserAccount] = useState(false);
+    const [slugEvenSlugInfos, setSlugEvenSlugInfos] = useState(false);
     const [inputSearch, setInputSearch] = useState({ search: "", lang: null });
     
     const {
@@ -42,13 +43,18 @@ const UserProfil = (props) => {
         taughtLanguages,
         followers,
         followed,
+
     } = userSlugInfos;
 
     const [slugName, setSlugName] = useState({});
 
     let slug = useParams();
+        
+    // const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        // store: loadingComponent: {"name": true}
+        // setLoading("profil");
         checkUserSlug(slug.slug);
         return () => {
             emptyCheckUserSlug();
@@ -251,7 +257,7 @@ const UserProfil = (props) => {
                     {checkUserSlugLoading && userSlugInfos && !userSlugUndefined ? 
                         
                        <RecordPlaceholder />
-                       
+
                         :
                             filteredRecords && filteredRecords.length ? 
                                 filteredRecords.map((audio, key) => (

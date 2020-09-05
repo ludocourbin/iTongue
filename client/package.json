@@ -11,6 +11,7 @@
     "audio-recorder-polyfill": "^0.3.6",
     "axios": "^0.19.2",
     "creepyface": "^7.4.2",
+    "destyle.css": "^1.0.15",
     "emailjs-com": "^2.6.3",
     "ffmpeg": "^0.0.4",
     "framer-motion": "^2.6.5",

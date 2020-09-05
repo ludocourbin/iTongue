@@ -3,6 +3,7 @@ import IfollowersiFollowing from "../components/IfollowersiFollowing";
 import {
     fetchIfollowers,
     fetchIfollowing,
+    setSelectedUserToFetchSubscriptions,
 } from "../store/actions/ifollowersifollowingActions";
 
 import { follow, unFollow, checkIfUserFollow } from "../store/actions/followActions";
@@ -14,7 +15,8 @@ const mapStateToProps = (state) => ({
     isLoadingAllFollowing: state.ifollowersifollowing.isLoadingAllFollowing,
     currentUser: state.user.currentUser,
     userSlugInfos: state.user.userSlugInfos,
-    selectedUserToFetchSubscriptions: state.ifollowersifollowing.selectedUserIdToFetchSubscriptions, 
+    selectedUserToFetchSubscriptions:
+        state.ifollowersifollowing.selectedUserIdToFetchSubscriptions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -33,8 +35,9 @@ const mapDispatchToProps = (dispatch) => ({
     checkIfUserFollow: (userSlug) => {
         dispatch(checkIfUserFollow(userSlug));
     },
-
-   
+    setSelectedUserToFetchSubscriptions: (objEmpty) => {
+        dispatch(setSelectedUserToFetchSubscriptions(objEmpty));
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IfollowersiFollowing);

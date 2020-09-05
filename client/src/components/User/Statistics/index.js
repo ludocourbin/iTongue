@@ -5,7 +5,14 @@ import "./statistics.scss";
 import { NavLink } from "react-router-dom";
 
 const Statistics = (props) => {
-    const { totalRecords, totalFollower, totalFollowed, selectedUserToFetchSubscriptions, userId, userSlug } = props;
+    const {
+        totalRecords,
+        totalFollower,
+        totalFollowed,
+        setSelectedUserToFetchSubscriptions,
+        userId,
+        userSlug,
+    } = props;
     return (
         <Statistic.Group widths="three" size="mini" className="statistics-group">
             <Statistic>
@@ -16,14 +23,28 @@ const Statistics = (props) => {
             <Statistic>
                 <Statistic.Value>{totalFollower}</Statistic.Value>
                 <Statistic.Label>
-                    <NavLink onClick={() => selectedUserToFetchSubscriptions({userId,userSlug})} to="/ifollowers">iFollowers</NavLink>
+                    <NavLink
+                        onClick={() =>
+                            setSelectedUserToFetchSubscriptions({ userId, userSlug })
+                        }
+                        to="/ifollowers"
+                    >
+                        iFollowers
+                    </NavLink>
                 </Statistic.Label>
             </Statistic>
 
             <Statistic>
                 <Statistic.Value>{totalFollowed}</Statistic.Value>
                 <Statistic.Label>
-                    <NavLink onClick={() => selectedUserToFetchSubscriptions({userId,userSlug})} to="/ifollowing">iFollowing</NavLink>
+                    <NavLink
+                        onClick={() =>
+                            setSelectedUserToFetchSubscriptions({ userId, userSlug })
+                        }
+                        to="/ifollowing"
+                    >
+                        iFollowing
+                    </NavLink>
                 </Statistic.Label>
             </Statistic>
         </Statistic.Group>

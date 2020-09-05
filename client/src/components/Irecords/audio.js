@@ -91,20 +91,15 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
   return (
     <>
       {audioReady && (
-        <Card.Content className="audioRecorder" /*textAlign="left"*/>
+        <Card.Content className="audioRecorder">
           <div className="audioRecorder-player">
-            <Icon
-              circular
-              className="audioRecorder-player_btn stopBtn"
-              onClick={handleStop}
-              name="stop"
-            />
-            <Icon
-              circular
-              className="audioRecorder-player_btn playBtn"
-              onClick={togglePlaying}
-              name={playing ? "pause" : "play"}
-            />
+            <button className="audioRecorder-btn stopBtn" onClick={handleStop}>
+              <div className="audioRecorder-btn__icon audioRecorder-btn__icon--stop"></div>
+            </button>
+
+            <button className="audioRecorder-btn stopBtn" onClick={togglePlaying}>
+              <div className="audioRecorder-btn__icon audioRecorder-btn__icon--play"></div>
+            </button>
 
             <div
               className="audioRecorder-player_progress"

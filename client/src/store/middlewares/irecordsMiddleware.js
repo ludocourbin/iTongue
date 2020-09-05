@@ -18,28 +18,28 @@ import {
 } from "../actions/irecordsActions";
 
 import {
-  COMMENT_SUBMIT,
-  commentSubmitSuccess,
-  commentSubmitError,
-  DELETE_COMMENT,
-  deleteCommentSuccess,
-  deleteCommentError,
-  UPDATE_COMMENT,
-  updateCommentSuccess,
-  updateCommentError,
-  FETCH_COMMENTS_BY_RECORD,
-  fetchCommentsByRecordSuccess,
-  fetchCommentsByRecordError,
-  setCountComment,
+    COMMENT_SUBMIT,
+    commentSubmitSuccess,
+    commentSubmitError,
+    DELETE_COMMENT,
+    deleteCommentSuccess,
+    deleteCommentError,
+    UPDATE_COMMENT,
+    updateCommentSuccess,
+    updateCommentError,
+    FETCH_COMMENTS_BY_RECORD,
+    fetchCommentsByRecordSuccess,
+    fetchCommentsByRecordError,
+    setCountComment,
 } from "../actions/commentActions";
 
-export const irecordsMiddleware = store => next => action => {
-  next(action);
-  switch (action.type) {
-    case SEND_IRECORDS_RECORDED:
-      const user = store.getState().user.currentUser;
-      let translationId = store.getState().irecords.languageId;
-      translationId = translationId.toString();
+export const irecordsMiddleware = (store) => (next) => (action) => {
+    next(action);
+    switch (action.type) {
+        case SEND_IRECORDS_RECORDED:
+            const user = store.getState().user.currentUser;
+            let translationId = store.getState().irecords.languageId;
+            translationId = translationId.toString();
 
             fetch(action.payload)
                 .then((audio) => audio.blob())
@@ -77,12 +77,9 @@ export const irecordsMiddleware = store => next => action => {
             break;
         case FETCH_ALL_RECORDS: {
             httpClient
-                .get(
-                    {
-                        url: "/records",
-                    },
-                    store
-                )
+                .get({
+                    url: "/records",
+                })
                 .then((res) => {
                     const records = res.data.data;
                     const recordsWithType = records.map((record) => {
@@ -156,208 +153,227 @@ export const irecordsMiddleware = store => next => action => {
                         (record) => record.id !== action.payload
                     );
 
-          store.dispatch(deleteIrecordSuccessIrecordsPage(recordsIrecordsPageUpdatedPostDelete));
-        })
-        .catch(() => {
-          store.dispatch(deleteIrecordError());
-        });
-      break;
-    
-    case COMMENT_SUBMIT :
-        const { commentInputValue, allRecordsList } = store.getState().irecords;
-        
-        const recordId = action.payload;
-         
-        httpClient
-          .post(
-            {
-              url: `/comments/${recordId}`,
-              data: {
-                text: commentInputValue,
-              },
-            },
-            store
-          )
-          .then(res => {
+                    store.dispatch(
+                        deleteIrecordSuccessIrecordsPage(
+                            recordsIrecordsPageUpdatedPostDelete
+                        )
+                    );
+                })
+                .catch(() => {
+                    store.dispatch(deleteIrecordError());
+                });
+            break;
 
-            /* A refacto plus tard en une seule fonction ne vous inquiètez pas ! */
+        case COMMENT_SUBMIT:
+            const { commentInputValue, allRecordsList } = store.getState().irecords;
 
-            const { currentUser, userSlugInfos, feedUser } = store.getState().user;
+            const recordId = action.payload;
 
-            const allRecordsListUpdateCount = allRecordsList.map(record => {
-              if (record.id === recordId) {
-                return {
-                  ...record,
-                  commentCount: record.commentCount + 1,
-                };
-              }
-              return record;
-            });
-            
-            const userSlugInfosUpdateCount = userSlugInfos.records.map(record => {
-              if (record.id === recordId) {
-                return {
-                  ...record,
-                  commentCount: record.commentCount + 1,
-                };
-              }
-              return record;
-            });
+            httpClient
+                .post(
+                    {
+                        url: `/comments/${recordId}`,
+                        data: {
+                            text: commentInputValue,
+                        },
+                    },
+                    store
+                )
+                .then((res) => {
+                    /* A refacto plus tard en une seule fonction ne vous inquiètez pas ! */
 
-            const feedUserUpdateCount = feedUser.map(feed => {
-              if (feed.id === recordId) {
-                return {
-                  ...feed,
-                  commentCount: feed.commentCount + 1,
-                };
-              }
-              return feed;
-            });
+                    const {
+                        currentUser,
+                        userSlugInfos,
+                        feedUser,
+                    } = store.getState().user;
 
-            store.dispatch(setCountComment({
-              userSlugInfos: userSlugInfosUpdateCount,
-              feedUser: feedUserUpdateCount,
-            }));
+                    const allRecordsListUpdateCount = allRecordsList.map((record) => {
+                        if (record.id === recordId) {
+                            return {
+                                ...record,
+                                commentCount: record.commentCount + 1,
+                            };
+                        }
+                        return record;
+                    });
 
-            store.dispatch(commentSubmitSuccess({
-              commentsList: [{
-                id: res.data.data.id,
-                text: commentInputValue,
-                user: {
-                  id: currentUser.id,
-                  firstname: currentUser.firstname,
-                  lastname: currentUser.lastname,
-                  slug: currentUser.slug,
-                  avatarUrl: currentUser.avatarUrl,
-                },
-              }],
-              allRecordsList: allRecordsListUpdateCount,
-            }));
-          })
-          .catch(err => {
-            console.error(err);
-            store.dispatch(commentSubmitError());
-          });
-          
-    break;
-    case DELETE_COMMENT :
-        httpClient
-          .delete(
-            {
-              url: `/comments/${action.payload.commentId}`,
-            },
-            store
-          )
-          .then(res => {
+                    const userSlugInfosUpdateCount = userSlugInfos.records.map(
+                        (record) => {
+                            if (record.id === recordId) {
+                                return {
+                                    ...record,
+                                    commentCount: record.commentCount + 1,
+                                };
+                            }
+                            return record;
+                        }
+                    );
 
-            /* Pareil ici, à refacto plus tard en une seule fonction ne vous inquiètez pas ! */
+                    const feedUserUpdateCount = feedUser.map((feed) => {
+                        if (feed.id === recordId) {
+                            return {
+                                ...feed,
+                                commentCount: feed.commentCount + 1,
+                            };
+                        }
+                        return feed;
+                    });
 
+                    store.dispatch(
+                        setCountComment({
+                            userSlugInfos: userSlugInfosUpdateCount,
+                            feedUser: feedUserUpdateCount,
+                        })
+                    );
 
-            const { commentsList, allRecordsList } = store.getState().irecords;
-            const { userSlugInfos, feedUser } = store.getState().user;
+                    store.dispatch(
+                        commentSubmitSuccess({
+                            commentsList: [
+                                {
+                                    id: res.data.data.id,
+                                    text: commentInputValue,
+                                    user: {
+                                        id: currentUser.id,
+                                        firstname: currentUser.firstname,
+                                        lastname: currentUser.lastname,
+                                        slug: currentUser.slug,
+                                        avatarUrl: currentUser.avatarUrl,
+                                    },
+                                },
+                            ],
+                            allRecordsList: allRecordsListUpdateCount,
+                        })
+                    );
+                })
+                .catch((err) => {
+                    console.error(err);
+                    store.dispatch(commentSubmitError());
+                });
 
-            const allRecordsListUpdateCount = allRecordsList.map(record => {
-              if (record.id === action.payload.recordId) {
-                return {
-                  ...record,
-                  commentCount: record.commentCount - 1,
-                };
-              }
-              return record;
-            });
+            break;
+        case DELETE_COMMENT:
+            httpClient
+                .delete(
+                    {
+                        url: `/comments/${action.payload.commentId}`,
+                    },
+                    store
+                )
+                .then((res) => {
+                    /* Pareil ici, à refacto plus tard en une seule fonction ne vous inquiètez pas ! */
 
-            const userSlugInfosUpdateCount = userSlugInfos.records.map(record => {
-              if (record.id === action.payload.recordId) {
-                return {
-                  ...record,
-                  commentCount: record.commentCount - 1,
-                };
-              }
-              return record;
-            });
+                    const { commentsList, allRecordsList } = store.getState().irecords;
+                    const { userSlugInfos, feedUser } = store.getState().user;
 
-            const feedUserUpdateCount = feedUser.map(feed => {
-              if (feed.id === action.payload.recordId) {
-                return {
-                  ...feed,
-                  commentCount: feed.commentCount - 1,
-                };
-              }
-              return feed;
-            });
+                    const allRecordsListUpdateCount = allRecordsList.map((record) => {
+                        if (record.id === action.payload.recordId) {
+                            return {
+                                ...record,
+                                commentCount: record.commentCount - 1,
+                            };
+                        }
+                        return record;
+                    });
 
-            store.dispatch(setCountComment({
-              userSlugInfos: userSlugInfosUpdateCount,
-              feedUser: feedUserUpdateCount,
-            }));
-         
-            const deleteComment = commentsList.filter(comment => comment.id !== action.payload.commentId);
+                    const userSlugInfosUpdateCount = userSlugInfos.records.map(
+                        (record) => {
+                            if (record.id === action.payload.recordId) {
+                                return {
+                                    ...record,
+                                    commentCount: record.commentCount - 1,
+                                };
+                            }
+                            return record;
+                        }
+                    );
 
-            store.dispatch(deleteCommentSuccess({
-              deleteComment: deleteComment,
-              allRecordsList: allRecordsListUpdateCount,
-            }));
-          })
-          .catch(err => {
-            console.error(err);
-            store.dispatch(deleteCommentError());
-          });
-          
-    break;
-    case UPDATE_COMMENT :
-        const { commentEditInputValue, commentsList } = store.getState().irecords;
-        const userConnect = store.getState().user.currentUser;
-        httpClient
-          .post(
-            {
-              url: `/comments/update/${action.payload}`,
-              data: {
-                text: commentEditInputValue
-              },
-            },
-            store
-          )
-          .then(res => {
-            const updateComment = commentsList.map(comment => {
-              if(comment.id === action.payload) {
-                return {
-                  id: action.payload,
-                  text: commentEditInputValue,
-                  user: {
-                    id: userConnect.id,
-                    firstname: userConnect.firstname,
-                    lastname: userConnect.lastname,
-                    slug: userConnect.slug,
-                    avatarUrl: userConnect.avatarUrl,
-                  }
-                }
-              }
-              return comment;
-            })
-            store.dispatch(updateCommentSuccess(updateComment));
-          })
-          .catch(err => {
-            console.error(err);
-            store.dispatch(updateCommentError());
-          });
-    break;
-    case FETCH_COMMENTS_BY_RECORD :
-      httpClient
-        .get(
-          {
-            url: `/comments/${action.payload}`,
-          },
-        )
-        .then(res => {
-          store.dispatch(fetchCommentsByRecordSuccess(res.data.data));
-        })
-        .catch(err => {
-          console.error(err);
-          store.dispatch(fetchCommentsByRecordError());
-        });
-        
-      break;
-    default:
-      return;
-  }
+                    const feedUserUpdateCount = feedUser.map((feed) => {
+                        if (feed.id === action.payload.recordId) {
+                            return {
+                                ...feed,
+                                commentCount: feed.commentCount - 1,
+                            };
+                        }
+                        return feed;
+                    });
+
+                    store.dispatch(
+                        setCountComment({
+                            userSlugInfos: userSlugInfosUpdateCount,
+                            feedUser: feedUserUpdateCount,
+                        })
+                    );
+
+                    const deleteComment = commentsList.filter(
+                        (comment) => comment.id !== action.payload.commentId
+                    );
+
+                    store.dispatch(
+                        deleteCommentSuccess({
+                            deleteComment: deleteComment,
+                            allRecordsList: allRecordsListUpdateCount,
+                        })
+                    );
+                })
+                .catch((err) => {
+                    console.error(err);
+                    store.dispatch(deleteCommentError());
+                });
+
+            break;
+        case UPDATE_COMMENT:
+            const { commentEditInputValue, commentsList } = store.getState().irecords;
+            const userConnect = store.getState().user.currentUser;
+            httpClient
+                .post(
+                    {
+                        url: `/comments/update/${action.payload}`,
+                        data: {
+                            text: commentEditInputValue,
+                        },
+                    },
+                    store
+                )
+                .then((res) => {
+                    const updateComment = commentsList.map((comment) => {
+                        if (comment.id === action.payload) {
+                            return {
+                                id: action.payload,
+                                text: commentEditInputValue,
+                                user: {
+                                    id: userConnect.id,
+                                    firstname: userConnect.firstname,
+                                    lastname: userConnect.lastname,
+                                    slug: userConnect.slug,
+                                    avatarUrl: userConnect.avatarUrl,
+                                },
+                            };
+                        }
+                        return comment;
+                    });
+                    store.dispatch(updateCommentSuccess(updateComment));
+                })
+                .catch((err) => {
+                    console.error(err);
+                    store.dispatch(updateCommentError());
+                });
+            break;
+        case FETCH_COMMENTS_BY_RECORD:
+            httpClient
+                .get({
+                    url: `/comments/${action.payload}`,
+                })
+                .then((res) => {
+                    store.dispatch(fetchCommentsByRecordSuccess(res.data.data));
+                })
+                .catch((err) => {
+                    console.error(err);
+                    store.dispatch(fetchCommentsByRecordError());
+                });
+
+            break;
+        default:
+            return;
+    }
 };

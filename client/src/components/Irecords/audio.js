@@ -21,13 +21,12 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
 
   const [playing, setPlaying] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
-
+  
   const togglePlaying = () => {
     setPlaying(!playing);
 
     if (!playing) {
       audioRef.current.play();
-
       setIrecordSelectedId(id);
     } else {
       audioRef.current.pause();

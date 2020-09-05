@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import moment from "moment";
 /* Components */
 import { Icon, Image, Transition, Form, TextArea, Confirm, Placeholder } from "semantic-ui-react";
@@ -35,7 +35,8 @@ const Comments = (props) => {
     const [commentEditStatus, setCommentEditStatus] = useState(false);
     const [deleteCommentId, setDeleteCommentId] = useState(0);
     const [confirm, setConfirm] = useState(false);
-
+    const commentsListRef = useRef(null);
+    
     const handdleInputChange = (e) => {
         commentInput(e.target.value);
     };
@@ -46,6 +47,7 @@ const Comments = (props) => {
 
     const handdleSubmit = (e) => {
         commentSubmit(record.id);
+        updateScrollAfterSubmit();
     };
 
     const handdleEditSubmit = (e, commentId) => {
@@ -72,6 +74,13 @@ const Comments = (props) => {
             setShowComments(false);
         }
     }, [iRecordCommentIdSelect, record.id]);
+
+    const updateScrollAfterSubmit = () => {
+        if(commentsListRef.current) {
+            const scrollY = commentsListRef.current.scrollHeight;
+            commentsListRef.current.scrollTo(0, scrollY);
+        }
+    };
 
     return (
         <div className="social">
@@ -117,7 +126,7 @@ const Comments = (props) => {
                 }
                 </div>
 
-                <div className="social-comments">
+                <div className="social-comments" ref={commentsListRef}>
                     <Confirm
                     className="delete-irecords"
                     open={confirm}

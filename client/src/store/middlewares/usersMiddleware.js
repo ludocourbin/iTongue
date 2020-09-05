@@ -221,7 +221,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
                     const statusCode = err.response.status;
 
                     if(statusCode === 404) {
-                        userSlugIsUndefined();
+                        store.dispatch(userSlugIsUndefined());
+                        console.log("404");
                     }
                     
                 });

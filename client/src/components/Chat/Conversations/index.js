@@ -1,9 +1,15 @@
 import React, { useEffect } from 'react';
-import Layout from '../../../containers/Layout';
-import './conversations.scss';
-import { Image, Icon, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+
+/* Containers */
+import Layout from '../../../containers/Layout';
+
+/* Components */
+import { Image, Icon, Label } from 'semantic-ui-react';
+
+/* Styles */
+import './conversations.scss';
 
 const Conversations = (props) => {
 

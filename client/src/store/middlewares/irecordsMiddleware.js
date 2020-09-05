@@ -16,7 +16,7 @@ import {
   deleteIrecordSuccessIrecordsPage,
   deleteIrecordSuccessUserProfile,
   deleteIrecordError,
-  deleteIrecordSuccessHomePage
+  deleteIrecordSuccessHomePage,
 } from "../actions/irecordsActions";
 
 import {
@@ -32,10 +32,10 @@ import {
   FETCH_COMMENTS_BY_RECORD,
   fetchCommentsByRecordSuccess,
   fetchCommentsByRecordError,
-  setCountComment
+  setCountComment,
 } from "../actions/commentActions";
 
-export const irecordsMiddleware = store => next => action => {
+export const irecordsMiddleware = (store) => (next) => (action) => {
   next(action);
   switch (action.type) {
     case SEND_IRECORDS_RECORDED:
@@ -44,11 +44,11 @@ export const irecordsMiddleware = store => next => action => {
       translationId = translationId.toString();
 
       fetch(action.payload)
-        .then(audio => audio.blob())
-        .then(blob => {
+        .then((audio) => audio.blob())
+        .then((blob) => {
           console.log(blob);
           const file = new File([blob], "record.mp3", {
-            type: blob.type
+            type: blob.type,
           });
 
           const formData = new FormData();
@@ -60,11 +60,11 @@ export const irecordsMiddleware = store => next => action => {
               {
                 url: `/users/${user.id}/record`,
                 data: formData,
-                headers: { "Content-Type": `multipart/form-data` }
+                headers: { "Content-Type": `multipart/form-data` },
               },
               store
             )
-            .then(res => {
+            .then((res) => {
               const { record } = res.data.data;
               record.user = user;
 
@@ -74,18 +74,28 @@ export const irecordsMiddleware = store => next => action => {
 
               if (userInfo && userInfo.records) {
                 removeOldRecord(record, userInfo.records);
-                store.dispatch(sendIrecordSuccessUserProfile([record, ...userInfo.records]));
+                store.dispatch(
+                  sendIrecordSuccessUserProfile([record, ...userInfo.records])
+                );
               } else if (irecords && irecords.allRecordsList) {
                 removeOldRecord(record, irecords.allRecordsList);
                 store.dispatch(
-                  sendIrecordSuccessIrecordsPage([record, ...irecords.allRecordsList])
+                  sendIrecordSuccessIrecordsPage([
+                    record,
+                    ...irecords.allRecordsList,
+                  ])
                 );
               } else if (statistics && statistics.bestIrecords) {
                 removeOldRecord(record, statistics.bestIrecords);
-                store.dispatch(sendIrecordSuccessHomePage([record, ...statistics.bestIrecords]));
+                store.dispatch(
+                  sendIrecordSuccessHomePage([
+                    record,
+                    ...statistics.bestIrecords,
+                  ])
+                );
               }
             })
-            .catch(err => {
+            .catch((err) => {
               console.log(err);
               store.dispatch(sendIrecordsError());
             });
@@ -95,19 +105,19 @@ export const irecordsMiddleware = store => next => action => {
     case FETCH_ALL_RECORDS: {
       httpClient
         .get({
-          url: "/records"
+          url: "/records",
         })
-        .then(res => {
+        .then((res) => {
           const records = res.data.data;
-          const recordsWithType = records.map(record => {
+          const recordsWithType = records.map((record) => {
             return {
               ...record,
-              type: "audio"
+              type: "audio",
             };
           });
           store.dispatch(fetchAllRecordsSuccess(recordsWithType));
         })
-        .catch(err => {
+        .catch((err) => {
           store.dispatch(
             fetchAllRecordsError(
               "Un problème est survenue lors du chargement de la liste des iRecords"
@@ -121,15 +131,15 @@ export const irecordsMiddleware = store => next => action => {
       httpClient
         .get(
           {
-            url: `/expressions`
+            url: `/expressions`,
           },
           store
         )
-        .then(res => {
+        .then((res) => {
           const expressions = res.data.data;
           store.dispatch(fetchAllExpressionsSuccess(expressions));
         })
-        .catch(err => {
+        .catch((err) => {
           store.dispatch(
             fetchAllExpressionsError(
               "Un problème est survenue lors du chargement de la liste des expressions"
@@ -145,7 +155,7 @@ export const irecordsMiddleware = store => next => action => {
       httpClient
         .delete(
           {
-            url: `/users/${id}/record/${action.payload}`
+            url: `/users/${id}/record/${action.payload}`,
           },
           store
         )
@@ -159,12 +169,20 @@ export const irecordsMiddleware = store => next => action => {
           if (userInfo && userInfo.records && userInfo.records.length) {
             removeOldRecord(record, userInfo.records);
             store.dispatch(deleteIrecordSuccessUserProfile(userInfo.records));
-          } else if (irecords && irecords.allRecordsList && irecords.allRecordsList.length) {
+          } else if (
+            irecords &&
+            irecords.allRecordsList &&
+            irecords.allRecordsList.length
+          ) {
             removeOldRecord(record, irecords.allRecordsList);
-            store.dispatch(deleteIrecordSuccessIrecordsPage(irecords.allRecordsList));
+            store.dispatch(
+              deleteIrecordSuccessIrecordsPage(irecords.allRecordsList)
+            );
           } else if (statistics && statistics.bestIrecords) {
             removeOldRecord(record, statistics.bestIrecords);
-            store.dispatch(deleteIrecordSuccessHomePage(statistics.bestIrecords));
+            store.dispatch(
+              deleteIrecordSuccessHomePage(statistics.bestIrecords)
+            );
           }
         })
         .catch(() => {
@@ -182,41 +200,47 @@ export const irecordsMiddleware = store => next => action => {
           {
             url: `/comments/${recordId}`,
             data: {
-              text: commentInputValue
-            }
+              text: commentInputValue,
+            },
           },
           store
         )
-        .then(res => {
+        .then((res) => {
           /* A refacto plus tard en une seule fonction ne vous inquiètez pas ! */
 
-          const { currentUser, userSlugInfos, feedUser } = store.getState().user;
+          const {
+            currentUser,
+            userSlugInfos,
+            feedUser,
+          } = store.getState().user;
 
-          const allRecordsListUpdateCount = allRecordsList.map(record => {
+          const allRecordsListUpdateCount = allRecordsList.map((record) => {
             if (record.id === recordId) {
               return {
                 ...record,
-                commentCount: record.commentCount + 1
+                commentCount: record.commentCount + 1,
               };
             }
             return record;
           });
 
-          const userSlugInfosUpdateCount = userSlugInfos.records.map(record => {
-            if (record.id === recordId) {
-              return {
-                ...record,
-                commentCount: record.commentCount + 1
-              };
-            }
-            return record;
-          });
+          const userSlugInfosUpdateCount =
+            userSlugInfos.records &&
+            userSlugInfos.records.map((record) => {
+              if (record.id === recordId) {
+                return {
+                  ...record,
+                  commentCount: record.commentCount + 1,
+                };
+              }
+              return record;
+            });
 
-          const feedUserUpdateCount = feedUser.map(feed => {
+          const feedUserUpdateCount = feedUser.map((feed) => {
             if (feed.id === recordId) {
               return {
                 ...feed,
-                commentCount: feed.commentCount + 1
+                commentCount: feed.commentCount + 1,
               };
             }
             return feed;
@@ -224,8 +248,10 @@ export const irecordsMiddleware = store => next => action => {
 
           store.dispatch(
             setCountComment({
-              userSlugInfos: userSlugInfosUpdateCount,
-              feedUser: feedUserUpdateCount
+              userSlugInfos: userSlugInfos.records
+                ? userSlugInfosUpdateCount
+                : [],
+              feedUser: feedUserUpdateCount,
             })
           );
 
@@ -240,15 +266,15 @@ export const irecordsMiddleware = store => next => action => {
                     firstname: currentUser.firstname,
                     lastname: currentUser.lastname,
                     slug: currentUser.slug,
-                    avatarUrl: currentUser.avatarUrl
-                  }
-                }
+                    avatarUrl: currentUser.avatarUrl,
+                  },
+                },
               ],
-              allRecordsList: allRecordsListUpdateCount
+              allRecordsList: allRecordsListUpdateCount,
             })
           );
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
           store.dispatch(commentSubmitError());
         });
@@ -258,41 +284,43 @@ export const irecordsMiddleware = store => next => action => {
       httpClient
         .delete(
           {
-            url: `/comments/${action.payload.commentId}`
+            url: `/comments/${action.payload.commentId}`,
           },
           store
         )
-        .then(res => {
+        .then((res) => {
           /* Pareil ici, à refacto plus tard en une seule fonction ne vous inquiètez pas ! */
 
           const { commentsList, allRecordsList } = store.getState().irecords;
           const { userSlugInfos, feedUser } = store.getState().user;
 
-          const allRecordsListUpdateCount = allRecordsList.map(record => {
+          const allRecordsListUpdateCount = allRecordsList.map((record) => {
             if (record.id === action.payload.recordId) {
               return {
                 ...record,
-                commentCount: record.commentCount - 1
+                commentCount: record.commentCount - 1,
               };
             }
             return record;
           });
 
-          const userSlugInfosUpdateCount = userSlugInfos.records.map(record => {
-            if (record.id === action.payload.recordId) {
-              return {
-                ...record,
-                commentCount: record.commentCount - 1
-              };
+          const userSlugInfosUpdateCount = userSlugInfos.records.map(
+            (record) => {
+              if (record.id === action.payload.recordId) {
+                return {
+                  ...record,
+                  commentCount: record.commentCount - 1,
+                };
+              }
+              return record;
             }
-            return record;
-          });
+          );
 
-          const feedUserUpdateCount = feedUser.map(feed => {
+          const feedUserUpdateCount = feedUser.map((feed) => {
             if (feed.id === action.payload.recordId) {
               return {
                 ...feed,
-                commentCount: feed.commentCount - 1
+                commentCount: feed.commentCount - 1,
               };
             }
             return feed;
@@ -301,22 +329,22 @@ export const irecordsMiddleware = store => next => action => {
           store.dispatch(
             setCountComment({
               userSlugInfos: userSlugInfosUpdateCount,
-              feedUser: feedUserUpdateCount
+              feedUser: feedUserUpdateCount,
             })
           );
 
           const deleteComment = commentsList.filter(
-            comment => comment.id !== action.payload.commentId
+            (comment) => comment.id !== action.payload.commentId
           );
 
           store.dispatch(
             deleteCommentSuccess({
               deleteComment: deleteComment,
-              allRecordsList: allRecordsListUpdateCount
+              allRecordsList: allRecordsListUpdateCount,
             })
           );
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
           store.dispatch(deleteCommentError());
         });
@@ -330,13 +358,13 @@ export const irecordsMiddleware = store => next => action => {
           {
             url: `/comments/update/${action.payload}`,
             data: {
-              text: commentEditInputValue
-            }
+              text: commentEditInputValue,
+            },
           },
           store
         )
-        .then(res => {
-          const updateComment = commentsList.map(comment => {
+        .then((res) => {
+          const updateComment = commentsList.map((comment) => {
             if (comment.id === action.payload) {
               return {
                 id: action.payload,
@@ -346,15 +374,15 @@ export const irecordsMiddleware = store => next => action => {
                   firstname: userConnect.firstname,
                   lastname: userConnect.lastname,
                   slug: userConnect.slug,
-                  avatarUrl: userConnect.avatarUrl
-                }
+                  avatarUrl: userConnect.avatarUrl,
+                },
               };
             }
             return comment;
           });
           store.dispatch(updateCommentSuccess(updateComment));
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
           store.dispatch(updateCommentError());
         });
@@ -362,12 +390,12 @@ export const irecordsMiddleware = store => next => action => {
     case FETCH_COMMENTS_BY_RECORD:
       httpClient
         .get({
-          url: `/comments/${action.payload}`
+          url: `/comments/${action.payload}`,
         })
-        .then(res => {
+        .then((res) => {
           store.dispatch(fetchCommentsByRecordSuccess(res.data.data));
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
           store.dispatch(fetchCommentsByRecordError());
         });
@@ -379,7 +407,9 @@ export const irecordsMiddleware = store => next => action => {
 };
 
 function removeOldRecord(record, recordList) {
-  const oldRecordIndex = recordList.findIndex(currRecord => currRecord.id === record.id);
+  const oldRecordIndex = recordList.findIndex(
+    (currRecord) => currRecord.id === record.id
+  );
 
   if (oldRecordIndex > -1) {
     recordList.splice(oldRecordIndex, 1);

@@ -107,7 +107,7 @@ const Message = (props) => {
         try {
             const content = JSON.parse(text);
             if (content.type !== "gif") throw (new Error("Not a gif"));
-            return <Gif gif={content} width='200' height='200' />;
+            return <Gif gif={content} width={content.images.fixed_height.width} height={content.images.fixed_height.height} />;
         } catch (err) {
             return text;
         }

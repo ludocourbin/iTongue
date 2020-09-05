@@ -75,7 +75,7 @@ const Search = (props) => {
             ),
         },
         {
-            menuItem: { key: "Members", icon: "users", content: "Members" },
+            menuItem: { key: "Members", icon: "users", content: "iUsers" },
             render: () => (
                 <Tab.Pane>
                     {members &&
@@ -86,7 +86,7 @@ const Search = (props) => {
             ),
         },
         {
-            menuItem: { key: "Audios", icon: "sound", content: "Audios" },
+            menuItem: { key: "Audios", icon: "sound", content: "iRecords" },
             render: () => (
                 <Tab.Pane>
                     {audiosFiltered &&

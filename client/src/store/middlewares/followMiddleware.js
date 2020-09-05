@@ -16,7 +16,7 @@ export const followMiddleware = (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
         case FOLLOW: 
-            const { id, email, firstname, slug, avatarUrl } = store.getState().user.currentUser;
+            const { id, email, firstname, slug, avatarUrl,  } = store.getState().user.currentUser;
             httpClient
                 .post({
                     url: `/users/${id}/follow`,
@@ -26,11 +26,11 @@ export const followMiddleware = (store) => (next) => (action) => {
                 }, store)
                 .then((res) => {
                     const data = {
-                        id: id,
-                        email: email,
-                        firstname: firstname,
-                        slug: slug,
-                        avatarUrl: avatarUrl,
+                        id,
+                        email,
+                        firstname,
+                        slug,
+                        avatarUrl,
                     }
                     store.dispatch(followSuccess(data));
                 })

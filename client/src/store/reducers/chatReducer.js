@@ -17,6 +17,7 @@ import {
 const initialState = {
     socketRecipient: {},
     allThreads: [],
+    allThreadsLoading: false,
     allMessages: {
         messages: []
     },
@@ -34,16 +35,19 @@ export default (state = initialState, action = {}) => {
         case FETCH_ALL_THREADS: 
             return {
                 ...state,
+                allThreadsLoading: true,
             };
         case FETCH_ALL_THREADS_SUCCESS: 
             return {
                 ...state,
                 allThreads: [...action.payload],
+                allThreadsLoading: false,
             };
         case FETCH_ALL_THREADS_ERROR: 
             return {
                 ...state,
                 allThreads: [],
+                allThreadsLoading: false,
             };
         case FETCH_ALL_MESSAGES: 
             return {

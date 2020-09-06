@@ -8,6 +8,7 @@ import {
 
 const mapStateToProps = (state) => ({
     allThreads: state.chatReducer.allThreads,
+    allThreadsLoading: state.chatReducer.allThreadsLoading,
     unreadCount: state.chatReducer.unreadCount,
     currentUser: state.user.currentUser,
 });

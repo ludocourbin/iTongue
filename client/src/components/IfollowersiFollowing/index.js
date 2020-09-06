@@ -9,18 +9,16 @@ import Placeholder from "../Placeholder";
 
 import "./ifollowersiFollowing.scss";
 
-
 const IfollowersiFollowing = ({
     currentUser,
-    userSlugInfos,
-    follow,
-    unFollow,
     fetchIfollowers,
     fetchIfollowing,
     allFollowers,
     allFollowing,
     setSelectedUserToFetchSubscriptions,
     selectedUserToFetchSubscriptions,
+    followIfollowersPage,
+    unfollowIfollowersPage,
 }) => {
     const { pathname } = useLocation();
     useEffect(() => {
@@ -37,15 +35,13 @@ const IfollowersiFollowing = ({
         setActiveItem(name);
     };
 
-
-
     return (
         <Layout titlePage="Follows">
             <div className="ifollowersiFollowing">
                 <Header size="tiny" className="ifollowersiFollowing-profil_back">
                     <Link to={`/user/${selectedUserToFetchSubscriptions.userSlug}`}>
                         <Icon name="chevron circle left" size="small" />
-                        Retour au profil
+                        Back to profil
                     </Link>
                 </Header>
 
@@ -84,13 +80,13 @@ const IfollowersiFollowing = ({
                             user={following}
                             currentUser={currentUser}
                             currentUserId={currentUser.id}
-                            userSlugId={userSlugInfos.id}
-                            follow={follow}
-                            unFollow={unFollow}
+                            userSlugId={selectedUserToFetchSubscriptions.userId}
+                            follow={followIfollowersPage}
+                            unFollow={unfollowIfollowersPage}
                         />
                     ))
                 ) : (
-                    <div className="">you don't follow anyone</div>
+                    <div className="">You don't follow anyone</div>
                 )
             ) : allFollowers ? (
                 allFollowers.map((follower) => (
@@ -99,14 +95,14 @@ const IfollowersiFollowing = ({
                         allFollowing={allFollowing}
                         currentUserId={currentUser.id}
                         currentUser={currentUser}
-                        userSlugId={userSlugInfos.id}
-                        follow={follow}
-                        unFollow={unFollow}
+                        userSlugId={selectedUserToFetchSubscriptions.userId}
+                        follow={followIfollowersPage}
+                        unFollow={unfollowIfollowersPage}
                         user={follower}
                     />
                 ))
             ) : (
-                <div className="">no one follow you</div>
+                <div className="">No one follow you</div>
             )}
         </Layout>
     );

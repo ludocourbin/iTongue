@@ -11,39 +11,35 @@ const Followers = ({
     follow,
     allFollowing,
     currentUser,
+    count,
+    setCount,
 }) => {
     /* handle following of other page's */
-    console.log(currentUser.followed);
+    // console.log(currentUser.followed);
+    // const isFollowing = currentUser.followed.some(
+    //     (userFollowing) => userFollowing.id === user.id
+    // );
+
+    // const [following, setFollowing] = useState(isFollowing);
     const isFollowing = currentUser.followed.find(
         (userFollowing) => userFollowing.id === user.id
     );
 
-    const [following, setFollowing] = useState(true);
-
-    const [followingOtherUserPage, setFollowingOtherUserPage] = useState(null);
+    const [following, setFollowing] = useState(isFollowing ? true : false);
 
     const handleFollow = () => {
-        setFollowing(!following);
-        changeFollowStatus();
-    };
+        const wasFollowing = following;
 
-    const changeFollowStatus = () => {
-        following ? unFollow(user.id) : follow(user.id);
+        setFollowing(!wasFollowing);
+
+        if (wasFollowing) {
+            unFollow(user);
+        } else {
+            follow(user);
+        }
     };
 
     const isUser = user.id === currentUserId;
-
-    // const handleFollowOtherUserPage = () => {
-    //     if (followingOtherUserPage) {
-    //         unFollow(user.id);
-    //         setFollowingOtherUserPage(false);
-    //     } else {
-    //         setFollowingOtherUserPage(true);
-    //         follow(user.id);
-    //     }
-    // };
-
-    // console.log(isFollowing);
 
     return (
         <div className="following-card">
@@ -72,9 +68,9 @@ const Followers = ({
                 {currentUserId === userSlugId && !isUser ? (
                     <Label className={following ? "" : "follow-btn"}>
                         {following ? (
-                            <span>Supprimer</span>
+                            <span>unFollow</span>
                         ) : (
-                            <span className="follow-btn">Ajouter</span>
+                            <span className="follow-btn">Following</span>
                         )}
 
                         <Icon
@@ -87,7 +83,7 @@ const Followers = ({
                         {following ? (
                             <span>Abonné(e)</span>
                         ) : (
-                            <span className="">S'abonner</span>
+                            <span className="">Follow</span>
                         )}
                         <Icon
                             onClick={handleFollow}

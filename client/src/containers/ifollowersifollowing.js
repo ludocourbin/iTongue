@@ -6,7 +6,10 @@ import {
     setSelectedUserToFetchSubscriptions,
 } from "../store/actions/ifollowersifollowingActions";
 
-import { follow, unFollow, checkIfUserFollow } from "../store/actions/followActions";
+import {
+    followIfollowersPage,
+    unfollowIfollowersPage,
+} from "../store/actions/ifollowersifollowingActions";
 
 const mapStateToProps = (state) => ({
     allFollowers: state.ifollowersifollowing.allFollowers,
@@ -26,17 +29,15 @@ const mapDispatchToProps = (dispatch) => ({
     fetchIfollowing: () => {
         dispatch(fetchIfollowing());
     },
-    follow: (userId) => {
-        dispatch(follow(userId));
-    },
-    unFollow: (userId) => {
-        dispatch(unFollow(userId));
-    },
-    checkIfUserFollow: (userSlug) => {
-        dispatch(checkIfUserFollow(userSlug));
-    },
     setSelectedUserToFetchSubscriptions: (objEmpty) => {
         dispatch(setSelectedUserToFetchSubscriptions(objEmpty));
+    },
+
+    followIfollowersPage: (userObj) => {
+        dispatch(followIfollowersPage(userObj));
+    },
+    unfollowIfollowersPage: (userObj) => {
+        dispatch(unfollowIfollowersPage(userObj));
     },
 });
 

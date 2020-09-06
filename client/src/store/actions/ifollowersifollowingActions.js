@@ -28,10 +28,42 @@ export const fetchIfollowingError = () => ({
     type: FETCH_IFOLLOWING_ERROR,
 });
 
-export const SET_SELECTED_USER_TO_FETCH_SUBSCRIPTIONS = "SET_SELECTED_USER_TO_FETCH_SUBSCRIPTIONS"
+export const SET_SELECTED_USER_TO_FETCH_SUBSCRIPTIONS =
+    "SET_SELECTED_USER_TO_FETCH_SUBSCRIPTIONS";
 
 export const setSelectedUserToFetchSubscriptions = (payload) => ({
     type: SET_SELECTED_USER_TO_FETCH_SUBSCRIPTIONS,
-    payload
-})
+    payload,
+});
 
+export const FOLLOW_IFOLLOWERS_PAGE = "FOLLOW_IFOLLOWERS_PAGE";
+export const FOLLOW_SUCCESS_IFOLLOWERS_PAGE = "FOLLOW_SUCCESS_IFOLLOWERS_PAGE";
+export const FOLLOW_ERROR_IFOLLOWERS_PAGE = "FOLLOW_ERROR_IFOLLOWERS_PAGE";
+
+export const followIfollowersPage = (payload) => ({
+    type: FOLLOW_IFOLLOWERS_PAGE,
+    payload,
+});
+export const followSuccessIfollowersPage = (payload) => ({
+    type: FOLLOW_SUCCESS_IFOLLOWERS_PAGE,
+    payload,
+});
+export const followErrorIfollowersPage = () => ({
+    type: FOLLOW_ERROR_IFOLLOWERS_PAGE,
+});
+
+export const UNFOLLOW_IFOLLOWERS_PAGE = "UNFOLLOW_IFOLLOWERS_PAGE";
+export const UNFOLLOW_SUCCESS_IFOLLOWERS_PAGE = "UNFOLLOW_SUCCESS_IFOLLOWERS_PAGE";
+export const UNFOLLOW_ERROR_IFOLLOWERS_PAGE = "UNFOLLOW_ERROR_IFOLLOWERS_PAGE";
+
+export const unfollowIfollowersPage = (payload) => ({
+    type: UNFOLLOW_IFOLLOWERS_PAGE,
+    payload,
+});
+export const unfollowSuccessIfollowersPage = (payload) => ({
+    type: UNFOLLOW_SUCCESS_IFOLLOWERS_PAGE,
+    payload,
+});
+export const unfollowErrorIfollowersPage = () => ({
+    type: UNFOLLOW_ERROR_IFOLLOWERS_PAGE,
+});

@@ -15,15 +15,24 @@ import {
 export const followMiddleware = (store) => (next) => (action) => {
     next(action);
     switch (action.type) {
-        case FOLLOW: 
-            const { id, email, firstname, slug, avatarUrl,  } = store.getState().user.currentUser;
+        case FOLLOW:
+            const {
+                id,
+                email,
+                firstname,
+                slug,
+                avatarUrl,
+            } = store.getState().user.currentUser;
             httpClient
-                .post({
-                    url: `/users/${id}/follow`,
-                    data: {
-                        followedId: action.payload
-                    }
-                }, store)
+                .post(
+                    {
+                        url: `/users/${id}/follow`,
+                        data: {
+                            followedId: action.payload,
+                        },
+                    },
+                    store
+                )
                 .then((res) => {
                     const data = {
                         id,
@@ -31,7 +40,8 @@ export const followMiddleware = (store) => (next) => (action) => {
                         firstname,
                         slug,
                         avatarUrl,
-                    }
+                    };
+
                     store.dispatch(followSuccess(data));
                 })
                 .catch((err) => {
@@ -43,24 +53,29 @@ export const followMiddleware = (store) => (next) => (action) => {
             const curUserId = store.getState().user.currentUser.id;
             const userSlugInfos = store.getState().user.userSlugInfos;
             httpClient
-                .delete({
-                    url: `/users/${curUserId}/follow/${action.payload}`,
-                }, store)
+                .delete(
+                    {
+                        url: `/users/${curUserId}/follow/${action.payload}`,
+                    },
+                    store
+                )
                 .then((res) => {
-                    console.log(res);
-                    
-                    const map = userSlugInfos.followers.filter(follower => follower.id !== curUserId);
-                    store.dispatch(unFollowSuccess({
-                        followersUpdate: map,
-                        isUserFollowThisUser: false,
-                    }));
+                    const map = userSlugInfos.followers.filter(
+                        (follower) => follower.id !== curUserId
+                    );
+                    store.dispatch(
+                        unFollowSuccess({
+                            followersUpdate: map,
+                            isUserFollowThisUser: false,
+                        })
+                    );
                 })
                 .catch((err) => {
                     console.error(err);
                     store.dispatch(unFollowError(err));
                 });
             break;
-        case CHECK_IF_USER_FOLLOW : 
+        case CHECK_IF_USER_FOLLOW:
             const currentUserId = store.getState().user.currentUser.id;
             const userSlug = action.payload;
             httpClient
@@ -69,8 +84,12 @@ export const followMiddleware = (store) => (next) => (action) => {
                 })
                 .then((res) => {
                     const followers = res.data.data;
-                    const userIsFollowThisUser = followers.find(follower => follower.slug == userSlug);
-                    store.dispatch(checkIfUserFollowSuccess(userIsFollowThisUser? true : false));
+                    const userIsFollowThisUser = followers.find(
+                        (follower) => follower.slug == userSlug
+                    );
+                    store.dispatch(
+                        checkIfUserFollowSuccess(userIsFollowThisUser ? true : false)
+                    );
                 })
                 .catch((err) => {
                     console.error(err);
@@ -80,5 +99,5 @@ export const followMiddleware = (store) => (next) => (action) => {
 
         default:
             break;
-    };
+    }
 };

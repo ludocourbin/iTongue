@@ -15,17 +15,17 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addFavoris: id => {
-    dispatch(addFavoris(id));
+  addFavoris: record => {
+    dispatch(addFavoris(record));
   },
-  unFavoris: id => {
-    dispatch(unFavoris(id));
+  unFavoris: recordId => {
+    dispatch(unFavoris(recordId));
   },
-  addLikes: id => {
-    dispatch(addLikes(id));
+  addLikes: record => {
+    dispatch(addLikes(record));
   },
-  unlikes: id => {
-    dispatch(unlikes(id));
+  unlikes: recordId => {
+    dispatch(unlikes(recordId));
   },
   fetchFavoris: () => {
     dispatch(fetchFavoris());

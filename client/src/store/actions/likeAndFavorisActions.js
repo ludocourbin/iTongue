@@ -24,8 +24,9 @@ export const addFavoris = payload => ({
   type: ADD_FAVORIS,
   payload
 });
-export const addFavorisSuccess = () => ({
-  type: ADD_FAVORIS_SUCCESS
+export const addFavorisSuccess = payload => ({
+  type: ADD_FAVORIS_SUCCESS,
+  payload
 });
 export const addFavorisError = () => ({
   type: ADD_FAVORIS_ERROR
@@ -39,8 +40,9 @@ export const unFavoris = payload => ({
   type: UNFAVORIS,
   payload
 });
-export const unFavorisSuccess = () => ({
-  type: UNFAVORIS_SUCCESS
+export const unFavorisSuccess = payload => ({
+  type: UNFAVORIS_SUCCESS,
+  payload
 });
 export const unFavorisError = () => ({
   type: ADD_LIKES_ERROR

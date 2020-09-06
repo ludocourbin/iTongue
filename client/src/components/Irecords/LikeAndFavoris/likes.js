@@ -3,7 +3,7 @@ import { Icon } from "semantic-ui-react";
 // import './Likes.scss';
 
 const Likes = ({ record, addLikes, unlikes, likesUser, isLogged }) => {
-  const [isLiked, setIsLiked] = useState(likesUser.some(like => like.id == record.id));
+  const [isLiked, setIsLiked] = useState(likesUser.some(like => like.id === record.id));
   const [count, setCount] = useState(record.likeCount);
 
   const handleLikes = () => {

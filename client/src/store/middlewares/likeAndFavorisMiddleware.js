@@ -31,6 +31,7 @@ export default store => next => action => {
       } else {
         userId = store.getState().user.currentUser.id;
       }
+      console.log(userId);
       httpClient
         .get(
           {
@@ -69,37 +70,43 @@ export default store => next => action => {
         });
       break;
     case ADD_FAVORIS:
-      const idRecordToAddFavoris = action.payload;
+      console.log("zouzou");
       httpClient
         .post(
           {
-            url: `/records/${idRecordToAddFavoris}/bookmark`
+            url: `/records/${action.payload.id}/bookmark`
           },
           store
         )
-        .then(res => {
-          store.dispatch(addFavorisSuccess());
+        .then(() => {
+          const allFavoris = [...store.getState().likeAndFavorisReducer.allFavoris];
+          store.dispatch(addFavorisSuccess([action.payload, ...allFavoris]));
         })
-        .catch(_ => {
-          console.log("error");
+        .catch(err => {
+          console.log(err);
           store.dispatch(addFavorisError());
         });
 
       break;
     case UNFAVORIS:
-      const idRecordToRemoveFavoris = action.payload;
+      const favId = action.payload;
       httpClient
         .delete(
           {
-            url: `/records/${idRecordToRemoveFavoris}/bookmark`
+            url: `/records/${favId}/bookmark`
           },
           store
         )
-        .then(res => {
-          store.dispatch(unFavorisSuccess());
+        .then(() => {
+          const allFavoris = [...store.getState().likeAndFavorisReducer.allFavoris];
+          const favIndex = allFavoris.findIndex(favori => favori.id === favId);
+          if (favIndex > -1) {
+            allFavoris.splice(favIndex, 1);
+          }
+          store.dispatch(unFavorisSuccess(allFavoris));
         })
-        .catch(_ => {
-          console.log("error");
+        .catch(err => {
+          console.log(err);
           store.dispatch(unFavorisError());
         });
       break;
@@ -113,11 +120,11 @@ export default store => next => action => {
           store
         )
         .then(() => {
-          const allLikes = store.getState().likeAndFavorisReducer.allLikes;
+          const allLikes = [...store.getState().likeAndFavorisReducer.allLikes];
           store.dispatch(addLikesSuccess([record, ...allLikes]));
         })
-        .catch(_ => {
-          console.log("error");
+        .catch(err => {
+          console.log(err);
           store.dispatch(addLikesError());
         });
       break;
@@ -131,7 +138,7 @@ export default store => next => action => {
           store
         )
         .then(() => {
-          const allLikes = store.getState().likeAndFavorisReducer.allLikes;
+          const allLikes = [...store.getState().likeAndFavorisReducer.allLikes];
           const likeId = action.payload;
           const likeIndex = allLikes.findIndex(like => like.id === likeId);
           if (likeIndex > -1) {
@@ -139,8 +146,8 @@ export default store => next => action => {
           }
           store.dispatch(unlikesSuccess(allLikes));
         })
-        .catch(_ => {
-          console.log("error");
+        .catch(err => {
+          console.log(err);
           store.dispatch(unlikesError());
         });
       break;

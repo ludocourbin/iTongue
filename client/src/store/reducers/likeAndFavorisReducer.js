@@ -6,7 +6,9 @@ import {
   FETCH_LIKES_SUCCESS,
   FETCH_LIKES_ERROR,
   UNLIKES_SUCCESS,
-  ADD_LIKES_SUCCESS
+  ADD_LIKES_SUCCESS,
+  ADD_FAVORIS_SUCCESS,
+  UNFAVORIS_SUCCESS
 } from "../actions/likeAndFavorisActions";
 
 const initialState = {
@@ -63,6 +65,16 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         allLikes: [...action.payload]
+      };
+    case ADD_FAVORIS_SUCCESS:
+      return {
+        ...state,
+        allFavoris: [...action.payload]
+      };
+    case UNFAVORIS_SUCCESS:
+      return {
+        ...state,
+        allFavoris: [...action.payload]
       };
     default:
       return state;

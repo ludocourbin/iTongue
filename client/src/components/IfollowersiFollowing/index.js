@@ -41,7 +41,7 @@ const IfollowersiFollowing = ({
                 <Header size="tiny" className="ifollowersiFollowing-profil_back">
                     <Link to={`/user/${selectedUserToFetchSubscriptions.userSlug}`}>
                         <Icon name="chevron circle left" size="small" />
-                        Back to profil
+                        Back to profile
                     </Link>
                 </Header>
 

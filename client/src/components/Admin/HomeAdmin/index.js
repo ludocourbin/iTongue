@@ -9,8 +9,13 @@ import "./homeadmin.scss";
 import MemberCard from "../../MembersCard";
 
 const HomeAdmin = ({ fetchStats, stats }) => {
-
-    const { userCount, recordCount, languageCount, translationCount, recentUsers,  /* recentRecords */ } = stats;
+    const {
+        userCount,
+        recordCount,
+        languageCount,
+        translationCount,
+        recentUsers /* recentRecords */,
+    } = stats;
 
     useEffect(() => {
         fetchStats();
@@ -25,7 +30,7 @@ const HomeAdmin = ({ fetchStats, stats }) => {
                             <Statistic.Value>{userCount}</Statistic.Value>
                             <Statistic.Label>
                                 <Icon name="user" />
-                                Utilisateurs
+                                Users
                             </Statistic.Label>
                         </Statistic>
                         <Statistic>
@@ -39,14 +44,14 @@ const HomeAdmin = ({ fetchStats, stats }) => {
                             <Statistic.Value>{languageCount}</Statistic.Value>
                             <Statistic.Label>
                                 <Icon name="flag" />
-                                Langues
+                                Languages
                             </Statistic.Label>
                         </Statistic>
                         <Statistic>
                             <Statistic.Value>{translationCount}</Statistic.Value>
                             <Statistic.Label>
                                 <Icon name="book" />
-                                Traductions
+                                Translations
                             </Statistic.Label>
                         </Statistic>
                     </Statistic.Group>
@@ -54,15 +59,13 @@ const HomeAdmin = ({ fetchStats, stats }) => {
 
                 <div className="home-admin_container">
                     <Segment className="home-admin_container stats-left">
-                    <Header size="medium" content="Derniers utilisateurs inscrits"/>
+                        <Header size="medium" content="Derniers utilisateurs inscrits" />
                         {/* { recentUsers && recentUsers.map(user => (
                             <MemberCard user={user}/>
                         ))} */}
                     </Segment>
 
-                    <Segment className="home-admin_container stats-right">
-                        
-                    </Segment>
+                    <Segment className="home-admin_container stats-right"></Segment>
                 </div>
             </div>
         </HeaderAdmin>

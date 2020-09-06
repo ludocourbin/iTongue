@@ -7,22 +7,21 @@ import { NavLink } from "react-router-dom";
 /* Styles */
 import "./headeradmin.scss";
 
-const HeaderAdmin = ( { logout, userConnect, ...props } ) => {
-    
+const HeaderAdmin = ({ logout, userConnect, ...props }) => {
     const handdleLogout = () => {
         logout();
     };
 
     const options = [
-        { key: 'sign-out', text: 'Déconnexion', icon: 'sign out', onClick:handdleLogout },
+        { key: "sign-out", text: "Logout", icon: "sign out", onClick: handdleLogout },
     ];
-    
+
     const trigger = (
         <Image
-            src={userConnect.avatarUrl == null ?
-                "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg" 
-                :
-                `${process.env.REACT_APP_FILES_URL}/${userConnect.avatarUrl}`
+            src={
+                userConnect.avatarUrl == null
+                    ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
+                    : `${process.env.REACT_APP_FILES_URL}/${userConnect.avatarUrl}`
             }
             avatar
             size="mini"
@@ -59,16 +58,20 @@ const HeaderAdmin = ( { logout, userConnect, ...props } ) => {
                         activeClassName="active"
                         className="header-admin links__item"
                     >
-                        Langues
+                        Languages
                     </NavLink>
                 </Menu.Item>
                 <Menu.Item>
-                    <span><b>{userConnect.firstname} {userConnect.lastname}</b></span>
+                    <span>
+                        <b>
+                            {userConnect.firstname} {userConnect.lastname}
+                        </b>
+                    </span>
                     <Dropdown
-                    trigger={trigger}
-                    options={options}
-                    pointing='top right'
-                    icon={null}
+                        trigger={trigger}
+                        options={options}
+                        pointing="top right"
+                        icon={null}
                     />
                 </Menu.Item>
             </Menu>

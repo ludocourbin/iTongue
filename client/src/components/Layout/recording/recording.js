@@ -121,7 +121,7 @@ const Recording = ({
                             disabled={recordedSound ? false : true}
                             onClick={onSave}
                             basic
-                            loading={loading}
+                            // loading={loading}
                             className="recording-widget__save-btn"
                         >
                             Save

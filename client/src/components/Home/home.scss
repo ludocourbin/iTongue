@@ -7,6 +7,13 @@
     // overflow-x: hidden !important;
 
     .feature {
+        display: flex !important;
+        align-items: center;
+
+        img {
+            border-radius: 10px;
+        }
+
         &--left {
             padding-right: 0.5rem !important;
         }

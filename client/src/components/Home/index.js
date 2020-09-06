@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Header, Grid, GridColumn, Image, Container, Flag } from "semantic-ui-react";
 import Recording from "../../assets/recording.png";
 
-import Irecords from "../../assets/iRecords.png";
+import Irecords from "../../assets/iRecords.jpg";
 import Profil from "../../assets/profil.png";
 
 import "./home.scss";

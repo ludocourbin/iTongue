@@ -59,7 +59,7 @@ const HeaderAdmin = ( { logout, userConnect, ...props } ) => {
                         activeClassName="active"
                         className="header-admin links__item"
                     >
-                        Langues
+                        Languages
                     </NavLink>
                 </Menu.Item>
                 <Menu.Item>

@@ -15,9 +15,9 @@
         &.stats-left {
             width: 47%;
             height: 40vh;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            justify-content: space-evenly;
             border-top: 0;
         }
 

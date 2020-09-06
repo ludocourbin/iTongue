@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 /* Components */
-import { Icon, Form, Table, Flag, Segment, Header, Confirm } from 'semantic-ui-react'
+import { Icon, Form, Table, Flag, Segment, Header, Confirm, Message } from 'semantic-ui-react'
 
 /* Fake Data */
 import InputTraduction from './InputTraduction';
@@ -27,6 +27,7 @@ const ExpressionsResult = ( props ) => {
     const [ traductionDeleteId, setTraductionDeleteId ] = useState(0);
     const [ traductionEditId, setTraductionEditId ] = useState(0);
     const [ disableEditButton, setDisableEditButton ] = useState(false);
+    const [ message, setMessage ] = useState(null);
 
     useEffect(() => {
         fetchLanguages();
@@ -53,6 +54,11 @@ const ExpressionsResult = ( props ) => {
 
     const handdleAddTraductionSubmit = (e) => {
         e.preventDefault();
+        if(!newTraductionInputValue.language_id) {
+            setMessage("You need to select a language code");
+            return;
+        }
+        setMessage(null);
         addTraductionSubmit();
         fetchLanguages();
     };
@@ -100,6 +106,7 @@ const ExpressionsResult = ( props ) => {
                     />
                 </Form.Group>
             </Form>
+            { message && <Message content={message}/> }
         </Segment>
 
         <Segment className="expression-result__table" disabled={expressionIdIsSelect}>

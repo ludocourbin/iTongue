@@ -49,6 +49,7 @@ const ProfilSearch = ({ records, inputSearch, setInputSearch }) => {
                 onChange={handdleChange}
                 minCharacters={0}
                 clearable
+                className="profil-search__dropdown"
             />
         </div>
     );

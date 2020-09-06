@@ -1,0 +1,24 @@
+@import "../../styles/mixin";
+@import "../../styles/vars";
+
+.contactForm {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+.centerButton {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+#form-button-control-public {
+  @include button;
+}
+
+@media (min-width: 768px) {
+  .contactForm {
+    form {
+      width: 60%;
+    }
+  }
+}

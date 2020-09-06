@@ -1,0 +1,93 @@
+@import "../../styles/vars";
+
+body {
+    color: $primary-text-color;
+    background-color: lighten($color: #f5f4f4, $amount: 3%) !important;
+    overflow-y: scroll;
+    height: 100vh !important;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: $primary-color !important;
+}
+
+p {
+    margin-bottom: 0.5em;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+a.internal-link {
+    color: $primary-color !important;
+}
+
+.d-none {
+    display: none !important;
+}
+
+@media (min-width: 576px) {
+    .ui.container.auth-form-container {
+        width: 80% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .ui.container.auth-form-container {
+        width: 62% !important;
+    }
+
+    .main-content {
+        padding: 0 1.5rem;
+
+        .message-list {
+            padding: 0.5em 1em;
+        }
+    }
+
+    .carousel,
+    .conversations,
+    .messages-container,
+    #recording-widget,
+    .edit-profil,
+    .user-profil,
+    .ifollowersiFollowing {
+        margin-left: -1.5rem !important;
+        margin-right: -1.5rem !important;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 2px !important; /* Remove scrollbar space */
+    background: transparent !important; /* Optional: just make scrollbar invisible */
+}
+
+::-webkit-scrollbar-thumb {
+    background: $primary-color !important;
+}
+
+a {
+    color: $primary-text-color !important;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+.grecaptcha-badge {
+    animation: fadeOut 4s forwards;
+    pointer-events: none;
+}
+
+.bold {
+    font-weight: 600;
+}

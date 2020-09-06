@@ -16,6 +16,20 @@ body {
   display: none !important;
 }
 
+@media (min-width: 576px) {
+  .ui.container.auth-form-container {
+    width: 80% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .ui.container.auth-form-container {
+    width: 62% !important;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 2px !important; /* Remove scrollbar space */
   background: transparent !important; /* Optional: just make scrollbar invisible */

@@ -1,10 +1,32 @@
-.termsPage {
-    padding: 15px;
+.terms-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .titleTerms {
+    margin: 20px 0 !important;
+
+    p {
+      margin-bottom: 0.5em;
+    }
+  }
+
+  .ui.styled.accordion.accordionTerms {
+    margin-top: 2rem !important;
+  }
+
+  .titleTerms,
+  .ui.styled.accordion.accordionTerms {
+    width: 95%;
+  }
 }
 
-.titleTerms {
-    margin: 20px 0 !important;
+@media (min-width: 768px) {
+  .terms-container {
+    .titleTerms,
+    .ui.styled.accordion.accordionTerms {
+      width: 70%;
+    }
+  }
 }
-.accordionTerms {
-    margin-top: 20px !important;
-}
+

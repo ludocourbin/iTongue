@@ -138,7 +138,7 @@ const Search = (props) => {
                 </div>
 
                 <div className="search-container">
-                    <Header size="small" content="Lastests iRecords" className="title" />
+                    <Header size="small" content="Latest iRecords" className="title" />
                     {!isFocus && isLoadingallUsers && <Placeholder />}
                     {!isFocus && !isLoadingallUsers && (
                         <div className="search-content--items">

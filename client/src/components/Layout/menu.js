@@ -9,19 +9,16 @@ const Header = ({ setVisible, visible, pathname, ...props }) => {
             <Link to="/search">
                 <Icon
                     disabled={pathname === "/search" ? true : false}
-                    className={
-                        pathname === "/search"
-                            ? "invisible"
-                            : "header-nav__icon"
-                    }
+                    className={pathname === "/search" ? "invisible" : "header-nav__icon"}
                     name="search"
                     size="big"
                 />
             </Link>
-            <Link to="/">
-                <h1 className="header-nav__title">iTongue</h1>
-            </Link>
-            
+
+            <h1 className="header-nav__title">
+                <Link to="/">iTongue</Link>
+            </h1>
+
             <div onClick={() => setVisible(!visible)}>
                 <Icon className="header-nav__icon" name="sidebar" size="big" />
             </div>

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 import { Header, Grid, GridColumn, Image, Container, Flag } from "semantic-ui-react";
 import Recording from "../../assets/recording.png";
 
@@ -40,51 +41,62 @@ const Home = ({
             <ToastContainer autoClose={2000} />
             <Carousel />
             <Container className="homePage">
-                <Header size="large" content="Faites vos premiers pas avec iTongue" />
+                <Header
+                    size="large"
+                    className="homePage--header"
+                    content={
+                        <Link className="internal-link" to="/signup">
+                            Take your first steps with iTongue
+                        </Link>
+                    }
+                />
+
                 <p>
-                    iTongue est un réseau social permettant d'apprendre les expressions
-                    les plus communes dans d'autres langues . Vous pouvez suivre d'autres
-                    utilisateurs, vous aurez accès à toutes les expressions qu’ils auront
-                    gravées pour les écouter et les comparer avec les votres pour ainsi
-                    apprendre et s'améliorer dans votre langue favorite.
+                    iTongue is a social network for learning the most common expressions
+                    in other languages.
                 </p>
+                <p>
+                    You can follow other users, access all the expressions they have
+                    recorded, listen to them and compare them with your own, so that you
+                    can learn and improve your skills in your favorite language.
+                </p>
+
                 <Header
                     className="homePage-header"
                     size="medium"
-                    content="Nos fonctionnalités"
+                    content="Our features"
                 />
                 <Grid divided="vertically">
                     <Grid.Row columns={2}>
-                        <GridColumn>
+                        <GridColumn className="feature feature--left">
                             <Image src={Irecords} />
                         </GridColumn>
-                        <GridColumn>
+                        <GridColumn className="feature feature--right">
                             <p>
-                                Écoutez une traduction, regardez comment elle s'écrit et
-                                enregistrez vous en vous en inspirant.
+                                Listen to a translation, see how it is written and record
+                                yourself using it as inspiration.
                             </p>
                         </GridColumn>
                     </Grid.Row>
                     <Grid.Row columns={2}>
-                        <GridColumn>
+                        <GridColumn className="feature feature--left">
                             <p>
-                                Recherchez dans notre catalogue d'expressions une
-                                traductions que vous pensez être capable de prononcer,
-                                enregistrez vous !
+                                Search in our expressions catalog for a translation you
+                                think you can pronounce and record yourself!
                             </p>
                         </GridColumn>
-                        <GridColumn>
+                        <GridColumn className="feature feature--right">
                             <Image src={Recording} />
                         </GridColumn>
                     </Grid.Row>
                     <Grid.Row columns={2}>
-                        <GridColumn>
+                        <GridColumn className="feature feature--left">
                             <Image src={Profil} />
                         </GridColumn>
-                        <GridColumn>
+                        <GridColumn className="feature feature--right">
                             <p>
-                                Suivez vos personnes favorites pour voir leur aptitude
-                                dans une langue et apprendre à votre tour.
+                                Follow your favorite people to see their skills in a
+                                language and learn from them.
                             </p>
                         </GridColumn>
                     </Grid.Row>
@@ -92,39 +104,37 @@ const Home = ({
                 <Header
                     size="medium"
                     className="homePage-header"
-                    content="Les iTeachers les plus actifs par langue"
+                    content=" Most active iTeachers by language"
                 />
                 {bestUsers &&
                     bestUsers.map((user) => <MembersCard user={user} key={user.id} />)}
 
                 <Header
                     size="medium"
-                    content="Nos expressions les plus populaires"
+                    content="Most popular expressions"
                     className="homePage-header"
                 />
 
                 {bestTranslations &&
-                    bestTranslations.map(
-                        ({ expression, iRecords, language, text }, index) => (
-                            <div key={index} className="home-translations">
-                                <Image
-                                    src={`https://www.countryflags.io/${language}/flat/32.png`}
-                                    className="flag_image"
-                                />
+                    bestTranslations.map(({ iRecords, language, text }, index) => (
+                        <div key={index} className="home-translations">
+                            <Image
+                                src={`https://www.countryflags.io/${language}/flat/32.png`}
+                                className="flag_image"
+                            />
 
-                                <div className="popular_container">
-                                    <div className="popular__name">{text}</div>
-                                    <div className="popular__irecords">
-                                        {iRecords} iRecords
-                                    </div>
+                            <div className="popular_container">
+                                <div className="popular__name">{text}</div>
+                                <div className="popular__irecords">
+                                    {iRecords} iRecords
                                 </div>
                             </div>
-                        )
-                    )}
+                        </div>
+                    ))}
 
                 <Header
                     size="medium"
-                    content="Nos derniers iRecords"
+                    content={<Link to="/irecords">Last iRecords</Link>}
                     className="homePage-header"
                 />
                 {bestIrecords &&

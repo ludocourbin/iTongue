@@ -118,7 +118,7 @@ const Contact = () => {
                         name="email"
                         value={email}
                         label="E-mail"
-                        placeholder="joe@schmoe.com"
+                        placeholder="tony@oclock.io"
                         onChange={handleChange}
                         // error={{
                         //     content: 'Please enter a valid email address',

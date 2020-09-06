@@ -2,16 +2,23 @@
 @import "../../styles/vars";
 
 .contactForm {
-    max-width: 400px;
-    display:flex;
-    justify-content: center;
-    padding:30px;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
 }
 .centerButton {
-    margin-top:30px;
-    display:flex;
-    justify-content:center;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
 }
 #form-button-control-public {
-    @include button;
+  @include button;
+}
+
+@media (min-width: 768px) {
+  .contactForm {
+    form {
+      width: 60%;
+    }
+  }
 }

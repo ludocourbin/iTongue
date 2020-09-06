@@ -230,7 +230,7 @@ const UserProfil = (props) => {
 
         <div className="container_bio">
           {checkUserSlugLoading && userSlugInfos && !userSlugUndefined ? (
-            <Placeholder>
+            <Placeholder className='placeholder-bio'>
               <Placeholder.Line length="full" />
             </Placeholder>
           ) : (

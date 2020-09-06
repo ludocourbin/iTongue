@@ -7,7 +7,8 @@
     "location": "Pau, Aquitaine",
     "spe": "Product Owner / Front-end",
     "github": "https://github.com/ludocourbin",
-    "linkedin": "https://www.linkedin.com/in/ludoviccourbin/"
+    "linkedin": "https://www.linkedin.com/in/ludoviccourbin/",
+    "portfolio" : "https://ludovic-courbin.com/"
   },
   "sacha": {
     "name": "Sacha Zacaropoulos",
@@ -37,7 +38,8 @@
     "location": "Lille, Hauts-de-France",
     "spe": "Lead dev Front-end",
     "github": "https://github.com/GautierCo",
-    "linkedin": "https://www.linkedin.com/in/gautier-colasse/"
+    "linkedin": "https://www.linkedin.com/in/gautier-colasse/",
+    "portfolio" : "https://gautiercolasse.com/"
   },
   "axel": {
     "name": "Axel Le Boucher",

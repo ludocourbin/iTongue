@@ -126,7 +126,7 @@ const Contact = () => {
                         // }}
                     />
                     {email !== "" && checkMail(email) && (
-                        <Message negative content={"Email incorrect"} />
+                        <Message negative content={"E-mail incorrect"} />
                     )}
                     <div className="centerButton">
                         <Form.Field

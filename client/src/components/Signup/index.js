@@ -68,7 +68,7 @@ const Signup = ({
         if (pass1 && pass2 !== "") {
             if (pass1 !== pass2 || pass1.length < 6 || pass2.length < 6) {
                 setErrorMessagePassword(
-                    "Les deux mot de passes doivent être identiques et supérieur à 6 charactères"
+                    "Both passwords must be identical and at least 6 characters long."
                 );
                 return true;
             } else {
@@ -84,7 +84,7 @@ const Signup = ({
             return true;
         }
         if (mail !== "" && !validator.isEmail(mail)) {
-            setErrorMessageEmail("Le mail n'est pas valide");
+            setErrorMessageEmail("E-mail is not valid");
         } else {
             setErrorMessageEmail("");
             return false;

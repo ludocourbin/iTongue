@@ -2,31 +2,32 @@ import React, { useState, useEffect } from "react";
 import { Icon } from "semantic-ui-react";
 // import './Likes.scss';
 
-const Likes = ({ record, addLikes, unlikes, likesUser,isLogged }) => {
-    const isLike = likesUser.find((likes) => likes.id === record.id);
+const Likes = ({ record, addLikes, unlikes, likesUser, isLogged }) => {
+  const [isLiked, setIsLiked] = useState(likesUser.some(like => like.id == record.id));
+  const [count, setCount] = useState(record.likeCount);
 
-    const [isLiked, setIsLiked] = useState(null);
+  const handleLikes = () => {
+    if (!isLogged) return;
 
-    useEffect(() => {
-        setIsLiked(isLike ? true : false);
-    }, [isLike]);
+    const wasLiked = isLiked;
 
-    const handleLikes = () => {
-        setIsLiked(!isLiked);
-        if (isLiked) {
-            unlikes(record.id);
-            record.likeCount--;
-        } else {
-            addLikes(record.id);
-            record.likeCount++;
-        }
-    };
-    return (
-        <div onClick={() => isLogged && handleLikes()}>
-            <Icon className={`${isLiked ? "isFavorite " : ""}likes`} name="thumbs up" />
-            {record && record.likeCount}
-        </div>
-    );
+    if (wasLiked) {
+      unlikes(record.id);
+      setCount(count - 1);
+    } else {
+      addLikes(record);
+      setCount(count + 1);
+    }
+
+    setIsLiked(!wasLiked);
+  };
+
+  return (
+    <div onClick={handleLikes}>
+      <Icon className={`${isLiked ? "isFavorite " : ""}likes`} name="thumbs up" />
+      {count}
+    </div>
+  );
 };
 
 export default Likes;

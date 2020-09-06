@@ -28,34 +28,45 @@ const Search = (props) => {
     const [isFocus, setIsFocus] = useState(false);
     const [keyword, setKeyword] = useState("");
 
-    const tabRecordsUsers = [...allRecordsList, ...allUsersList];
+    const tabRecordsUsers = allRecordsList &&
+        allUsersList && [...allRecordsList, ...allUsersList];
 
-    const usersAndRecordsOrderedByDate = orderCreateByDateWithMoment(tabRecordsUsers);
+    const usersAndRecordsOrderedByDate =
+        tabRecordsUsers && orderCreateByDateWithMoment(tabRecordsUsers);
 
-    const usersAndRecords = usersAndRecordsOrderedByDate.filter(
-        (el) =>
-            (el.type === "member" && el.firstname.toLowerCase().includes(keyword)) ||
-            (el.type === "audio" &&
-                el.englishTranslation.text.toLowerCase().includes(keyword)) ||
-            (el.type === "audio" && el.user.firstname.toLowerCase().includes(keyword))
-    );
+    const usersAndRecords =
+        usersAndRecordsOrderedByDate &&
+        usersAndRecordsOrderedByDate.filter(
+            (el) =>
+                (el.type === "member" && el.firstname.toLowerCase().includes(keyword)) ||
+                (el.type === "audio" &&
+                    el.englishTranslation.text.toLowerCase().includes(keyword)) ||
+                (el.type === "audio" && el.user.firstname.toLowerCase().includes(keyword))
+        );
 
-    const members = allUsersList.filter((el) =>
-        el.firstname.toLowerCase().includes(keyword)
-    );
+    const members =
+        allUsersList &&
+        allUsersList.filter((el) => el.firstname.toLowerCase().includes(keyword));
 
-    const audiosFiltered = allRecordsList.filter(
-        (el) =>
-            el.englishTranslation.text.toLowerCase().includes(keyword) ||
-            el.translation.text.toLowerCase().includes(keyword) ||
-            el.user.firstname.toLowerCase().includes(keyword)
-    );
+    const audiosFiltered =
+        allRecordsList &&
+        allRecordsList.filter(
+            (el) =>
+                el.englishTranslation.text.toLowerCase().includes(keyword) ||
+                el.translation.text.toLowerCase().includes(keyword) ||
+                el.user.firstname.toLowerCase().includes(keyword)
+        );
 
     const panes = [
         {
-            menuItem: { key: "All", icon: "th", content: "All", className:"tabpane-all"},
+            menuItem: {
+                key: "All",
+                icon: "th",
+                content: "All",
+                className: "tabpane-all",
+            },
             render: () => (
-                <Tab.Pane >
+                <Tab.Pane>
                     {usersAndRecords &&
                         usersAndRecords.map((record, index) => (
                             <div key={index}>
@@ -127,25 +138,22 @@ const Search = (props) => {
                 </div>
 
                 <div className="search-container">
-                    <Header
-                        size="small"
-                        content="Lastests iRecords"
-                        className="title"
-                    />
+                    <Header size="small" content="Lastests iRecords" className="title" />
                     {!isFocus && isLoadingallUsers && <Placeholder />}
                     {!isFocus && !isLoadingallUsers && (
                         <div className="search-content--items">
-                            {allRecordsList.map((record) => {
-                                return (
-                                    <div style={{ width: "100%" }} key={record.id}>
-                                        <Irecords
-                                            record={record}
-                                            user={record.user}
-                                            isUserRecord={record.user.id}
-                                        />
-                                    </div>
-                                );
-                            })}
+                            {allRecordsList &&
+                                allRecordsList.map((record) => {
+                                    return (
+                                        <div style={{ width: "100%" }} key={record.id}>
+                                            <Irecords
+                                                record={record}
+                                                user={record.user}
+                                                isUserRecord={record.user.id}
+                                            />
+                                        </div>
+                                    );
+                                })}
                         </div>
                     )}
                     {isFocus && <Tab className="search-tabs" panes={panes} />}

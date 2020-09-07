@@ -38,24 +38,10 @@
     overflow-y: auto;
     overflow-x: hidden;
     background-color: #f5f4f4;
-  }
-}
-
-@media (min-width: 768px) {
-  .main-content {
-    padding: 0 1.5rem;
 
     .message-list {
-      padding: 0 1em;
+      padding: 0.5rem;
     }
-  }
-
-  .carousel,
-  .conversations,
-  .messages-container,
-  .user-profil,
-  #recording-widget {
-    margin: 0 -1.5rem;
   }
 }
 
@@ -97,12 +83,25 @@
     margin: 0;
     // font-family: "Righteous", cursive;
     font-family: "Pacifico", cursive;
+
+    // #ef5f1a,
+    // #ed5a15,
+    // #ea560f,
+    // color: $primary-color;
     // font-family: "Gloria Hallelujah", cursive;
     // font-family: "Acme", sans-serif;
     // font-family: "Capriola", sans-serif;
     letter-spacing: 0.12em;
     font-size: 1.8em;
     cursor: pointer;
+
+    a {
+      background: linear-gradient(to top right, #ff750bec, $primary-color, black);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      padding: 0.3em;
+    }
   }
 }
 

@@ -1,60 +1,60 @@
-import React, { Component } from 'react';
-import { Accordion, Icon } from 'semantic-ui-react';
-import './style.scss';
+import React, { Component } from "react";
+import { Accordion, Icon } from "semantic-ui-react";
+import "./style.scss";
 
 export default class FAQ extends Component {
-  state = { activeIndex: 99 }
+    state = { activeIndex: 99 };
 
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps
-    const { activeIndex } = this.state
-    const newIndex = activeIndex === index ? -1 : index
+    handleClick = (e, titleProps) => {
+        const { index } = titleProps;
+        const { activeIndex } = this.state;
+        const newIndex = activeIndex === index ? -1 : index;
 
-    this.setState({ activeIndex: newIndex })
-  }
+        this.setState({ activeIndex: newIndex });
+    };
 
-  render() {
-    const { activeIndex } = this.state
+    render() {
+        const { activeIndex } = this.state;
 
-    return (
-        <div className="faq-div">
-            <Accordion styled>
-                <Accordion.Title
-                active={activeIndex === 0}
-                index={0}
-                onClick={this.handleClick}
-                >
-                <Icon name='dropdown' />
-                Je souhaite m'inscrire ? 
-                Comment faire ?
-                </Accordion.Title>
-                <Accordion.Content active={activeIndex === 0}>
-                <p>
-                    En haut de l'écran, il y a un menu en forme d'hamburger. <br />
-                    Au clique, un menu déroulant s'affiche. <br />
-                    Il ne vous reste plus qu'à cliquer sur "Inscription" et à renseigner vos coordonnées.
-                </p>
-                </Accordion.Content>
+        return (
+            <div className="faq-div">
+                <Accordion styled>
+                    <Accordion.Title
+                        active={activeIndex === 0}
+                        index={0}
+                        onClick={this.handleClick}
+                    >
+                        <Icon name="dropdown" />I want to sign up ? How do I do it ?
+                    </Accordion.Title>
+                    <Accordion.Content active={activeIndex === 0}>
+                        <p>At the top of the screen there is a hamburger-shaped icon. </p>
+                        <p>
+                            On click, a drop-down menu appears. All you have to do is
+                            click on "Sign up" and fill in your details.
+                        </p>
+                    </Accordion.Content>
 
-                <Accordion.Title
-                active={activeIndex === 1}
-                index={1}
-                onClick={this.handleClick}
-                >
-                <Icon name='dropdown' />
-                Je souhaite enregistrer un iRecord. 
-                </Accordion.Title>
-                <Accordion.Content active={activeIndex === 1}>
-                <p>
-                    Vous ne pouvez enregistrer qu'à la condition d'avoir un profil utilisateur et d'être connecté. <br />
-                    Une fois connecté, en bas de votre écran, vous avez une barre avec plusieurs icônes. <br />
-                    Cliquez sur l'icône en forme de micro, et enregistrez vous !
-                </p>
-                </Accordion.Content>
+                    <Accordion.Title
+                        active={activeIndex === 1}
+                        index={1}
+                        onClick={this.handleClick}
+                    >
+                        <Icon name="dropdown" />I would like to create an iRecord.
+                    </Accordion.Title>
+                    <Accordion.Content active={activeIndex === 1}>
+                        <p>
+                            You can only create a new iRecord if you have a profile and
+                            are logged in.
+                        </p>
+                        <p>
+                            Once logged in, at the bottom of your screen, you have a menu
+                            bar with several icons.
+                        </p>
 
-            </Accordion>
-        </div>
-        
-    )
-  }
+                        <p>Click on the microphone shaped icon and record yourself!</p>
+                    </Accordion.Content>
+                </Accordion>
+            </div>
+        );
+    }
 }

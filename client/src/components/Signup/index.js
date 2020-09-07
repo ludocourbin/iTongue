@@ -68,7 +68,7 @@ const Signup = ({
         if (pass1 && pass2 !== "") {
             if (pass1 !== pass2 || pass1.length < 6 || pass2.length < 6) {
                 setErrorMessagePassword(
-                    "Les deux mot de passes doivent être identiques et supérieur à 6 charactères"
+                    "Both passwords must be identical and at least 6 characters long."
                 );
                 return true;
             } else {
@@ -84,7 +84,7 @@ const Signup = ({
             return true;
         }
         if (mail !== "" && !validator.isEmail(mail)) {
-            setErrorMessageEmail("Le mail n'est pas valide");
+            setErrorMessageEmail("E-mail is not valid");
         } else {
             setErrorMessageEmail("");
             return false;
@@ -98,13 +98,13 @@ const Signup = ({
 
     return (
         <Layout titlePage="Signup">
-            <Container>
+            <Container className="auth-form-container">
                 <Form onSubmit={handleSubmit} size="large" className="signup">
-                    <h3 className="signup-title">Inscription</h3>
+                    <h3 className="signup-title">Sign up</h3>
                     <Form.Group widths="equal">
                         <Form.Field
                             control={Input}
-                            label="Prénom"
+                            label="Firstname"
                             type="text"
                             fluid
                             name="firstname"
@@ -114,7 +114,7 @@ const Signup = ({
                         />
                         <Form.Field
                             control={Input}
-                            label="Nom"
+                            label="Lastname"
                             type="text"
                             fluid
                             name="lastname"
@@ -126,7 +126,7 @@ const Signup = ({
 
                     <Form.Field
                         control={Input}
-                        label="Email"
+                        label="E-mail"
                         type="email"
                         width="16"
                         name="email"
@@ -136,7 +136,7 @@ const Signup = ({
                     />
                     <Form.Field
                         control={Input}
-                        label="Mot de passe"
+                        label="Password"
                         type={showPassword ? "text" : "password"}
                         width={16}
                         name="password"
@@ -154,7 +154,7 @@ const Signup = ({
                     <Form.Field
                         control={Input}
                         width={16}
-                        label="Confirmation du mot de passe"
+                        label="Confirm"
                         type={showPassword ? "text" : "password"}
                         name="confirm"
                         onChange={handleChange}
@@ -167,8 +167,12 @@ const Signup = ({
                         onChange={() => setTerms(!terms)}
                         id="terms"
                         label={{
-                            children:
-                                "J'accepte les conditions générales d'utilisations",
+                            children: [
+                                "I accept the ",
+                                <a className="internal-link" href="/terms">
+                                    terms of use
+                                </a>,
+                            ],
                         }}
                     />
 
@@ -192,11 +196,15 @@ const Signup = ({
                             className="signup-button--item"
                             type="submit"
                         >
-                            S'inscrire
+                            Sign up
                         </Button>
-                        <Link className="signup-link" to={"/login"}>
-                            Déjà inscrit ? Connectez vous
-                        </Link>
+
+                        <div>
+                            Already have an account?&nbsp;
+                            <Link className="signup-link internal-link" to={"/login"}>
+                                Log in
+                            </Link>
+                        </div>
                     </div>
                 </Form>
             </Container>

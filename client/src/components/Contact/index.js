@@ -34,10 +34,7 @@ const Contact = () => {
     const handleSubmit = (evt) => {
         evt.preventDefault();
         console.log("onSubmit");
-        if (
-            !checkMail(email) &&
-            !checkMinimumInput(firstname, lastname, message)
-        ) {
+        if (!checkMail(email) && !checkMinimumInput(firstname, lastname, message)) {
             console.log("email sent");
             sendEmail(evt);
             toast.success("Nous vous répondons au plus vite.", {
@@ -68,12 +65,7 @@ const Contact = () => {
         e.preventDefault();
 
         emailjs
-            .sendForm(
-                "gmail",
-                "itongueform",
-                e.target,
-                "user_5aEwx2fJS3ZncS69QRI3a"
-            )
+            .sendForm("gmail", "itongueform", e.target, "user_5aEwx2fJS3ZncS69QRI3a")
             .then(
                 (result) => {
                     console.log(result.text);
@@ -87,7 +79,7 @@ const Contact = () => {
     };
 
     return (
-        <Layout titlePage='Contact'>
+        <Layout titlePage="Contact">
             <FAQ />
             <div className="contactForm">
                 <Form onSubmit={handleSubmit}>
@@ -96,9 +88,9 @@ const Contact = () => {
                             id="form-input-control-first-name"
                             control={Input}
                             name="firstName"
-                            label="Prénom"
+                            label="Firstname"
                             value={firstname}
-                            placeholder="Prénom"
+                            placeholder="Firstname"
                             onChange={handleChange}
                         />
                         <Form.Field
@@ -106,8 +98,8 @@ const Contact = () => {
                             control={Input}
                             name="lastName"
                             value={lastname}
-                            label="Nom"
-                            placeholder="Nom"
+                            label="Lastname"
+                            placeholder="Lastname"
                             onChange={handleChange}
                         />
                     </Form.Group>
@@ -126,7 +118,7 @@ const Contact = () => {
                         name="email"
                         value={email}
                         label="E-mail"
-                        placeholder="joe@schmoe.com"
+                        placeholder="tony@oclock.io"
                         onChange={handleChange}
                         // error={{
                         //     content: 'Please enter a valid email address',
@@ -134,7 +126,7 @@ const Contact = () => {
                         // }}
                     />
                     {email !== "" && checkMail(email) && (
-                        <Message negative content={"Email incorrect"} />
+                        <Message negative content={"E-mail incorrect"} />
                     )}
                     <div className="centerButton">
                         <Form.Field
@@ -142,14 +134,11 @@ const Contact = () => {
                             id="form-button-control-public"
                             control={Button}
                             disabled={
-                                checkMinimumInput(
-                                    firstname,
-                                    lastname,
-                                    message
-                                ) || checkMail(email)
+                                checkMinimumInput(firstname, lastname, message) ||
+                                checkMail(email)
                             }
                             type="submit"
-                            content="Envoyez votre message"
+                            content="Send"
                         />
                     </div>
                 </Form>

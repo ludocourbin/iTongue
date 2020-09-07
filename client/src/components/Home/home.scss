@@ -1,10 +1,31 @@
 @import "../../styles/vars";
 
 .homePage {
-    padding: 10px;
+    // padding: 10px;
     // font-weight: 700;
     color: $primary-text-color;
     // overflow-x: hidden !important;
+
+    .feature {
+        display: flex !important;
+        align-items: center;
+
+        img {
+            border-radius: 10px;
+        }
+
+        &--left {
+            padding-right: 0.5rem !important;
+        }
+
+        &--right {
+            padding-left: 0.5rem !important;
+        }
+    }
+
+    &--header {
+        margin-top: 1.6rem !important;
+    }
 
     &-carousel__dots {
         position: relative;
@@ -16,7 +37,7 @@
         width: 100%;
     }
     p {
-        margin: 0;
+        // margin: 0;
         font-weight: 300;
     }
 

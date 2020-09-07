@@ -220,11 +220,10 @@ export const usersMiddleware = (store) => (next) => (action) => {
 
                     const statusCode = err.response.status;
 
-                    if(statusCode === 404) {
+                    if (statusCode === 404) {
                         store.dispatch(userSlugIsUndefined());
                         console.log("404");
                     }
-                    
                 });
             break;
         }
@@ -256,7 +255,7 @@ export const usersMiddleware = (store) => (next) => (action) => {
                             // Proposition d'un autre slug
                             store.dispatch(
                                 editProfilSlugError(
-                                    "Ce slug est déjà pris, voici un slug disponible"
+                                    "This slug is already in use, here is an available one"
                                 )
                             );
                             // Mise à jour de l'input pour envoyé le slug proposé

@@ -10,6 +10,12 @@
     padding: 8px 0;
     border-top: 1px solid #f9ecec;
 
+    // Bugs Divergence de présentation des contenus
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) !important ;
+    border-radius: 10px;
+    margin: 1em 0.5em;
+    border-top: none !important;
+
     &_left {
         width: 100%;
     }
@@ -23,7 +29,7 @@
 
     .fullname {
         margin-bottom: 0;
-        font-size: 1.2em!important;
+        font-size: 1.2em !important;
     }
 
     .avatar {
@@ -46,7 +52,7 @@
     display: block;
     padding: 0.3em;
     background-color: #ffffff;
-    max-width: 32px!important;
+    max-width: 32px !important;
     max-height: 35px;
     border-radius: 50%;
-  }
+}

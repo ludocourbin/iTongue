@@ -1,14 +1,13 @@
-import React, {useEffect} from 'react';
-import { Form, Dropdown } from 'semantic-ui-react';
+import React, { useEffect } from "react";
+import { Form, Dropdown } from "semantic-ui-react";
 
 const EditLangsForm = (props) => {
-
-    const { 
-        handdleInputChange, 
-        handdleSubmit, 
-        profilData, 
-        allLanguagesList, 
-        fetchAllLanguages ,
+    const {
+        handdleInputChange,
+        handdleSubmit,
+        profilData,
+        allLanguagesList,
+        fetchAllLanguages,
         editProfilDataLoading,
     } = props;
 
@@ -16,7 +15,7 @@ const EditLangsForm = (props) => {
         fetchAllLanguages();
     }, [fetchAllLanguages]);
 
-    const optionsLanguages = allLanguagesList.map(language => {
+    const optionsLanguages = allLanguagesList.map((language) => {
         return {
             key: language.id,
             value: language.id,
@@ -32,35 +31,35 @@ const EditLangsForm = (props) => {
                     <Form.Group widths="equal">
                         <Form.Field>
                             <span className="edit-profil_label">iTeach</span>
-                            <Dropdown 
-                            multiple 
-                            selection 
-                            placeholder="iTeach" 
-                            name="taughtLanguages" 
-                            options={optionsLanguages}
-                            defaultValue={profilData.modifyTaughtLanguages}
-                            onChange={handdleInputChange}
+                            <Dropdown
+                                multiple
+                                selection
+                                placeholder="iTeach"
+                                name="taughtLanguages"
+                                options={optionsLanguages}
+                                defaultValue={profilData.modifyTaughtLanguages}
+                                onChange={handdleInputChange}
                             />
                         </Form.Field>
                         <Form.Field>
                             <span className="edit-profil_label">iLearn</span>
-                            <Dropdown 
-                            multiple 
-                            selection 
-                            placeholder="iLearn" 
-                            name="learnedLanguages" 
-                            options={optionsLanguages}
-                            defaultValue={profilData.modifylearnedLanguages}
-                            onChange={handdleInputChange}
+                            <Dropdown
+                                multiple
+                                selection
+                                placeholder="iLearn"
+                                name="learnedLanguages"
+                                options={optionsLanguages}
+                                defaultValue={profilData.modifylearnedLanguages}
+                                onChange={handdleInputChange}
                             />
                         </Form.Field>
                     </Form.Group>
-                    <Form.Button 
-                    type="submit"
-                    content="Enregistrer le profil"
-                    className="edit-profil_formbtn"
-                    size="small"
-                    loading={editProfilDataLoading}
+                    <Form.Button
+                        type="submit"
+                        content="Save changes"
+                        className="edit-profil_formbtn"
+                        size="small"
+                        loading={editProfilDataLoading}
                     />
                 </Form>
             </div>

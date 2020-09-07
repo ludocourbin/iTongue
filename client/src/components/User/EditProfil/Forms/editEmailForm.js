@@ -28,7 +28,7 @@ const EditEmailForm = (props) => {
             <Form onSubmit={handdleSubmit}>
                 <Form.Group widths="equal">
                     <Form.Field>
-                        <span className="edit-profil_label">Email actuel</span>
+                        <span className="edit-profil_label">Current e-mail address</span>
                         <Input
                             name="old_email"
                             type="email"
@@ -37,7 +37,7 @@ const EditEmailForm = (props) => {
                         />
                     </Form.Field>
                     <Form.Field>
-                        <span className="edit-profil_label">Nouveau email</span>
+                        <span className="edit-profil_label">New e-mail address</span>
                         <Input
                             name="email"
                             type="email"
@@ -49,7 +49,7 @@ const EditEmailForm = (props) => {
                 </Form.Group>
                 <Form.Button
                     type="submit"
-                    content="Enregistrer l'email"
+                    content="Save changes"
                     className="edit-profil_formbtn"
                     size="small"
                     disabled={!emailIsValid}

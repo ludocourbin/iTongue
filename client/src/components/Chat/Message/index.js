@@ -14,7 +14,7 @@ import Layout from "../../../containers/Layout";
 import "./message.scss";
 import giphyLogo from "../../../assets/img/giphy-icon.png";
 
-const Message = props => {
+const Message = (props) => {
   const {
     socketEmitMessage,
     socketEmitTyping,
@@ -25,7 +25,7 @@ const Message = props => {
     allMessages,
     setMessageInAllMessages,
     userTyping,
-    emptyAllMessages
+    emptyAllMessages,
   } = props;
 
   const params = useParams();
@@ -55,7 +55,7 @@ const Message = props => {
   }, [fetchAllMessages]);
 
   let typing = null;
-  const handleChange = e => {
+  const handleChange = (e) => {
     setInputValue(e.target.value);
     if (typing) {
       clearTimeout(typing);
@@ -64,7 +64,7 @@ const Message = props => {
       socketEmitTyping({
         authorFirstname: currentUser.firstname,
         authorLastName: currentUser.lastname,
-        recipientId: socketRecipient.id
+        recipientId: socketRecipient.id,
       });
       typing = null;
     }, 200);
@@ -72,15 +72,15 @@ const Message = props => {
 
   const contact = allMessages.contact;
 
-  const handleNewMessage = text => {
+  const handleNewMessage = (text) => {
     setMessageInAllMessages({
       id: Date.now(),
       createdAt: new Date(),
       text,
       sender: {
         id: currentUser.id,
-        avatarUrl: currentUser.avatarUrl
-      }
+        avatarUrl: currentUser.avatarUrl,
+      },
     });
 
     socketEmitMessage({
@@ -89,7 +89,7 @@ const Message = props => {
       authorLastname: currentUser.lastname,
       authorAvatarUrl: currentUser.avatarUrl,
       recipientId: socketRecipient.id,
-      recipientAvatarUrl: contact.avatarUrl
+      recipientAvatarUrl: contact.avatarUrl,
     });
   };
 
@@ -98,7 +98,7 @@ const Message = props => {
     setInputValue("");
   };
 
-  const handleGifSelect = gif => {
+  const handleGifSelect = (gif) => {
     handleNewMessage(JSON.stringify(gif));
   };
 
@@ -111,7 +111,7 @@ const Message = props => {
   }, [contact]);
 
   /* Récupère l'objet de message pour vérifier si c'est un gif ou du text   */
-  const getContent = text => {
+  const getContent = (text) => {
     try {
       const content = JSON.parse(text);
       if (content.type !== "gif") throw new Error("Not a gif");
@@ -133,7 +133,7 @@ const Message = props => {
         <Header size="tiny" className="message_back">
           <Link to="/messages" className="message_link__back">
             <Icon name="chevron circle left" size="small" />
-            Retour aux messages
+            Back to all threads
           </Link>
           {contact && (
             <Link to={`/user/${contact.slug}`} className="message_link__user">
@@ -152,7 +152,7 @@ const Message = props => {
         </Header>
         <div className="message-list" ref={messageListRef}>
           {allMessages.messages &&
-            allMessages.messages.map(message => (
+            allMessages.messages.map((message) => (
               <div
                 className={`message_container${
                   message.sender.id === currentUser.id ? "--right" : ""
@@ -169,7 +169,9 @@ const Message = props => {
                     src={
                       !message.sender.avatarUrl
                         ? "https://docs.atlassian.com/aui/9.0.0/docs/images/avatar-person.svg"
-                        : process.env.REACT_APP_FILES_URL + "/" + message.sender.avatarUrl
+                        : process.env.REACT_APP_FILES_URL +
+                          "/" +
+                          message.sender.avatarUrl
                     }
                   />
                 </div>
@@ -231,7 +233,10 @@ const Message = props => {
             </Form>
           </div>
           <div className="gifselect_container">
-            <GifComponennt handleGifSelect={handleGifSelect} gifVisible={gifVisible} />
+            <GifComponennt
+              handleGifSelect={handleGifSelect}
+              gifVisible={gifVisible}
+            />
           </div>
         </div>
       </div>

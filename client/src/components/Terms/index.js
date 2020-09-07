@@ -1,113 +1,164 @@
-import React, { Component } from 'react'
-import { Accordion, Icon, Header } from 'semantic-ui-react'
+import React, { Component } from "react";
+import { Accordion, Icon, Header } from "semantic-ui-react";
 import Layout from "../../containers/Layout";
-import './style.scss';
+import "./style.scss";
 
 export default class Terms extends Component {
-  state = { activeIndex: 99 }
+    state = { activeIndex: 99 };
 
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps
-    const { activeIndex } = this.state
-    const newIndex = activeIndex === index ? -1 : index
+    handleClick = (e, titleProps) => {
+        const { index } = titleProps;
+        const { activeIndex } = this.state;
+        const newIndex = activeIndex === index ? -1 : index;
 
-    this.setState({ activeIndex: newIndex })
-  }
+        this.setState({ activeIndex: newIndex });
+    };
 
-  render() {
-    const { activeIndex } = this.state
+    render() {
+        const { activeIndex } = this.state;
 
-    return (
-        <Layout titlePage="Terms">
-            <Header as='h4' block className="titleTerms">
-                Merci de lire attentivement les présentes modalités d'utilisation du présent site avant de le parcourir. <br />
-                En vous connectant sur ce site, vous acceptez sans réserve les présentes modalités.
-            </Header>
-            <Accordion styled className="accordionTerms">
-                <Accordion.Title
-                active={activeIndex === 0}
-                index={0}
-                onClick={this.handleClick}
-                >
-                <Icon name='dropdown' />
-                Conditions d'utilisation
-                </Accordion.Title>
-                <Accordion.Content active={activeIndex === 0}>
-                <p>
-                  Le site accessible par les url suivants : www.itongue.io est exploité dans le respect de la législation française.
-                  L'utilisation de ce site est régie par les présentes conditions générales.
-                  En utilisant le site, vous reconnaissez avoir pris connaissance de ces conditions et les avoir acceptées. 
-                  Celles-ci pourront êtres modifiées à tout moment et sans préavis par la société iTongue.
-                  iTongue ne saurait être tenu pour responsable en aucune manière d’une mauvaise utilisation du service. 
-                </p>
-                </Accordion.Content>
+        return (
+            <Layout titlePage="Terms">
+                <div className="terms-container">
+                    <Header as="h4" block className="titleTerms">
+                        <p>
+                            Please read these Terms of Use carefully before using this
+                            site.
+                        </p>
+                        <p>
+                            By logging on to this site, you accept these terms and
+                            conditions unconditionally.
+                        </p>
+                    </Header>
+                    <Accordion styled className="accordionTerms">
+                        <Accordion.Title
+                            active={activeIndex === 0}
+                            index={0}
+                            onClick={this.handleClick}
+                        >
+                            <Icon name="dropdown" />
+                            Terms of use
+                        </Accordion.Title>
+                        <Accordion.Content active={activeIndex === 0}>
+                            <p>
+                                The site is accessible by the url{" "}
+                                <a href="https://itongue.io">https://itongue.io</a> and is
+                                operated in compliance with French legislation.
+                            </p>
 
-                <Accordion.Title
-                active={activeIndex === 1}
-                index={1}
-                onClick={this.handleClick}
-                >
-                <Icon name='dropdown' />
-                Limite de responsabilités
-                </Accordion.Title>
-                <Accordion.Content active={activeIndex === 1}>
-                <p>
-                Les informations contenues sur ce site sont aussi précises que possibles et le site est périodiquement remis à jour, mais peut toutefois contenir des inexactitudes, des omissions ou des lacunes.
-                Si vous constatez une lacune, erreur ou ce qui parait être un dysfonctionnement, merci de bien vouloir le signaler par email en décrivant le problème de la manière la plus précise possible (page posant problème, action déclenchante, type d’ordinateur et de navigateur utilisé, …)
-                Tout contenu téléchargé se fait aux risques et périls de l'utilisateur et sous sa seule responsabilité. 
-                En conséquence, iTongue ne saurait être tenu responsable d'un quelconque dommage subi par l'ordinateur de l'utilisateur ou d'une quelconque perte de données consécutives au téléchargement.     
-                Les photos sont non contractuelles.
-                Les liens hypertextes mis en place dans le cadre du présent site internet en direction d'autres ressources présentes sur le réseau Internet ne sauraient engager la responsabilité de Natural net.
-                </p>
-                </Accordion.Content>
+                            <p>
+                                The use of this website is governed by the present general
+                                conditions.
+                            </p>
+                            <p>
+                                By using this website, you acknowledge having read and
+                                accepted these conditions. They can be modified at any
+                                time and without notice by the company iTongue. iTongue
+                                could not be held responsible in any way for a bad use of
+                                the service.
+                            </p>
+                        </Accordion.Content>
 
-                <Accordion.Title
-                active={activeIndex === 2}
-                index={2}
-                onClick={this.handleClick}
-                >
-                <Icon name='dropdown' />
-                Droit d'accès
-                </Accordion.Title>
-                <Accordion.Content active={activeIndex === 2}>
-                <p>
-                En application de cette loi, les internautes disposent d’un droit d’accès, de rectification, de modification et de suppression concernant les données qui les concernent personnellement. 
-                Ce droit peut être exercé par voie électronique à l’adresse email suivante : contact@itongue.fr.
-                Les informations personnelles collectées ne sont en aucun cas confiées à des tiers hormis pour l’éventuelle bonne exécution de la prestation commandée par l’internaute.
-                </p>
-                </Accordion.Content>
+                        <Accordion.Title
+                            active={activeIndex === 1}
+                            index={1}
+                            onClick={this.handleClick}
+                        >
+                            <Icon name="dropdown" />
+                            Limitation of Liability
+                        </Accordion.Title>
+                        <Accordion.Content active={activeIndex === 1}>
+                            <p>
+                                The information contained on this website is as accurate
+                                as possible and the site is periodically updated, but may
+                                contain inaccuracies, omissions or gaps.
+                            </p>
+                            <p>
+                                If you notice a gap, error or what appears to be a
+                                malfunction, please report it by email describing the
+                                problem as precisely as possible (page causing the
+                                problem, action triggered, type of computer and browser
+                                used, ...).
+                            </p>
+                            <p>
+                                Any downloaded content is at the user's own risk and under
+                                his sole responsibility.
+                            </p>
 
-                <Accordion.Title
-                active={activeIndex === 3}
-                index={3}
-                onClick={this.handleClick}
-                >
-                <Icon name='dropdown' />
-                Confidentialité
-                </Accordion.Title>
-                <Accordion.Content active={activeIndex === 3}>
-                <p>
-                  Vos données personnelles sont confidentielles et ne seront en aucun cas communiquées à des tiers hormis pour la bonne exécution de la prestation.
-                </p>
-                </Accordion.Content>
+                            <p>
+                                Consequently, iTongue cannot be held responsible for any
+                                damage to the user's computer or any loss of data
+                                following the download. The photos are not contractual.
+                            </p>
+                            <p>
+                                The hypertext links set up within the framework of the
+                                present website towards other resources present on the
+                                Internet network do not would know how to engage the
+                                responsibility of Natural net.
+                            </p>
+                        </Accordion.Content>
 
-                <Accordion.Title
-                active={activeIndex === 4}
-                index={4}
-                onClick={this.handleClick}
-                >
-                <Icon name='dropdown' />
-                Cookies
-                </Accordion.Title>
-                <Accordion.Content active={activeIndex === 4}>
-                <p>
-                  Pour des besoins de statistiques et d'affichage, le présent site utilise des cookies. 
-                  Il s'agit de petits fichiers textes stockés sur votre disque dur afin d'enregistrer des données techniques sur votre navigation. 
-                  Certaines parties de ce site ne peuvent être fonctionnelle sans l’acceptation de cookies.
-                </p>
-                </Accordion.Content>
-            </Accordion>
-        </Layout>
-    )
-  }
+                        <Accordion.Title
+                            active={activeIndex === 2}
+                            index={2}
+                            onClick={this.handleClick}
+                        >
+                            <Icon name="dropdown" />
+                            Right of access
+                        </Accordion.Title>
+                        <Accordion.Content active={activeIndex === 2}>
+                            <p>
+                                In application of this law, Internet users have the right
+                                to access, rectify, modify and delete data concerning them
+                                personally.
+                            </p>
+                            <p>
+                                This right can be exercised electronically at the
+                                following email address: contact@itongue.io.
+                            </p>
+                            <p>
+                                The personal information collected is in no case entrusted
+                                to third parties except for the possible good execution of
+                                the service ordered by the Internet user.
+                            </p>
+                        </Accordion.Content>
+
+                        <Accordion.Title
+                            active={activeIndex === 3}
+                            index={3}
+                            onClick={this.handleClick}
+                        >
+                            <Icon name="dropdown" />
+                            Privacy Policy
+                        </Accordion.Title>
+                        <Accordion.Content active={activeIndex === 3}>
+                            <p>
+                                Your personal data are confidential and will not be
+                                communicated to third parties under any circumstances
+                                except for the proper execution of the service.
+                            </p>
+                        </Accordion.Content>
+
+                        <Accordion.Title
+                            active={activeIndex === 4}
+                            index={4}
+                            onClick={this.handleClick}
+                        >
+                            <Icon name="dropdown" />
+                            Cookies
+                        </Accordion.Title>
+                        <Accordion.Content active={activeIndex === 4}>
+                            <p>
+                                For statistical and display purposes, this website uses
+                                cookies. These are small text files stored on your hard
+                                drive to record technical data about your navigation. Some
+                                parts of this site cannot be functional without the
+                                acceptance of cookies.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion>
+                </div>
+            </Layout>
+        );
+    }
 }

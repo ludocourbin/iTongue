@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Image, Header, Label, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import { useReducer } from "react";
 // import './Followers.scss';
 
 const Followers = ({
@@ -10,8 +11,10 @@ const Followers = ({
     currentUserId,
     currentUser,
     userSlugId,
+    setFollowedCount,
+    setCount,
+    count,
 }) => {
-    /* handle following of other page's */
     const isFollowing = currentUser.followed.find(
         (userFollowing) => userFollowing.id === user.id
     );
@@ -25,9 +28,9 @@ const Followers = ({
 
     const changeFollowStatus = () => {
         if (following) {
-            unFollow(user.id);
+            unFollow(user);
         } else {
-            follow(user.id);
+            follow(user);
         }
     };
 
@@ -60,9 +63,9 @@ const Followers = ({
                 <div className="followers-card_right">
                     <Label className={following ? "" : "follow-btn"}>
                         {following ? (
-                            <span>Abonné</span>
+                            <span>Following</span>
                         ) : (
-                            <span className="follow-btn">S'abonner</span>
+                            <span className="follow-btn">Follow</span>
                         )}
 
                         <Icon
@@ -75,9 +78,9 @@ const Followers = ({
                 <div className="followers-card_right">
                     <Label className={following ? "" : "follow-btn"}>
                         {following ? (
-                            <span>Abonné</span>
+                            <span>Following</span>
                         ) : (
-                            <span className="follow-btn">S'abonner</span>
+                            <span className="follow-btn">Follow</span>
                         )}
 
                         <Icon

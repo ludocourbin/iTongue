@@ -51,13 +51,13 @@ const Login = ({
 
     return (
         <Layout titlePage="Login">
-            <Container>
+            <Container className="auth-form-container">
                 {loading && <ToastContainer autoClose={2000} />}
                 <Form className="login-form" onSubmit={handleSubmit}>
                     <h3 className="login-title">Login</h3>
                     <Form.Field
                         control={Input}
-                        label="Email"
+                        label="E-mail"
                         type="email"
                         width={16}
                         name="email"
@@ -82,24 +82,21 @@ const Login = ({
                         }
                         placeholder="**********"
                     />
-                    <Form.Field>
+                    {/* <Form.Field>
                         <Checkbox
                             checked={stayConnected}
                             onClick={handleChange}
                             label="Restez connecté"
                             id="stayConnected"
                         />
-                    </Form.Field>
+                    </Form.Field> */}
+
                     {loginErrorMessage && (
                         <Message content={loginErrorMessage} className="message_errors" />
                     )}
 
-                    <Button
-                        loading={loading}
-                        className="login-button"
-                        type="submit"
-                    >
-                        Connectez-vous
+                    <Button loading={loading} className="login-button" type="submit">
+                        Login
                     </Button>
                 </Form>
             </Container>

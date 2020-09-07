@@ -12,7 +12,6 @@ import Layout from "../../../containers/Layout";
 
 /* Styles */
 import "./message.scss";
-
 import giphyLogo from "../../../assets/img/giphy-icon.png";
 
 const Message = props => {
@@ -36,7 +35,6 @@ const Message = props => {
 
   useEffect(() => {
     const scrollY = messageListRef.current.scrollHeight;
-    console.log("scrollY", scrollY);
     messageListRef.current.scrollTo(0, scrollY);
   }, [allMessages]);
 
@@ -104,6 +102,14 @@ const Message = props => {
     handleNewMessage(JSON.stringify(gif));
   };
 
+  useEffect(() => {
+    if (allMessages.contact) {
+      document.title = `iTongue - Chat - ${
+        contact.firstname ? contact.firstname + " " + contact.lastname : ""
+      }`;
+    }
+  }, [contact]);
+
   /* Récupère l'objet de message pour vérifier si c'est un gif ou du text   */
   const getContent = text => {
     try {
@@ -122,7 +128,7 @@ const Message = props => {
   };
 
   return (
-    <Layout titlePage={`Chat - ${contact && contact.firstname}`}>
+    <Layout titlePage="Chat">
       <div className="messages-container">
         <Header size="tiny" className="message_back">
           <Link to="/messages" className="message_link__back">

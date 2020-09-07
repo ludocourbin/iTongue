@@ -111,9 +111,7 @@ const UserProfil = (props) => {
   return (
     <Layout>
       <ToastContainer autoClose={2000} />
-
       {!currentUser && !userSlugInfos.slug && <Redirect to={`/`} />}
-
       <div className="user-profil">
         <Segment className="user-profil_header">
           {/* <ProfilPlaceholder /> */}

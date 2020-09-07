@@ -58,15 +58,14 @@ const Conversations = (props) => {
 
     const handdleLoadingChange = () => {
         setAvatarIsLoaded(true);
-        console.log("avatarIsLoaded", avatarIsLoaded);
-        console.log("avatarRef", avatarRef);
       };
 
     return (
         <Layout titlePage='Messages'>
             <div className="conversations">
                    {allThreads && allThreads.map(({ contact, messages, latest }) => (
-                        allThreadsLoading && !avatarIsLoaded ? 
+                        // allThreadsLoading && !avatarIsLoaded ? 
+                        allThreadsLoading ? 
                         <div className="conversation" key={contact.id}>
                             <Placeholder fluid style={{width: "100%"}}>
                                 <Placeholder.Header image>

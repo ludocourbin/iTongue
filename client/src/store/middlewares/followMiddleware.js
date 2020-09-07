@@ -48,7 +48,6 @@ export const followMiddleware = (store) => (next) => (action) => {
                 }, store)
                 .then((res) => {
                     console.log(res);
-                    
                     const map = userSlugInfos.followers.filter(follower => follower.id !== curUserId);
                     store.dispatch(unFollowSuccess({
                         followersUpdate: map,

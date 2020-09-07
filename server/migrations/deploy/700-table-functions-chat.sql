@@ -36,10 +36,10 @@ $$
              ON "m"."recipient_id" = "ru"."id"
           WHERE "m"."sender_id" = "user_id"
              OR "m"."recipient_id" = "user_id"
-       GROUP BY "contact_id"
-       ORDER BY "latest" DESC) "t"
+       GROUP BY "contact_id") "t"
     JOIN "user" "u"
-      ON "t"."contact_id" = "u"."id";
+      ON "t"."contact_id" = "u"."id"
+ORDER BY "t"."latest" DESC;
 
 $$ LANGUAGE SQL STABLE;
 

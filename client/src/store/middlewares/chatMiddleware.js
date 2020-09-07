@@ -70,7 +70,7 @@ export const chatMiddleware = store => next => action => {
                   store.dispatch(setUserIsTyping({}));
                 } else {
                   const { unreadCount, allThreads } = store.getState().chatReducer;
-                  toast.info(`Nouveau message de ${authorFirstname}`);
+                  toast.info(`New message from ${authorFirstname}`);
                   if (unreadCount < 99) {
                     store.dispatch(updateUnreadCount(unreadCount + 1));
                   }

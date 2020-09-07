@@ -2,7 +2,7 @@
 
 /* Libs */
 import { toast } from "react-toastify";
-import { httpClient } from '../../../utils'
+import { httpClient } from "../../../utils";
 
 /* Actions */
 import {
@@ -60,41 +60,46 @@ const expressionsMiddleware = (store) => (next) => (action) => {
     switch (action.type) {
         case FETCH_EXPRESSIONS: {
             // OK
-            httpClient.get({
-                url: `/expressions`
-            }, store)
+            httpClient
+                .get(
+                    {
+                        url: `/expressions`,
+                    },
+                    store
+                )
                 .then((res) => {
                     store.dispatch(fetchExpressionSuccess(res.data.data));
                 })
                 .catch((err) => {
                     store.dispatch(fetchExpressionError(/* Todo */));
-                    toast.error("Problème lors du chargement des expressions");
+                    toast.error("The expressions could not be loaded");
                     console.error("FETCH_EXPRESSIONS", err);
                 });
             break;
         }
         case FETCH_LANGUAGES: {
-            httpClient.get({
-                url: `/languages`
-            }, store)
-            .then((res) => {
-                store.dispatch(fetchLanguagesSuccess(res.data.data));
-            })
-            .catch((err) => {
-                store.dispatch(fetchLanguagesError(/* Todo */));
-                toast.error("Problème lors du chargement des languages");
-                console.error("FETCH_LANGUAGES", err);
-            });
+            httpClient
+                .get(
+                    {
+                        url: `/languages`,
+                    },
+                    store
+                )
+                .then((res) => {
+                    store.dispatch(fetchLanguagesSuccess(res.data.data));
+                })
+                .catch((err) => {
+                    store.dispatch(fetchLanguagesError(/* Todo */));
+                    toast.error("The languages could not be loaded");
+                    console.error("FETCH_LANGUAGES", err);
+                });
             break;
         }
         case SET_TRADUCTIONS_BY_EXPRESSION: {
             // OK
-            const {
-                expressionsList,
-                expressionId,
-            } = store.getState().expressionsReducer;
+            const { expressionsList, expressionId } = store.getState().expressionsReducer;
 
-            const findTradByExpr = expressionsList.find(expression => {
+            const findTradByExpr = expressionsList.find((expression) => {
                 return expression.id === expressionId && expression.translations;
             });
 
@@ -109,10 +114,14 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 label: store.getState().expressionsReducer.newExpressionInputValue,
             };
 
-            httpClient.post({
-                url: `/admin/expressions`,
-                data: { ...objData },
-            }, store)
+            httpClient
+                .post(
+                    {
+                        url: `/admin/expressions`,
+                        data: { ...objData },
+                    },
+                    store
+                )
                 .then((res) => {
                     store.dispatch(
                         addExpressionSubmitSuccess({
@@ -120,13 +129,11 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                             translations: [],
                         })
                     );
-                    toast.info("Nouvelle expression enregistrée avec succès");
+                    toast.info("New expression added succesfully");
                 })
                 .catch((err) => {
                     store.dispatch(addExpressionSubmitError(/* Todo */));
-                    toast.error(
-                        "Une erreur est survenue lors de l'ajout de votre expression"
-                    );
+                    toast.error("Error, the expression could not be added");
                     console.error("ADD_EXPRESSION_SUBMIT", err);
                 });
             break;
@@ -135,26 +142,24 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             // OK
             const { expressionsList } = store.getState().expressionsReducer;
 
-            httpClient.delete({
-                url: `/admin/expressions/${action.payload}`
-            }, store)
+            httpClient
+                .delete(
+                    {
+                        url: `/admin/expressions/${action.payload}`,
+                    },
+                    store
+                )
                 .then((res) => {
-                    const expressionsFilter = expressionsList.filter(
-                        (expression) => {
-                            return expression.id === action.payload
-                                ? false
-                                : true;
-                        }
-                    );
+                    const expressionsFilter = expressionsList.filter((expression) => {
+                        return expression.id === action.payload ? false : true;
+                    });
 
                     store.dispatch(deleteExpressionSuccess(expressionsFilter));
-                    toast.info("L'expression a bien été supprimée");
+                    toast.info("The expression has been successfully deleted");
                 })
                 .catch((err) => {
                     store.dispatch(deleteExpressionError(/* Todo */));
-                    toast.error(
-                        "Une erreur est survenue lors de la suppression de cette expression"
-                    );
+                    toast.error("Error, the expression could not be deleted");
                     console.error("DELETE_EXPRESSION", err);
                 });
             break;
@@ -169,7 +174,7 @@ const expressionsMiddleware = (store) => (next) => (action) => {
             } = store.getState().expressionsReducer;
 
             /* Retourne le code pour le flag par rapport à l'ID */
-            const findCodeById = languagesList.find(language => {
+            const findCodeById = languagesList.find((language) => {
                 return language.id === newTraductionInputValue.language_id && language;
             });
 
@@ -183,44 +188,44 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                 },
             };
 
-            httpClient.post({
-                url: `/admin/translations`,
-                data: { ...dataObj },
-            }, store)
-            .then((res) => {
-                const data = res.data.data;
+            httpClient
+                .post(
+                    {
+                        url: `/admin/translations`,
+                        data: { ...dataObj },
+                    },
+                    store
+                )
+                .then((res) => {
+                    const data = res.data.data;
 
-                const expressionListWithNewTrad = expressionsList.map(
-                    (expression) => {
-                        if (expression.id === expressionId) {
-                            return {
-                                ...expression,
-                                translations: [
-                                    ...expression.translations,
-                                    {
-                                        ...dataObj,
-                                        id: data.id,
-                                    },
-                                ],
-                            };
+                    const expressionListWithNewTrad = expressionsList.map(
+                        (expression) => {
+                            if (expression.id === expressionId) {
+                                return {
+                                    ...expression,
+                                    translations: [
+                                        ...expression.translations,
+                                        {
+                                            ...dataObj,
+                                            id: data.id,
+                                        },
+                                    ],
+                                };
+                            }
+                            return expression;
                         }
-                        return expression;
-                    }
-                );
+                    );
 
-                store.dispatch(
-                    addTraductionSubmitSuccess(expressionListWithNewTrad)
-                );
-                store.dispatch(setTraductionsByExpression());
-                toast.info("Nouvelle traduction enregistrée avec succès");
-            })
-            .catch((err) => {
-                store.dispatch(addTraductionSubmitError(/* Todo */));
-                toast.error(
-                    "Une erreur est survenue lors de l'ajout de votre traduction"
-                );
-                console.error("ADD_TRADUCTION_SUBMIT", err);
-            });
+                    store.dispatch(addTraductionSubmitSuccess(expressionListWithNewTrad));
+                    store.dispatch(setTraductionsByExpression());
+                    toast.info("New translation added succesfully");
+                })
+                .catch((err) => {
+                    store.dispatch(addTraductionSubmitError(/* Todo */));
+                    toast.error("Error, the translation could not be added");
+                    console.error("ADD_TRADUCTION_SUBMIT", err);
+                });
             break;
         }
         case EDIT_TRADUCTION_SUBMIT: {
@@ -240,26 +245,29 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                     : traductionSelect.language.id, //,
             };
 
-            httpClient.post({
-                url: `/admin/translations/${traductionSelect.id}`,
-                data: { ...objData },
-            }, store)
-            .then((res) => {
-                const findExpression = expressionsList.find(
-                    (expression) => expression.id === expressionId
-                );
+            httpClient
+                .post(
+                    {
+                        url: `/admin/translations/${traductionSelect.id}`,
+                        data: { ...objData },
+                    },
+                    store
+                )
+                .then((res) => {
+                    const findExpression = expressionsList.find(
+                        (expression) => expression.id === expressionId
+                    );
 
-                const editTraduction = findExpression.translations.map(
-                    (translation) => {
-                        if (translation.id === traductionSelect.id) {
-                            return traductionSelect;
+                    const editTraduction = findExpression.translations.map(
+                        (translation) => {
+                            if (translation.id === traductionSelect.id) {
+                                return traductionSelect;
+                            }
+                            return translation;
                         }
-                        return translation;
-                    }
-                );
+                    );
 
-                const newExpressionList = expressionsList.map(
-                    (expression) => {
+                    const newExpressionList = expressionsList.map((expression) => {
                         if (expression.id === expressionId) {
                             return {
                                 ...expression,
@@ -267,49 +275,42 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                             };
                         }
                         return expression;
-                    }
-                );
-                store.dispatch(
-                    editTraductionSubmitSuccess(newExpressionList)
-                );
-                store.dispatch(setTraductionsByExpression());
-                toast.info("La traduction a bien été modifiée");
-            })
-            .catch((err) => {
-                store.dispatch(editTraductionSubmitError(/* Todo */));
-                toast.error(
-                    "Une erreur est survenue lors de la modification de la traduction"
-                );
-                console.error("EDIT_TRADUCTION_SUBMIT", err);
-            });
+                    });
+                    store.dispatch(editTraductionSubmitSuccess(newExpressionList));
+                    store.dispatch(setTraductionsByExpression());
+                    toast.info("The translation has been successfuly changed");
+                })
+                .catch((err) => {
+                    store.dispatch(editTraductionSubmitError(/* Todo */));
+                    toast.error("Error, the translation could not be changed");
+                    console.error("EDIT_TRADUCTION_SUBMIT", err);
+                });
             break;
         }
         case DELETE_TRADUCTION: {
             // OK
 
-            const {
-                expressionsList,
-                expressionId,
-            } = store.getState().expressionsReducer;
+            const { expressionsList, expressionId } = store.getState().expressionsReducer;
 
-            httpClient.delete({
-                url: `/admin/translations/${action.payload}`,
-            }, store)
-            .then((res) => {
-                const findExpression = expressionsList.find(
-                    (expression) => expression.id === expressionId
-                );
+            httpClient
+                .delete(
+                    {
+                        url: `/admin/translations/${action.payload}`,
+                    },
+                    store
+                )
+                .then((res) => {
+                    const findExpression = expressionsList.find(
+                        (expression) => expression.id === expressionId
+                    );
 
-                const removeTranslation = findExpression.translations.filter(
-                    (translation) => {
-                        return translation.id === action.payload
-                            ? false
-                            : true;
-                    }
-                );
+                    const removeTranslation = findExpression.translations.filter(
+                        (translation) => {
+                            return translation.id === action.payload ? false : true;
+                        }
+                    );
 
-                const newExpressionList = expressionsList.map(
-                    (expression) => {
+                    const newExpressionList = expressionsList.map((expression) => {
                         if (expression.id === expressionId) {
                             return {
                                 ...expression,
@@ -317,43 +318,41 @@ const expressionsMiddleware = (store) => (next) => (action) => {
                             };
                         }
                         return expression;
-                    }
-                );
+                    });
 
-                store.dispatch(deleteTraductionSuccess(newExpressionList));
-                store.dispatch(setTraductionsByExpression());
-                toast.info("La traduction a bien été supprimée");
-            })
-            .catch((err) => {
-                store.dispatch(deleteTraductionError(/* Todo */));
-                toast.error(
-                    "Une erreur est survenue lors de la suppression de cette traduction"
-                );
-                console.error("DELETE_TRADUCTION", err);
-            });
+                    store.dispatch(deleteTraductionSuccess(newExpressionList));
+                    store.dispatch(setTraductionsByExpression());
+                    toast.info("The translation has been successfully deleted");
+                })
+                .catch((err) => {
+                    store.dispatch(deleteTraductionError(/* Todo */));
+                    toast.error("Error, the translation could not be deleted");
+                    console.error("DELETE_TRADUCTION", err);
+                });
             break;
         }
         case ADD_LANGUAGE_SUBMIT: {
             // OK
-            const languageValue = store.getState().expressionsReducer
-                .languageValue;
+            const languageValue = store.getState().expressionsReducer.languageValue;
 
-            httpClient.post({
-                url: `/admin/languages`,
-                data: languageValue,
-            }, store)
-            .then((res) => {
-                store.dispatch(addLanguageSubmitSuccess(languageValue));
-                toast.info("La langue a bien été ajoutée");
-                console.log(res.data.data);
-            })
-            .catch((err) => {
-                store.dispatch(addLanguageSubmitError(/* Todo */));
-                toast.error(
-                    "Une erreur est survenue lors de l'ajout de cette langue"
-                );
-                console.error(err);
-            });
+            httpClient
+                .post(
+                    {
+                        url: `/admin/languages`,
+                        data: languageValue,
+                    },
+                    store
+                )
+                .then((res) => {
+                    store.dispatch(addLanguageSubmitSuccess(languageValue));
+                    toast.info("New language successfully added");
+                    console.log(res.data.data);
+                })
+                .catch((err) => {
+                    store.dispatch(addLanguageSubmitError(/* Todo */));
+                    toast.error("Error, the language could not be added");
+                    console.error(err);
+                });
             break;
         }
 
@@ -364,21 +363,27 @@ const expressionsMiddleware = (store) => (next) => (action) => {
 
             console.log("allLanguages", allLanguages);
 
-            httpClient.delete({
-                url: `/admin/languages/${langId}`
-            }, store)
-            .then(res => {
-                const response = res.data.data.deleted;
-                const newLangsList = allLanguages.filter(language => language.id !== langId && language);
-                store.dispatch(deleteLanguageSubmitSuccess(newLangsList));
-                response && toast.info("La langue a bien été supprimée");
-            })
-            .catch(err => {
-                console.error(err);
-                store.dispatch(deleteLanguageSubmitError());
-            });
+            httpClient
+                .delete(
+                    {
+                        url: `/admin/languages/${langId}`,
+                    },
+                    store
+                )
+                .then((res) => {
+                    const response = res.data.data.deleted;
+                    const newLangsList = allLanguages.filter(
+                        (language) => language.id !== langId && language
+                    );
+                    store.dispatch(deleteLanguageSubmitSuccess(newLangsList));
+                    response && toast.info("The language has been successfully deleted");
+                })
+                .catch((err) => {
+                    console.error(err);
+                    store.dispatch(deleteLanguageSubmitError());
+                });
             break;
-        };
+        }
         default:
             break;
     }

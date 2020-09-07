@@ -37,7 +37,7 @@ const Contact = () => {
         if (!checkMail(email) && !checkMinimumInput(firstname, lastname, message)) {
             console.log("email sent");
             sendEmail(evt);
-            toast.success("Nous vous répondons au plus vite.", {
+            toast.success("We'll get back to you as soon as possible", {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,

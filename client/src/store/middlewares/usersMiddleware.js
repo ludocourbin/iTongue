@@ -142,7 +142,7 @@ export const usersMiddleware = (store) => (next) => (action) => {
                     );
 
                     if (res.status === 200) {
-                        toast.info("Vos informations ont bien été enregistrées");
+                        toast.info("Your changes have been saved");
                     }
                 })
                 .catch((err) => {
@@ -150,7 +150,7 @@ export const usersMiddleware = (store) => (next) => (action) => {
                     console.error(err.response);
                     store.dispatch(editProfilError(/* Todo */));
                     toast.info(
-                        "Une erreur est survenue lors de la sauvegarde de votre profil"
+                        "Error, your changes could not be saved"
                     );
                 });
             break;
@@ -243,7 +243,7 @@ export const usersMiddleware = (store) => (next) => (action) => {
                     console.log("res", res);
                     store.dispatch(editProfilSlugSuccess(slug));
                     setTimeout(() => {
-                        toast.info("Votre slug a bien été modifié");
+                        toast.info("Your slug has been changed");
                     }, 300);
                 })
                 .catch((err) => {
@@ -262,10 +262,10 @@ export const usersMiddleware = (store) => (next) => (action) => {
                             store.dispatch(editProfilSlugInput(errResponse));
                         } else {
                             store.dispatch(
-                                editProfilSlugError("Une erreur est survenue")
+                                editProfilSlugError("An error has occured")
                             );
                             toast.info(
-                                "Une erreur est survenue lors du changement de votre slug"
+                                "Error, your slug could not be changed"
                             );
                         }
                     }

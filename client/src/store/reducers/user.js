@@ -85,8 +85,8 @@ import {
       confirm: "",
     },
     loginData: {
-      email: "gautier.colasse@gmail.com",
-      password: "123456",
+      email: "",
+      password: "",
       stayConnected: true,
     },
     loginErrorMessage: "",

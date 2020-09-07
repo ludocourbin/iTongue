@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 
 import Contact from "../Contact";
 import Terms from "../Terms";
+import NotFound from "../NotFound";
 
 /* Styles */
 import "destyle.css";
@@ -110,8 +111,8 @@ const App = ({ isLogged, setCaptchaToken, user, socketConnect, pyroVisible }) =>
                 <Route path="/admin" component={Admin} />
                 <Route exact path="/terms" component={Terms} />
                 <Route exact path="/team" component={Team} />
-                <Route>
-                    <h1>La page n'existe pas</h1>
+                <Route component={NotFound}>
+                   
                 </Route>
             </Switch>
 

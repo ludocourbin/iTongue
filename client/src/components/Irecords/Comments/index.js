@@ -55,7 +55,7 @@ const Comments = (props) => {
 
     const handdleSubmit = (e) => {
         commentSubmit(record.id);
-        updateScrollAfterSubmit();
+        //updateScrollAfterSubmit();
     };
 
     const handdleEditSubmit = (e, commentId) => {
@@ -73,7 +73,6 @@ const Comments = (props) => {
         if (!showComments) {
             fetchCommentsByRecord(record.id);
         }
-
         setRecordIdComment(record.id);
     };
 
@@ -83,12 +82,12 @@ const Comments = (props) => {
         }
     }, [iRecordCommentIdSelect, record.id]);
 
-    const updateScrollAfterSubmit = () => {
-        if (commentsListRef.current) {
+    useEffect(() => {
+        if(commentsListRef.current) {
             const scrollY = commentsListRef.current.scrollHeight;
             commentsListRef.current.scrollTo(0, scrollY);
         }
-    };
+    }, [commentsList]);
 
     return (
         <div className="social">

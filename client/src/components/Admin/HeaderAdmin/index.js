@@ -31,7 +31,7 @@ const HeaderAdmin = ({ logout, userConnect, ...props }) => {
 
     return (
         <>
-            <Menu borderless className="header-admin" secondary>
+            <Menu borderless className="header-admin" >
                 <Menu.Item>
                     <NavLink to="/admin" activeClassName="active">
                         <Header size="large">Dashboard</Header>

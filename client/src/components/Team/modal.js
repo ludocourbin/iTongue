@@ -67,6 +67,11 @@ const MyModal = ({ member, visible, setModalVisible, setPyroVisible }) => {
             <a href={member.github}>
               <Icon name="github" size="big" />
             </a>
+            {member.portfolio && (
+              <a href={member.portfolio}>
+                <Icon name="linkify" size="big" />
+              </a>
+            )}
           </div>
           <div className="myModal-botside__location">
             <img

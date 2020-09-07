@@ -76,9 +76,11 @@ const ExpressionsList = (props) => {
                     size="tiny"
                 />
 
-                <Form className="expressions-form">
-                    <Form.Input icon="search" fluid placeholder="Search.." />
-                </Form>
+            {/* 
+            <Form className="expressions-form">
+                <Form.Input icon='search' fluid placeholder='Search..' />
+            </Form> 
+            */}
 
                 <Table celled selectable sortable striped>
                     <Table.Header>

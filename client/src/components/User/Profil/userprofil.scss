@@ -204,9 +204,28 @@
         //padding: 0.3em;
         background-color: #ffffff;
         //margin-right: 0.3em;
-        max-width: 25px;
-        max-height: 25px;
+        max-width: 17px;
+        max-height: 17px;
         border-radius: 50%;
+    }
+
+    &__dropdown {
+        display: flex;
+        align-content: center;
+        align-items: center;
+    }
+
+    .ui.dropdown>.text>img {
+        margin-bottom: 0;
+        margin-top: -2px;
+        vertical-align: middle;
+        margin-right: .38571429rem;
+    }
+
+    .ui.dropdown .menu>.item>img {
+        margin-bottom: 0;
+        margin-top: -2px;
+        vertical-align: middle;
     }
 }
 
@@ -220,3 +239,7 @@
     }
 }
 
+
+.placeholder-bio {
+    margin: 0 auto;
+}

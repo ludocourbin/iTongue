@@ -90,9 +90,9 @@ const initialState = {
         confirm: "",
     },
     loginData: {
-        email: "gautier.colasse@gmail.com",
-        password: "123456",
-        stayConnected: true,
+      email: "",
+      password: "",
+      stayConnected: true,
     },
     loginErrorMessage: "",
     showPassword: false,

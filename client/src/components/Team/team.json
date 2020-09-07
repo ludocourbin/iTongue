@@ -7,7 +7,8 @@
     "location": "Pau, Aquitaine",
     "spe": "Product Owner / Front-end",
     "github": "https://github.com/ludocourbin",
-    "linkedin": "https://www.linkedin.com/in/ludoviccourbin/"
+    "linkedin": "https://www.linkedin.com/in/ludoviccourbin/",
+    "portfolio" : "https://ludovic-courbin.com/"
   },
   "sacha": {
     "name": "Sacha Zacaropoulos",
@@ -17,7 +18,8 @@
     "location": "Nice, PACA",
     "spe": "Git master / Back-end",
     "github": "https://github.com/sacha-smz",
-    "linkedin": "https://www.linkedin.com/in/sacha-zacaropoulos/"
+    "linkedin": "https://www.linkedin.com/in/sacha-zacaropoulos/",
+    "portfolio" : "https://sacha-zacaropoulos.virtualtryon.fr/"
   },
   "quentin": {
     "name": "Quentin Lemogodeuc",
@@ -37,7 +39,8 @@
     "location": "Lille, Hauts-de-France",
     "spe": "Lead dev Front-end",
     "github": "https://github.com/GautierCo",
-    "linkedin": "https://www.linkedin.com/in/gautier-colasse/"
+    "linkedin": "https://www.linkedin.com/in/gautier-colasse/",
+    "portfolio" : "https://gautiercolasse.com/"
   },
   "axel": {
     "name": "Axel Le Boucher",

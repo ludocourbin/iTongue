@@ -149,9 +149,7 @@ export const usersMiddleware = (store) => (next) => (action) => {
                     console.error(err);
                     console.error(err.response);
                     store.dispatch(editProfilError(/* Todo */));
-                    toast.info(
-                        "Error, your changes could not be saved"
-                    );
+                    toast.info("Error, your changes could not be saved");
                 });
             break;
         }
@@ -261,12 +259,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
                             // Mise à jour de l'input pour envoyé le slug proposé
                             store.dispatch(editProfilSlugInput(errResponse));
                         } else {
-                            store.dispatch(
-                                editProfilSlugError("An error has occured")
-                            );
-                            toast.info(
-                                "Error, your slug could not be changed"
-                            );
+                            store.dispatch(editProfilSlugError("An error has occured"));
+                            toast.info("Error, your slug could not be changed");
                         }
                     }
                 });
@@ -286,7 +280,8 @@ export const usersMiddleware = (store) => (next) => (action) => {
                 .then((res) => {
                     store.dispatch(fetchFeedUserSuccess(res.data.data));
                 })
-                .catch((_) => {
+                .catch((err) => {
+                    console.log({ err });
                     console.log("error");
                     store.dispatch(fetchFeedUserError());
                 });

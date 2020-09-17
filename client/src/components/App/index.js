@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
-import { Route, Switch, Redirect, useLocation } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import ReactGA from "react-ga";
-
 /* Components */
 
 import Contact from "../Contact";
@@ -61,12 +59,6 @@ const App = ({ isLogged, setCaptchaToken, user, socketConnect, pyroVisible }) =>
             socketConnect();
         }
     }, [socketConnect]);
-
-    useEffect(() => {
-        ReactGA.initialize("UA-178264165-1");
-        ReactGA.pageview(window.location.pathname + window.location.search);
-        console.log("lets go ");
-    }, [useLocation()]);
 
     return (
         <div className="App">

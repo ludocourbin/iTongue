@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Menu, Sidebar, Icon } from "semantic-ui-react";
-import { NavLink, Link, useLocation, withRouter } from "react-router-dom";
-import ReactGA from "react-ga";
+import { NavLink, Link, useLocation } from "react-router-dom";
 
 import Header from "./menu";
 import NavigationBottom from "./navigationBottom";
@@ -9,7 +8,6 @@ import Recording from "./recording/recording";
 
 import "./header.scss";
 
-ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_CODE);
 const LayoutHeader = ({
     user,
     isRecording,
@@ -33,10 +31,6 @@ const LayoutHeader = ({
     useEffect(() => {
         document.title = `iTongue - ${titlePage}`;
     }, []);
-
-    useEffect(() => {
-        ReactGA.pageview(window.location.pathname + window.location.search);
-    });
 
     const [visible, setVisible] = useState(false);
     const { pathname } = useLocation();
@@ -160,4 +154,4 @@ const LayoutHeader = ({
     );
 };
 
-export default withRouter(LayoutHeader);
+export default LayoutHeader;

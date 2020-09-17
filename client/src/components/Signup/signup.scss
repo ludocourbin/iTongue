@@ -27,3 +27,17 @@
         }
     }
 }
+
+.signup-beta {
+    margin-top: 2em;
+
+    &--button {
+        @include button;
+        margin-top: 10px !important;
+    }
+    .link-google {
+        // margin-top: 0 !important;
+        // background-color: blue !important;
+        color: #fff !important;
+    }
+}

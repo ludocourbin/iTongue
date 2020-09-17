@@ -1,10 +1,16 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Button } from "semantic-ui-react";
-import './follow.scss';
+import "./follow.scss";
 
-const Follow = ({ userSlugInfos, user, follow, unFollow, checkIfUserFollow, isUserFollowThisUser }) => {
-
+const Follow = ({
+    userSlugInfos,
+    user,
+    follow,
+    unFollow,
+    checkIfUserFollow,
+    isUserFollowThisUser,
+}) => {
     const { slug } = useParams();
 
     const handdleClickFollow = () => {
@@ -17,22 +23,31 @@ const Follow = ({ userSlugInfos, user, follow, unFollow, checkIfUserFollow, isUs
 
     useEffect(() => {
         checkIfUserFollow(slug);
-    }, [checkIfUserFollow]);
+    }, [checkIfUserFollow, slug]);
 
     return (
         <div className="follow">
-            { user.id && slug !== user.slug ? 
-                isUserFollowThisUser ?
-                    <Button size="mini" onClick={handdleClickUnFollow} className="follow-unfollow">
+            {user.id && slug !== user.slug ? (
+                isUserFollowThisUser ? (
+                    <Button
+                        size="mini"
+                        onClick={handdleClickUnFollow}
+                        className="follow-unfollow"
+                    >
                         Unfollow
                     </Button>
-                    :
-                    <Button size="mini" onClick={handdleClickFollow} className="follow-follow">
+                ) : (
+                    <Button
+                        size="mini"
+                        onClick={handdleClickFollow}
+                        className="follow-follow"
+                    >
                         Follow
                     </Button>
-                : 
+                )
+            ) : (
                 <></>
-            }
+            )}
         </div>
     );
 };

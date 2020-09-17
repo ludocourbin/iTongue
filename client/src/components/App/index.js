@@ -55,7 +55,7 @@ const App = ({ isLogged, setCaptchaToken, user, socketConnect, pyroVisible }) =>
     }, [setCaptchaToken]);
 
     useEffect(() => {
-        if (user) {
+        if (user.id) {
             socketConnect();
         }
     }, [socketConnect]);
@@ -67,7 +67,9 @@ const App = ({ isLogged, setCaptchaToken, user, socketConnect, pyroVisible }) =>
                 <Route exact path="/" component={Home} />
                 <Route
                     path="/signup"
-                    render={() => (isLogged ? <Redirect to="/feed" /> : <Signup />)}
+                    render={() =>
+                        isLogged && !user.isAdmin ? <Redirect to="/feed" /> : <Signup />
+                    }
                 />
                 <Route
                     path="/login"

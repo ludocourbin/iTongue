@@ -1,15 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import moment from "moment";
 /* Components */
-import {
-    Icon,
-    Image,
-    Transition,
-    Form,
-    TextArea,
-    Confirm,
-    Placeholder,
-} from "semantic-ui-react";
+import { Icon, Image, Transition, Form, TextArea, Confirm } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import FavorisAndLikes from "../../../containers/LikeAndFavoris";
 
@@ -19,7 +11,6 @@ import CommentPlaceholder from "../../Placeholder/commentPlaceholder";
 
 const Comments = (props) => {
     const {
-        user,
         currentUser,
         isLogged,
         record,
@@ -32,7 +23,7 @@ const Comments = (props) => {
         updateCommentInput,
         commentEditInputValue,
         commentInputValue,
-        commentSubmitLoading,
+
         fetchCommentLoading,
         setRecordIdComment, // redux
         iRecordCommentIdSelect, // store
@@ -83,7 +74,7 @@ const Comments = (props) => {
     }, [iRecordCommentIdSelect, record.id]);
 
     useEffect(() => {
-        if(commentsListRef.current) {
+        if (commentsListRef.current) {
             const scrollY = commentsListRef.current.scrollHeight;
             commentsListRef.current.scrollTo(0, scrollY);
         }

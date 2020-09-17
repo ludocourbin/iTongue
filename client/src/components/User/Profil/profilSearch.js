@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Dropdown, Input } from "semantic-ui-react";
 import "./userprofil.scss";
 

@@ -30,6 +30,7 @@ const Signup = ({
     signup,
     loading,
     errorMailUsed,
+    isLogged,
 }) => {
     const [terms, setTerms] = useState(false);
     const [showText, setShowText] = useState(false);
@@ -98,116 +99,139 @@ const Signup = ({
 
     return (
         <Layout titlePage="Signup">
-            <Container className="auth-form-container">
-                <Form onSubmit={handleSubmit} size="large" className="signup">
-                    <h3 className="signup-title">Sign up</h3>
-                    <Form.Group widths="equal">
-                        <Form.Field
-                            control={Input}
-                            label="Firstname"
-                            type="text"
-                            fluid
-                            name="firstname"
-                            onChange={handleChange}
-                            value={firstname}
-                            placeholder="John"
-                        />
-                        <Form.Field
-                            control={Input}
-                            label="Lastname"
-                            type="text"
-                            fluid
-                            name="lastname"
-                            onChange={handleChange}
-                            value={lastname}
-                            placeholder="Doe"
-                        />
-                    </Form.Group>
-
-                    <Form.Field
-                        control={Input}
-                        label="E-mail"
-                        type="email"
-                        width="16"
-                        name="email"
-                        onChange={handleChange}
-                        value={email}
-                        placeholder="john@example.com"
-                    />
-                    <Form.Field
-                        control={Input}
-                        label="Password"
-                        type={showPassword ? "text" : "password"}
-                        width={16}
-                        name="password"
-                        onChange={handleChange}
-                        value={password}
-                        icon={
-                            <Icon
-                                name={showPassword ? "eye slash" : "eye"}
-                                onClick={togglePassword}
-                                link
+            {isLogged ? (
+                <Container className="auth-form-container">
+                    <Form onSubmit={handleSubmit} size="large" className="signup">
+                        <h3 className="signup-title">Sign up</h3>
+                        <Form.Group widths="equal">
+                            <Form.Field
+                                control={Input}
+                                label="Firstname"
+                                type="text"
+                                fluid
+                                name="firstname"
+                                onChange={handleChange}
+                                value={firstname}
+                                placeholder="John"
                             />
-                        }
-                        placeholder="**********"
-                    />
-                    <Form.Field
-                        control={Input}
-                        width={16}
-                        label="Confirm"
-                        type={showPassword ? "text" : "password"}
-                        name="confirm"
-                        onChange={handleChange}
-                        value={confirm}
-                        placeholder="**********"
-                    />
+                            <Form.Field
+                                control={Input}
+                                label="Lastname"
+                                type="text"
+                                fluid
+                                name="lastname"
+                                onChange={handleChange}
+                                value={lastname}
+                                placeholder="Doe"
+                            />
+                        </Form.Group>
 
-                    <Form.Field
-                        control={Checkbox}
-                        onChange={() => setTerms(!terms)}
-                        id="terms"
-                        label={{
-                            children: [
-                                "I accept the ",
-                                <a className="internal-link" href="/terms">
-                                    terms of use
-                                </a>,
-                            ],
-                        }}
-                    />
-
-                    {errorMessagePassword && (
-                        <Message negative content={errorMessagePassword} />
-                    )}
-                    {errorMessageEmail && (
-                        <Message negative content={errorMessageEmail} />
-                    )}
-                    {showText && <Message negative content={errorMailUsed} />}
-
-                    <div className="signup-button">
-                        <Button
-                            disabled={
-                                checkMinimumInput(firstname, lastname) ||
-                                checkMail(email) ||
-                                checkPassword(password, confirm) ||
-                                !terms
+                        <Form.Field
+                            control={Input}
+                            label="E-mail"
+                            type="email"
+                            width="16"
+                            name="email"
+                            onChange={handleChange}
+                            value={email}
+                            placeholder="john@example.com"
+                        />
+                        <Form.Field
+                            control={Input}
+                            label="Password"
+                            type={showPassword ? "text" : "password"}
+                            width={16}
+                            name="password"
+                            onChange={handleChange}
+                            value={password}
+                            icon={
+                                <Icon
+                                    name={showPassword ? "eye slash" : "eye"}
+                                    onClick={togglePassword}
+                                    link
+                                />
                             }
-                            loading={loading}
-                            className="signup-button--item"
-                            type="submit"
-                        >
-                            Sign up
-                        </Button>
+                            placeholder="**********"
+                        />
+                        <Form.Field
+                            control={Input}
+                            width={16}
+                            label="Confirm"
+                            type={showPassword ? "text" : "password"}
+                            name="confirm"
+                            onChange={handleChange}
+                            value={confirm}
+                            placeholder="**********"
+                        />
 
-                        <div>
-                            Already have an account?&nbsp;
-                            <Link className="signup-link internal-link" to={"/login"}>
-                                Log in
-                            </Link>
+                        <Form.Field
+                            control={Checkbox}
+                            onChange={() => setTerms(!terms)}
+                            id="terms"
+                            label={{
+                                children: [
+                                    "I accept the ",
+                                    <a className="internal-link" href="/terms">
+                                        terms of use
+                                    </a>,
+                                ],
+                            }}
+                        />
+
+                        {errorMessagePassword && (
+                            <Message negative content={errorMessagePassword} />
+                        )}
+                        {errorMessageEmail && (
+                            <Message negative content={errorMessageEmail} />
+                        )}
+                        {showText && <Message negative content={errorMailUsed} />}
+
+                        <div className="signup-button">
+                            <Button
+                                disabled={
+                                    checkMinimumInput(firstname, lastname) ||
+                                    checkMail(email) ||
+                                    checkPassword(password, confirm) ||
+                                    !terms
+                                }
+                                loading={loading}
+                                className="signup-button--item"
+                                type="submit"
+                            >
+                                Sign up
+                            </Button>
+
+                            <div>
+                                Already have an account?&nbsp;
+                                <Link className="signup-link internal-link" to={"/login"}>
+                                    Log in
+                                </Link>
+                            </div>
                         </div>
+                    </Form>
+                </Container>
+            ) : (
+                <Container className="signup-beta">
+                    <h3 className="signup-beta__header">
+                        Hello there and welcome to iTongue, unfortunately at the moment we
+                        only accept beta tester, as the app doesn't meet the moderation
+                        standards we wish to have before open to everyone.
+                    </h3>
+                    <p>If you wish to be a beta tester, please fill out this form</p>
+                    <div className="signup-button">
+                        <Button className="signup-beta--button">
+                            <a
+                                href={
+                                    "https://docs.google.com/forms/d/e/1FAIpQLSfOYnzFjPAqwC1pvQPMkPAE6rnT5ZAxtrSYMYhtu8BXPpAVTA/viewform?usp=sf_link"
+                                }
+                                className="link-google"
+                            >
+                                Go to form
+                            </a>
+                        </Button>
                     </div>
-                </Form>
-            </Container>
+                </Container>
+            )}
         </Layout>
     );
 };

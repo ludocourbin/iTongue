@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Image, Header, Label, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 // import './Followers.scss';
@@ -9,10 +9,7 @@ const Followers = ({
     userSlugId,
     unFollow,
     follow,
-    allFollowing,
     currentUser,
-    count,
-    setCount,
 }) => {
     /* handle following of other page's */
     // console.log(currentUser.followed);

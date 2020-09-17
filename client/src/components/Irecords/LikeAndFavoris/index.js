@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Likes from "./likes";
 import Favoris from "./favoris";
 import "./likeandfavoris.scss";
@@ -11,7 +11,7 @@ const LikeAndFavoris = ({
     unlikes,
     favorisUser,
     likesUser,
-    isLogged
+    isLogged,
 }) => {
     return (
         <div className="likeandfavoris">

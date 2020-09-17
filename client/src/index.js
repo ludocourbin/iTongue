@@ -9,10 +9,13 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 
+import GA from "./components/App/googleAnalytics";
+
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
             <Router>
+                {GA.init() && <GA.RouteTracker />}
                 <App />
             </Router>
         </PersistGate>

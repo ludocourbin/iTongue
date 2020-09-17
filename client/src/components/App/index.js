@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import Contact from "../Contact";
 import Terms from "../Terms";
 import NotFound from "../NotFound";
+import GA from "./googleAnalytics";
 
 /* Styles */
 import "destyle.css";
@@ -63,6 +64,7 @@ const App = ({ isLogged, setCaptchaToken, user, socketConnect, pyroVisible }) =>
 
     return (
         <div className="App">
+            {GA.init() && <GA.RouteTracker />}
             <ToastContainer autoClose={2000} />
             <Switch>
                 <Route exact path="/" component={Home} />
@@ -111,9 +113,7 @@ const App = ({ isLogged, setCaptchaToken, user, socketConnect, pyroVisible }) =>
                 <Route path="/admin" component={Admin} />
                 <Route exact path="/terms" component={Terms} />
                 <Route exact path="/team" component={Team} />
-                <Route component={NotFound}>
-                   
-                </Route>
+                <Route component={NotFound}></Route>
             </Switch>
 
             {pyroVisible && (

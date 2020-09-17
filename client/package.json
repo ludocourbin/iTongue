@@ -28,6 +28,7 @@
     "react-creepyface": "^7.4.2",
     "react-device-detect": "^1.13.1",
     "react-dom": "^16.13.1",
+    "react-ga": "^3.1.2",
     "react-lottie": "^1.2.3",
     "react-mic": "^12.4.6",
     "react-player": "^2.6.0",

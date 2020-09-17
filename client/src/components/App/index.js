@@ -63,10 +63,20 @@ const App = ({ isLogged, setCaptchaToken, user, socketConnect, pyroVisible }) =>
     }, [socketConnect]);
 
     useEffect(() => {
-        ReactGA.initialize("UA-178264165-1");
-        ReactGA.pageview(window.location.pathname + window.location.search);
-        console.log("lets go ");
-    }, [useLocation()]);
+        const script = document.createElement("script");
+        script.src = "https://www.googletagmanager.com/gtag/js?id=UA-178264165-1";
+
+        script.addEventListener("load", () => {
+            const dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+                console.log(dataLayer);
+            }
+            gtag("js", new Date());
+            gtag("config", "UA-178264165-1");
+        });
+        document.body.appendChild(script);
+    });
 
     return (
         <div className="App">

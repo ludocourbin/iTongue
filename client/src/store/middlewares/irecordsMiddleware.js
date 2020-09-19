@@ -45,7 +45,7 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
             fetch(action.payload)
                 .then((audio) => audio.blob())
                 .then((blob) => {
-                    console.log(blob);
+                    // console.log(blob);
                     const file = new File([blob], "record.mp3", {
                         type: blob.type,
                     });
@@ -71,7 +71,8 @@ export const irecordsMiddleware = (store) => (next) => (action) => {
                             const irecords = store.getState().irecords;
                             const statistics = store.getState().statisticsHomeReducer;
 
-                            if (userInfo && userInfo.records) {
+                            if (userInfo && userInfo.records && user.id === userInfo.id) {
+                                // console.log({ user, userInfo });
                                 removeOldRecord(record, userInfo.records);
                                 store.dispatch(
                                     sendIrecordSuccessUserProfile([

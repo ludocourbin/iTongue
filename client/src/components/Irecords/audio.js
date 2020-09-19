@@ -9,7 +9,7 @@ const Audio = ({ irecordSelectedId, setIrecordSelectedId, audio }) => {
         fetch(audio)
             .then((blobContainer) => blobContainer.blob())
             .then((blob) => {
-                console.log(blob);
+                // console.log(blob);
             });
     }
 

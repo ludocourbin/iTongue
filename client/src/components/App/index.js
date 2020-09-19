@@ -34,12 +34,12 @@ const App = ({ isLogged, setCaptchaToken, user, socketConnect, pyroVisible }) =>
     useEffect(() => {
         const script = document.createElement("script");
         script.src =
-            "https://www.google.com/recaptcha/api.js?render=6Lc948MZAAAAAHbqOeJ8QPogf8mHhgrv25BzveZV";
+            "https://www.google.com/recaptcha/api.js?render=6LcIMs4ZAAAAAKjcvB7RA9lsc3KFYruY3-KbgO82";
 
         script.addEventListener("load", () => {
             window.grecaptcha.ready((_) => {
                 window.grecaptcha
-                    .execute("6Lc948MZAAAAAHbqOeJ8QPogf8mHhgrv25BzveZV", {
+                    .execute("6LcIMs4ZAAAAAKjcvB7RA9lsc3KFYruY3-KbgO82", {
                         action: "itongue",
                     })
                     .then((token) => {

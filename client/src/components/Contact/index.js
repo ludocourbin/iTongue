@@ -10,12 +10,12 @@ import "./style.scss";
 toast.configure();
 const Contact = () => {
     const [firstname, setFirstName] = useState("");
-    const [lastname, setLastName] = useState("");
     const [message, setMessage] = useState("");
     const [email, setEmail] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const checkMinimumInput = (data1, data2, data3) => {
-        return data1.length < 2 || data2.length < 2 || data3.length < 10;
+    const checkMinimumInput = (data1, data3) => {
+        return data1.length < 2 || data3.length < 10;
     };
 
     const checkMail = (mail) => {
@@ -33,31 +33,21 @@ const Contact = () => {
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
+        setLoading(true);
         console.log("onSubmit");
-        if (!checkMail(email) && !checkMinimumInput(firstname, lastname, message)) {
+        if (!checkMail(email) && !checkMinimumInput(firstname, message)) {
             console.log("email sent");
             sendEmail(evt);
-            toast.success("We'll get back to you as soon as possible", {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
         }
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name === "firstName") {
+        if (name === "from_name") {
             setFirstName(value);
-        } else if (name === "lastName") {
-            setLastName(value);
-        } else if (name === "message") {
+        } else if (name === "message_html") {
             setMessage(value);
-        } else if (name === "email") {
+        } else if (name === "from_email") {
             setEmail(value);
         }
     };
@@ -65,10 +55,28 @@ const Contact = () => {
         e.preventDefault();
 
         emailjs
-            .sendForm("gmail", "itongueform", e.target, "user_5aEwx2fJS3ZncS69QRI3a")
+            .sendForm(
+                "gmail",
+                "template_gpbfGRjS",
+                e.target,
+                "user_kSuLjAnY4mY1pMsAvuLR9"
+            )
             .then(
                 (result) => {
+                    setLoading(false);
                     console.log(result.text);
+                    setFirstName("");
+                    setMessage("");
+                    setEmail("");
+                    toast.success("We'll get back to you as soon as possible", {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
                 },
                 (error) => {
                     console.log(error.text);
@@ -87,26 +95,17 @@ const Contact = () => {
                         <Form.Field
                             id="form-input-control-first-name"
                             control={Input}
-                            name="firstName"
-                            label="Firstname"
+                            name="from_name"
+                            label="Full Name"
                             value={firstname}
-                            placeholder="Firstname"
-                            onChange={handleChange}
-                        />
-                        <Form.Field
-                            id="form-input-control-last-name"
-                            control={Input}
-                            name="lastName"
-                            value={lastname}
-                            label="Lastname"
-                            placeholder="Lastname"
+                            placeholder="Full name"
                             onChange={handleChange}
                         />
                     </Form.Group>
                     <Form.Field
                         id="form-textarea-control-opinion"
                         control={TextArea}
-                        name="message"
+                        name="message_html"
                         label="Message"
                         value={message}
                         placeholder="Message"
@@ -115,15 +114,11 @@ const Contact = () => {
                     <Form.Field
                         id="form-input-control-error-email"
                         control={Input}
-                        name="email"
+                        name="from_email"
                         value={email}
                         label="E-mail"
-                        placeholder="tony@oclock.io"
+                        placeholder="johndoe@gmail.com"
                         onChange={handleChange}
-                        // error={{
-                        //     content: 'Please enter a valid email address',
-                        //     pointing: 'below',
-                        // }}
                     />
                     {email !== "" && checkMail(email) && (
                         <Message negative content={"E-mail incorrect"} />
@@ -133,9 +128,9 @@ const Contact = () => {
                             className="contactForm-button"
                             id="form-button-control-public"
                             control={Button}
+                            loading={loading}
                             disabled={
-                                checkMinimumInput(firstname, lastname, message) ||
-                                checkMail(email)
+                                checkMinimumInput(firstname, message) || checkMail(email)
                             }
                             type="submit"
                             content="Send"

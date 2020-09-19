@@ -80,7 +80,7 @@ export default (store) => (next) => (action) => {
             })
                 .then((res) => {
                     const currentUser = res.data.data;
-                    console.log("currentUser", currentUser);
+                    // console.log("currentUser", currentUser);
                     store.dispatch(loginSubmitSuccess(currentUser));
                     store.dispatch(checkUserSlug(currentUser.user.slug));
                     store.dispatch(fetchFeedUser());

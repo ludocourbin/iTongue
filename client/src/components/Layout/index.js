@@ -39,6 +39,7 @@ const LayoutHeader = ({
         setVisible(!visible);
         logout();
     };
+
     const classMain = "main-content user";
     //const classUser = isLogged ? " user" : "";
     const classRecording = isRecording ? " modalRecording" : "";
@@ -126,6 +127,23 @@ const LayoutHeader = ({
                                     to={"/login"}
                                 >
                                     Login
+                                </NavLink>
+                                <NavLink
+                                    className="main-header-links__item"
+                                    to={"/signup"}
+                                >
+                                    Sign up
+                                </NavLink>
+                            </div>
+                        )}
+
+                        {user.isAdmin && (
+                            <div className="container">
+                                <NavLink
+                                    className="main-header-links__item"
+                                    to={"/admin"}
+                                >
+                                    Admin
                                 </NavLink>
                                 <NavLink
                                     className="main-header-links__item"

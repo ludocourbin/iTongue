@@ -55,6 +55,9 @@ const LoginAdmin = (props) => {
                     <Form.Button content="Login" type="submit" />
                 </Form>
                 {message && <Message content={message} error />}
+                <a className="login-admin__homeLink" href="/">
+                    If you not an admin please return Home
+                </a>
             </Segment>
         </div>
     );

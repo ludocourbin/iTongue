@@ -1,19 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 
 /* Components */
 import { Header, Menu, Image, Dropdown } from "semantic-ui-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 
 /* Styles */
 import "./headeradmin.scss";
 
 const HeaderAdmin = ({ logout, userConnect, ...props }) => {
+    const [redirect, setRedirect] = useState(false);
     const handdleLogout = () => {
         logout();
     };
 
     const options = [
         { key: "sign-out", text: "Logout", icon: "sign out", onClick: handdleLogout },
+        {
+            key: "home",
+            text: "Return home",
+            icon: "home",
+            onClick: () => setRedirect(true),
+        },
     ];
 
     const trigger = (
@@ -31,7 +38,8 @@ const HeaderAdmin = ({ logout, userConnect, ...props }) => {
 
     return (
         <>
-            <Menu borderless className="header-admin" >
+            {redirect ? <Redirect push to="/" /> : null}
+            <Menu borderless className="header-admin">
                 <Menu.Item>
                     <NavLink to="/admin" activeClassName="active">
                         <Header size="large">Dashboard</Header>

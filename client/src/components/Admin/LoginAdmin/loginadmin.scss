@@ -1,5 +1,5 @@
-@import '../../../styles/vars';
-@import '../../../styles/mixin';
+@import "../../../styles/vars";
+@import "../../../styles/mixin";
 
 .login-admin {
     width: 100%;
@@ -10,8 +10,11 @@
     background-color: $background-color;
 
     &_container {
-        
         width: 300px;
+
+        & form {
+            margin-bottom: 10px;
+        }
 
         .ui.header {
             display: block;
@@ -24,5 +27,10 @@
             margin: 0 auto;
             @include button;
         }
+    }
+
+    &__homeLink {
+        text-decoration: underline;
+        padding-left: 15px;
     }
 }
